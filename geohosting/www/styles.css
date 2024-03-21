@@ -1,4 +1,4 @@
-        /* Global styles should be in a seperate file to be imported on every page TODO*/
+        /* Global styles */
         .body, html {
           margin: 0;
           padding: 0;
@@ -78,8 +78,19 @@
         }
 
 
-.h1 {
-  font-size: 24px;
-  color: #333;
-}
+        .h1 {
+          font-size: 24px;
+          color: #333;
+        }
+
+        @media screen and (max-width: 768px) {
+          .content {
+            font-size: 16px; /* Decrease font size for smaller screens */
+            height: 115vh;
+            margin-top: 10%;
+            z-index: 998;
+          }
+
+          
+        }
      
