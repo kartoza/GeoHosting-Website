@@ -1,39 +1,373 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navigation Bar</title>
-    <style>
-        /* Add your CSS styles for the navigation bar here */
-        .navbar {
-            background-color: #333;
-            overflow: hidden;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoHosting</title>
+<style>
+  /* Toolbar_big */
+  .toolbar {
+    position: absolute;
+    width: 100%; /* Fill the entire width of the screen */
+    height: 70px;
+    left: 0px;
+    top: 0; /* Place the navbar at the top of the screen */
+    background: #FFFFFF;
+    border-radius: 0px 0px 10px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space out the contents */
+    padding: 0 20px; /* Add padding to the sides */
+    box-sizing: border-box; /* Include padding and border in width */
+    z-index: 999;
+  }
 
-        .navbar a {
-            float: left;
-            display: block;
-            color: #f2f2f2;
-            text-align: center;
-            padding: 14px 20px;
-            text-decoration: none;
-        }
+  /* Logo */
+  .logo {
+    width: 54px;
+    height: 54px;
+    margin-right: 20px;
+  }
 
-        .navbar a:hover {
-            background-color: #ddd;
-            color: black;
-        }
-    </style>
+  /* Navigation links */
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .accounts-links {
+    display: none;
+  }
+
+  /* Navigation links without underline */
+  .nav-links a {
+    text-decoration: none;
+    color: #000000;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 150%;
+    letter-spacing: 0.15px;
+    transition: color 0.3s; /* Smooth color transition */
+  }
+
+  /* Change text color on hover */
+  .nav-links a:hover {
+    color: #F4B340;
+  }
+
+  .active {
+    color: #F4B340;
+  }
+
+  .sign-in-button, .create-account-button {
+    text-decoration: none;
+    color: #000000;
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 150%;
+    letter-spacing: 0.15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .sign-in-button:hover {
+    background-color: #57A0C7;
+    color: #FFFFFF;
+    border-radius: 30px;
+   }
+
+  /* Sign in and create account buttons */
+  .create-account-button {
+    background: #F4B340;
+    border-radius: 30px;
+    color: #FFFFFF;
+  }
+
+  .create-account-button:hover {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); 
+  }
+
+
+  /* Sign-in modal styles */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 640px;
+    height: 758px;
+    background: rgba(0, 0, 0, 0.5); /* Add background overlay just testing here*/
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  /* Modal content */
+  .modal-content {
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+  }
+
+  
+
+  /* Input field styles */
+  .input-field {
+    width: 70%;
+    margin-bottom: 20px;
+    margin-left: 15%; /* this will ruin responsiveness on different screens */
+  }
+
+  .input-field input {
+    width: calc(100% - 10px);
+    height: 30px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+  /* Close button */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #57A0C7;
+}
+
+/* Button styles */
+.button {
+  width: 30%;
+  height: 40px;
+  background: #F4B340;
+  border: none;
+  border-radius: 5px;
+  color: #FFFFFF;
+  font-size: 18px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 10px;
+}
+
+.button:hover {
+  background-color: #57A0C7;
+}
+
+/* Forgot password text */
+.forgot-password {
+  float: right;
+  color: black;
+  cursor: pointer;
+}
+
+.forgot-password:hover {
+  color: #F4B340;
+}
+
+
+  /* Menu toggle button */
+  .menu-toggle {
+    display: none; /* Hide menu toggle button by default */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .nav-links {
+      display: none; /* Hide nav links by default */
+    }
+
+    .buttons-container,
+    .sign-in-button,
+    .create-account-button {
+      display: none; /* Hide buttons by default */
+    }
+
+    .create-account-button {
+      display: none; /* Hide create account button by default */
+    }
+
+    .sign-in-button {
+      margin-left: auto; /* Push sign in button to the right */
+    }
+
+    .toolbar {
+      justify-content: space-between; /* Adjust spacing for responsive layout */
+    }
+
+    .logo {
+      margin-right: 0; /* Remove margin for logo */
+    }
+
+    .menu-toggle {
+      display: block; /* Display the menu toggle button */
+    }
+
+    .show {
+      display: flex; /* Show nav links when menu toggle button is clicked */
+      flex-direction: column;
+      position: absolute;
+      background-color: #fff;
+      top: 70px; /* Position the sidebar navigation below the navbar */
+      left: 0;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .modal-open {
+        filter: blur(5px); /* Adjust the blur strength as needed */
+    }
+  }
+</style>
 </head>
-<body>
+<body class="navbar">
+  <div class="toolbar">
+    <img src="/assets/geohosting/images/geohosting_nav_logo.svg" alt="Logo" class="logo">
+    <div class="nav-links">
+        <!-- Add your navigation links here -->
+        <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
+        <a href="business.html" class="text-btn"><span id="businessLink">For Business</span></a>
+        <a href="resources_support.html" class="text-btn"><span id="resourcesLink">Resources & Support</span></a>
+        <a href="about_us.html" class="text-btn"><span id="aboutLink">About Us</span></a>
+        <div class="accounts-links">
+          <a href="sign_in.html" class="text-btn" onclick="openSignInModal()">Sign In</a>
+          <a href="sign_up.html" class="text-btn" onclick="openCreateAccountModal()">Create a free account</a>
+         </div>
+      </div>
+      <div class="buttons-container">
+          <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
+          <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
+      </div>
+      <button class="menu-toggle">&#9776;</button> <!-- Menu toggle button for responsive layout -->
+    </div>
+  
+    <!-- Sign In Modal -->
+    <div id="signInModal" class="modal">
+        <div class="modal-content">
+        <span class="close" onclick="closeModal('signInModal')" style="font-size: 24px;">&times;</span> <!-- Close button -->
+        <h2 class="sign-in-title" style="text-align: center;">Sign In</h2>
+        <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 219px; height: 219px; margin-bottom: 20px;">
+        <div class="input-field">
+            <h2 class="sign-in-title" for="username">Username</h2>
+            <input type="text" placeholder="Username" style="margin: 0 auto;">
+        </div>
+        <div class="input-field">
+            <h2 class="sign-in-title" for="username">Password</h2>
+            <input type="password" placeholder="Password" style="margin: 0 auto;">
+        </div>
+        <div class="input-field" style="display: flex; justify-content: flex-end;">
+            <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
+        </div>
+        <button class="button">Sign In</button>
+        </div>
+    </div>
+  
+  
+    <!-- Create Account Modal -->
+    <div id="createAccountModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal('createAccountModal')">&times;</span> <!-- Close button -->
+        <h2 class="sign-in-title" style="text-align: center;">Create a Free Account</h2>
+        <div class="input-field">
+          <input type="text" placeholder="First Name">
+        </div>
+        <div class="input-field">
+          <input type="text" placeholder="Last Name">
+        </div>
+        <div class="input-field">
+          <input type="email" placeholder="Email">
+        </div>
+        <div class="input-field">
+          <input type="password" placeholder="Password">
+        </div>
+        <div class="input-field">
+          <input type="password" placeholder="Repeat Password">
+        </div>
+        <div class="input-field">
+          <input type="text" placeholder="Country">
+        </div>
+        <button class="button">Create Account</button>
+      </div>
+    </div>
+  
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const AccountsButton = document.querySelector('.buttons-container');
+        const body = document.querySelector('body');
+    
+        menuToggle.addEventListener('click', () => {
+          navLinks.classList.toggle('show');
+          AccountsButton.classList.toggle('hide'); 
+        //   accountsLinks.classList.toggle('show')
+        });
+    
+        function openSignInModal() {
+          const modal = document.getElementById('signInModal');
+          modal.style.display = 'block';
+          body.classList.add('modal-open'); // Add the class to blur the background
+        }
+    
+        function openCreateAccountModal() {
+          const modal = document.getElementById('createAccountModal');
+          modal.style.display = 'block';
+          body.classList.add('modal-open'); // Add the class to blur the background
+        }
+    
+        function closeModal(modalId) {
+          const modal = document.getElementById(modalId);
+          modal.style.display = 'none';
+          body.classList.remove('modal-open'); // Remove the class to remove the blur effect
+        }
 
-<div class="navbar">
-    <a href="#">Home</a>
-    <a href="#">About</a>
-    <a href="#">Services</a>
-    <a href="#">Contact</a>
-</div>
+        // Function to extract the current page URL
+        function getCurrentPage() {
+            return window.location.href.toLowerCase();
+        }
 
-</body>
-</html>
+        // Check if the current URL contains specific keywords and apply the active class accordingly
+        function setActiveNavLink() {
+            const currentPage = getCurrentPage();
+            const productsLink = document.getElementById('productsLink');
+            const businessLink = document.getElementById('businessLink');
+            const resourcesLink = document.getElementById('resourcesLink');
+            const aboutLink = document.getElementById('aboutLink');
+
+
+            if (currentPage.includes('products')) {
+                productsLink.classList.add('active');
+            } else if (currentPage.includes('business')) {
+                businessLink.classList.add('active');
+            } else if (currentPage.includes('resources_support')) {
+                resourcesLink.classList.add('active');
+            } else if (currentPage.includes('about_us')) {
+                aboutLink.classList.add('active');
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = setActiveNavLink;
+
+        function navigateToForgotPassword() {
+            window.location.href = 'forgot_password.html';
+        }
+      </script>
+    
+  </body>
+  </html>
+  

@@ -1,0 +1,85 @@
+        /* Global styles should be in a seperate file to be imported on every page TODO*/
+        .body, html {
+          margin: 0;
+          padding: 0;
+          width: auto;
+          height: 100%;
+          overflow-y: auto; /* Add vertical scrollbar when content exceeds viewport */
+        }
+        
+        .background-container {
+          position: relative;
+          overflow: hidden;
+        }
+        
+        /* Left background image */
+        .background-left {
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 10vw;
+          height: 130vh;
+          background: url('/assets/geohosting/images/right.svg');
+          background-size: cover;
+          background-repeat: repeat-y; /* Repeat vertically if content is longer */
+          margin-top: 4%;
+        }
+        
+        /* Right background image */
+        .background-right {
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: 10vw;
+          height: 100vh;
+          background: url('/assets/geohosting/images/left.svg');
+          background-size: cover;
+          background-repeat: repeat-y; /* Repeat vertically if content is longer */
+          margin-top: 4%;
+        }
+        
+        
+        @media screen and (max-width: 768px) {
+                 
+            .background-left {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 30vw;
+                height: 100vh;
+                background: url('/assets/geohosting/images/right.svg');
+                background-size: cover;
+                background-repeat: repeat-y; /* Repeat vertically if content is longer */
+            }
+        
+            .background-right {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 30vw;
+                height: 100vh;
+                background: url('/assets/geohosting/images/left.svg');
+                background-size: cover;
+                background-repeat: repeat-y; /* Repeat vertically if content is longer */
+            }
+        
+        
+        }
+        
+        
+        
+        /* Content styles */
+        .content {
+          position: relative;
+          z-index: 998;
+          width: auto;
+          height: 115vh;
+          margin-top: 10%;
+        }
+
+
+.h1 {
+  font-size: 24px;
+  color: #333;
+}
+     
