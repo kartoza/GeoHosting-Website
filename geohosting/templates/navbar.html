@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeoHosting</title>
+<link rel="stylesheet" href="../../geohosting/www/styles.css">
 <style>
   /* Toolbar_big */
   .toolbar {
-    position: absolute;
+    /* position: absolute; */
     width: 100%; /* Fill the entire width of the screen */
     height: 70px;
     left: 0px;
@@ -20,6 +21,7 @@
     padding: 0 20px; /* Add padding to the sides */
     box-sizing: border-box; /* Include padding and border in width */
     z-index: 999;
+    position: sticky;
   }
 
   /* Logo */
@@ -102,10 +104,10 @@
     top: 50%;
     transform: translate(-50%, -50%);
     width: 640px;
-    height: 758px;
-    background: rgba(0, 0, 0, 0.5); /* Add background overlay just testing here*/
+    /* height: 758px; */
+    /*background: rgba(0, 0, 0, 0.5);*/ /* Add background overlay just testing here*/
     border-radius: 10px;
-    padding: 20px;
+    /* padding: 20px; */
     box-sizing: border-box;
   }
 
@@ -229,26 +231,34 @@
       padding: 20px;
     }
 
-    .modal-open {
-        filter: blur(5px); /* Adjust the blur strength as needed */
+    /* Show Sign In and Sign Up links */
+    .sign-in-up {
+        display: inline-block !important;
     }
+
+    
   }
+
+  .blur-background {
+        filter: blur(5px);
+        background-color: #ccc;
+    }
+        
+  
 </style>
 </head>
 <body class="navbar">
   <div class="toolbar">
     <img src="/assets/geohosting/images/geohosting_nav_logo.svg" alt="Logo" class="logo">
     <div class="nav-links">
-        <!-- Add your navigation links here -->
+        <!-- navigation links  -->
         <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
         <a href="business.html" class="text-btn"><span id="businessLink">For Business</span></a>
         <a href="resources_support.html" class="text-btn"><span id="resourcesLink">Resources & Support</span></a>
         <a href="about_us.html" class="text-btn"><span id="aboutLink">About Us</span></a>
-        <div class="accounts-links">
-          <a href="sign_in.html" class="text-btn" onclick="openSignInModal()">Sign In</a>
-          <a href="sign_up.html" class="text-btn" onclick="openCreateAccountModal()">Create a free account</a>
-         </div>
-      </div>
+        <a href="sign_in.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks1">Sign In</span></a>
+        <a href="sign_up.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks2">Sign Up</span></a>
+    </div>    
       <div class="buttons-container">
           <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
           <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
@@ -309,30 +319,33 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         const AccountsButton = document.querySelector('.buttons-container');
-        const body = document.querySelector('body');
+        const accountsLinks = document.querySelector('.accounts-links')
     
         menuToggle.addEventListener('click', () => {
           navLinks.classList.toggle('show');
           AccountsButton.classList.toggle('hide'); 
-        //   accountsLinks.classList.toggle('show')
+        //   accountsLinks.classList.toggle('show') disable for now to fix TODO
         });
     
         function openSignInModal() {
           const modal = document.getElementById('signInModal');
+          const body = document.getElementById('screenBody');
           modal.style.display = 'block';
-          body.classList.add('modal-open'); // Add the class to blur the background
+          body.classList.add('blur-background'); // Add the class to blur the background
         }
     
         function openCreateAccountModal() {
           const modal = document.getElementById('createAccountModal');
+          const body = document.getElementById('screenBody');
           modal.style.display = 'block';
-          body.classList.add('modal-open'); // Add the class to blur the background
+          body.classList.add('blur-background'); // Add the class to blur the background
         }
     
         function closeModal(modalId) {
           const modal = document.getElementById(modalId);
+          const body = document.getElementById('screenBody');
           modal.style.display = 'none';
-          body.classList.remove('modal-open'); // Remove the class to remove the blur effect
+          body.classList.remove('blur-background'); // Remove the class to remove the blur effect
         }
 
         // Function to extract the current page URL
@@ -347,6 +360,8 @@
             const businessLink = document.getElementById('businessLink');
             const resourcesLink = document.getElementById('resourcesLink');
             const aboutLink = document.getElementById('aboutLink');
+            const accountsLink1 = document.getElementById('accountsLinks1');
+            const accountsLink2 = document.getElementById('accountsLinks2');
 
 
             if (currentPage.includes('products')) {
@@ -357,6 +372,12 @@
                 resourcesLink.classList.add('active');
             } else if (currentPage.includes('about_us')) {
                 aboutLink.classList.add('active');
+            }
+            else if (currentPage.includes('sign_in')) {
+                accountsLink1.classList.add('active');
+            }
+            else if (currentPage.includes('sign_up')) {
+                accountsLink2.classList.add('active');
             }
         }
 

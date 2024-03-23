@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Navigation Bar</title>
+  <link rel="stylesheet" href=""> <!-- maybe we can have a dynamic url where we fetch our styles  -->
+  <style>
+
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      
+    }
+
+    .secondary-navigation-bar {
+      position: absolute;
+      width: 1600px;
+      height: 50px;
+      left: calc(50% - 1600px/2);
+      top: 90px;
+      background: rgba(255, 255, 255, 0.83);
+      display: flex; /* Use flexbox */
+      align-items: center; /* Vertically center items */
+    }
+
+    .secondary-logo {
+      margin-right: 20px;
+    }
+
+    .secondary-logo img {
+      height: 100%;
+    }
+
+    .secondary-navigation-bar ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+
+    .secondary-navigation-bar ul li {
+      margin-right: 20px;
+    }
+
+    .secondary-navigation-bar ul li a {
+      text-decoration: none;
+      font-family: 'Lato', sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 150%;
+      letter-spacing: 0.15px;
+      color: #000000;
+      padding: 0px 10px;
+      border-bottom: 2px solid transparent;
+    }
+
+    .secondary-navigation-bar ul li a:hover {
+      border-bottom: 2px solid #000000;
+    }
+
+    .header {
+      position: absolute;
+      width: 862px;
+      height: 217px;
+      left: calc(50% - 862px/2);
+      top: 381px;
+      font-family: 'Roboto';
+      font-style: normal;
+      font-weight: 600;
+      font-size: 48px;
+      line-height: 150%;
+      text-align: center;
+      letter-spacing: 0.15px;
+      color: #000000;
+    }
+    
+    .secondary-navigation-bar ul li a.active {
+        border-bottom: 2px solid #000000;
+    }
+
+
+
+  </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="secondary-navigation-bar">
+        <div class="secondary-logo">
+            <img src="test.svg" alt="Logo">
+        </div>
+        <ul>
+          <li><a href="#" id="overview-link">Overview</a></li>
+          <li><a href="#" id="integration-link">Integration</a></li>
+          <li><a href="/geohosting-prices" id="pricing-link">Pricing</a></li>
+          <li><a href="#" id="download-link">Download</a></li>
+          <li><a href="#" id="support-link">Support</a></li>
+        </ul>
+    </div>
+
+    <script>
+      // Set current link based on the page the user is on
+      let currentUrl = window.location.href;
+
+      // Check if the URL contains any of the keywords to determine the active link
+      if (currentUrl.includes("product_overview")) {
+          document.getElementById("overview-link").classList.add("active");
+      } else if (currentUrl.includes("integration")) {
+          document.getElementById("integration-link").classList.add("active");
+      } else if (currentUrl.includes("pricing")) {
+          document.getElementById("pricing-link").classList.add("active");
+      } else if (currentUrl.includes("download")) {
+          document.getElementById("download-link").classList.add("active");
+      } else if (currentUrl.includes("support")) {
+          document.getElementById("support-link").classList.add("active");
+      }
+
+    </script>
+</body>
+</html>

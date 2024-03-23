@@ -65,6 +65,10 @@
         
         
         }
+
+        .blur-background {
+          filter: blur(1px);
+        }
         
         
         
@@ -73,8 +77,14 @@
           position: relative;
           z-index: 998;
           width: auto;
-          height: 115vh;
-          margin-top: 10%;
+          height: auto;
+          margin-top: 5%;
+          /* border: 5px solid springgreen; */
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 0px;
+          margin-bottom: 3%;
         }
 
 
@@ -86,11 +96,138 @@
         @media screen and (max-width: 768px) {
           .content {
             font-size: 16px; /* Decrease font size for smaller screens */
-            height: 115vh;
-            margin-top: 10%;
+            height: auto;
+            overflow: auto;
+            margin-top: 5%;
             z-index: 998;
           }
 
           
         }
      
+
+
+      
+        .geohosting-logo {
+          height: 228px; 
+          width: 891px;
+          /* border: 5px yellow solid; */
+          margin-left: 10%;
+        }
+      
+        .geohosting-heading {
+          font-family: 'Roboto';
+          font-style: normal; 
+          font-size: 30px;
+          line-height: 100%; 
+          text-align: center;
+          color:grey;
+          letter-spacing: 0.15px;
+          width:65%; 
+          margin-bottom:5%; 
+          margin-top:5%; 
+          margin-left: 15%;
+          /* border: solid 5px orange; */
+        }
+      
+        .products-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: center;
+          gap: 20px;
+          /* border: 5px solid gray; */
+          overflow-y: auto;
+        }
+      
+        .product {
+          width: 10vw;
+          padding: 20px;
+          background-color: #ECECEC;
+          border-radius: 10px;
+          box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+          text-align: center;
+          height:78vh;
+          /* border: 5px solid black; */
+        }
+      
+        .product img {
+          width: 15vh; /* Adjust logo width */
+          height: auto; /* Maintain aspect ratio */
+          margin-bottom: 10px;
+        }
+      
+        .product h2 {
+          font-size: 20px;
+          color: #333;
+          margin-bottom: 10px;
+        }
+      
+        .product p {
+          font-size: 16px;
+          color: #666;
+          margin-bottom: 10px;
+        }
+      
+        .product .learn-more-button {
+          background-color: #ECB44B;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          margin-top:10%
+        }
+      
+        .product .learn-more-button:hover {
+          background-color: #57A0C7;
+        }
+      
+        .description {
+          height:55%; 
+          overflow-y: auto; 
+          width:100%;
+          /* border:5px solid purple; */
+        }
+      
+        @media (max-width: 768px) {
+        .container {
+          width: auto;
+          height: auto;
+          overflow-y: auto;
+          padding-left: 0px;
+        }
+      
+        .geohosting-heading {
+          width: 250px;
+          margin-top: 0px;
+          font-size: 16px;
+          margin-left: 20%;
+        }
+      
+        .geohosting-logo {
+          height: 100px;
+          width: 250px;
+          margin-left: 20%;
+        }
+      
+        .description {
+          height:auto; 
+        }
+      
+        
+      
+        .product {
+          width: auto;
+          height: auto;
+        }
+      
+        .products-container {
+          flex-wrap: wrap;
+          overflow-x: auto;
+          overflow-y: auto;
+          width: auto;
+          height: auto;
+          padding: 10px;
+        }
+      }
