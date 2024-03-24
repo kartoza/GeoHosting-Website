@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product pricing</title>
+    <link rel="stylesheet" href="/product_pricing.css"> 
+    <link rel="stylesheet" href="/styles.css"> 
+</head>
+
+<body>
+    {% include "templates/navbar.html" %}
+
+    
+  <!-- responsiveness on mobile needs finishing TODO -->
+    
+
+    {% block content %}
+    <div class="background-container" id="screenBody">
+      {% include "templates/product_nav.html" %}
+        <!-- Left background image -->
+        <div class="background-left"></div>
+        <!-- Right background image -->
+        <div class="background-right"></div>
+        <!-- Content goes here -->
+        <div class="content" style="height: 100vh;">
+          <div class="pricing-container" >
+            <!-- Logo Card -->
+            <div class="pricing-card">
+               <div class="logo-container">
+                 <img src="/assets/geohosting/images/BIMS.svg" alt="Logo">
+               </div>
+             </div>
+       
+           <!-- GeoSight Free Card -->
+           <div class="pricing-card">
+             <div class="package-title">GeoSight Free</div>
+             <div class="price-container">
+               <div class="price">0€</div>
+               <div class="price-details">/month</div>
+             </div>
+             <button class="round-btn centered-text">Get GeoSight Free</button>
+             
+             <div class="button-features-spacing"></div>
+             <div class="underlined-header">GeoSight Free Features</div>
+             <div class="features">
+               <ul>
+                 <li>List feature here</li>
+                 <li>List feature here</li>
+                 <li>List feature here</li>
+                 <!-- Add more features as needed -->
+               </ul>
+             </div>
+             
+           </div>
+       
+           <!-- GeoSight Basic Card -->
+           <div class="pricing-card">
+             <div class="package-title">GeoSight Basic</div>
+             <div class="price-container">
+               <div class="price">50€</div>
+               <div class="price-details">/month</div>
+             </div>
+       
+             <button class="round-btn centered-text">Get GeoSight Basic</button>
+       
+             <div class="button-features-spacing"></div>
+             <div class="underlined-header">GeoSight Basic Features</div>
+             <div class="features">
+               <ul>
+                 <li>List feature here</li>
+                 <li>List feature here</li>
+                 <li>List feature here</li>
+                 <!-- Add more features as needed -->
+               </ul>
+             </div>
+             
+           </div>
+       
+           <!-- GeoSight Advanced Card -->
+           <div class="pricing-card">
+             <div class="package-title">GeoSight Advanced</div>
+             <div class="price-container">
+               <div class="price">100€</div>
+               <div class="price-details">/month</div>
+             </div>
+       
+             <button class="round-btn centered-text">Get GeoSight Advanced</button>
+       
+             <div class="button-features-spacing"></div>
+             <div class="underlined-header">GeoSight Advanced Features</div>
+             <div class="features">
+               <ul>
+                 <li>List feature here</li>
+                 <li>List feature here</li>
+                 <li>List feature here</li>
+               </ul>
+             </div>
+             
+           </div>
+         </div>
+          
+        </div>
+      </div>
+      {% endblock %}
+
+      {% include "templates/footer.html" %}
+</body>
+
+</html>
+
+

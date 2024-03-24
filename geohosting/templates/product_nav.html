@@ -4,26 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Navigation Bar</title>
-  <link rel="stylesheet" href=""> <!-- maybe we can have a dynamic url where we fetch our styles  -->
   <style>
-
-    
+    /* Common styles */
     body {
       margin: 0;
       padding: 0;
       font-family: Arial, sans-serif;
-      
+      /* border: 5px solid black; */
     }
 
     .secondary-navigation-bar {
-      position: absolute;
-      width: 1600px;
-      height: 50px;
-      left: calc(50% - 1600px/2);
-      top: 90px;
+      width: 100%; 
       background: rgba(255, 255, 255, 0.83);
-      display: flex; /* Use flexbox */
-      align-items: center; /* Vertically center items */
+      display: flex; 
+      overflow-x: auto; 
+      white-space: nowrap; 
+      -webkit-overflow-scrolling: touch; /* Smooth scrolling for iOS */
+      /* left: calc(50% - 1600px/2); */
+      margin-top: 2%;
+      margin-left: 10%;
+      /* border: 5px solid purple; */
     }
 
     .secondary-logo {
@@ -31,7 +31,8 @@
     }
 
     .secondary-logo img {
-      height: 100%;
+      height: 50px;
+      width: 50px;
     }
 
     .secondary-navigation-bar ul {
@@ -63,11 +64,6 @@
     }
 
     .header {
-      position: absolute;
-      width: 862px;
-      height: 217px;
-      left: calc(50% - 862px/2);
-      top: 381px;
       font-family: 'Roboto';
       font-style: normal;
       font-weight: 600;
@@ -77,47 +73,65 @@
       letter-spacing: 0.15px;
       color: #000000;
     }
-    
+
     .secondary-navigation-bar ul li a.active {
-        border-bottom: 2px solid #000000;
+      border-bottom: 2px solid #000000;
     }
 
+    /* Media queries */
+    @media screen and (max-width: 768px) {
+      .secondary-navigation-bar {
+        justify-content: center; /* Center align items */
+        flex-wrap: nowrap; /* Prevent wrapping */
+        margin-left: auto;
+        margin-top: auto;
+      }
 
+      .secondary-navigation-bar ul {
+        padding: 0 20px; /* Add padding to center items */
+      }
 
+      .secondary-navigation-bar ul li {
+        margin-right: 10px; /* Reduce margin */
+      }
+
+      .secondary-logo {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <div class="secondary-navigation-bar">
-        <div class="secondary-logo">
-            <img src="test.svg" alt="Logo">
-        </div>
-        <ul>
-          <li><a href="#" id="overview-link">Overview</a></li>
-          <li><a href="#" id="integration-link">Integration</a></li>
-          <li><a href="/geohosting-prices" id="pricing-link">Pricing</a></li>
-          <li><a href="#" id="download-link">Download</a></li>
-          <li><a href="#" id="support-link">Support</a></li>
-        </ul>
+  <!-- Navbar -->
+  <div class="secondary-navigation-bar">
+    <div class="secondary-logo">
+      <img src="/assets/geohosting/images/BIMS.svg" alt="Logo">
     </div>
+    <ul>
+      <li><a href="product_overview.html" id="overview-link">Overview</a></li>
+      <li><a href="product_integration.html" id="integration-link">Integration</a></li>
+      <li><a href="product_pricing.html" id="pricing-link">Pricing</a></li>
+      <li><a href="product_download.html" id="download-link">Download</a></li>
+      <li><a href="product_support.html" id="support-link">Support</a></li>
+    </ul>
+  </div>
 
-    <script>
-      // Set current link based on the page the user is on
-      let currentUrl = window.location.href;
+  <script>
+    // Set current link based on the page the user is on
+    let currentUrl = window.location.href;
 
-      // Check if the URL contains any of the keywords to determine the active link
-      if (currentUrl.includes("product_overview")) {
-          document.getElementById("overview-link").classList.add("active");
-      } else if (currentUrl.includes("integration")) {
-          document.getElementById("integration-link").classList.add("active");
-      } else if (currentUrl.includes("pricing")) {
-          document.getElementById("pricing-link").classList.add("active");
-      } else if (currentUrl.includes("download")) {
-          document.getElementById("download-link").classList.add("active");
-      } else if (currentUrl.includes("support")) {
-          document.getElementById("support-link").classList.add("active");
-      }
-
-    </script>
+    // Check if the URL contains any of the keywords to determine the active link
+    if (currentUrl.includes("product_overview")) {
+      document.getElementById("overview-link").classList.add("active");
+    } else if (currentUrl.includes("integration")) {
+      document.getElementById("integration-link").classList.add("active");
+    } else if (currentUrl.includes("pricing")) {
+      document.getElementById("pricing-link").classList.add("active");
+    } else if (currentUrl.includes("download")) {
+      document.getElementById("download-link").classList.add("active");
+    } else if (currentUrl.includes("support")) {
+      document.getElementById("support-link").classList.add("active");
+    }
+  </script>
 </body>
 </html>
