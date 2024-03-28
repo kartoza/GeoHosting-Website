@@ -1,15 +1,32 @@
 /* Pricing Card Container */
 .pricing-container {
-  position: absolute;
-  width: 1403px;
+  position: relative;
+  width: 80%; 
+  max-width: 1403px;
   height: auto;
-  left: 99px;
-  top: 80px;
+  margin: 0 auto; 
+  top: 80px; 
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
   /* border: 5px solid green; */
 }
+
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+  .pricing-container {
+    position: absolute;
+    width: 1403px;
+    height: auto;
+    left: 80px;
+    top: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
+}
+
 
 /* Individual Pricing Card Styles */
 .pricing-card {
@@ -132,8 +149,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%; /* Ensure the logo takes full width */
-  height: 100%; /* Ensure the logo takes full height */
+  width: 100%;
+  height: 100%;
 }
 
 .logo-container img {
