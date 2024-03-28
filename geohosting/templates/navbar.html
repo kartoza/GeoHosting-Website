@@ -256,11 +256,28 @@
         <a href="sign_in.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks1">Sign In</span></a>
         <a href="sign_up.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks2">Sign Up</span></a>
     </div>    
-      <div class="buttons-container">
+      <div class="buttons-container" id="accounts-buttons">
           <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
           <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
       </div>
       <button class="menu-toggle">&#9776;</button> <!-- Menu toggle button for responsive layout -->
+
+    <!-- User Avatar -->
+    <div id="userAvatar" style="display: none; height: 50px;">
+        <!-- User avatar image -->
+        <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" style="height: 100%;" onclick="openUserProfile()">
+    </div>
+
+
+    <!-- User Profile Pop-up -->
+    <div id="userProfilePopup" style="display: none; position: absolute; top: 50px; right: 10px; z-index: 1000; background-color: white; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+        <ul style="list-style-type: none; padding: 0;">
+            <li><a href="#" style="text-decoration: none; color: #333;">Profile</a></li>
+            <li><a href="#" style="text-decoration: none; color: #333;" onclick="logout()">Logout</a></li>
+        </ul>
+    </div>
+
+
     </div>
   
     <!-- Sign In Modal -->
@@ -268,7 +285,7 @@
         <div class="modal-content">
         <span class="close" onclick="closeModal('signInModal')" style="font-size: 24px;">&times;</span> <!-- Close button -->
         <h2 class="sign-in-title" style="text-align: center;">Sign In</h2>
-        <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 219px; height: 219px; margin-bottom: 20px;">
+        <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
         <div class="input-field">
             <h2 class="sign-in-title" for="username">Username</h2>
             <input type="text" placeholder="Username" style="margin: 0 auto;">
@@ -280,7 +297,7 @@
         <div class="input-field" style="display: flex; justify-content: flex-end;">
             <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
         </div>
-        <button class="button">Sign In</button>
+        <button class="button" onclick="signInSuccess()">Sign In</button>
         </div>
     </div>
   
@@ -316,12 +333,13 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         const AccountsButton = document.querySelector('.buttons-container');
-        const accountsLinks = document.querySelector('.accounts-links')
+        const accountsLinks = document.querySelector('.accounts-links');
+        const userAvatar = document.getElementById('userAvatar');
+        const userProfilePopup = document.getElementById('userProfilePopup');
     
         menuToggle.addEventListener('click', () => {
           navLinks.classList.toggle('show');
           AccountsButton.classList.toggle('hide'); 
-        //   accountsLinks.classList.toggle('show') disable for now to fix TODO
         });
     
         function openSignInModal() {
@@ -335,14 +353,14 @@
           const modal = document.getElementById('createAccountModal');
           const body = document.getElementById('screenBody');
           modal.style.display = 'block';
-          body.classList.add('blur-background'); // Add the class to blur the background
+          body.classList.add('blur-background');
         }
     
         function closeModal(modalId) {
           const modal = document.getElementById(modalId);
           const body = document.getElementById('screenBody');
           modal.style.display = 'none';
-          body.classList.remove('blur-background'); // Remove the class to remove the blur effect
+          body.classList.remove('blur-background'); 
         }
 
         // Function to extract the current page URL
@@ -383,6 +401,37 @@
 
         function navigateToForgotPassword() {
             window.location.href = 'forgot_password.html';
+        }
+
+        function signInSuccess() {
+            const accounts = document.getElementById('accounts-buttons');
+
+            // Hide the "Sign In" and "Create a free account" buttons
+            accounts.style.display = 'none';
+           
+            // Display the user avatar
+            userAvatar.style.display = 'block';
+
+            closeModal('signInModal');
+        }
+
+        function openUserProfile() {
+            // Display the user profile pop-up
+            userProfilePopup.style.display = 'block';
+        }
+
+        function logout() {
+            const accounts = document.getElementById('accounts-buttons');
+            const userProfilePopup = document.getElementById('userProfilePopup');
+
+            // hide the user pop up
+            userProfilePopup.style.display = 'none';
+
+            // Hide the user avatar
+            userAvatar.style.display = 'none';
+
+            // Display the "Sign In" and "Create a free account" buttons
+            accounts.style.display = 'block';
         }
       </script>
     
