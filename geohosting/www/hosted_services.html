@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoHosting</title>
+<style>
+  body {
+    margin: 0; /* Remove default margin */
+    font-family: 'Roboto', sans-serif; /* Set default font */
+    position: relative; /* Ensure absolute positioning works correctly */
+  }
+
+  /* Hosted Services heading */
+  .hosted-services-heading {
+    position: absolute;
+    width: 1200px;
+    height: 72px;
+    left: calc(50% - 600px); /* Center horizontally */
+    top: 50px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.15px;
+    color: #000000;
+    /* border: 5px solid green; */
+    margin-top: 3%;
+  }
+
+  /* Card container */
+  .card-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: absolute;
+    width: auto; /* Total width of both cards and their gap */
+    height: auto;
+    left: calc(50% - 710px/2);
+    top: 254px;
+    /* border: 5px solid yellow; */
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 30px 20px;
+    gap: 10px;
+    width: 355px;
+    height: 307px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    /* border: 5px solid red; */
+    }
+
+/* Icon and header container */
+.icon-header-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Icon styles */
+.icon {
+  width: 60px; /* Adjust icon width */
+  height: 60px; /* Adjust icon height */
+  background-color: #F4B340; /* Placeholder color */
+  border: 2px solid #000000;
+  border-radius: 50%; /* Make it round */
+}
+
+/* Header styles */
+.header {
+  margin-left: 15px; /* Add space between icon and header */
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px; /* Adjust font size */
+  color: #000000;
+}
+
+/* Text styles */
+.text {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px; /* Adjust font size */
+  color: #000000;
+}
+
+/* Status styles */
+.status {
+  margin-top: auto; /* Push status to the bottom */
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px; /* Adjust font size */
+  color: #000000;
+}
+
+/* Green dot styles */
+.green-dot {
+  width: 10px;
+  height: 10px;
+  background-color: #0EAF00;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px; /* Add space between dot and text */
+}
+
+/* Add space between cards */
+.card + .card {
+  margin-top: 20px; /* Adjust the space between cards */
+}
+
+
+  /* Underline styles */
+  .underline {
+    position: absolute;
+    width: 250px;
+    height: 1px;
+    background-color: #000000;
+    bottom: 0;
+    left: calc(50% - 125px); /* Center horizontally */
+  }
+</style>
+</head>
+<body>
+
+  {% include "templates/c_nav.html" %}
+
+  {% include "templates/customer_portal_nav.html" %}
+
+<!-- Hosted Services heading -->
+<div class="hosted-services-heading">Hosted Services<div class="underline"></div></div>
+
+<!-- Card container -->
+<div class="card-container">
+  <!-- Card 1 -->
+  <div class="card">
+    <div class="icon-header-container">
+      <div class="icon"></div>
+      <div class="header">platform.geospatialhosting.com</div>
+    </div>
+    <div class="text">POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</div>
+    <div class="status">Status: <span class="green-dot"></span> Active</div>
+  </div>
+  
+
+  <!-- Card 2 -->
+  <div class="card">
+    <div class="icon-header-container">
+      <div class="icon"></div>
+      <div class="header">platform.geospatialhosting.com</div>
+    </div>
+    <div class="text">POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</div>
+    <div class="status">Status: <span class="green-dot"></span> Active</div>
+  </div>
+</div>
+
+<!-- Underline -->
+<div class="underline"></div>
+
+</body>
+</html>

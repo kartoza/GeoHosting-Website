@@ -63,36 +63,9 @@
     color: #F4B340;
   }
 
-  .sign-in-button, .create-account-button {
-    text-decoration: none;
-    color: #000000;
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 150%;
-    letter-spacing: 0.15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
 
-  .sign-in-button:hover {
-    background-color: #57A0C7;
-    color: #FFFFFF;
-    border-radius: 30px;
-   }
-
-  /* Sign in and create account buttons */
-  .create-account-button {
-    background: #F4B340;
-    border-radius: 30px;
-    color: #FFFFFF;
-  }
-
-  .create-account-button:hover {
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); 
-  }
+ 
+  
 
 
   /* Sign-in modal styles */
@@ -228,10 +201,7 @@
       padding: 20px;
     }
 
-    /* Show Sign In and Sign Up links */
-    .sign-in-up {
-        display: inline-block !important;
-    }
+    
 
     
   }
@@ -319,90 +289,22 @@
   
 </style>
 </head>
-<body class="navbar">
+<body class="navbar" style="margin-bottom: 2%;">
   <div class="toolbar">
     <img src="/assets/geohosting/images/geohosting_nav_logo.svg" alt="Logo" class="logo">
-    <div class="nav-links">
-        
-        <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
-        <a href="business.html" class="text-btn"><span id="businessLink">For Business</span></a>
-        <a href="resources_support.html" class="text-btn"><span id="resourcesLink">Resources & Support</span></a>
-        <a href="about_us.html" class="text-btn"><span id="aboutLink">About Us</span></a>
-        <a href="sign_in.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks1">Sign In</span></a>
-        <a href="sign_up.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks2">Sign Up</span></a>
-    </div>    
-      <div class="buttons-container" id="accounts-buttons">
-          <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
-          <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
-      </div>
-      <button class="menu-toggle">&#9776;</button> <!-- Menu toggle button for responsive layout -->
-
+    
     <!-- User Avatar -->
-    <div id="userAvatar" style="display: none; height: 50px;">
+    <div id="userAvatar" style="height: 50px;">
         <!-- User avatar image -->
         <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" style="height: 100%;" onclick="openCustomerPortal()">
     </div>
 
 
-    <!-- User Profile Pop-up -->
-    <div id="userProfilePopup" style="display: none; position: absolute; top: 50px; right: 10px; z-index: 1000; background-color: white; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
-        <ul style="list-style-type: none; padding: 0;">
-            <li><a href="#" style="text-decoration: none; color: #333;">Profile</a></li>
-            <li><a href="#" style="text-decoration: none; color: #333;" onclick="logout()">Logout</a></li>
-        </ul>
-    </div>
-
-
+   
     </div>
   
-    <!-- Sign In Modal -->
-    <div id="signInModal" class="modal">
-        <div class="modal-content">
-        <span class="close" onclick="closeModal('signInModal')" style="font-size: 24px;">&times;</span> <!-- Close button -->
-        <h2 class="sign-in-title" style="text-align: center;">Sign In</h2>
-        <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
-        <div class="input-field">
-            <h2 class="sign-in-title" for="username">Username</h2>
-            <input type="text" placeholder="Username" style="margin: 0 auto;">
-        </div>
-        <div class="input-field">
-            <h2 class="sign-in-title" for="username">Password</h2>
-            <input type="password" placeholder="Password" style="margin: 0 auto;">
-        </div>
-        <div class="input-field" style="display: flex; justify-content: flex-end;">
-            <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
-        </div>
-        <button class="button" onclick="signInSuccess()">Sign In</button>
-        </div>
-    </div>
+    
   
-  
-    <!-- Create Account Modal -->
-    <div id="createAccountModal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal('createAccountModal')">&times;</span> <!-- Close button -->
-        <h2 class="sign-in-title" style="text-align: center;">Create a Free Account</h2>
-        <div class="input-field">
-          <input type="text" placeholder="First Name">
-        </div>
-        <div class="input-field">
-          <input type="text" placeholder="Last Name">
-        </div>
-        <div class="input-field">
-          <input type="email" placeholder="Email">
-        </div>
-        <div class="input-field">
-          <input type="password" placeholder="Password">
-        </div>
-        <div class="input-field">
-          <input type="password" placeholder="Repeat Password">
-        </div>
-        <div class="input-field">
-          <input type="text" placeholder="Country">
-        </div>
-        <button class="button">Create Account</button>
-      </div>
-    </div>
 
     <div class="customer-portal-container" id="customer-portal">
       <div class="customer-portal-content">
@@ -443,7 +345,7 @@
                       <span>Support</span>
                   </div>
                   <div class="customer-portal-option">
-                      <div class="icon-container" onclick="logout()">
+                      <div class="icon-container" onclick="navigateToHome()">
                           <img src="/assets/geohosting/images/back_icon.svg" alt="Back Icon">
                       </div>
                       <span>Back</span>
@@ -454,24 +356,7 @@
   </div>
   
     <script>
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        const AccountsButton = document.querySelector('.buttons-container');
-        const accountsLinks = document.querySelector('.accounts-links');
-        const userAvatar = document.getElementById('userAvatar');
-        const userProfilePopup = document.getElementById('userProfilePopup');
-    
-        menuToggle.addEventListener('click', () => {
-          navLinks.classList.toggle('show');
-          AccountsButton.classList.toggle('hide'); 
-        });
-    
-        function openSignInModal() {
-          const modal = document.getElementById('signInModal');
-          const body = document.getElementById('screenBody');
-          modal.style.display = 'block';
-          body.classList.add('blur-background'); // Add the class to blur the background
-        }
+        
 
         var customer_portal = document.getElementById("customer-portal");
 
@@ -491,102 +376,26 @@
             }
         }
     
-        function openCreateAccountModal() {
-          const modal = document.getElementById('createAccountModal');
-          const body = document.getElementById('screenBody');
-          modal.style.display = 'block';
-          body.classList.add('blur-background');
-        }
+        
     
-        function closeModal(modalId) {
-          const modal = document.getElementById(modalId);
-          const body = document.getElementById('screenBody');
-          modal.style.display = 'none';
-          body.classList.remove('blur-background'); 
-        }
-
-        // Function to extract the current page URL
-        function getCurrentPage() {
-            return window.location.href.toLowerCase();
-        }
-
-        // Check if the current URL contains specific keywords and apply the active class accordingly
-        function setActiveNavLink() {
-            const currentPage = getCurrentPage();
-            const productsLink = document.getElementById('productsLink');
-            const businessLink = document.getElementById('businessLink');
-            const resourcesLink = document.getElementById('resourcesLink');
-            const aboutLink = document.getElementById('aboutLink');
-            const accountsLink1 = document.getElementById('accountsLinks1');
-            const accountsLink2 = document.getElementById('accountsLinks2');
-
-
-            if (currentPage.includes('products')) {
-                productsLink.classList.add('active');
-            } else if (currentPage.includes('business')) {
-                businessLink.classList.add('active');
-            } else if (currentPage.includes('resources_support')) {
-                resourcesLink.classList.add('active');
-            } else if (currentPage.includes('about_us')) {
-                aboutLink.classList.add('active');
-            }
-            else if (currentPage.includes('sign_in')) {
-                accountsLink1.classList.add('active');
-            }
-            else if (currentPage.includes('sign_up')) {
-                accountsLink2.classList.add('active');
-            }
-        }
-
-        // Call the function when the page loads
-        window.onload = setActiveNavLink;
-
-        function navigateToForgotPassword() {
-            window.location.href = 'forgot_password.html';
-        }
+    
 
         function navigateToHostedServices(){
           window.location.href = 'hosted_services.html'
         }
 
-        function signInSuccess() {
-            const accounts = document.getElementById('accounts-buttons');
-
-            // Hide the "Sign In" and "Create a free account" buttons
-            accounts.style.display = 'none';
-           
-            // Display the user avatar
-            userAvatar.style.display = 'block';
-
-            closeModal('signInModal');
+        function navigateToHome(){
+          window.location.href = 'products.html'
         }
 
-        function openUserProfile() {
-            // Display the user profile pop-up
-            userProfilePopup.style.display = 'block';
-        }
+ 
 
         function openCustomerPortal() {
           // Display the customer portal
           customer_portal.style.display = 'block';
         }
 
-        function logout() {
-            const accounts = document.getElementById('accounts-buttons');
-            const userProfilePopup = document.getElementById('userProfilePopup');
-
-            // hide the user pop up
-            userProfilePopup.style.display = 'none';
-
-            // Hide the user avatar
-            userAvatar.style.display = 'none';
-
-            // hide the customer portal Optional TODO
-            customer_portal.style.display = 'none';
-
-            // Display the "Sign In" and "Create a free account" buttons
-            accounts.style.display = 'block';
-        }
+        
       </script>
     
   </body>

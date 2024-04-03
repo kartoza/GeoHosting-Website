@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoHosting</title>
+<style>
+  body {
+    margin: 0; /* Remove default margin */
+    font-family: 'Roboto', sans-serif; /* Set default font */
+  }
+  
+  .sidebar-nav {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center options horizontally */
+    padding: 50px 0px;
+    gap: 20px;
+    position: fixed; /* Make it fixed for responsiveness */
+    width: 250px;
+    height: 100vh;
+    left: 0px;
+    top: 0px;
+    background: #57A0C7;
+    border-right: 2px solid #737373;
+    z-index: 1000; /* Ensure it's above other content */
+    transition: transform 0.3s ease; /* Add transition effect */
+  }
+
+  .customer-p-menu-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+    gap: 10px;
+    width: 100%;
+    height: 48px;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: 0.15px;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .customer-p-menu-button:hover {
+    background: #4E8FB1; 
+  }
+  
+  /* Arrow button styles */
+  .arrow-button {
+    display: none; 
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #57A0C7;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    z-index: 1000; 
+    transition: transform 0.3s ease;
+  }
+
+  /* Arrow icon styles */
+  .arrow-icon {
+    width: 20px;
+    height: 20px;
+    fill: #FFFFFF;
+    transform-origin: center;
+  }
+
+  /* Sidebar open state */
+  .sidebar-open {
+    transform: translateX(0);
+  }
+
+  /* Responsive media query */
+  @media (max-width: 768px) {
+    .sidebar-nav {
+      transform: translateX(-100%);
+    }
+
+    .arrow-button {
+      display: block; 
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- Sidebar navigation -->
+<div class="sidebar-nav" id="sidebar">
+  <div class="customer-p-menu-button" onclick="location.href='#'">Overview</div>
+  <div class="customer-p-menu-button" onclick="location.href='#'">Service Settings</div>
+  <div class="customer-p-menu-button" onclick="location.href='#'">Custom Domain</div>
+  <div class="customer-p-menu-button" onclick="location.href='#'">Upgrade</div>
+  <div class="customer-p-menu-button" onclick="location.href='#'">Profile</div>
+  <div class="customer-p-menu-button" onclick="location.href='#'">Support</div>
+</div>
+
+<!-- Arrow button to toggle sidebar -->
+<button class="arrow-button" id="toggleButton" draggable="true">
+  <svg class="arrow-icon" viewBox="0 0 24 24">
+    <path d="M12 4v16l-8.5-8.5 1.41-1.41L12 14.17l7.09-7.08L20.5 11.5 12 20V4z"></path>
+  </svg>
+</button>
+
+<script>
+  var toggleButton = document.getElementById('toggleButton');
+  var sidebar = document.getElementById('sidebar');
+
+  // Drag event listeners for toggle button
+  toggleButton.addEventListener('dragstart', function(event) {
+    // Store the initial position of the mouse cursor
+    event.dataTransfer.setData('initialX', event.clientX);
+    event.dataTransfer.setData('sidebarWidth', sidebar.offsetWidth);
+  });
+
+  toggleButton.addEventListener('drag', function(event) {
+    // Calculate the distance moved by the mouse cursor
+    var initialX = parseInt(event.dataTransfer.getData('initialX'));
+    var offsetX = event.clientX - initialX;
+    var sidebarWidth = parseInt(event.dataTransfer.getData('sidebarWidth'));
+
+    // Calculate the new width of the sidebar
+    var newWidth = sidebarWidth - offsetX;
+
+    // Update the sidebar width
+    sidebar.style.width = newWidth + 'px';
+  });
+
+  toggleButton.addEventListener('dragend', function(event) {
+    // If the sidebar width is less than half of its original width, close it
+    if (sidebar.offsetWidth < sidebar.offsetWidth / 2) {
+      sidebar.style.width = '0';
+    } else {
+      sidebar.style.width = '250px';
+    }
+  });
+</script>
+
+</body>
+</html>
