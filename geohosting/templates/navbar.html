@@ -240,6 +240,81 @@
         filter: blur(5px);
         background-color: #ccc;
     }
+
+    .customer-portal-container {
+      display: none; /* Hidden by default */
+      position: fixed; /* Stay in place */
+      z-index: 1000; /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto; /* Enable scroll if needed */
+      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+    }
+
+.customer-portal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFF;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.customer-portal-content h1 {
+    font-family: 'Roboto';
+    font-weight: 600;
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #000;
+    padding-bottom: 10px;
+}
+
+.customer-portal-options {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.customer-portal-option {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.customer-portal-option .icon-container {
+    width: 150px;
+    height: 150px;
+    border: 2px solid #888; /* Grey border */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.customer-portal-option img {
+    width: 100px;
+    height: 100px;
+}
+
+.customer-portal-option span {
+    font-family: 'Roboto';
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.customer-portal-close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 36px;
+    cursor: pointer;
+}
         
   
 </style>
@@ -248,7 +323,7 @@
   <div class="toolbar">
     <img src="/assets/geohosting/images/geohosting_nav_logo.svg" alt="Logo" class="logo">
     <div class="nav-links">
-        <!-- navigation links  -->
+        
         <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
         <a href="business.html" class="text-btn"><span id="businessLink">For Business</span></a>
         <a href="resources_support.html" class="text-btn"><span id="resourcesLink">Resources & Support</span></a>
@@ -265,7 +340,7 @@
     <!-- User Avatar -->
     <div id="userAvatar" style="display: none; height: 50px;">
         <!-- User avatar image -->
-        <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" style="height: 100%;" onclick="openUserProfile()">
+        <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" style="height: 100%;" onclick="openCustomerPortal()">
     </div>
 
 
@@ -328,6 +403,55 @@
         <button class="button">Create Account</button>
       </div>
     </div>
+
+    <div class="customer-portal-container" id="customer-portal">
+      <div class="customer-portal-content">
+          <span class="customer-portal-close">&times;</span>
+          <h1>Customer Portal</h1>
+          <div class="customer-portal-options">
+              <div class="row">
+                  <div class="customer-portal-option">
+                      <div class="icon-container">
+                          <img src="/assets/geohosting/images/services_icon.svg" alt="Services Icon">
+                      </div>
+                      <span>Services</span>
+                  </div>
+                  <div class="customer-portal-option">
+                      <div class="icon-container">
+                          <img src="/assets/geohosting/images/invoices_icon.svg" alt="Invoices Icon">
+                      </div>
+                      <span>Invoices</span>
+                  </div>
+                  <div class="customer-portal-option">
+                      <div class="icon-container">
+                          <img src="/assets/geohosting/images/notifications_icon.svg" alt="Notifications Icon">
+                      </div>
+                      <span>Notifications</span>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="customer-portal-option">
+                      <div class="icon-container">
+                          <img src="/assets/geohosting/images/profile_icon.svg" alt="Profile Icon">
+                      </div>
+                      <span>Profile</span>
+                  </div>
+                  <div class="customer-portal-option">
+                      <div class="icon-container">
+                          <img src="/assets/geohosting/images/support_icon.svg" alt="Support Icon">
+                      </div>
+                      <span>Support</span>
+                  </div>
+                  <div class="customer-portal-option">
+                      <div class="icon-container" onclick="logout()">
+                          <img src="/assets/geohosting/images/back_icon.svg" alt="Back Icon">
+                      </div>
+                      <span>Back</span>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
   
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
@@ -347,6 +471,24 @@
           const body = document.getElementById('screenBody');
           modal.style.display = 'block';
           body.classList.add('blur-background'); // Add the class to blur the background
+        }
+
+        var customer_portal = document.getElementById("customer-portal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("customer-portal-close")[0];
+
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            customer_portal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the customer modal, close it
+        window.onclick = function(event) {
+            if (event.target == customer_portal) {
+                customer_portal.style.display = "none";
+            }
         }
     
         function openCreateAccountModal() {
@@ -420,6 +562,11 @@
             userProfilePopup.style.display = 'block';
         }
 
+        function openCustomerPortal() {
+          // Display the customer portal
+          customer_portal.style.display = 'block';
+        }
+
         function logout() {
             const accounts = document.getElementById('accounts-buttons');
             const userProfilePopup = document.getElementById('userProfilePopup');
@@ -429,6 +576,9 @@
 
             // Hide the user avatar
             userAvatar.style.display = 'none';
+
+            // hide the customer portal Optional TODO
+            customer_portal.style.display = 'none';
 
             // Display the "Sign In" and "Create a free account" buttons
             accounts.style.display = 'block';
