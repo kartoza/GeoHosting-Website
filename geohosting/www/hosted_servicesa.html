@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoHosting</title>
+<style>
+  
+
+  /* Hosted Services heading */
+  .hosted-services-heading {
+    position: absolute;
+    width: 1200px;
+    height: 72px;
+    left: calc(50% - 600px); /* Center horizontally */
+    top: 50px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.15px;
+    color: #000000;
+    border: 5px solid red;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    gap: 10px;
+    width: 355px;
+    height: auto; /* Adjust height to fit content */
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    border: 5px solid brown;
+  }
+
+  .card-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow cards to wrap */
+    justify-content: center; /* Center cards horizontally */
+    gap: 20px; /* Add gap between cards */
+    position: absolute;
+    width: auto; /* Width of individual card */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+    top: 254px;
+    border: 5px solid green;
+  }
+
+  /* Icon and header container */
+  .icon-header-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    border: 5px solid salmon;
+  }
+
+  .text-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border: 5px solid pink;
+  }
+
+  /* Icon styles */
+  .icon {
+    width: 60px; /* Adjust icon width */
+    height: 60px; /* Adjust icon height */
+    background-color: #F4B340; /* Placeholder color */
+    border: 2px solid #000000;
+    border-radius: 50%; /* Make it round */
+    border: 5px solid slateblue;
+  }
+
+  /* Header styles */
+  .header {
+    margin-top: 10px; /* Add space between icon and header */
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px; /* Adjust font size */
+    color: #000000;
+    text-align: center; /* Center header text */
+    border: 5px solid purple;
+  }
+
+  /* Text styles */
+  .text {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px; /* Adjust font size */
+    color: #000000;
+    border: 5px solid orange;
+  }
+
+  .status {
+    margin-top: auto; /* Push status to the bottom */
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px; /* Adjust font size */
+    color: #000000;
+    border: 5px solid skyblue;
+    margin-left: auto; /* Push status to the right */
+  }
+
+  /* Green dot styles */
+  .green-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #0EAF00;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px; /* Add space between dot and text */
+  }
+
+  /* Add space between cards */
+  .card + .card {
+    margin-top: 20px; /* Adjust the space between cards */
+  }
+
+  /* Media query for smaller devices */
+  @media (max-width: 768px) {
+    .card-container {
+      width: 90%; /* Adjust width to fit smaller screens */
+    }
+
+    .hosted-services-heading {
+        position: relative;
+        width: auto;
+        height: auto;
+        top: 2%;
+        font-weight: 600;
+        font-size: 28px;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Hosted Services heading -->
+<div class="hosted-services-heading">Hosted Services<div class="underline"></div></div>
+
+<!-- Card container -->
+<div class="card-container">
+  <!-- Card 1 -->
+  <div class="card">
+    <div class="icon-header-container">
+      <div class="icon"></div>
+      <div class="header">platform.geospatialhosting.com</div>
+    </div>
+    <div class="text-container">
+      <div class="text">POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</div>
+      <div class="status">Status: <span class="green-dot"></span> Active</div>
+    </div>
+  </div>
+  
+  <!-- Card 2 -->
+  <div class="card">
+    <div class="icon-header-container">
+      <div class="icon"></div>
+      <div class="header">platform.geospatialhosting.com</div>
+    </div>
+    <div class="text-container">
+      <div class="text">POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</div>
+      <div class="status">Status: <span class="green-dot"></span> Active</div>
+    </div>
+  </div>
+
+  <!-- Add more cards here -->
+  <div class="card">
+    <div class="icon-header-container">
+      <div class="icon"></div>
+      <div class="header">platform.geospatialhosting.com</div>
+    </div>
+    <div class="text-container">
+      <div class="text">POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</div>
+      <div class="status">Status: <span class="green-dot"></span> Active</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon-header-container">
+      <div class="icon"></div>
+      <div class="header">platform.geospatialhosting.com</div>
+    </div>
+    <div class="text-container">
+      <div class="text">POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</div>
+      <div class="status">Status: <span class="green-dot"></span> Active</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="icon-header-container">
+      <div class="icon"></div>
+      <div class="header">platform.geospatialhosting.com</div>
+    </div>
+    <div class="text-container">
+      <div class="text">POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</div>
+      <div class="status">Status: <span class="green-dot"></span> Active</div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
