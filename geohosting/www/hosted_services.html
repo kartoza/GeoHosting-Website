@@ -124,24 +124,6 @@
     margin-top: 20px;
   }
 
-  /* Media query for smaller devices */
-  @media (max-width: 768px) {
-    .card-container {
-      width: 90%; /* Adjust width to fit smaller screens */
-    }
-
-    .hosted-services-heading {
-        position: relative;
-        width: auto;
-        height: auto;
-        top: 2%;
-        font-weight: 600;
-        font-size: 28px;
-    }
-  }
-
-
-
   /* Underline styles */
   .underline {
     position: absolute;
@@ -150,6 +132,30 @@
     background-color: #000000;
     bottom: 0;
   }
+
+  /* Media query for smaller devices */
+  @media (max-width: 768px) {
+    .card-container {
+      width: 90%; /* Adjust width to fit smaller screens */
+    }
+
+    .underline {
+      width: auto;
+    }
+
+    .hosted-services-heading {
+        position: absolute;
+        width: auto;
+        height: auto;
+        top: 5%;
+        font-weight: 600;
+        font-size: 28px;
+    }
+  }
+
+
+
+  
 </style>
 </head>
 <body>

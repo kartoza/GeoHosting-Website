@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoHosting</title>
+<style>
+  /* Hosted Services heading */
+  .hosted-services-heading {
+    position: absolute;
+    width: 1200px;
+    height: 72px;
+    left: calc(50% - 600px); /* Center horizontally */
+    top: 50px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.15px;
+    color: #000000;
+    /* border: 5px solid red; */
+    margin-top: 2%;
+  }
+
+
+  /* Underline styles */
+  .underline {
+    position: absolute;
+    width: 1200px;
+    height: 1px;
+    background-color: #000000;
+    bottom: 0;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    margin-top: 5%;
+    /* border: 5px solid green; */
+  }
+
+  .billing-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    margin-top: 5%;
+    /* border: 5px solid blue; */
+  }
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    margin-right: 400px;
+    /* border: 5px solid orange; */
+    width: 20%;
+  }
+
+  .user-info h2 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
+    color: black;
+    text-decoration: underline;
+    /* border: 5px solid saddlebrown; */
+    width: 80%;
+
+  }
+
+  .user-avatar {
+    display: block; 
+    margin: 0 auto; 
+    border-radius: 50%; 
+    width: 300px; 
+    height: 219px; 
+    margin-bottom: 20px;
+
+  }
+
+  
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 2%;
+    /* border: 5px solid yellow; */
+  }
+
+  .input-group input {
+    width: 400px;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid #E5E5E5;
+    border-radius: 4px;
+  }
+
+
+  .learn-more-button {
+          background-color: #ECB44B;
+          color: #fff;
+          border: none;
+          padding: 10px 20px;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: background-color 0.3s;
+          margin-top:10%
+        }
+      
+  .learn-more-button:hover {
+          background-color: #57A0C7;
+        }
+
+  
+
+
+  /* Media query for smaller devices */
+  @media (max-width: 768px) {
+    .container {
+      width: 90%;
+    }
+
+    .user-avatar {
+      width: 80px;
+      height: 80px;
+    }
+
+    .underline {
+      width: auto;
+    }
+
+    .input-group input {
+      width: auto;
+      height: auto;
+    }
+
+    .user-info {
+      margin-right: 12%;
+      width: 45%;
+    }
+
+    
+
+    .hosted-services-heading {
+        position: relative;
+        width: auto;
+        height: auto;
+        top: 2%;
+        font-weight: 600;
+        font-size: 28px;
+    }
+  }
+
+  
+</style>
+</head>
+<body>
+
+  {% include "templates/c_nav.html" %}
+
+  {% include "templates/customer_portal_nav.html" %}
+
+  <!-- Hosted Services heading -->
+  <div class="hosted-services-heading">Profile<div class="underline"></div></div>
+
+ 
+  <div class="container">
+    <div class="user-info">
+      <h2>User Information</h2>
+      
+      <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" class="user-avatar">
+    </div>
+    <div class="input-group">
+      <input type="text" placeholder="Name">
+      <input type="text" placeholder="Surname">
+      <input type="email" placeholder="Email">
+    </div>
+  </div>
+
+
+  <div class="billing-container">
+    <div class="user-info">
+      <h2>Billing Information</h2>
+    </div>
+    <div class="input-group">
+      <input type="text" placeholder="Institution Name">
+      <input type="text" placeholder="Institution Address">
+      <input type="text" placeholder="Institution City">
+      <input type="text" placeholder="Institution Postal Code">
+      <input type="text" placeholder="Institution Region">
+      <input type="text" placeholder="Institution Country">
+      <button class="learn-more-button" >Save</button>
+    </div>
+    
+  </div>
+
+  
+                    
+  
+    
+
+  </div>
+
+</body>
+</html>
