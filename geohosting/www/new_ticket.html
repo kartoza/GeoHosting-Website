@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GeoHosting</title>
+<style>
+  /* Hosted Services heading */
+  .hosted-services-heading {
+    position: absolute;
+    width: 1200px;
+    height: 72px;
+    left: calc(50% - 600px); /* Center horizontally */
+    top: 50px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.15px;
+    color: #000000;
+    /* border: 5px solid red; */
+    margin-top: 2%;
+  }
+
+  /* Underline styles */
+  .underline {
+    position: absolute;
+    width: 1200px;
+    height: 1px;
+    background-color: #000000;
+    bottom: 0;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    margin-top: 5%;
+    /* border: 5px solid green; */
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 2%;
+    /* border: 5px solid yellow; */
+  }
+
+  .input-group input, 
+  .input-group select,
+  .input-group textarea {
+    width: 400px;
+    height: 40px;
+    padding: 8px;
+    border: 1px solid #E5E5E5;
+    border-radius: 4px;
+  }
+
+  .learn-more-button {
+    background-color: #ECB44B;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top:10%;
+    width: 200px;
+  }
+
+  .learn-more-button:hover {
+    background-color: #57A0C7;
+  }
+
+  .row {
+    display: flex; 
+    gap: 20px;
+  }
+
+  /* Media query for smaller devices */
+  @media (max-width: 768px) {
+    .container {
+      width: 90%;
+    }
+
+    .underline {
+      width: auto;
+    }
+
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+      width: auto;
+      height: auto;
+    }
+
+    .hosted-services-heading {
+      position: relative;
+      width: auto;
+      height: auto;
+      top: 2%;
+      font-weight: 600;
+      font-size: 28px;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+  {% include "templates/c_nav.html" %}
+
+  {% include "templates/customer_portal_nav.html" %}
+
+  <div class="hosted-services-heading">New Support Ticket<div class="underline"></div></div>
+
+  <div class="container">
+    <div class="input-group">
+      <div style="display: flex; gap: 20px;">
+        <input type="text" placeholder="Name" id="nameInput">
+        <input type="text" placeholder="Email Address" id="emailInput">
+      </div>
+      
+      <input type="text" placeholder="Subject" style="width: 838px; gap: 20px;" id="subjectInput">
+      
+      
+      <input type="text" placeholder="Service" style="gap: 20px;" id="serviceInput">
+      <!-- <input type="text" placeholder="Priority"> -->
+      <div style="display: flex; gap: 20px;">
+        <input type="text" placeholder="Priority" style="width: 200px; gap: 20px;" id="priorityInput">
+        <select style="width: 180px; gap: 20px;" id="prioritySelect">
+          <option value="">Select Priority</option>
+          <option value="High">High</option>
+          <option value="Medium">Medium</option>
+          <option value="Low">Low</option>
+        </select>
+      </div>
+      <div style="display: flex; gap: 20px;">
+        <input type="text" placeholder="Issue Type" style="width: 200px; gap: 20px;" id="issueTypeInput">
+        <select style="width: 180px; gap: 20px;" id="issueTypeSelect">
+          <option value="">Select Issue Type</option>
+          <option value="Bug">Bug</option>
+          <option value="Feature Request">Feature Request</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <textarea placeholder="Issue Details" rows="15" style="height: 75px;" id="issueDetailsInput"></textarea>
+      <div style="display: flex; gap: 20px; margin-left: 52%;">
+      
+        <button class="learn-more-button" style="width: 200px;">Submit</button>
+        <button class="learn-more-button" style="width: 200px;" onclick="navigateToTickets()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Add event listeners to dropdowns
+    document.getElementById('prioritySelect').addEventListener('change', function() {
+      document.getElementById('priorityInput').value = this.value;
+    });
+
+    document.getElementById('issueTypeSelect').addEventListener('change', function() {
+      document.getElementById('issueTypeInput').value = this.value;
+    });
+
+    function navigateToTickets(){
+      window.location.href = 'support_tickets.html';
+    }
+  </script>
+
+</body>
+</html>

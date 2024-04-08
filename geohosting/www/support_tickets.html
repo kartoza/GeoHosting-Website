@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Tickets</title>
+<style>
+    .support-ticket-table {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 60%;
+        margin-top: 5%;
+        /* border: 5px solid green; */
+        margin-left: 20%;
+    }
+
+    .support-ticket-table th,
+    .support-ticket-table td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    .support-ticket-table input[type="text"] {
+        width: 80%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 4px;
+        background-image: url('/assets/geohosting/images/search_icon.svg');
+        background-repeat: no-repeat;
+        background-position: calc(100% - 5px) center; /* Adjusted background position */
+        padding-right: 30px; /* Added padding for icon on the right */
+    }
+
+
+    .support-ticket-table .date-fields {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .support-ticket-table .date-fields input[type="date"] {
+        width: calc(50% - 4px);
+        padding: 8px;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 4px;
+    }
+
+    .support-ticket-table .new-ticket-btn {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+
+    .dataset-card {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 16px;
+        position: absolute;
+        width: 861px;
+        height: 129px;
+        left: 470px;
+        top: 325px;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        /* border: 5px solid yellow; */
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    table tr {
+        margin-bottom: 10px; 
+    }
+
+    table td {
+        padding: 5px;
+    }
+
+    td.bold {
+        font-weight: bold;
+    }
+
+    .learn-more-button {
+        background-color: #ECB44B;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 200px;
+    }
+
+  .learn-more-button:hover {
+    background-color: #57A0C7;
+  }
+
+  /* Hosted Services heading */
+  .hosted-services-heading {
+    position: absolute;
+    width: 1200px;
+    height: 72px;
+    left: calc(50% - 600px); /* Center horizontally */
+    top: 50px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 48px;
+    line-height: 150%;
+    text-align: center;
+    letter-spacing: 0.15px;
+    color: #000000;
+    /* border: 5px solid red; */
+    margin-top: 2%;
+  }
+
+  /* Underline styles */
+  .underline {
+    position: absolute;
+    width: 1200px;
+    height: 1px;
+    background-color: #000000;
+    bottom: 0;
+  }
+</style>
+</head>
+<body>
+
+  {% include "templates/c_nav.html" %}
+
+  {% include "templates/customer_portal_nav.html" %}
+
+  <div class="hosted-services-heading">Support Tickets<div class="underline"></div></div>
+
+    <table class="support-ticket-table">
+    <tr>
+        <th>
+            <input type="text" id="search" name="search" placeholder="Search Issues">
+        </th>
+        <th>
+            <div class="date-fields">
+                <label for="start-date">Start: </label>
+                <input type="date" id="start-date" name="start-date">
+                <label for="end-date">End: </label>
+                <input type="date" id="end-date" name="end-date">
+            </div>
+        </th>
+        <th>
+            <button class="learn-more-button" onclick="createNewTicket()">New Support Ticket</button>
+        </th>
+    </tr>
+</table>
+
+<div class="dataset-card">
+    <table>
+        <tr>
+            <td class="bold">Heading 1</td>
+            <td class="bold">Status: Resolved</td>
+        </tr>
+        <tr>
+            <td>Subject: example subject</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Date added: 11/09/2020</td>
+            <td></td>
+        </tr>
+    </table>
+</div>
+
+<script>
+    function createNewTicket(){
+        window.location.href = 'new_ticket.html';
+    }
+</script>
+
+</body>
+</html>

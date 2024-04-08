@@ -469,7 +469,7 @@
                       <span>Profile</span>
                   </div>
                   <div class="customer-portal-option">
-                      <div class="icon-container">
+                      <div class="icon-container" onclick="navigateToSupport()">
                           <img src="/assets/geohosting/images/support_icon.svg" alt="Support Icon">
                       </div>
                       <span>Support</span>
@@ -575,6 +575,10 @@
 
         function navigateToForgotPassword() {
             window.location.href = 'forgot_password.html';
+        }
+
+        function navigateToSupport(){
+          window.location.href = 'support_tickets.html';
         }
 
         function navigateToHostedServices(){
