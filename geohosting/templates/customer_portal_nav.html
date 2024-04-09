@@ -6,26 +6,26 @@
 <title>GeoHosting</title>
 <style>
   body {
-    margin: 0; /* Remove default margin */
-    font-family: 'Roboto', sans-serif; /* Set default font */
+    margin: 0; 
+    font-family: 'Roboto', sans-serif;
   }
   
   .sidebar-nav {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center options horizontally */
+    align-items: center;
     padding: 50px 0px;
     gap: 20px;
-    position: fixed; /* Make it fixed for responsiveness */
+    position: fixed; 
     width: 250px;
     height: 100vh;
     left: 0px;
     top: 0px;
     background: #57A0C7;
     border-right: 2px solid #737373;
-    z-index: 1000; /* Ensure it's above other content */
-    transition: transform 0.3s ease; /* Add transition effect */
+    z-index: 1000; 
+    transition: transform 0.3s ease;
   }
 
   .customer-p-menu-button {
@@ -103,10 +103,8 @@
 <!-- Sidebar navigation -->
 <div class="sidebar-nav" id="sidebar">
   <div class="customer-p-menu-button" onclick="location.href='hosted_services.html'">Overview</div>
-  <div class="customer-p-menu-button" onclick="location.href='#'">Service Settings</div>
-  <div class="customer-p-menu-button" onclick="location.href='#'">Custom Domain</div>
-  <div class="customer-p-menu-button" onclick="location.href='#'">Upgrade</div>
   <div class="customer-p-menu-button" onclick="location.href='product_invoices.html'">Invoices</div>
+  <div class="customer-p-menu-button" onclick="location.href='user_notifications.html'">Notifications</div>
   <div class="customer-p-menu-button" onclick="location.href='user_profile.html'">Profile</div>
   <div class="customer-p-menu-button" onclick="location.href='support_tickets.html'">Support</div>
 </div>
@@ -153,7 +151,6 @@
   });
 
   document.addEventListener("DOMContentLoaded", function() {
-    // Get the current page URL
     var currentPageUrl = window.location.pathname;
 
     // Get all navigation links
@@ -161,16 +158,10 @@
 
     // Loop through each navigation link
     navLinks.forEach(function(link) {
-      // Get the link's href attribute
       // var linkHref = link.getAttribute('onclick').split("'")[1];
       var linkHref = link.getAttribute('onclick').split("'")[1].replace(/\.html$/, '');
 
-
-      console.log('linkref ',linkHref, ' cp ',currentPageUrl);
-
-      // Check if the current page URL ends with the href attribute of the link
       if (currentPageUrl.endsWith(linkHref)) {
-        // Add the "active" class to the current navigation link
         link.classList.add('active');
       }
     });

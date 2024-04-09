@@ -38,5 +38,60 @@
 }
 
 .learn-more-button:hover {
-background-color: #57A0C7;
+  background-color: #57A0C7;
+  }
+
+  .support-ticket-table {
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 60%;
+    margin-top: 5%;
+    /* border: 5px solid green; */
+    margin-left: 20%;
+}
+
+.support-ticket-table th,
+.support-ticket-table td {
+    padding: 8px;
+    text-align: left;
+}
+
+.support-ticket-table input[type="text"] {
+    width: 80%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+    background-image: url('/assets/geohosting/images/search_icon.svg');
+    background-repeat: no-repeat;
+    background-position: calc(100% - 5px) center; /* Adjusted background position */
+    padding-right: 30px; /* Added padding for icon on the right */
+}
+
+
+.support-ticket-table .date-fields {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.support-ticket-table .date-fields input[type="date"] {
+    width: calc(50% - 4px);
+    padding: 8px;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 4px;
+}
+
+.support-ticket-table .new-ticket-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }

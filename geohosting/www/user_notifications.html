@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications</title>
+<link rel="stylesheet" href="/portal_pages.css"> 
+<style>
+    .dataset-card {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        padding: 20px;
+        gap: 16px;
+        position: absolute;
+        width: 861px;
+        min-height: 114px;
+        left: 470px;
+        top: 231px;
+        background: #FFFFFF;
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        margin-top: 5%;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    .dataset-card td:first-child {
+        /* font-weight: bold; */
+        color: black;
+    }
+
+    .new-badge {
+        background: #1283C6;
+        border-radius: 20px;
+        padding: 5px 10px;
+        text-decoration: none;
+        color: #FFFFFF;
+    }
+
+    #paragraph {
+        margin: 0;
+    }
+
+    #read-more {
+        display: none;
+    }
+</style>
+</head>
+<body>
+
+    
+  {% include "templates/c_nav.html" %}
+
+  {% include "templates/customer_portal_nav.html" %}
+
+  <div class="hosted-services-heading">Notifications<div class="underline"></div></div>
+
+  <table class="support-ticket-table">
+    <tr>
+        <th>
+            <input type="text" id="search" name="search" placeholder="Search Notifications">
+        </th>
+        <th>
+            <div class="date-fields">
+                <label for="start-date">Start: </label>
+                <input type="date" id="start-date" name="start-date">
+                <label for="end-date">End: </label>
+                <input type="date" id="end-date" name="end-date">
+            </div>
+        </th>
+        
+    </tr>
+    </table>
+
+    <div class="dataset-card">
+        <table>
+            <tr>
+                <td>Invoice Title</td>
+                <td colspan="2">
+                    <span></span>
+                    <a href="#" class="new-badge">New</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="padding-top: 10px;">
+                    <p id="paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec est nulla. Sed nec felis mauris. Integer nec erat odio. Vivamus sed orci ac mi ullamcorper aliquam. Curabitur nec ligula nec nulla accumsan condimentum eget ac tellus. Nullam semper urna ut lorem hendrerit pharetra. Fusce auctor luctus felis, non laoreet arcu mollis sit amet.</p>
+                    <a href="#" id="read-more">Read more</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" style="color: #075192;">Date: 11/09/2020</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        // JavaScript to add ellipsis and "Read more" functionality
+        const paragraph = document.getElementById("paragraph");
+        const readMore = document.getElementById("read-more");
+
+        // Show ellipsis and "Read more" link if paragraph exceeds 20 words
+        if (paragraph.textContent.split(" ").length > 20) {
+            paragraph.textContent = paragraph.textContent.split(" ").slice(0, 20).join(" ") + "...";
+            readMore.style.display = "inline"; // Display "Read more" link
+        }
+
+        // Click event to expand paragraph when "Read more" is clicked
+        readMore.addEventListener("click", function() {
+            paragraph.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec est nulla. Sed nec felis mauris. Integer nec erat odio. Vivamus sed orci ac mi ullamcorper aliquam. Curabitur nec ligula nec nulla accumsan condimentum eget ac tellus. Nullam semper urna ut lorem hendrerit pharetra. Fusce auctor luctus felis, non laoreet arcu mollis sit amet.";
+            readMore.style.display = "none"; // Hide "Read more" link after expanding
+        });
+    </script>
+
+</body>
+</html>

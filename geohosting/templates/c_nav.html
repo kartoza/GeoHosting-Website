@@ -325,7 +325,7 @@
                       <span>Invoices</span>
                   </div>
                   <div class="customer-portal-option">
-                      <div class="icon-container">
+                      <div class="icon-container" onclick="navigateToNotifications()">
                           <img src="/assets/geohosting/images/notifications_icon.svg" alt="Notifications Icon">
                       </div>
                       <span>Notifications</span>
@@ -333,13 +333,13 @@
               </div>
               <div class="row">
                   <div class="customer-portal-option">
-                      <div class="icon-container">
+                      <div class="icon-container" onclick="navigateToProfile()">
                           <img src="/assets/geohosting/images/profile_icon.svg" alt="Profile Icon">
                       </div>
                       <span>Profile</span>
                   </div>
                   <div class="customer-portal-option">
-                      <div class="icon-container">
+                      <div class="icon-container" onclick="navigateToSupport()">
                           <img src="/assets/geohosting/images/support_icon.svg" alt="Support Icon">
                       </div>
                       <span>Support</span>
@@ -390,6 +390,18 @@
 
         function navigateToInvoices(){
           window.location,href = 'product_invoices.html'
+        }
+
+        function navigateToNotifications(){
+          window.location,href = 'user_notifications.html'
+        }
+
+        function navigateToProfile(){
+          window.location,href = 'user_profile.html'
+        }
+
+        function navigateToSupport(){
+          window.location,href = 'support_tickets.html'
         }
 
  
