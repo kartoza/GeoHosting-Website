@@ -449,7 +449,7 @@
                       <span>Services</span>
                   </div>
                   <div class="customer-portal-option">
-                      <div class="icon-container">
+                      <div class="icon-container" onclick="navigateToInvoices()">
                           <img src="/assets/geohosting/images/invoices_icon.svg" alt="Invoices Icon">
                       </div>
                       <span>Invoices</span>
@@ -587,6 +587,10 @@
 
         function navigateToProfile(){
           window.location.href = 'user_profile.html'
+        }
+
+        function navigateToInvoices(){
+          window.location.href = 'product_invoices.html'
         }
 
         function signInSuccess() {

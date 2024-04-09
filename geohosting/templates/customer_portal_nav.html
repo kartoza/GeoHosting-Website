@@ -106,6 +106,7 @@
   <div class="customer-p-menu-button" onclick="location.href='#'">Service Settings</div>
   <div class="customer-p-menu-button" onclick="location.href='#'">Custom Domain</div>
   <div class="customer-p-menu-button" onclick="location.href='#'">Upgrade</div>
+  <div class="customer-p-menu-button" onclick="location.href='product_invoices.html'">Invoices</div>
   <div class="customer-p-menu-button" onclick="location.href='user_profile.html'">Profile</div>
   <div class="customer-p-menu-button" onclick="location.href='support_tickets.html'">Support</div>
 </div>
@@ -161,16 +162,17 @@
     // Loop through each navigation link
     navLinks.forEach(function(link) {
       // Get the link's href attribute
-      var linkHref = link.getAttribute('onclick').split("'")[1];
+      // var linkHref = link.getAttribute('onclick').split("'")[1];
+      var linkHref = link.getAttribute('onclick').split("'")[1].replace(/\.html$/, '');
+
+
+      console.log('linkref ',linkHref, ' cp ',currentPageUrl);
 
       // Check if the current page URL ends with the href attribute of the link
       if (currentPageUrl.endsWith(linkHref)) {
         // Add the "active" class to the current navigation link
         link.classList.add('active');
       }
-      // else if(currentPageUrl === '/new_ticket.html'){
-      //   link.classList.add('active');
-      // }
     });
   });
 
