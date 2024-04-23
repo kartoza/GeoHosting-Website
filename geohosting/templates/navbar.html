@@ -575,24 +575,36 @@
         // Call the function when the page loads
         window.onload = setActiveNavLink;
 
+        function updateUrl(replaceWith){
+          // Get the current URL
+          var currentUrl = window.location.href;
+          // Find the index of the first occurrence of '/'
+          var firstSlashIndex = currentUrl.indexOf('/');
+          // Extract the substring before the first '/'
+          var baseUrl = currentUrl.substring(0, firstSlashIndex + 1);
+          // Construct the new URL
+          return baseUrl + replaceWith;
+          
+        }
+
         function navigateToForgotPassword() {
-            window.location.href = 'forgot_password.html';
+            window.location.href = updateUrl('account/forgot_password.html');
         }
 
         function navigateToSupport(){
-          window.location.href = 'support_tickets.html';
+          window.location.href = updateUrl('portal/support_tickets.html');
         }
 
         function navigateToHostedServices(){
-          window.location.href = 'hosted_services.html'
+          window.location.href = updateUrl('portal/hosted_services.html');
         }
 
         function navigateToProfile(){
-          window.location.href = 'user_profile.html'
+          window.location.href = updateUrl('portal/user_profile.html');
         }
 
         function navigateToInvoices(){
-          window.location.href = 'product_invoices.html'
+          window.location.href = updateUrl('portal/product_invoices.html');
         }
 
         function signInSuccess() {

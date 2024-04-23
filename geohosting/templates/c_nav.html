@@ -385,7 +385,16 @@
         }
 
         function navigateToHome(){
-          window.location.href = 'products.html'
+          // Get the current URL
+          var currentUrl = window.location.href;
+          // Find the index of the first occurrence of '/'
+          var firstSlashIndex = currentUrl.indexOf('/');
+          // Extract the substring before the first '/'
+          var baseUrl = currentUrl.substring(0, firstSlashIndex + 1);
+          // Construct the new URL
+          var newUrl = baseUrl + 'main/products.html';
+          // Navigate to the new URL
+          window.location.href = newUrl;
         }
 
         function navigateToInvoices(){
