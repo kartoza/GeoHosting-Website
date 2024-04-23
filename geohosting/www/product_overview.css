@@ -133,10 +133,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transform: translateX(5%); /* Adjusting position */
-  left: 5%; /* Centering horizontally */
+  transform: translateX(5%);
+  left: 5%;
   margin-top: 400px;
   /* border: 5px solid gold; */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .overview-image-white {
@@ -161,8 +162,6 @@
   letter-spacing: 0.15px;
   color: #000000;
   margin-bottom: 20px;
-  /* border: yellow 5px solid; */
-  /* Removed margin-top */
 }
 
 .overview-content-white h1 {

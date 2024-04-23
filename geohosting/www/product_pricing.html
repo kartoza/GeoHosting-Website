@@ -11,15 +11,11 @@
 </head>
 
 <body>
-    {% include "templates/navbar.html" %}
-
-    
-  <!-- responsiveness on mobile needs finishing TODO -->
     
 
     {% block content %}
     <div class="background-container" id="screenBody">
-      {% include "templates/product_nav.html" %}
+      
         <!-- Left background image -->
         <div class="background-left"></div>
         <!-- Right background image -->
@@ -106,7 +102,6 @@
       </div>
       {% endblock %}
 
-      {% include "templates/footer.html" %}
 </body>
 
 </html>
