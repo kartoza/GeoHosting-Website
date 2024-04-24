@@ -3,7 +3,7 @@
   width: 1491px;
   height: 598px;
   left: 50%; /* Centering horizontally */
-  top: 100px;
+  top: 20px;
   background: #57A0C7;
   border-radius: 30px;
   /* border: solid 5px green; */
@@ -124,7 +124,7 @@
 
 .container-white {
   position: absolute;
-  width: 1491px;
+  width: 1488px;
   height: 588px;
   left: 55px;
   top: 400px;
@@ -134,7 +134,7 @@
   justify-content: space-between;
   align-items: center;
   transform: translateX(5%);
-  left: 5%;
+  left: 6%;
   margin-top: 400px;
   /* border: 5px solid gold; */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
