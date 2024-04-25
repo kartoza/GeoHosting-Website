@@ -5,6 +5,7 @@
           width: auto;
           height: 100%;
           overflow-y: auto; /* Add vertical scrollbar when content exceeds viewport */
+          font-family: 'Avenir', sans-serif; /* use font style */
         }
         
         .background-container {
@@ -109,8 +110,8 @@
 
       
         .geohosting-logo {
-          height: 228px; 
-          width: 891px;
+          height: 200px; 
+          width: 885px;
           /* border: 5px yellow solid; */
           margin-left: 10%;
         }

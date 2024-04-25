@@ -7,6 +7,7 @@
     <title>Products</title>
     <link rel="stylesheet" href="../styles.css"> 
     <link rel="stylesheet" href="product_tabs.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Avenir&display=swap">
 </head>
 
 <body>
@@ -26,9 +27,9 @@
         <!-- Content goes here -->
         <div class="content">
             <div class="">
-                <img src="/assets/geohosting/images/geohosting_logo_main.svg"  alt="Logo" class="geohosting-logo">
+                <img src="/assets/geohosting/images/GeoH1.png"  alt="Logo" class="geohosting-logo">
                 
-                  <div class="geohosting-heading">Welcome to a better GIS platform where privacy and freedom comes first. {{ text }}</div>
+                  <div class="geohosting-heading">Welcome to a better GIS platform where privacy and freedom comes first.</div>
               
               
                 
@@ -50,7 +51,7 @@
                 
                     </div>
 
-                    {% endfor %}
+                    
 
                 </div>
               </div>
@@ -61,26 +62,33 @@
             <!-- Navbar -->
             <div class="secondary-navigation-bar" id="navbar">
                 <div class="secondary-logo">
-                <img src="/assets/geohosting/images/BIMS.svg" id="navbar-logo" alt="Logo">
+                <img src="" id="navbar-logo" alt="Logo">
                 </div>
                 <ul>
                 <li><a href="#" id="overview-link" class="active" onclick="loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', this)">Overview</a></li>
                 <li><a href="#" id="integration-link" onclick="loadContentAndSetActiveTab(event, 'product_integration.html', 'integration-content', this)">Integration</a></li>
-                <li><a href="#" id="pricing-link" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this)">Pricing</a></li>
+                <li><a href="#" id="pricing-link" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this, '{{ product.product_image }}')">Pricing</a></li>
                 </ul>
             </div>
             
             
-                <div id="hiddenSectionContent">
-                    <div id="overview-content" style="display: none;"></div>
-                    <div id="integration-content" style="display: none;"></div>
-                    <div id="pricing-content" style="display: none;"></div>
-                </div>
+            <div id="hiddenSectionContent">
+                <div id="overview-content" style="display: none;"></div>
+                <div id="integration-content" style="display: none;"></div>
+                <div id="pricing-content" style="display: none;"></div>
+            </div>
+
+            {% endfor %}
+
+        </div>
            
             
             <script>
                 // Function to toggle product details section
                 function toggleProductDetails(logoUrl) {
+                    // productJson = productJson.replace(/\n/g, "\\n");
+                    // var product = JSON.parse(productJson);
+                    // var logoUrl = product.product_image;
                     var hiddenSection = document.getElementById('hiddenSection');
                     if (hiddenSection.style.display === 'none') {
                         hiddenSection.style.display = 'block';
@@ -122,6 +130,7 @@
                                 clickedLink.classList.add('active');
 
                                 document.getElementById('pricing-card-logo').src = logoUrl;
+                                document.getElementById('pricing-card-title-free').innerHTML = 'GeoSight Free'
                             } else {
                                 console.error('Error loading content:', xhr.status);
                             }
@@ -132,7 +141,7 @@
                 }
             </script>
 
-        </div>
+        
   
     
     {% endblock %}
