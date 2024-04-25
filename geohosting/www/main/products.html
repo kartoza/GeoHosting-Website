@@ -34,18 +34,18 @@
                 
                  <div class="products-container">
 
-                    {% for product in stock_items %}
+                    {% for item in stock_items %}
 
                     <div class="product">
                         <div>
-                            <img src="{{ product.product_image }}" alt="Product 1">
+                            <img src="{{ item.item_image }}" alt="Product">
                         </div>
                       
-                        <h2>{{ product.product_name }}</h2>
+                        <h2>{{ item.item_name }}</h2>
                         <div class="description">
-                            <p>{{ product.product_description }}</p>  
+                            <p>{{ item.description }}</p>  
                         </div>
-                        <button class="learn-more-button" onclick="toggleProductDetails('{{ product.product_image }}')">Learn more</button>
+                        <button class="learn-more-button" onclick="toggleProductDetails('{{ item.item_image }}')">Learn more</button>
                       <div></div>
                 
                     </div>
