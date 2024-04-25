@@ -51,9 +51,12 @@
                 
                     </div>
 
-                    
+                    {% endfor %}
 
                 </div>
+
+                
+
               </div>
         </div>
 
@@ -67,7 +70,7 @@
                 <ul>
                 <li><a href="#" id="overview-link" class="active" onclick="loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', this)">Overview</a></li>
                 <li><a href="#" id="integration-link" onclick="loadContentAndSetActiveTab(event, 'product_integration.html', 'integration-content', this)">Integration</a></li>
-                <li><a href="#" id="pricing-link" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this, '{{ product.product_image }}')">Pricing</a></li>
+                <li><a href="#" id="pricing-link" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content')">Pricing</a></li>
                 </ul>
             </div>
             
@@ -78,7 +81,7 @@
                 <div id="pricing-content" style="display: none;"></div>
             </div>
 
-            {% endfor %}
+            
 
         </div>
            
@@ -89,6 +92,7 @@
                     // productJson = productJson.replace(/\n/g, "\\n");
                     // var product = JSON.parse(productJson);
                     // var logoUrl = product.product_image;
+                    localStorage.setItem('logoUrl', logoUrl)
                     var hiddenSection = document.getElementById('hiddenSection');
                     if (hiddenSection.style.display === 'none') {
                         hiddenSection.style.display = 'block';
@@ -129,7 +133,7 @@
                                 // Add active class to the clicked link
                                 clickedLink.classList.add('active');
 
-                                document.getElementById('pricing-card-logo').src = logoUrl;
+                                document.getElementById('pricing-card-logo').src = localStorage.getItem(logoUrl);
                                 document.getElementById('pricing-card-title-free').innerHTML = 'GeoSight Free'
                             } else {
                                 console.error('Error loading content:', xhr.status);
