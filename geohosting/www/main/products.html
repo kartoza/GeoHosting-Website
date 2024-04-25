@@ -45,8 +45,8 @@
                         <div class="description">
                             <p>{{ item.description }}</p>  
                         </div>
-                        <button class="learn-more-button" onclick="toggleProductDetails('{{ item.image }}')">Learn more</button>
-                      <div></div>
+                        <button class="learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
+                        <div></div>
                 
                     </div>
 
@@ -87,11 +87,14 @@
             
             <script>
                 // Function to toggle product details section
-                function toggleProductDetails(logoUrl) {
-                    // productJson = productJson.replace(/\n/g, "\\n");
-                    // var product = JSON.parse(productJson);
-                    // var logoUrl = product.product_image;
-                    localStorage.setItem('logoUrl', logoUrl)
+                function toggleProductDetails(item_name, logoUrl) {
+                    // Access stock items in JavaScript
+                    var stockItems = JSON.parse('{{ stock_items | tojson | safe }}');
+                    
+                    // Now you can use stockItems in your JavaScript code
+                    console.log(stockItems);
+                    localStorage.setItem('logoUrl', JSON.stringify(logoUrl))
+                    // save the item id to local storage TODO
                     var hiddenSection = document.getElementById('hiddenSection');
                     if (hiddenSection.style.display === 'none') {
                         hiddenSection.style.display = 'block';
@@ -132,7 +135,9 @@
                                 // Add active class to the clicked link
                                 clickedLink.classList.add('active');
 
-                                document.getElementById('pricing-card-logo').src = localStorage.getItem(logoUrl);
+                                // fetch id from local storage iterate stock items in context and find a match retrieve values to assign pricing cards TODO
+
+                                document.getElementById('pricing-card-logo').src = JSON.parse(localStorage.getItem(logoUrl));
                                 document.getElementById('pricing-card-title-free').innerHTML = 'GeoSight Free'
                             } else {
                                 console.error('Error loading content:', xhr.status);

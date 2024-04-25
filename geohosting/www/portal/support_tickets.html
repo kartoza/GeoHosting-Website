@@ -8,136 +8,208 @@
 <style>
     
 
+.card {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+    width: 930px;
+    height: auto;
+    background: #FFFFFF;
+    border: 1px solid #E4E4E4;
+    border-radius: 8px;
+    margin-left: 19.5%;
+    margin-top: 2%;
+}
 
-    .dataset-card {
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: row;
-        align-items: flex-start;
-        padding: 20px;
-        gap: 16px;
-        position: absolute;
-        width: 861px;
-        height: 129px;
-        left: 470px;
-        top: 325px;
-        background: #FFFFFF;
-        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
-        border-radius: 8px;
-        /* border: 5px solid yellow; */
-    }
+.title {
+    font-family: 'Roboto';
+    font-weight: 600;
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between; /* Move dot to the right */
+    align-items: center; /* Center vertically */
+}
 
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+    gap: 10px;
+}
 
-    table tr {
-        margin-bottom: 10px; 
-    }
+.status {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Move dot to the right */
+    gap: 10px;
+}
 
-    table td {
-        padding: 5px;
-    }
+.dot {
+    width: 12px;
+    height: 12px;
+    background: #0EAF00;
+    border-radius: 50%;
+    margin-right: 5px;
+}
 
-    td.bold {
-        font-weight: bold;
-    }
+.status span {
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 16px;
+    color: #000000;
+}
 
+
+p {
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 16px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+
+
+
+/* Blue Dot */
+.ellipse {
+    width: 12px;
+    height: 12px;
+    background: #57A0C7;
+    border-radius: 50%;
+}
+
+/* Green Tick */
+.vector {
+    width: 18px;
+    height: 14px;
+    background: #fff;
+}
+
+/* Adjust the tick appearance */
+.vector-tick {
+    content: '';
+    position: relative;
+
+    top: 50%;
+    left:5px;
+    width: 4px;
+    height: 8px;
+    /* background: #0EAF00; */
+    border: solid #0EAF00;
+    border-width: 0 2px 2px 0;
+    transform: translateY(-50%) rotate(45deg);
+}
+
+.date-updated {
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 14px;
+    color: #888B8C;
+}
 
     @media (max-width: 768px) {
 
-        .support-ticket-table {
-            width: auto;
-            margin-top: 30%;
-            
-            margin-left: 0%;
+        .portal-pages-heading {
+            top: -50px;
+            left: -38px;
         }
 
-        .support-ticket-table th {
-            display: block;
-            width: 100%; 
-            margin-bottom: 10px; 
-        }
-
-        .date-fields {
-            display: flex;
-            flex-wrap: wrap;
-        }
-
-        .date-fields label,
-        .date-fields input[type="date"] {
-            flex: 1;
-            margin-bottom: 5px;
-        }
-
-        .hosted-services-heading {
-            position: absolute;
+        .card {
+            padding: 10px;
             width: auto;
             height: auto;
-            top: 2%;
-            font-weight: 600;
-            font-size: 18px;
+
+            margin-left: 0%;
+            margin-top: 2%;
         }
 
-        
-
-
-        .underline {
-            width: auto;
-        }
     }
 
 </style>
 </head>
 <body>
 
-  {% include "templates/c_nav.html" %}
-
   {% include "templates/customer_portal_nav.html" %}
 
-  <div class="hosted-services-heading">Support Tickets<div class="underline"></div></div>
+  <div class="portal-pages-heading">
+    <span>Support Tickets</span>
+  </div>
 
-    <table class="support-ticket-table">
-    <tr>
-        <th>
-            <input type="text" id="search" name="search" placeholder="Search Issues">
-        </th>
-        <th>
-            <div class="date-fields">
-                <label for="start-date">Start: </label>
-                <input type="date" id="start-date" name="start-date">
-                <label for="end-date">End: </label>
-                <input type="date" id="end-date" name="end-date">
+  <table class="support-ticket-table">
+        <tr>
+            <th>
+                <input type="text" id="search" name="search" style="border: 1px solid gray; width: 250px;" placeholder="Search Tickets">
+            </th>
+            <th>
+                <div class="date-fields">
+                    <label for="start-date">Start: </label>
+                    <input type="date" name="start-date">
+                    <label for="end-date" class="end-date-margin">End: </label>
+                    <input type="date"  id="end-date" name="end-date">
+                    <label for="clear" class="end-date-margin"><span>Clear</span></label>
+                </div>
+            </th>
+            <th>
+                <button class="learn-more-button" onclick="createNewTicket()">New Support Ticket</button>
+            </th>
+        </tr>
+    </table>
+
+
+    <div class="card">
+    
+        <div class="row">
+            <div class="title">Support ticket ISS-2024-00042 complete</div>
+            <div class="status">
+                <div class="ellipse"></div>
+                <span>Open</span>
             </div>
-        </th>
-        <th>
-            <button class="learn-more-button" onclick="createNewTicket()">New Support Ticket</button>
-        </th>
-    </tr>
-    </table>
+        </div>
+        <p id="paragraph">Your support ticket has been marked as complete. Please provide feedback on the...<a href="#" id="read-more" style="color: #57A0C7;">Read more</a></p>
+        <div class="date-updated">Date Updated 11/09/2020</div>
+    </div>
 
-<div class="dataset-card">
-    <table>
-        <tr>
-            <td class="bold">Heading 1</td>
-            <td class="bold">Status: Resolved</td>
-        </tr>
-        <tr>
-            <td>Subject: example subject</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>Date added: 11/09/2020</td>
-            <td></td>
-        </tr>
-    </table>
-</div>
+    <div class="card">
+    
+        <div class="row">
+            <div class="title">Support ticket ISS-2024-00042 complete</div>
+            <div class="status">
+                <div class="vector"> <div class="vector-tick"></div></div>
+                <span>Resolved</span>
+            </div>
+        </div>
+        <p id="paragraph">Your support ticket has been marked as complete. Please provide feedback on the...<a href="#" id="read-more" style="color: #57A0C7;">Read more</a></p>
+        <div class="date-updated">Date Updated 11/09/2020</div>
+    </div>
 
 <script>
     function createNewTicket(){
         window.location.href = 'new_ticket.html';
     }
+
+
+        // JavaScript to add ellipsis and "Read more" functionality THIS WILL NEED TO BE DYNAMIC ON MULTIPLE CARDS TODO
+        const paragraph = document.getElementById("paragraph");
+        const readMore = document.getElementById("read-more");
+
+        // Show ellipsis and "Read more" link if paragraph exceeds 20 words
+        if (paragraph.textContent.split(" ").length > 20) {
+            paragraph.textContent = paragraph.textContent.split(" ").slice(0, 20).join(" ") + "...";
+            readMore.style.display = "inline"; // Display "Read more" link
+        }
+
+        // Click event to expand paragraph when "Read more" is clicked
+        readMore.addEventListener("click", function() {
+            paragraph.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec est nulla. Sed nec felis mauris. Integer nec erat odio. Vivamus sed orci ac mi ullamcorper aliquam. Curabitur nec ligula nec nulla accumsan condimentum eget ac tellus. Nullam semper urna ut lorem hendrerit pharetra. Fusce auctor luctus felis, non laoreet arcu mollis sit amet.";
+            readMore.style.display = "none"; // Hide "Read more" link after expanding
+        });
 </script>
 
 </body>

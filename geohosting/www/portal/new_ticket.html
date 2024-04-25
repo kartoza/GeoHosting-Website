@@ -20,7 +20,8 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-top: 2%;
+    margin-top: -1%;
+    margin-left: -13.5%;
     /* border: 5px solid yellow; */
   }
 
@@ -43,13 +44,22 @@
 
   /* Media query for smaller devices */
   @media (max-width: 768px) {
+    .portal-pages-heading {
+      left: -38px;
+  }
     .container {
-      width: 90%;
+      width: auto;
+      display: none;
     }
 
-    .underline {
-      width: auto;
+    .input-group {
+      display: wrap;
+      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 35%;
     }
+    
 
     .input-group input,
     .input-group select,
@@ -58,25 +68,18 @@
       height: auto;
     }
 
-    .hosted-services-heading {
-      position: relative;
-      width: auto;
-      height: auto;
-      top: 2%;
-      font-weight: 600;
-      font-size: 28px;
-    }
+    
   }
 
 </style>
 </head>
 <body>
 
-  {% include "templates/c_nav.html" %}
-
   {% include "templates/customer_portal_nav.html" %}
 
-  <div class="hosted-services-heading">New Support Ticket<div class="underline"></div></div>
+  <div class="portal-pages-heading">
+    <span>New Support Ticket</span>
+  </div>
 
   <div class="container">
     <div class="input-group">

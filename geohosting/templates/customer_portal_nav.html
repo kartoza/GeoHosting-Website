@@ -3,181 +3,175 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GeoHosting</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Avenir:wght@400;600&display=swap">
+<title>Portal Sidebar</title>
 <style>
-  body {
-    margin: 0; 
-    font-family: 'Avenir', sans-serif;
-  }
-
-  /* latin-ext */
-  @font-face {
-          font-family: 'Avenir';
-          font-style: normal;
-          font-weight: 400;
-          font-display: swap;
-          src: url(https://fonts.gstatic.com/l/font?kit=ijwUs5PnXdA4ZZUA6Zd-&skey=8887f17a62203d44&v=v12) format('woff2');
-          unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
-        }
-        /* latin */
-        @font-face {
-          font-family: 'Avenir';
-          font-style: normal;
-          font-weight: 400;
-          font-display: swap;
-          src: url(https://fonts.gstatic.com/l/font?kit=ijwUs5PnXdA4ZZUA55d-&skey=8887f17a62203d44&v=v12) format('woff2');
-          unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-        }
   
-  .sidebar-nav {
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 50px 0px;
-    gap: 20px;
-    position: fixed; 
-    width: 250px;
-    height: 100vh;
+
+/* Sidebar toggle button */
+.sidebar-toggle {
+  display: none; 
+}
+
+.bar {
+  width: 30px;
+  height: 3px;
+  background-color: #333;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+/* Sidebar */
+.Menu_comp {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 124px 0px;
+  position: fixed;
+  width: 300px;
+  height: 100vh;
+  left: 0; /* Initially visible on desktop */
+  top: 0px;
+  background: linear-gradient(180deg, #57A0C7 26%, rgba(87, 160, 199, 0) 100%), url('portal_sidebar_background.png'), #57A0C7;
+  border-right: 1px solid #57A0C7;
+  
+  transition: all 0.3s ease;
+}
+
+
+.Customer_P_Menu_Button {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 12px 16px;
+  gap: 10px;
+  width: 300px;
+  height: 54px;
+  color: #FFFFFF;
+  font-family: 'Avenir', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+  cursor: pointer;
+}
+
+.Customer_P_Menu_Button:hover {
+  background: rgba(0, 0, 0, 0.05);
+  border-right: 8px solid #FFFFFF;
+}
+
+.Customer_P_Menu_Button.active {
+  background: rgba(0, 0, 0, 0.05);
+  border-right: 8px solid #FFFFFF;
+}
+
+
+.portal-logo-on-sidebar {
+    width: 16%; 
+    height: 70px;
     left: 0px;
-    top: 0px;
-    background: #57A0C7;
-    border-right: 2px solid #737373;
-    z-index: 1000; 
-    transition: transform 0.3s ease;
-  }
-
-  .customer-p-menu-button {
+    top: 0;
+    background: #ECECEC;
+    border-radius: 0px 0px 0px 10px;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
-    padding: 0px;
-    gap: 10px;
-    width: 100%;
-    height: 48px;
-    font-weight: 600;
-    font-size: 20px;
-    text-align: center;
-    letter-spacing: 0.15px;
-    color: #FFFFFF;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 999;
+    position: sticky;
+    /* border: 5px salmon solid; */
   }
 
-  .customer-p-menu-button:hover {
-    background: #4E8FB1; 
-  }
+  .portal-logo {
+    width: 54px;
+    height: 54px;
+    margin-right: 20px;
+  } 
+
   
-  /* Arrow button styles */
-  .arrow-button {
-    display: none; 
+@media (max-width: 768px) {
+.Menu_comp {
+    display: none;
+    width: auto;
+    z-index: 1;
+  }
+
+  .sidebar-toggle {
     position: fixed;
     top: 20px;
     left: 20px;
-    width: 40px;
-    height: 40px;
-    background-color: #57A0C7;
-    border: none;
-    outline: none;
+    z-index: 999;
     cursor: pointer;
-    z-index: 1000; 
-    transition: transform 0.3s ease;
+    display: block;
   }
 
-  /* Arrow icon styles */
-  .arrow-icon {
-    width: 20px;
-    height: 20px;
-    fill: #FFFFFF;
-    transform-origin: center;
+  .portal-logo-on-sidebar{
+    display: none;
   }
+}
 
-  /* Sidebar open state */
-  .sidebar-open {
-    transform: translateX(0);
-  }
 
-  /* Responsive media query */
-  @media (max-width: 768px) {
-    .sidebar-nav {
-      transform: translateX(-100%);
-    }
-
-    .arrow-button {
-      display: block;
-      margin-top: 15%;
-    }
-  }
-
-  .customer-p-menu-button.active {
-    background-color: #524e4e; /* Background color for active link */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); /* Box shadow effect */
-  }
 
 </style>
 </head>
-<body>
 
-<!-- Sidebar navigation -->
-<div class="sidebar-nav" id="sidebar">
-  <div class="customer-p-menu-button" onclick="location.href='hosted_services.html'">Overview</div>
-  <div class="customer-p-menu-button" onclick="location.href='product_invoices.html'">Invoices</div>
-  <div class="customer-p-menu-button" onclick="location.href='user_notifications.html'">Notifications</div>
-  <div class="customer-p-menu-button" onclick="location.href='user_profile.html'">Profile</div>
-  <div class="customer-p-menu-button" onclick="location.href='support_tickets.html'">Support</div>
+<div class="portal-logo-on-sidebar">
+  <img src="/assets/geohosting/images/geohosting_nav_logo.svg" alt="Logo" class="portal-logo">
 </div>
 
-
-<!-- Arrow button to toggle sidebar -->
-<button class="arrow-button" id="toggleButton" draggable="true">
-  <svg class="arrow-icon" viewBox="0 0 24 24">
-    <path d="M12 4v16l-8.5-8.5 1.41-1.41L12 14.17l7.09-7.08L20.5 11.5 12 20V4z"></path>
-  </svg>
-</button>
+<!-- Sidebar Toggle-->
+<div class="sidebar-toggle" onclick="toggleSidebar()">
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+</div>
+<!-- Sidebar -->
+<div id="sidebar" class="Menu_comp">
+  <div class="Customer_P_Menu_Button Overview" onclick="location.href='overview.html'">Overview</div>
+  <div class="Customer_P_Menu_Button Services" onclick="location.href='hosted_services.html'">Services</div>
+  <div class="Customer_P_Menu_Button Invoices" onclick="location.href='product_invoices.html'">Invoices</div>
+  <div class="Customer_P_Menu_Button Notifications" onclick="location.href='user_notifications.html'">Notifications</div>
+  <div class="Customer_P_Menu_Button Profile" onclick="location.href='user_profile.html'">Profile</div>
+  <div class="Customer_P_Menu_Button Support" onclick="location.href='support_tickets.html'">Support</div>
+  <div class="Customer_P_Menu_Button Home" onclick="navigateHome('main/products.html')">Home</div>
+</div>
 
 <script>
-  var toggleButton = document.getElementById('toggleButton');
-  var sidebar = document.getElementById('sidebar');
-
-  // Drag event listeners for toggle button
-  toggleButton.addEventListener('dragstart', function(event) {
-    // Store the initial position of the mouse cursor
-    event.dataTransfer.setData('initialX', event.clientX);
-    event.dataTransfer.setData('sidebarWidth', sidebar.offsetWidth);
-  });
-
-  toggleButton.addEventListener('drag', function(event) {
-    // Calculate the distance moved by the mouse cursor
-    var initialX = parseInt(event.dataTransfer.getData('initialX'));
-    var offsetX = event.clientX - initialX;
-    var sidebarWidth = parseInt(event.dataTransfer.getData('sidebarWidth'));
-
-    // Calculate the new width of the sidebar
-    var newWidth = sidebarWidth - offsetX;
-
-    // Update the sidebar width
-    sidebar.style.width = newWidth + 'px';
-  });
-
-  toggleButton.addEventListener('dragend', function(event) {
-    // If the sidebar width is less than half of its original width, close it
-    if (sidebar.offsetWidth < sidebar.offsetWidth / 2) {
-      sidebar.style.width = '0';
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    document.getElementById('sidebar').style.display = 'block';
+    if (sidebar.style.left === '-300px' || sidebar.style.left === '') {
+        sidebar.style.left = '0';
     } else {
-      sidebar.style.width = '250px';
+        sidebar.style.left = '-300px';
     }
-  });
+  }
+
+  function navigateHome(replaceWith){
+    var currentUrl = window.location.href;
+    var firstSlashIndex = currentUrl.indexOf('/');
+    var baseUrl = currentUrl.substring(0, firstSlashIndex + 1);
+    window.location.href = baseUrl + replaceWith;
+  }
 
   document.addEventListener("DOMContentLoaded", function() {
     var currentPageUrl = window.location.pathname;
 
     // Get all navigation links
-    var navLinks = document.querySelectorAll('.customer-p-menu-button');
+    var navLinks = document.querySelectorAll('.Customer_P_Menu_Button');
 
     // Loop through each navigation link
     navLinks.forEach(function(link) {
-      // var linkHref = link.getAttribute('onclick').split("'")[1];
+      // var linkHref = link.getAttribute('onclick').split("'")[1]; // show active page on local host //testing
       var linkHref = link.getAttribute('onclick').split("'")[1].replace(/\.html$/, '');
 
       if (currentPageUrl.endsWith(linkHref)) {
@@ -186,7 +180,7 @@
     });
   });
 
+  
 </script>
 
-</body>
 </html>
