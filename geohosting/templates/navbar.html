@@ -45,7 +45,7 @@
   .nav-links a {
     text-decoration: none;
     color: #000000;
-    font-family: 'Lato';
+    font-family: 'Avenir';
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
@@ -66,7 +66,7 @@
   .sign-in-button, .create-account-button {
     text-decoration: none;
     color: #000000;
-    font-family: 'Lato';
+    font-family: 'Avenir';
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
@@ -234,6 +234,8 @@
     }
 
     
+
+    
   }
 
   .blur-background {
@@ -242,71 +244,25 @@
     }
 
     .customer-portal-container {
-      display: none; /* Hidden by default */
-      position: fixed; /* Stay in place */
       z-index: 1000; /* Sit on top */
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto; /* Enable scroll if needed */
-      background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+      overflow: auto; 
+      background-color: #FFF;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      align-content: flex-start;
+      padding: 40px;
+      gap: 30px;
+      position: absolute;
+      width: 750px;
+      height: auto;
+      left: calc(50% - 750px/2);
+      top: 259px;
+      border-radius: 10px;
+      /* border: 3px solid orange; */
     }
 
-.customer-portal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #FFF;
-    padding: 20px;
-    border-radius: 10px;
-}
 
-.customer-portal-content h1 {
-    font-family: 'Roboto';
-    font-weight: 600;
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #000;
-    padding-bottom: 10px;
-}
-
-.customer-portal-options {
-    display: flex;
-    flex-direction: column;
-}
-
-.row {
-    display: flex;
-    justify-content: space-around;
-}
-
-.customer-portal-option {
-    text-align: center;
-    margin: 10px 0;
-}
-
-.customer-portal-option .icon-container {
-    width: 150px;
-    height: 150px;
-    border: 2px solid #888; /* Grey border */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.customer-portal-option img {
-    width: 100px;
-    height: 100px;
-}
-
-.customer-portal-option span {
-    font-family: 'Roboto';
-    font-weight: 600;
-    font-size: 18px;
-}
 
 .customer-portal-close {
     position: absolute;
@@ -316,39 +272,176 @@
     cursor: pointer;
 }
 
+.customer-portal-close:hover{
+  color: #57A0C7;
+}
+
 /* CSS for smaller screens */
 
-@media (max-width: 768px) {
-    .row {
-        flex-wrap: wrap; /* Allow items to wrap */
-    }
-
-    .customer-portal-option {
-        width: 45%; /* Set width to fit 2 items per row */
-    }
-}
 
 @media (max-width: 480px) {
-    .customer-portal-option {
-        width: 100%; /* Set width to fit 1 item per row */
-    }
-
-    .customer-portal-option .icon-container {
-        width: 100px; /* Smaller icon container */
-        height: 100px;
-    }
-
-    .customer-portal-option img {
-        width: 60px; /* Smaller icon size */
-        height: 60px;
-    }
-
-    .customer-portal-option span {
-        font-size: 14px; /* Smaller font size */
-    }
+   
 }
         
-  
+  /* Frame 172 */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 10px;
+  isolation: isolate;
+  width: 230px;
+  height: 230px;
+  position: relative;
+  box-sizing: border-box;
+  background: #F9F9F9;
+  border: 1px solid rgba(217, 217, 217, 0.5);
+  border-radius: 10px;
+}
+
+.card:hover{
+  margin-top:10px;
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+}
+
+.card-heading {
+  font-family: 'Avenir';
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 150%;
+  color: #000000;
+  /* border: 3px solid yellow; */
+}
+
+.card-text {
+  font-family: 'Avenir', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 150%;
+  margin-top: -15px;
+  color: #57A0C7;
+  /* border: 3px solid blue; */
+}
+
+.card-image {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  left: 20px;
+  top: 20px;
+  background: #FFFFFF;
+  border-radius: 10px;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card-content {
+  padding: 10px;
+  width: auto;
+  /* border: 3px solid red; */
+  position: relative;
+  top: 120px;
+}
+
+.card-content > * {
+  margin-bottom: 10px;
+}
+
+
+
+ /* Portal Pages Heading */
+ .portal-pages-heading {
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 64px;
+  gap: 10px;
+  position: absolute;
+  width: auto;
+  height: auto;
+  left: auto;
+  top: 68px;
+}
+
+.portal-pages-heading span {
+  box-sizing: border-box;
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 0px 8px;
+  gap: 10px;
+  width: 237px;
+  height: 48px;
+  border-bottom: 2px solid #57A0C7;
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 1;
+  font-family: 'Avenir', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 150%;
+  /* identical to box height, or 48px */
+  display: flex;
+  align-items: center;
+  letter-spacing: 0.15px;
+  color: #000000;
+}
+
+@media screen and (max-width: 768px) {
+  .card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 10px;
+  isolation: isolate;
+  width: 100%; /* Change width to 100% for mobile view */
+  max-width: 230px; /* Set maximum width */
+  height: 150px; /* Let the height be auto for responsive height */
+  position: relative;
+  box-sizing: border-box;
+  background: #F9F9F9;
+  border: 1px solid rgba(217, 217, 217, 0.5);
+  border-radius: 10px;
+}
+
+.customer-portal-container {
+  z-index: 1000; /* Sit on top */
+  overflow: auto; 
+  background-color: #FFF;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  align-content: flex-start;
+  padding: 40px;
+  gap: 30px;
+  position: absolute;
+  width: calc(80% - 80px); /* Adjust width for padding */
+  max-width: 750px; /* Set maximum width */
+  height: 450px;
+  left: 50%;
+  transform: translateX(-50%); /* Center horizontally */
+  top: 159px;
+  border-radius: 10px;
+}
+
+    .card-content {
+      width: auto;
+      top: 80px;
+    } 
+  }
+
 </style>
 </head>
 <body class="navbar">
@@ -360,8 +453,6 @@
         
         <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
         <a href="business.html" class="text-btn"><span id="businessLink">For Business</span></a>
-        <a href="resources_support.html" class="text-btn"><span id="resourcesLink">Resources & Support</span></a>
-        <!-- <a href="about_us.html" class="text-btn"><span id="aboutLink">About Us</span></a> -->
         <a href="sign_in.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks1">Sign In</span></a>
         <a href="sign_up.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks2">Sign Up</span></a>
     </div>    
@@ -438,54 +529,60 @@
       </div>
     </div>
 
-    <div class="customer-portal-container" id="customer-portal">
-      <div class="customer-portal-content">
-          <span class="customer-portal-close">&times;</span>
-          <h1>Customer Portal</h1>
-          <div class="customer-portal-options">
-              <div class="row">
-                  <div class="customer-portal-option">
-                      <div class="icon-container" onclick="navigateToHostedServices()">
-                          <img src="/assets/geohosting/images/services_icon.svg" alt="Services Icon">
-                      </div>
-                      <span>Services</span>
-                  </div>
-                  <div class="customer-portal-option">
-                      <div class="icon-container" onclick="navigateToInvoices()">
-                          <img src="/assets/geohosting/images/invoices_icon.svg" alt="Invoices Icon">
-                      </div>
-                      <span>Invoices</span>
-                  </div>
-                  <div class="customer-portal-option">
-                      <div class="icon-container">
-                          <img src="/assets/geohosting/images/notifications_icon.svg" alt="Notifications Icon">
-                      </div>
-                      <span>Notifications</span>
-                  </div>
-              </div>
-              <div class="row">
-                  <div class="customer-portal-option">
-                      <div class="icon-container" onclick="navigateToProfile()">
-                          <img src="/assets/geohosting/images/profile_icon.svg" alt="Profile Icon">
-                      </div>
-                      <span>Profile</span>
-                  </div>
-                  <div class="customer-portal-option">
-                      <div class="icon-container" onclick="navigateToSupport()">
-                          <img src="/assets/geohosting/images/support_icon.svg" alt="Support Icon">
-                      </div>
-                      <span>Support</span>
-                  </div>
-                  <div class="customer-portal-option">
-                      <div class="icon-container" onclick="logout()">
-                          <img src="/assets/geohosting/images/back_icon.svg" alt="Back Icon">
-                      </div>
-                      <span>Back</span>
-                  </div>
-              </div>
+
+  <div class="customer-portal-container" id="customer-portal" style="display: none;">
+            
+            <span class="customer-portal-close">&times;</span>
+            <!-- <div class="portal-pages-heading">
+              <span>Customer Portal</span>
+            </div> -->
+
+ 
+       
+          <div class="card" onclick="navigateToHostedServices()">
+            <div class="card-image"><img src="/assets/geohosting/images/services.svg" alt="Service Icon"></div>
+            <div class="card-content">
+                <div class="card-heading">Services</div>
+                <div class="card-text">2 Active</div>
+            </div>
           </div>
-      </div>
-  </div>
+          <div class="card" onclick="navigateToInvoices()">
+            <div class="card-image"><img src="/assets/geohosting/images/invoices.svg" alt="Invoice Icon"></div>
+            <div class="card-content">
+              <div class="card-heading">Invoices</div>
+              <div class="card-text">16 Invoices</div>
+            </div>
+          </div>
+          <div class="card" onclick="navigateToNotifications()">
+            <div class="card-image"><img src="/assets/geohosting/images/notifications.svg" alt="Notification Icon"></div>
+            <div class="card-content">
+              <div class="card-heading">Notifications</div>
+              <div class="card-text">2 Unread</div>
+            </div>
+          </div>
+          <div class="card" onclick="navigateToProfile()">
+            <div class="card-image"><img src="/assets/geohosting/images/profile.svg" alt="Profile Icon"></div>
+            <div class="card-content">
+              <div class="card-heading">Profile</div>
+            </div>
+          </div>
+          <div class="card" onclick="navigateToSupport()">
+            <div class="card-image"><img src="/assets/geohosting/images/support.svg" alt="Support Icon"></div>
+            <div class="card-content">
+              <div class="card-heading">Support</div>
+              <div class="card-text">2 Open</div>
+            </div>
+            
+          </div>
+          <div class="card" onclick="navigateToSupport()">
+            <div class="card-image"><img src="/assets/geohosting/images/back.svg" alt="Back Icon"></div>
+            <div class="card-content">
+              <div class="card-heading">Logout</div>
+            </div>
+          </div>
+        
+        
+</div>
   
     <script>
         const menuToggle = document.querySelector('.menu-toggle');
@@ -516,12 +613,16 @@
         // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
             customer_portal.style.display = "none";
+            const body = document.getElementById('screenBody');
+            body.classList.remove('blur-background'); 
         }
 
         // When the user clicks anywhere outside of the customer modal, close it
         window.onclick = function(event) {
             if (event.target == customer_portal) {
                 customer_portal.style.display = "none";
+                const body = document.getElementById('screenBody');
+                body.classList.remove('blur-background'); 
             }
         }
     
@@ -549,8 +650,6 @@
             const currentPage = getCurrentPage();
             const productsLink = document.getElementById('productsLink');
             const businessLink = document.getElementById('businessLink');
-            const resourcesLink = document.getElementById('resourcesLink');
-            const aboutLink = document.getElementById('aboutLink');
             const accountsLink1 = document.getElementById('accountsLinks1');
             const accountsLink2 = document.getElementById('accountsLinks2');
 
@@ -559,10 +658,6 @@
                 productsLink.classList.add('active');
             } else if (currentPage.includes('business')) {
                 businessLink.classList.add('active');
-            } else if (currentPage.includes('resources_support')) {
-                resourcesLink.classList.add('active');
-            } else if (currentPage.includes('about_us')) {
-                aboutLink.classList.add('active');
             }
             else if (currentPage.includes('sign_in')) {
                 accountsLink1.classList.add('active');
@@ -593,6 +688,10 @@
 
         function navigateToSupport(){
           window.location.href = updateUrl('portal/support_tickets.html');
+        }
+
+        function navigateToNotifications(){
+          window.location.href = updateUrl('portal/user_notifications.html');
         }
 
         function navigateToHostedServices(){
@@ -626,7 +725,9 @@
 
         function openCustomerPortal() {
           // Display the customer portal
-          customer_portal.style.display = 'block';
+          customer_portal.style.display = 'flex';
+          const body = document.getElementById('screenBody');
+          body.classList.add('blur-background');
         }
 
         function logout() {
