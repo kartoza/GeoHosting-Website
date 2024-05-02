@@ -482,24 +482,26 @@
   
     <!-- Sign In Modal -->
     <div id="signInModal" class="modal">
-        <div class="modal-content">
-        <span class="close" onclick="closeModal('signInModal')" style="font-size: 24px;">&times;</span> <!-- Close button -->
-        <h2 class="sign-in-title" style="text-align: center;">Sign In</h2>
-        <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
-        <div class="input-field">
-            <h2 class="sign-in-title" for="username">Username</h2>
-            <input type="text" placeholder="Username" style="margin: 0 auto;">
-        </div>
-        <div class="input-field">
-            <h2 class="sign-in-title" for="username">Password</h2>
-            <input type="password" placeholder="Password" style="margin: 0 auto;">
-        </div>
-        <div class="input-field" style="display: flex; justify-content: flex-end;">
-            <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
-        </div>
-        <button class="button" onclick="signInSuccess()">Sign In</button>
-        </div>
+      <div class="modal-content">
+              <span class="close" onclick="closeModal('signInModal')" style="font-size: 24px;">&times;</span> <!-- Close button -->
+              <h2 class="sign-in-title" style="text-align: center;">Sign In</h2>
+              <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
+              <div class="input-field">
+                  <h2 class="sign-in-title" for="username">Username</h2>
+                  <input type="text" id="username" name="username" placeholder="Username" style="margin: 0 auto;">
+              </div>
+              <div class="input-field">
+                  <h2 class="sign-in-title" for="password">Password</h2>
+                  <input type="password" id="password" name="password" placeholder="Password" style="margin: 0 auto;">
+              </div>
+              <div class="input-field" style="display: flex; justify-content: flex-end;">
+                  <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
+              </div>
+              <button  class="button" onclick="signInSuccess()">Sign In</button>
+      </div>
     </div>
+
+
   
   
     <!-- Create Account Modal -->
@@ -706,17 +708,48 @@
           window.location.href = updateUrl('portal/product_invoices.html');
         }
 
+
         function signInSuccess() {
-            const accounts = document.getElementById('accounts-buttons');
+          // Get the form data
+          const username = document.getElementById('username').value;
+          const password = document.getElementById('password').value;
 
-            // Hide the "Sign In" and "Create a free account" buttons
-            accounts.style.display = 'none';
-           
-            // Display the user avatar
-            userAvatar.style.display = 'block';
+          // Create the request body
+          const requestBody = {
+              usr: username,
+              pwd: password
+          };
 
-            closeModal('signInModal');
+
+          // Send a POST request to the backend API
+          fetch('/api/method/login', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              },
+              body: JSON.stringify(requestBody)
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.message === 'Logged In') {
+                  // Authentication success
+                  // Perform actions like hiding the sign-in modal, displaying user avatar, saving user info returned for profile etc.
+                  const accounts = document.getElementById('accounts-buttons');
+                  accounts.style.display = 'none';
+                  userAvatar.style.display = 'block';
+                  closeModal('signInModal');
+              } else {
+                  // Authentication error
+                  // Display error message to the user TODO display error on modal
+                  alert(data.message);
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
         }
+
 
         function openUserProfile() {
             // Display the user profile pop-up
@@ -731,21 +764,107 @@
         }
 
         function logout() {
-            const accounts = document.getElementById('accounts-buttons');
-            const userProfilePopup = document.getElementById('userProfilePopup');
+          // Send a GET request to the backend API to log out the user
+          fetch('/api/method/logout', {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              }
+          })
+          .then(response => {
+              // Check if the response status is 200 (OK)
+              if (response.ok) {
+                  // Perform actions after successful logout
+                  const accounts = document.getElementById('accounts-buttons');
+                  const userProfilePopup = document.getElementById('userProfilePopup');
+                  const userAvatar = document.getElementById('userAvatar');
+                  const customerPortal = document.getElementById('customer-portal');
+                  const body = document.getElementById('screenBody');
+                  body.classList.remove('blur-background'); 
 
-            // hide the user pop up
-            userProfilePopup.style.display = 'none';
+                  // hide the user pop up
+                  if (userProfilePopup) {
+                      userProfilePopup.style.display = 'none';
+                  }
 
-            // Hide the user avatar
-            userAvatar.style.display = 'none';
+                  // Hide the user avatar
+                  if (userAvatar) {
+                      userAvatar.style.display = 'none';
+                  }
 
-            // hide the customer portal Optional TODO
-            customer_portal.style.display = 'none';
+                  // Hide the customer portal (optional TODO)
+                  if (customerPortal) {
+                      customerPortal.style.display = 'none';
+                  }
 
-            // Display the "Sign In" and "Create a free account" buttons
-            accounts.style.display = 'block';
-        }
+                  // Display the "Sign In" and "Create a free account" buttons
+                  if (accounts) {
+                      accounts.style.display = 'block';
+                  }
+              } else {
+                  // Handle non-200 status code (logout failed)
+                  console.error('Logout failed:', response.statusText);
+                  alert('Logout failed. Please try again later.');
+              }
+          })
+          .catch(error => {
+              // Handle network error
+              console.error('Error:', error);
+              alert('An error occurred while logging out. Please try again later.');
+          });
+      }
+
+
+
+      // check if user is logged in
+      document.addEventListener('DOMContentLoaded', function() {
+          // Check if the user is logged in when the page is loaded
+          checkLoggedInUser();
+      });
+
+      function checkLoggedInUser() {
+          const accounts = document.getElementById('accounts-buttons');
+          const userAvatar = document.getElementById('userAvatar');
+
+          // Send a GET request to the backend API to get the logged-in user
+          fetch('/api/method/frappe.auth.get_logged_user', {
+              method: 'GET',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json'
+              }
+          })
+          .then(response => {
+              // Check if the response status is 200 (OK)
+              if (response.ok) {
+                  // Parse the JSON response
+                  return response.json();
+              } else {
+                  // Handle non-200 status code (request failed)
+                  throw new Error('Failed to get logged-in user');
+              }
+          })
+          .then(data => {
+              // Check if the user exists in the response data
+              if (data && data.message) {
+                  accounts.style.display = 'none';
+                  userAvatar.style.display = 'block';
+              } else {
+                acccounts.style.display = 'block';
+                userAvatar.style.display = 'none';
+              }
+          })
+          .catch(error => {
+              // Handle network error or failed request
+              console.error('Error:', error);
+              // alert('An error occurred while checking logged-in user. Please try again later.');
+              acccounts.style.display = 'block';
+              userAvatar.style.display = 'none';
+          });
+      }
+
+
       </script>
     
   </body>
