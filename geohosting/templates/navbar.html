@@ -318,7 +318,7 @@
 .card-text {
   font-family: 'Avenir', sans-serif;
   font-weight: 400;
-  font-size: 13px;
+  font-size: 15px;
   line-height: 150%;
   margin-top: -15px;
   color: #57A0C7;
@@ -397,6 +397,12 @@
   letter-spacing: 0.15px;
   color: #000000;
 }
+
+input:focus {
+    outline: none;
+    border-color: #57A0C7;
+    border-width: 2px;
+  }
 
 @media screen and (max-width: 768px) {
   .card {
@@ -710,18 +716,14 @@
 
 
         function signInSuccess() {
-          // Get the form data
           const username = document.getElementById('username').value;
           const password = document.getElementById('password').value;
 
-          // Create the request body
           const requestBody = {
               usr: username,
               pwd: password
           };
 
-
-          // Send a POST request to the backend API
           fetch('/api/method/login', {
               method: 'POST',
               headers: {
@@ -752,19 +754,17 @@
 
 
         function openUserProfile() {
-            // Display the user profile pop-up
             userProfilePopup.style.display = 'block';
         }
 
         function openCustomerPortal() {
-          // Display the customer portal
+          // Display the customer portal TODO additional check make request to check if user logged in
           customer_portal.style.display = 'flex';
           const body = document.getElementById('screenBody');
           body.classList.add('blur-background');
         }
 
         function logout() {
-          // Send a GET request to the backend API to log out the user
           fetch('/api/method/logout', {
               method: 'GET',
               headers: {
@@ -773,7 +773,6 @@
               }
           })
           .then(response => {
-              // Check if the response status is 200 (OK)
               if (response.ok) {
                   // Perform actions after successful logout
                   const accounts = document.getElementById('accounts-buttons');
