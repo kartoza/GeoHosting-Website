@@ -11,8 +11,8 @@
 
 <body>
     <!-- TODOS
-    1. products must be fetched from db
-    2. clicking on a product should retrieve additonal info for product
+    1. products must be fetched from db DONE
+    2. clicking on a product should retrieve additonal info for product FANEVA TO FINISH CREATING DUMMY DATA
     3. responsiveness and design needs a bit of polish
      -->
     {% include "templates/navbar.html" %}
@@ -84,32 +84,92 @@
 
         </div>
            
+        <button id="scrollToTopBtn" onclick="scrollToTop()">&#8593;</button>
+
             
             <script>
-                // Function to toggle product details section
+
+                // add a scroll button for easy nav
+                window.onscroll = function() {scrollFunction()};
+
+                function scrollFunction() {
+                    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                        document.getElementById("scrollToTopBtn").style.display = "block";
+                    } else {
+                        document.getElementById("scrollToTopBtn").style.display = "none";
+                    }
+                }
+
+                function scrollToTop() {
+                    document.body.scrollTop = 0; // For Safari
+                    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+                }
+
+                // make scrolling smoother
+                function smoothScrollTo(element, duration) {
+                    const targetPosition = element.offsetTop;
+                    const startPosition = window.pageYOffset;
+                    const distance = targetPosition - startPosition;
+                    let startTime = null;
+
+                    function animation(currentTime) {
+                        if (startTime === null) startTime = currentTime;
+                        const timeElapsed = currentTime - startTime;
+                        const scrollProgress = Math.min(timeElapsed / duration, 1);
+                        window.scrollTo(0, startPosition + distance * ease(scrollProgress));
+
+                        if (timeElapsed < duration) requestAnimationFrame(animation);
+                    }
+
+                    function ease(t) {
+                        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+                    }
+
+                    requestAnimationFrame(animation);
+                }
+                
+
                 function toggleProductDetails(item_name, logoUrl) {
-                    // Access stock items in JavaScript
                     var stockItems = JSON.parse('{{ stock_items | tojson | safe }}');
-                    
-                    // Now you can use stockItems in your JavaScript code
-                    console.log(stockItems);
-                    localStorage.setItem('logoUrl', JSON.stringify(logoUrl))
-                    // save the item id to local storage TODO
+                    // console.log(stockItems); // testing purposes
+
+                    localStorage.setItem('logoUrl', JSON.stringify(logoUrl));
                     var hiddenSection = document.getElementById('hiddenSection');
+
                     if (hiddenSection.style.display === 'none') {
                         hiddenSection.style.display = 'block';
-                        // Scroll to the hidden section
-                        window.scrollTo({
-                        top: hiddenSection.offsetTop,
-                        behavior: 'smooth'
-                        });
-                        // Load content from overview page by default
+                        smoothScrollTo(hiddenSection, 1000); 
                         loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', document.getElementById('overview-link'), logoUrl);
                     } else {
                         hiddenSection.style.display = 'none';
                     }
                     document.getElementById('navbar-logo').src = logoUrl;
+
+                    var buttons = document.querySelectorAll('.learn-more-button');
+                    var currentButton = event.currentTarget;
+                    var isExpanded = hiddenSection.style.display !== 'none';
+
+                    buttons.forEach(function(button) {
+                        if (button === currentButton) {
+                            button.textContent = isExpanded ? 'Close' : 'Learn more';
+                            button.style.marginLeft = isExpanded ? '5%' : '';
+                        } else {
+                            if (isExpanded) {
+                                button.classList.add('disabled');
+                                button.style.opacity = '0.7';
+                                button.disabled = true;
+                            } else {
+                                button.classList.remove('disabled');
+                                button.style.opacity = '1';
+                                button.disabled = false;
+                            }
+                        }
+                    });
                 }
+
+
+
+
             
                 // Function to load content and set active tab
                 function loadContentAndSetActiveTab(event, url, targetId, clickedLink, logoUrl) {

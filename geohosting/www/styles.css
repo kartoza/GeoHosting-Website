@@ -98,7 +98,7 @@
           z-index: 998;
           width: auto;
           height: auto;
-          margin-top: 5%;
+          margin-top: 3%;
           /* border: 5px solid springgreen; */
           display: flex;
           flex-direction: column;
@@ -132,21 +132,22 @@
           height: 200px; 
           width: 885px;
           /* border: 5px yellow solid; */
-          margin-left: 10%;
+          /* margin: 0 auto; */
+          margin-left: 28%;
         }
       
         .geohosting-heading {
-          font-family: 'Roboto';
+          font-family: 'Avenir';
           font-style: normal; 
-          font-size: 30px;
+          font-size: 55px;
           line-height: 100%; 
           text-align: center;
           color:grey;
           letter-spacing: 0.15px;
-          width:65%; 
+          width:55%; 
           margin-bottom:5%; 
-          margin-top:5%; 
-          margin-left: 15%;
+          /* margin-top:5%;  */
+          margin-left: 25%;
           /* border: solid 5px orange; */
         }
       
@@ -155,20 +156,23 @@
           flex-wrap: wrap;
           justify-content: center;
           gap: 20px;
+          width: 90%;
           /* border: 5px solid gray; */
           overflow-y: auto;
+          margin-top: -3%;
+          margin-left: 5.5%;
         }
-      
+        
         .product {
-          width: 10vw;
+          width: calc(23.33% - 20px);  /* Adjusted width for three products per row */
           padding: 20px;
           background-color: #ECECEC;
           border-radius: 10px;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
           text-align: center;
-          height:auto;
-          max-height: 69vh;
           /* border: 5px solid black; */
+          position: relative;
+          height:43vh;
         }
       
         .product img {
@@ -197,7 +201,11 @@
           border-radius: 5px;
           cursor: pointer;
           transition: background-color 0.3s;
-          margin-top:10%
+          /* margin-top:10% */
+          /* border: 5px solid blue; */
+          position: absolute;
+          left: 35%;
+          bottom: 5%;
         }
       
         .product .learn-more-button:hover {
@@ -206,7 +214,7 @@
       
         .description {
           height:auto; 
-          max-height: 55%;
+          max-height: 36.5%;
           overflow-y: auto; 
           width:100%;
           /* border:5px solid purple; */
@@ -241,7 +249,7 @@
       
         .product {
           width: auto;
-          height: auto;
+          height: 50vh;
         }
       
         .products-container {
@@ -251,5 +259,27 @@
           width: auto;
           height: auto;
           padding: 10px;
+          margin-left: 0%;
         }
       }
+
+
+      #scrollToTopBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: none;
+        background-color: #57A0C7;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 1000;
+    }
+
+
+
+    

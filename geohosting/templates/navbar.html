@@ -63,6 +63,7 @@
     color: #F4B340;
   }
 
+  /* Sign in and create account buttons */
   .sign-in-button, .create-account-button {
     text-decoration: none;
     color: #000000;
@@ -80,13 +81,12 @@
   .sign-in-button:hover {
     background-color: #57A0C7;
     color: #FFFFFF;
-    border-radius: 30px;
+    border-radius: 10px;
    }
 
-  /* Sign in and create account buttons */
   .create-account-button {
     background: #F4B340;
-    border-radius: 30px;
+    border-radius: 10px;
     color: #FFFFFF;
   }
 
@@ -122,7 +122,7 @@
   .input-field {
     width: 70%;
     margin-bottom: 20px;
-    margin-left: 15%; /* this will ruin responsiveness on different screens */
+    margin-left: 15%; /* TODO this will ruin responsiveness on different screens */
   }
 
   .input-field input {
@@ -406,21 +406,21 @@ input:focus {
 
 @media screen and (max-width: 768px) {
   .card {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 10px;
-  isolation: isolate;
-  width: 100%; /* Change width to 100% for mobile view */
-  max-width: 230px; /* Set maximum width */
-  height: 150px; /* Let the height be auto for responsive height */
-  position: relative;
-  box-sizing: border-box;
-  background: #F9F9F9;
-  border: 1px solid rgba(217, 217, 217, 0.5);
-  border-radius: 10px;
-}
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    gap: 10px;
+    isolation: isolate;
+    width: 100%;
+    max-width: 230px;
+    height: 150px;
+    position: relative;
+    box-sizing: border-box;
+    background: #F9F9F9;
+    border: 1px solid rgba(217, 217, 217, 0.5);
+    border-radius: 10px;
+  }
 
 .customer-portal-container {
   z-index: 1000; /* Sit on top */
@@ -434,7 +434,7 @@ input:focus {
   gap: 30px;
   position: absolute;
   width: calc(80% - 80px); /* Adjust width for padding */
-  max-width: 750px; /* Set maximum width */
+  max-width: 750px;
   height: 450px;
   left: 50%;
   transform: translateX(-50%); /* Center horizontally */
@@ -458,9 +458,13 @@ input:focus {
     <div class="nav-links">
         
         <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
-        <a href="business.html" class="text-btn"><span id="businessLink">For Business</span></a>
+        <a href="about_us.html" class="text-btn"><span id="aboutusLink">About Us</span></a>
+
         <a href="sign_in.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks1">Sign In</span></a>
         <a href="sign_up.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks2">Sign Up</span></a>
+        <a href="#" class="text-btn sign-in-up" style="display: none;" onclick="logout()"><span id="accountsLinks3">Logout</span></a>
+
+
     </div>    
       <div class="buttons-container" id="accounts-buttons">
           <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
@@ -513,7 +517,7 @@ input:focus {
     <!-- Create Account Modal -->
     <div id="createAccountModal" class="modal">
       <div class="modal-content">
-        <span class="close" onclick="closeModal('createAccountModal')">&times;</span> <!-- Close button -->
+        <span class="close" onclick="closeModal('createAccountModal')" style="font-size: 24px;">&times;</span> <!-- Close button -->
         <h2 class="sign-in-title" style="text-align: center;">Create a Free Account</h2>
         <div class="input-field">
           <input type="text" placeholder="First Name">
@@ -531,8 +535,10 @@ input:focus {
           <input type="password" placeholder="Repeat Password">
         </div>
         <div class="input-field">
-          <input type="text" placeholder="Country">
-        </div>
+          <select id="countrySelect">
+            <option value="" disabled selected>Select a country</option>
+          </select>
+        </div>        
         <button class="button">Create Account</button>
       </div>
     </div>
@@ -657,7 +663,7 @@ input:focus {
         function setActiveNavLink() {
             const currentPage = getCurrentPage();
             const productsLink = document.getElementById('productsLink');
-            const businessLink = document.getElementById('businessLink');
+            const aboutusLink = document.getElementById('aboutusLink');
             const accountsLink1 = document.getElementById('accountsLinks1');
             const accountsLink2 = document.getElementById('accountsLinks2');
 
@@ -665,7 +671,7 @@ input:focus {
             if (currentPage.includes('products')) {
                 productsLink.classList.add('active');
             } else if (currentPage.includes('business')) {
-                businessLink.classList.add('active');
+              aboutusLink.classList.add('active');
             }
             else if (currentPage.includes('sign_in')) {
                 accountsLink1.classList.add('active');
@@ -758,7 +764,7 @@ input:focus {
         }
 
         function openCustomerPortal() {
-          // Display the customer portal TODO additional check make request to check if user logged in
+          window.scrollTo({ top: 0, behavior: 'smooth' });
           customer_portal.style.display = 'flex';
           const body = document.getElementById('screenBody');
           body.classList.add('blur-background');
@@ -825,6 +831,9 @@ input:focus {
       function checkLoggedInUser() {
           const accounts = document.getElementById('accounts-buttons');
           const userAvatar = document.getElementById('userAvatar');
+          const accountsLinks1 = document.getElementById('accountsLinks1');
+          const accountsLinks2 = document.getElementById('accountsLinks2');
+          const accountsLinks3 = document.getElementById('accountsLinks3');
 
           // Send a GET request to the backend API to get the logged-in user
           fetch('/api/method/frappe.auth.get_logged_user', {
@@ -849,9 +858,15 @@ input:focus {
               if (data && data.message) {
                   accounts.style.display = 'none';
                   userAvatar.style.display = 'block';
+                  accountsLinks1.style.display = 'none';
+                  accountsLinks2.style.display = 'none';
+                  accountsLinks3.style.display = 'block';
               } else {
                 acccounts.style.display = 'block';
                 userAvatar.style.display = 'none';
+                accountsLinks1.style.display = 'block';
+                accountsLinks2.style.display = 'block';
+                accountsLinks3.style.display = 'none';
               }
           })
           .catch(error => {
@@ -860,8 +875,42 @@ input:focus {
               // alert('An error occurred while checking logged-in user. Please try again later.');
               acccounts.style.display = 'block';
               userAvatar.style.display = 'none';
+              accountsLinks1.style.display = 'block';
+              accountsLinks2.style.display = 'block';
+              accountsLinks3.style.display = 'none';
           });
       }
+
+
+
+
+
+      // Array of countries
+      const countries = [
+        "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda",
+        // Add more countries here
+      ];
+
+      // Get the select element
+      const countrySelect = document.getElementById('countrySelect');
+
+      // Populate the dropdown with options
+      countries.forEach(country => {
+        const option = document.createElement('option');
+        option.value = country;
+        option.textContent = country;
+        countrySelect.appendChild(option);
+      });
+
+      // Add event listener for change event
+      countrySelect.addEventListener('change', function() {
+        // Get the selected option
+        const selectedOption = this.options[this.selectedIndex];
+        
+        // Log the value of the selected option (country)
+        console.log(selectedOption.value);
+      });
+
 
 
       </script>

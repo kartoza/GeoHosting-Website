@@ -3,7 +3,7 @@
   width: 1491px;
   height: 598px;
   left: 50%; /* Centering horizontally */
-  top: 20px;
+  top: 10px;
   background: #57A0C7;
   border-radius: 30px;
   /* border: solid 5px green; */
@@ -97,29 +97,20 @@
 
 .overview-image {
   position: absolute;
-  width: 838px;
-  /* height: 430; */
+  width: 900px;
+  height: 50vh;
   right: 0;
   top: 0;
-  background: url('assets/geohosting/images/overview-backgound.svg') center/cover;
+  background: url('/assets/geohosting/images/overview-background.svg') center/cover no-repeat;
+  background-size: contain;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
   /* border: 5px solid purple; */
-  height: 50vh; margin-top: 5%;
+  margin-top: 0%;
 }
 
-.container-white {
-  position: absolute;
-  width: 1491px;
-  height: 588px;
-  left: 55px;
-  top: 400px;
-  background: #FFFFFF;
-  border-radius: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
+
 
 
 .container-white {
@@ -127,27 +118,26 @@
   width: 1488px;
   height: 588px;
   left: 55px;
-  top: 400px;
   background: #FFFFFF;
   border-radius: 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transform: translateX(5%);
-  left: 6%;
-  margin-top: 400px;
+  left: 5.8%;
+  margin-top: 625px;
   /* border: 5px solid gold; */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .overview-image-white {
-  width: 838px; /* Removed position and right/top */
-  /* height: 430px; Added missing "px" */
-  background: url('assets/geohosting/images/overview-backgound.svg') center/cover;
-  border-top-left-radius: 30px; /* Adjusted border radius */
-  border-bottom-left-radius: 30px; /* Adjusted border radius */
+  width: 838px; 
+  background: url('/assets/geohosting/images/overview-background.svg') center/cover no-repeat;
+  background-size: contain;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
   /* border: 5px solid purple; */
-  height: 50vh; margin-top: 5%;
+  height: 50vh; 
+  margin-top: 0%;
 }
 
 .overview-content-white {
