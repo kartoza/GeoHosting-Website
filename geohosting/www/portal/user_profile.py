@@ -1,9 +1,9 @@
 import frappe
 import json
+from frappe import _
 
 def get_context(context):
     try:
-        # Try to fetch user profile data for the logged-in user
         user_profile = frappe.get_doc("UserProfile", {"email": frappe.session.user})
 
         # Create a dictionary containing only the necessary fields
@@ -17,13 +17,37 @@ def get_context(context):
             "region": user_profile.institution_region,
             "address": user_profile.institution_address,
             "postal": user_profile.institution_postal_code,
-            "country": user_profile.institution_country
+            "country": user_profile.institution_country,
+            "user_avatar": user_profile.user_avatar
         }
 
-        # Convert the dictionary to JSON and add it to the context
         context.user_profile = json.dumps(user_profile_data)
     except frappe.exceptions.DoesNotExistError:
-        # If UserProfile doesn't exist for the user, prompt to create a new profile
+        # If UserProfile doesn't exist for the user
         context.create_profile_prompt = True
 
     return context
+
+
+@frappe.whitelist()
+def update_user_profile(data):
+    data = frappe.parse_json(data)
+
+    user_profile = frappe.get_doc("UserProfile", {"email": frappe.session.user})
+
+    user_profile.update({
+        "name": data.get("name"),
+        "surname": data.get("surname"),
+        "email": data.get("email"),
+        "phone_number": data.get("phone"),
+        "institution_name": data.get("institution"),
+        "institution_city": data.get("city"),
+        "institution_region": data.get("region"),
+        "institution_address": data.get("address"),
+        "institution_postal_code": data.get("postal"),
+        "institution_country": data.get("country")
+    })
+
+    user_profile.save()
+
+    return _("User profile updated successfully.")
