@@ -1,168 +1,5 @@
-/* Pricing Card Container */
-.pricing-container {
-  position: relative;
-  width: 80%; 
-  max-width: 1403px;
-  height: auto;
-  margin: 0 auto; 
-  top: 20px; 
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  /* border: 5px solid green; */
-}
 
-
-/* Media Queries */
-@media screen and (max-width: 768px) {
-  .pricing-container {
-    position: absolute;
-    width: 1403px;
-    height: auto;
-    left: 80px;
-    top: 80px;
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-start;
-  }
-}
-
-
-/* Individual Pricing Card Styles */
-.pricing-card {
-  width: 340px;
-  height: 450px;
-  background: #ECECEC;
-  align-items: center;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  padding: 20px;
-  margin: 0 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* Package Title */
-.package-title {
-  font-family: 'Lato';
-  font-weight: 500;
-  font-size: 24px;
-  color: #000000;
-  text-align: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
-}
-
-/* Price Container */
-.price-container {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-/* Price */
-.price {
-  font-size: 48px;
-  font-weight: 500;
-  color: #000000;
-  margin-right: 5px;
-}
-
-/* Price Details */
-.price-details {
-  font-size: 16px;
-  font-weight: 500;
-  color: #000000;
-  font-size: 14px;
-}
-
-/* Features */
-.features {
-  margin-bottom: 20px;
-  text-align: left;
-}
-
-.features ul {
-  list-style-type: disc;
-  padding-left: 20px;
-  margin: 0;
-}
-
-.features li {
-  margin: 5px 0;
-}
-
-/* Button */
-.round-btn {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  padding: 0px 10px;
-  gap: 10px;
-  width: auto;
-  height: 30px;
-  background: #57A0C7;
-  border: 1px solid #57A0C7;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 30px;
-  font-family: 'Lato';
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 150%;
-  color: #FFFFFF;
-  cursor: pointer;
-}
-
-/* Centered Text */
-.centered-text {
-  text-align: center;
-}
-
-/* Underlined Header */
-.underlined-header {
-  position: relative;
-  text-align: left;
-  left: 0;
-}
-
-.underlined-header::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -5px;
-  width: 100%;
-  height: 1px;
-  background-color: #000;
-}
-
-/* Spacing between button and features */
-.button-features-spacing {
-  margin-bottom: 10px;
-}
-
-/* Logo Container */
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
-
-.logo-container img {
-  max-width: 100%;
-  max-height: 100%;
-}
-
-
-
-
-
-.cards-container {
+.cards-container-pricing {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -177,7 +14,7 @@
 }
 
 /* Card Styles */
-.card {
+.card-pricing {
   display: flex;
   flex-direction: column;
   align-items: center; 
@@ -189,12 +26,12 @@
   /* border: 5px solid green; */
 }
 
-.card:nth-child(4) {
+.card-pricing:nth-child(4) {
   background: #F4B340; /* Golden background for the fourth card */
 }
 
 /* Logo */
-.logo {
+.logo-pricing {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,13 +39,13 @@
   height: 100%;
   }
 
-  .logo-container img {
+  .logo-container-pricing img {
   max-width: 100%;
   max-height: 100%;
   }
 
 /* Title */
-.title {
+.title-pricing {
   font-family: 'Avenir';
   font-style: normal;
   font-weight: 700;
@@ -221,7 +58,7 @@
 }
 
 /* Header */
-.header {
+.header-pricing {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -237,7 +74,7 @@
   
 }
 
-.header-text {
+.header-text-pricing {
   font-family: 'Avenir';
   font-style: normal;
   font-weight: 500;
@@ -249,7 +86,7 @@
 }
 
 /* Monthly Price */
-.price {
+.price-pricing {
   font-family: 'Avenir';
   font-style: normal;
   font-weight: 700;
@@ -260,7 +97,7 @@
   color: #000000;
 }
 
-.price-details {
+.price-details-pricing {
   font-size: 16px;
   font-weight: 600;
   color: #000000;
@@ -270,7 +107,7 @@
   }
 
 /* Get Geosight Free Button */
-.button {
+.button-pricing {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -293,7 +130,7 @@
 }
 
 /* Advanced Features Title */
-.features-title {
+.features-title-pricing {
   font-family: 'Avenir';
   font-style: normal;
   font-weight: 700;
@@ -305,7 +142,7 @@
 }
 
 /* Features List */
-.features-list {
+.features-list-pricing {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -316,20 +153,20 @@
 }
 
 /* Feature Item */
-.feature-item {
+.feature-item-pricing {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
 /* Green Tick */
-.vector {
+.vector-pricing {
   width: 18px;
   height: 14px;
 }
 
 /* Adjust the tick appearance */
-.vector-tick {
+.vector-tick-pricing {
   content: '';
   position: relative;
   top: 50%;
@@ -341,7 +178,7 @@
   transform: translateY(-50%) rotate(45deg);
 }
 
-.feature-text {
+.feature-text-pricing {
   font-family: 'Lato';
   font-style: normal;
   font-weight: 500;
@@ -353,14 +190,14 @@
 
 /* Media Queries */
 @media screen and (max-width: 768px) {
-.cards-container {
-  position: absolute;
-  width: 1403px;
-  height: auto;
-  left: 20px;
-  top: 80px;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-}
+  .cards-container-pricing {
+    position: absolute;
+    width: 1403px;
+    height: auto;
+    left: 20px;
+    top: 80px;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+  }
 }

@@ -217,7 +217,7 @@
 
                                 // fetch id from local storage iterate stock items in context and find a match retrieve values to assign pricing cards TODO
 
-                                document.getElementById('pricing-card-logo').src = JSON.parse(localStorage.getItem(logoUrl));
+                                document.getElementById('pricing-card-logo').src = JSON.parse(localStorage.getItem('logoUrl'));
                                 document.getElementById('pricing-card-title-free').innerHTML = 'GeoSight Free'
                             } else {
                                 console.error('Error loading content:', xhr.status);
