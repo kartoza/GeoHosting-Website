@@ -64,6 +64,8 @@
 
         <div id="hiddenSection" style="display: none;">
 
+            
+
             <!-- Navbar -->
             <div class="secondary-navigation-bar" id="navbar">
                 <div class="secondary-logo">
@@ -72,12 +74,14 @@
                 <ul>
                 <li><a href="#" id="overview-link" class="active" onclick="loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', this)">Overview</a></li>
                 <li><a href="#" id="integration-link" onclick="loadContentAndSetActiveTab(event, 'product_integration.html', 'integration-content', this)">Integration</a></li>
-                <li><a href="#" id="pricing-link" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content')">Pricing</a></li>
+                <li><a href="#" id="pricing-link" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this)">Pricing</a></li>
                 </ul>
             </div>
             
-            
-            <div id="hiddenSectionContent">
+            <div id="loading-indicator" style="display: none;">
+                <div class="loader"></div>
+            </div>
+            <div id="hiddenSectionContent" style="display: none;">
                 <div id="overview-content" style="display: none;"></div>
                 <div id="integration-content" style="display: none;"></div>
                 <div id="pricing-content" style="display: none;"></div>
@@ -131,7 +135,8 @@
                     requestAnimationFrame(animation);
                 }
 
-                
+                var loadingIndicator = document.getElementById('loading-indicator');
+                var hiddenSectionContent =  document.getElementById('hiddenSectionContent');
 
                 function toggleProductDetails(item_name, logoUrl) {
                     var stockItems = JSON.parse('{{ stock_items | tojson | safe }}');
@@ -142,8 +147,15 @@
 
                     if (hiddenSection.style.display === 'none') {
                         hiddenSection.style.display = 'block';
+                        loadingIndicator.style.display = 'block';
+                        
                         smoothScrollTo(hiddenSection, 1000); 
-                        loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', document.getElementById('overview-link'), logoUrl);
+                        loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', document.getElementById('overview-link'), logoUrl)
+
+                        setTimeout(() => {
+                            hiddenSectionContent.style.display = 'block';
+                            loadingIndicator.style.display = 'none';
+                        }, 1200);
                     } else {
                         hiddenSection.style.display = 'none';
                     }
@@ -177,11 +189,15 @@
             
                 // Function to load content and set active tab
                 function loadContentAndSetActiveTab(event, url, targetId, clickedLink, logoUrl) {
+                    hiddenSectionContent.style.display = 'none';
+                    loadingIndicator.style.display = 'block';
                     event.preventDefault(); // Prevent default anchor behavior
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
+                                hiddenSectionContent.style.display = 'block';
+                                loadingIndicator.style.display = 'none';
                                 var targetElement = document.getElementById(targetId);
                                 // Hide content of the previously active tab
                                 document.querySelectorAll('#hiddenSectionContent > div').forEach(function(content) {

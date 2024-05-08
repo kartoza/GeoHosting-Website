@@ -157,3 +157,210 @@
   max-width: 100%;
   max-height: 100%;
 }
+
+
+
+
+
+.cards-container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 14px;
+  position: absolute;
+  width: 1380px;
+  height: auto;
+  left: calc(50% - 1380px/2);
+  top: 0px;
+  /* border: 5px solid red; */
+}
+
+/* Card Styles */
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  gap: 10px;
+  width: 334.5px;
+  height: 650px;
+  border-radius: 5px;
+  background: #ECECEC;
+  /* border: 5px solid green; */
+}
+
+.card:nth-child(4) {
+  background: #F4B340; /* Golden background for the fourth card */
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  }
+
+  .logo-container img {
+  max-width: 100%;
+  max-height: 100%;
+  }
+
+/* Title */
+.title {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  color: #000000;
+  /* border: 5px solid yellow; */
+}
+
+/* Header */
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; 
+  padding: 15px 0px;
+  gap: 10px;
+  width: 334.5px;
+  height: auto;
+  margin-bottom: 20%;
+  background: #57A0C7;
+  border-radius: 5px 5px 0px 0px;
+  /* border: 5px solid orange; */
+  
+}
+
+.header-text {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  color: #FFFFFF;
+}
+
+/* Monthly Price */
+.price {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 64px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  color: #000000;
+}
+
+.price-details {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  }
+
+/* Get Geosight Free Button */
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: auto;
+  height: 38px;
+  background: #57A0C7;
+  border: 1px solid #57A0C7;
+  border-radius: 5px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  color: #FFFFFF;
+  margin-top: 5%;
+  margin-bottom: 5%;
+  cursor: pointer;
+}
+
+/* Advanced Features Title */
+.features-title {
+  font-family: 'Avenir';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  color: #000000;
+}
+
+/* Features List */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  overflow-y: auto;
+  /* border: 5px solid saddlebrown; */
+}
+
+/* Feature Item */
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Green Tick */
+.vector {
+  width: 18px;
+  height: 14px;
+}
+
+/* Adjust the tick appearance */
+.vector-tick {
+  content: '';
+  position: relative;
+  top: 50%;
+  left:5px;
+  width: 4px;
+  height: 8px;
+  border: solid #57A0C7;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.feature-text {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: 0.15px;
+  color: #000000;
+}
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+.cards-container {
+  position: absolute;
+  width: 1403px;
+  height: auto;
+  left: 20px;
+  top: 80px;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+}
+}
