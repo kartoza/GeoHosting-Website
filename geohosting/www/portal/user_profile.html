@@ -192,6 +192,15 @@
   </div>
 
   <div class="container">
+
+    {% if create_profile_prompt %}
+        <!-- Display a message or button to prompt the user to create a new profile -->
+        <div class="alert alert-info">
+            <p>No user profile found. Please create your profile to continue.</p>
+            <button onclick="createUserProfile()">Create Profile</button>
+        </div>
+    {% else %}
+
     <div class="user-info">
       
         <h2>User Information</h2>
@@ -247,6 +256,9 @@
   </div>
 
   <button class="learn-more-button" >Save</button>
+
+  {% endif %}
+
   
 </div>
 
