@@ -10,11 +10,7 @@
 </head>
 
 <body>
-    <!-- TODOS
-    1. products must be fetched from db DONE
-    2. clicking on a product should retrieve additonal info for product FANEVA TO FINISH CREATING DUMMY DATA
-    3. responsiveness and design needs a bit of polish
-     -->
+    
     {% include "templates/navbar.html" %}
 
     {% block content %}
@@ -23,14 +19,23 @@
         <div class="background-left"></div>
         <!-- Right background image -->
         <div class="background-right"></div>
-        <!-- Content goes here -->
+        <script>
+            function trimDescription(description) {
+                const maxCharacters = 319; // Maximum number of characters
+                if (description.length > maxCharacters) {
+                    // Trim the description and append '...'
+                    return description.substring(0, maxCharacters - 3) + '...</p></div>';
+                } else {
+                    return description;
+                }
+            }
+            </script>
+        <!-- Content -->
         <div class="content">
             <div class="">
                 <img src="/assets/geohosting/images/GeoH1.png"  alt="Logo" class="geohosting-logo">
                 
                   <div class="geohosting-heading">Welcome to a better GIS platform where privacy and freedom comes first.</div>
-              
-              
                 
                  <div class="products-container">
 
@@ -43,7 +48,7 @@
                       
                         <h2>{{ item.item_name }}</h2>
                         <div class="description">
-                            <p>{{ item.description }}</p>  
+                            <p><script>document.write(trimDescription('{{ item.description }}'));</script></p>
                         </div>
                         <button class="learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
                         <div></div>
@@ -54,9 +59,7 @@
 
                 </div>
 
-                
-
-              </div>
+            </div>
         </div>
 
         <div id="hiddenSection" style="display: none;">
@@ -127,6 +130,7 @@
 
                     requestAnimationFrame(animation);
                 }
+
                 
 
                 function toggleProductDetails(item_name, logoUrl) {

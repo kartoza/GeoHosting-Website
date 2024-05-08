@@ -11,3 +11,4 @@ def get_context(context):
     context.stock_items = stock_items
 
     return context
+

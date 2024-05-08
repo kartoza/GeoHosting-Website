@@ -190,12 +190,10 @@
   <div class="avatar">
       <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" class="user-avatar">
   </div>
-    
-
-  
 
   <div class="container">
     <div class="user-info">
+      
         <h2>User Information</h2>
         <div class="form-group">
             <label for="name">Name:</label>
@@ -214,6 +212,7 @@
             <input type="tel" id="phone" name="phone">
         </div>
     </div>
+
     <h2>Billing Information</h2>
     <div class="billing-info">
       
@@ -250,6 +249,38 @@
   <button class="learn-more-button" >Save</button>
   
 </div>
+
+<script>
+  // Get user profile data from the context
+  var user_profile = {{ user_profile | tojson | safe }};
+
+  console.log(user_profile)
+
+  user_profile = JSON.parse(user_profile)
+
+  console.log(user_profile.first_name)
+
+  // Function to populate input fields with default values
+  function populateInputFields() {
+      document.getElementById('name').value = user_profile.first_name;
+      document.getElementById('surname').value = user_profile.last_name;
+      document.getElementById('email').value = user_profile.email;
+      document.getElementById('phone').value = user_profile.phone;
+
+      document.getElementById('institution').value = user_profile.institution;
+      document.getElementById('city').value = user_profile.city;
+      document.getElementById('region').value = user_profile.region;
+      document.getElementById('address').value = user_profile.address;
+      document.getElementById('postal').value = user_profile.postal;
+      document.getElementById('country').value = user_profile.country;
+  }
+
+  // Call the populateInputFields function when the page loads
+  window.onload = function() {
+      populateInputFields();
+  };
+
+</script>
 
 
 
