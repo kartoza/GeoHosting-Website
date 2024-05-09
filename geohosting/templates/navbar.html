@@ -469,6 +469,18 @@ input:focus {
     } 
   }
 
+  .toggle-password {
+    position: absolute;
+    right: 7px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.toggle-password:hover {
+  color: #F4B340;
+}
+
 </style>
 </head>
 <body class="navbar">
@@ -514,26 +526,28 @@ input:focus {
     <!-- Sign In Modal -->
     <div id="signInModal" class="modal">
       <div class="modal-content">
-              <span class="close" onclick="closeModal('signInModal')" style="font-size: 34px;">&times;</span> <!-- Close button -->
-              <h2 class="sign-in-title" style="text-align: center;">Sign In</h2>
-              <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
-              <div class="input-field">
-                  <h2 class="sign-in-title" for="username">Username</h2>
-                  <input type="text" id="username" name="username" placeholder="Username" style="margin: 0 auto;">
-              </div>
-              <div class="input-field">
-                  <h2 class="sign-in-title" for="password">Password</h2>
+          <span class="close" onclick="closeModal('signInModal')" style="font-size: 34px;">&times;</span> <!-- Close button -->
+          <h2 class="sign-in-title" style="text-align: center;">Sign In</h2>
+          <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
+          <div class="input-field">
+              <h2 class="sign-in-title" for="username">Username</h2>
+              <input type="text" id="username" name="username" placeholder="Username" style="margin: 0 auto;">
+          </div>
+          <div class="input-field">
+              <h2 class="sign-in-title" for="password">Password</h2>
+              <div style="position: relative;">
                   <input type="password" id="password" name="password" placeholder="Password" style="margin: 0 auto;">
+                  <span id="togglePassword" class="toggle-password" onclick="togglePasswordVisibility()" style="cursor: pointer;">Show</span>
               </div>
-              <div class="input-field" style="display: flex; justify-content: flex-end;">
-                  <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
-              </div>
-              <button  class="button" onclick="signInSuccess()">Sign In</button>
+          </div>
+          <div class="input-field" style="display: flex; justify-content: flex-end;">
+              <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
+          </div>
+          <button class="button" onclick="signInSuccess()">Sign In</button>
       </div>
     </div>
 
 
-  
   
     <!-- Create Account Modal -->
     <div id="createAccountModal" class="modal">
@@ -621,6 +635,20 @@ input:focus {
 </div>
   
     <script>
+      function togglePasswordVisibility() {
+        var passwordInput = document.getElementById("password");
+        var togglePasswordButton = document.getElementById("togglePassword");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            togglePasswordButton.textContent = "Hide";
+        } else {
+            passwordInput.type = "password";
+            togglePasswordButton.textContent = "Show";
+        }
+      }
+
+
         const menuToggle = document.querySelector('.menu-toggle');
         const navLinks = document.querySelector('.nav-links');
         const AccountsButton = document.querySelector('.buttons-container');

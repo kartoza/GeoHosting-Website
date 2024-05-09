@@ -312,12 +312,12 @@
     };
 
     // Make an AJAX request to update the user profile
-    fetch('/api/method/geohosting.portal.user_profile.update_user_profile', {
+    fetch('/api/resource/:UserProfile/:tinashe@kartoza.com', {
         method: 'POST',
         headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-              },
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(data)
     })
     .then(response => {

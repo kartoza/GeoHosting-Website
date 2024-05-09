@@ -4,13 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice Table</title>
-<link rel="stylesheet" href="portal_pages.css"> 
+<link rel="stylesheet" href="portal_pages.css">
 <style>
 .invoice-table {
     border-collapse: separate;
     border-spacing: 0;
     width: 60%;
-    margin-left: 19.5%;
+    margin-left: 20%;
     margin-top: 2%;
 }
 
@@ -43,7 +43,7 @@
 .invoice-table td:nth-child(4),
 .invoice-table th:nth-child(5),
 .invoice-table td:nth-child(5) {
-    width: auto; /* Adjust width of the fourth and fifth columns */
+    width: 20px; /* Adjust width of the fourth and fifth columns */
     height: auto;
 }
 
@@ -66,7 +66,7 @@
     color: #000000;
     text-decoration: none;
     display: inline-block;
-    height: 2vh;
+    height: 2.1vh;
 }
 
 .invoice-table .download-icon,
@@ -128,13 +128,14 @@
                     <input type="date" name="start-date">
                     <label for="end-date" class="end-date-margin">End: </label>
                     <input type="date"  id="end-date" name="end-date">
-                    <label for="clear" class="end-date-margin"><span>Clear</span></label>
+                    <label for="clear" class="end-date-margin" id="clear-button" onclick="clearFilters()"><span>Clear</span></label>
                 </div>
                 
             </th>
         </tr>
     </table>
 
+    <!-- HTML table for displaying invoices -->
     <table class="invoice-table">
         <thead>
             <tr>
@@ -145,17 +146,126 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td><input type="checkbox"></td>
-                <td class="invoice-title">Invoice #1234 - SLA Hosting & Maintenance #SLA-1234</td>
-                <td class="date-issued">1/02/2024</td>
-                <td><a href="#" class="download-button"><img src="/assets/geohosting/images/download_icon.svg" alt="Download Icon"></a></td>
-                <td><a href="#" class="share-button"><img src="/assets/geohosting/images/share_icon.svg" alt="Share Icon"></a></td>
-            </tr>
-            <!-- Add more rows as needed -->
+        <tbody id="invoice-table-body">
+            <!-- Invoice rows will be dynamically populated here -->
         </tbody>
     </table>
+
+    
+    <script>
+
+        
+
+        // CLEAR SEARCH FILTERS
+        function clearFilters() {
+            document.getElementById("search").value = "";
+            document.getElementsByName("start-date")[0].value = "";
+            document.getElementsByName("end-date")[0].value = "";
+            populateInvoiceTable(invoices);
+        }
+
+        document.getElementById("clear-button").addEventListener("click", clearFilters);
+
+
+        // POPULATE INVOICES TABLE WITH CONTEXT DATA 
+        function populateInvoiceTable(invoices) {
+            var tableBody = document.getElementById("invoice-table-body");
+            tableBody.innerHTML = ""; // Clear existing rows
+            
+            invoices.forEach(function(invoice) {
+                var row = document.createElement("tr");
+                
+                // Checkbox
+                var checkboxCell = document.createElement("td");
+                checkboxCell.innerHTML = "<input type='checkbox'>";
+                row.appendChild(checkboxCell);
+                
+                // Invoice title
+                var titleCell = document.createElement("td");
+                titleCell.textContent = invoice.name + ' ' + invoice.title;
+                titleCell.classList.add("invoice-title");
+                row.appendChild(titleCell);
+                
+                // Date issued
+                var dateCell = document.createElement("td");
+                dateCell.textContent = invoice.creation;
+                dateCell.classList.add("date-issued");
+                row.appendChild(dateCell);
+                
+                // Download button
+                var downloadCell = document.createElement("td");
+                var downloadLink = document.createElement("a");
+                var currentUrl = window.location.href;
+                var domain = currentUrl.split('/')[2];
+                var downloadUrl = 'http://' + domain + '/printview?doctype=Sales Invoice&name=' + invoice.name + '&format=Kartoza%20Without%20Timesheet';
+                downloadLink.href = downloadUrl;
+                downloadLink.className = "download-button";
+                downloadLink.innerHTML = "<img src='/assets/geohosting/images/download_icon.svg' alt='Download Icon'>";
+                downloadCell.appendChild(downloadLink);
+                row.appendChild(downloadCell);
+
+               
+                
+                // Share button
+                var shareCell = document.createElement("td");
+                var shareLink = document.createElement("a");
+                shareLink.className = "share-button";
+                shareLink.innerHTML = "<img src='/assets/geohosting/images/share_icon.svg' alt='Share Icon'>";
+                shareCell.appendChild(shareLink);
+                row.appendChild(shareCell);
+                
+                tableBody.appendChild(row);
+            });
+        }
+
+
+        // SEARCH INVOICES
+        function filterInvoices() {
+            var searchQuery = document.getElementById("search").value.toLowerCase();
+            var startDate = document.getElementsByName("start-date")[0].value;
+            var endDate = document.getElementsByName("end-date")[0].value;
+
+            var filteredInvoices = invoices.filter(function(invoice) {
+                var titleMatches = invoice.title.toLowerCase().includes(searchQuery);
+                var dateInRange = true;
+
+                console.log(endDate)
+
+                if (startDate && endDate) {
+                    dateInRange = (invoice.creation >= startDate && invoice.creation <= endDate);
+                } else if (startDate) {
+                    dateInRange = (invoice.creation >= startDate);
+                } 
+
+                console.log(dateInRange)
+
+                return titleMatches && dateInRange;
+            });
+
+            // Populate the table with filtered invoices
+            populateInvoiceTable(filteredInvoices);
+        }
+
+        // Call filterInvoices function when search input or date inputs change
+        document.getElementById("search").addEventListener("input", filterInvoices);
+        document.getElementsByName("start-date")[0].addEventListener("input", filterInvoices);
+        document.getElementsByName("end-date")[0].addEventListener("input", filterInvoices);
+
+        // INTIAL FETCHING OF CONTECT DATA
+        var invoices = {{ invoices | tojson | safe }}; // Load invoices from context
+      
+
+        invoices.forEach(function(invoice) {
+            // Parse the ISO date string and format it as '2024-05-09'
+            var date = new Date(invoice.creation);
+            var formattedDate = date.toISOString().split('T')[0];
+            invoice.creation = formattedDate;
+        });
+
+        console.log(invoices)
+        populateInvoiceTable(invoices);
+    </script>
+
 
 </body>
 </html>
