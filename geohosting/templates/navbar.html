@@ -612,7 +612,7 @@ input:focus {
             <div class="card-image"><img src="/assets/geohosting/images/support.svg" alt="Support Icon"></div>
             <div class="card-content">
               <div class="card-heading">Support</div>
-              <div class="card-text">2 Open</div>
+              <div class="card-text" id="issuesCount"></div>
             </div>
             
           </div>
@@ -800,6 +800,7 @@ input:focus {
           // window.scrollTo({ top: 0, behavior: 'smooth' });
           // TODO FETCH NOTIFICATIONS SERVICES AND SUPPORT
           fetchUserInvoices()
+          fetchUserIssues()
           customer_portal.style.display = 'flex';
           const body = document.getElementById('screenBody');
           body.classList.add('blur-background');
@@ -824,6 +825,25 @@ input:focus {
                   console.error('Error fetching user invoices:', error);
               });
           }
+
+          function fetchUserIssues() {
+            const currentUser = "{{ frappe.session.user }}";
+            // const url = `/api/resource/Issue?filters=[["owner", "=", "${currentUser}"]]`;
+            const url = `/api/resource/Issue?filters=[["owner", "=", "${currentUser}"], ["status", "in", ["Open", "On Hold", "Replied"]]]`
+
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const issueCount = data.data.length;
+                    const issueCountElement = document.getElementById('issuesCount');
+                    issueCountElement.textContent = `${issueCount} Open`;
+                })
+                .catch(error => {
+                    console.error('Error fetching user invoices:', error);
+                });
+          }
+          
 
         function logout() {
           fetch('/api/method/logout', {

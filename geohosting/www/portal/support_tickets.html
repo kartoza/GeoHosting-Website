@@ -30,8 +30,8 @@
     color: #000000;
     margin-bottom: 10px;
     display: flex;
-    justify-content: space-between; /* Move dot to the right */
-    align-items: center; /* Center vertically */
+    justify-content: space-between;
+    align-items: center;
 }
 
 .row {
@@ -46,7 +46,7 @@
 .status {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Move dot to the right */
+    margin-left: auto;
     gap: 10px;
 }
 
@@ -96,12 +96,10 @@ p {
 .vector-tick {
     content: '';
     position: relative;
-
     top: 50%;
     left:5px;
     width: 4px;
     height: 8px;
-    /* background: #0EAF00; */
     border: solid #0EAF00;
     border-width: 0 2px 2px 0;
     transform: translateY(-50%) rotate(45deg);
@@ -153,7 +151,7 @@ p {
                     <input type="date" name="start-date">
                     <label for="end-date" class="end-date-margin">End: </label>
                     <input type="date"  id="end-date" name="end-date">
-                    <label for="clear" class="end-date-margin"><span>Clear</span></label>
+                    <label for="clear" class="end-date-margin" id="clear"><span>Clear</span></label>
                 </div>
             </th>
             <th>
@@ -162,54 +160,157 @@ p {
         </tr>
     </table>
 
+    <div id="card-container"></div>
 
-    <div class="card">
-    
-        <div class="row">
-            <div class="title">Support ticket ISS-2024-00042 complete</div>
-            <div class="status">
-                <div class="ellipse"></div>
-                <span>Open</span>
-            </div>
-        </div>
-        <p id="paragraph">Your support ticket has been marked as complete. Please provide feedback on the...<a href="#" id="read-more" style="color: #57A0C7;">Read more</a></p>
-        <div class="date-updated">Date Updated 11/09/2020</div>
-    </div>
 
-    <div class="card">
-    
-        <div class="row">
-            <div class="title">Support ticket ISS-2024-00042 complete</div>
-            <div class="status">
-                <div class="vector"> <div class="vector-tick"></div></div>
-                <span>Resolved</span>
-            </div>
-        </div>
-        <p id="paragraph">Your support ticket has been marked as complete. Please provide feedback on the...<a href="#" id="read-more" style="color: #57A0C7;">Read more</a></p>
-        <div class="date-updated">Date Updated 11/09/2020</div>
-    </div>
 
 <script>
-    function createNewTicket(){
-        window.location.href = 'new_ticket.html';
-    }
-
-
-        // JavaScript to add ellipsis and "Read more" functionality THIS WILL NEED TO BE DYNAMIC ON MULTIPLE CARDS TODO
-        const paragraph = document.getElementById("paragraph");
-        const readMore = document.getElementById("read-more");
-
-        // Show ellipsis and "Read more" link if paragraph exceeds 20 words
-        if (paragraph.textContent.split(" ").length > 20) {
-            paragraph.textContent = paragraph.textContent.split(" ").slice(0, 20).join(" ") + "...";
-            readMore.style.display = "inline"; // Display "Read more" link
+        function createNewTicket(){
+            window.location.href = 'new_ticket.html';
         }
 
-        // Click event to expand paragraph when "Read more" is clicked
-        readMore.addEventListener("click", function() {
-            paragraph.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis nec est nulla. Sed nec felis mauris. Integer nec erat odio. Vivamus sed orci ac mi ullamcorper aliquam. Curabitur nec ligula nec nulla accumsan condimentum eget ac tellus. Nullam semper urna ut lorem hendrerit pharetra. Fusce auctor luctus felis, non laoreet arcu mollis sit amet.";
-            readMore.style.display = "none"; // Hide "Read more" link after expanding
+        var support_tickets = {{ support_tickets | tojson | safe }};
+
+        function createCard(ticket) {
+
+            // Create card container
+            var card = document.createElement("div");
+            card.classList.add("card");
+
+            // Create row for title and status
+            var row = document.createElement("div");
+            row.classList.add("row");
+
+            // Title
+            var title = document.createElement("div");
+            title.classList.add("title");
+            title.textContent = "Support ticket " + ticket.name;
+            row.appendChild(title);
+
+            // Status
+            var status = document.createElement("div");
+            status.classList.add("status");
+
+            // Create the status text element
+            var statusText = document.createElement("span");
+            statusText.textContent = ticket.status;
+
+            // Check the status and add the appropriate indicator
+            if (ticket.status === 'Open' || ticket.status === 'On Hold' || ticket.status === 'Replied') {
+                var ellipse = document.createElement("div");
+                ellipse.classList.add("ellipse");
+                status.appendChild(ellipse);
+            } else if (ticket.status === 'Resolved') {
+                var vector = document.createElement("div");
+                vector.classList.add("vector");
+                var vectorTick = document.createElement("div");
+                vectorTick.classList.add("vector-tick");
+                vector.appendChild(vectorTick);
+                status.appendChild(vector);
+            }
+
+            status.appendChild(statusText);
+            row.appendChild(status);
+
+            // Append row to card
+            card.appendChild(row);
+
+            // Description
+            var description = document.createElement("p");
+            var descriptionHTML = ticket.description
+            var tempElement = document.createElement('div');
+            tempElement.innerHTML = descriptionHTML;
+
+            var fullDescription = tempElement.innerText;
+
+            // Check if the description exceeds a certain limit and trim
+            var maxLength = 100;
+            if (fullDescription.length > maxLength) {
+                description.textContent = fullDescription.slice(0, maxLength) + '...';
+                var readMore = document.createElement('a');
+                readMore.textContent = 'Read more';
+                readMore.style.color = '#57A0C7';
+                readMore.href = '#';
+                readMore.onclick = function() {
+                    description.textContent = fullDescription;
+                    readMore.style.display = 'none';
+                    return false;
+                };
+                description.appendChild(readMore);
+            } else {
+                description.textContent = fullDescription;
+            }
+
+            description.classList.add("description");
+            card.appendChild(description);
+
+            // Date Updated
+            var dateUpdated = document.createElement("div");
+            dateUpdated.classList.add("date-updated");
+            dateUpdated.textContent = "Date Updated " + ticket.modified.split("T")[0];
+            card.appendChild(dateUpdated);
+
+            // Append card to container
+            var container = document.getElementById("card-container");
+            container.appendChild(card);
+        }
+
+        // Populate cards with data
+        support_tickets.forEach(ticket => {
+            createCard(ticket);
         });
+
+
+        // filter tickets based on search text and date range
+        function filterTickets() {
+            var searchText = document.getElementById('search').value.toLowerCase();
+            var startDate = document.getElementsByName('start-date')[0].value;
+            var endDate = document.getElementsByName('end-date')[0].value;
+
+            var cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                // Get the title, description, and date elements within the current card
+                var title = card.querySelector('.title').textContent.toLowerCase();
+                var description = card.querySelector('.description').textContent.toLowerCase();
+                var dateUpdated = card.querySelector('.date-updated').textContent;
+
+                // Check if the card matches the search criteria
+                var matchesSearch = title.includes(searchText) || description.includes(searchText);
+
+                // Check if the card matches the date range criteria
+                var matchesDateRange = true;
+                if (startDate && endDate) {
+                    var date = new Date(dateUpdated);
+                    var startDateObj = new Date(startDate);
+                    var endDateObj = new Date(endDate);
+                    matchesDateRange = date >= startDateObj && date <= endDateObj;
+                } else if(startDate){
+                    var date = new Date(dateUpdated);
+                    var startDateObj = new Date(startDate);
+                    matchesDateRange = date >= startDateObj;
+                }
+
+                // Show or hide the card based on search and date range criteria
+                card.style.display = matchesSearch && matchesDateRange ? 'block' : 'none';
+            });
+        }
+
+    function clearFilters() {
+        document.getElementById('search').value = '';
+        document.getElementsByName('start-date')[0].value = '';
+        document.getElementsByName('end-date')[0].value = '';
+        
+        filterTickets();
+    }
+
+    // Event listener for search inputs
+    document.getElementById('search').addEventListener('input', filterTickets);
+    document.getElementsByName('start-date')[0].addEventListener('input', filterTickets);
+    document.getElementsByName('end-date')[0].addEventListener('input', filterTickets);
+    document.getElementById('clear').addEventListener('click', clearFilters);
+
+
 </script>
 
 </body>

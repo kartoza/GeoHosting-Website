@@ -21,7 +21,7 @@
     flex-direction: column;
     gap: 8px;
     margin-top: -1%;
-    margin-left: -13.5%;
+    margin-left: -37.5%;
     /* border: 5px solid yellow; */
   }
 
@@ -89,42 +89,40 @@
 
   <div class="container">
     <div class="input-group">
-      <div style="display: flex; gap: 20px;">
-        <input type="text" placeholder="Name" id="nameInput">
-        <input type="text" placeholder="Email Address" id="emailInput">
-      </div>
+        <div style="display: flex; gap: 20px;">
+            <input type="text" placeholder="Your Full Name" id="nameInput">
+            <!-- <input type="text" placeholder="Email Address" id="emailInput"> -->
+        </div>
+        
+        <input type="text" placeholder="Subject" style="width: 400px; gap: 20px;" id="subjectInput">
+        
+        <div style="display: flex; gap: 20px;">
+            <input type="text" placeholder="Priority" style="width: 200px; gap: 20px;" id="priorityInput" disabled>
+            <select style="width: 180px; gap: 20px;" id="prioritySelect">
+                <option value="">Select Priority</option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </div>
+        
+        <div style="display: flex; gap: 20px;">
+            <input type="text" placeholder="Issue Type" style="width: 200px; gap: 20px;" id="issueTypeInput" disabled>
+            <select style="width: 180px; gap: 20px;" id="issueTypeSelect">
+                <option value="">Select Issue Type</option>
+            </select>
+        </div>
       
-      <input type="text" placeholder="Subject" style="width: 838px; gap: 20px;" id="subjectInput">
-      
-      
-      <input type="text" placeholder="Service" style="gap: 20px;" id="serviceInput">
-      <!-- <input type="text" placeholder="Priority"> -->
-      <div style="display: flex; gap: 20px;">
-        <input type="text" placeholder="Priority" style="width: 200px; gap: 20px;" id="priorityInput">
-        <select style="width: 180px; gap: 20px;" id="prioritySelect">
-          <option value="">Select Priority</option>
-          <option value="High">High</option>
-          <option value="Medium">Medium</option>
-          <option value="Low">Low</option>
-        </select>
-      </div>
-      <div style="display: flex; gap: 20px;">
-        <input type="text" placeholder="Issue Type" style="width: 200px; gap: 20px;" id="issueTypeInput">
-        <select style="width: 180px; gap: 20px;" id="issueTypeSelect">
-          <option value="">Select Issue Type</option>
-          <option value="Bug">Bug</option>
-          <option value="Feature Request">Feature Request</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <textarea placeholder="Issue Details" rows="15" style="height: 75px;" id="issueDetailsInput"></textarea>
-      <div style="display: flex; gap: 20px; margin-left: 52%;">
-      
-        <button class="learn-more-button" style="width: 200px;">Submit</button>
-        <button class="learn-more-button" style="width: 200px;" onclick="navigateToTickets()">Cancel</button>
-      </div>
+        
+        <textarea placeholder="Issue Details" rows="15" style="height: 75px;" id="issueDetailsInput"></textarea>
+        
+        <div style="display: flex; gap: 20px; margin-left: 52%;">
+            <button class="learn-more-button" style="width: 200px;" onclick="submitForm()">Submit</button>
+            <button class="learn-more-button" style="width: 200px;" onclick="navigateToTickets()">Back</button>
+        </div>
     </div>
-  </div>
+</div>
+
 
   <script>
     // Add event listeners to dropdowns
@@ -139,6 +137,75 @@
     function navigateToTickets(){
       window.location.href = 'support_tickets.html';
     }
+
+    function submitForm() {
+      // Get input values
+      var name = document.getElementById("nameInput").value;
+      var subject = document.getElementById("subjectInput").value;
+      var priority = document.getElementById("priorityInput").value || document.getElementById("prioritySelect").value;
+      var issueType = document.getElementById("issueTypeInput").value || document.getElementById("issueTypeSelect").value;
+      var issueDetails = document.getElementById("issueDetailsInput").value;
+
+      // Construct the POST body
+      var requestBody = {
+          "customer": name,
+          "email": "{{ frappe.session.user }}",
+          "subject": subject,
+          "priority": priority,
+          "issue_type": issueType,
+          "description": issueDetails
+      };
+
+      // POST request
+      fetch('/api/resource/Issue', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+      })
+      .then(response => {
+          if (!response.ok) {
+              throw new Error('Network response was not ok');
+              alert('failed to submit ticket');
+          }
+          return response.json();
+      })
+      .then(data => {
+          // Handle success response
+          console.log('Success:', data);
+          alert('ticket logged');
+          document.getElementById('nameInput').value = '';
+          document.getElementById('subjectInput').value = '';
+          document.getElementById('priorityInput').value = '';
+          document.getElementById('issueTypeInput').value = '';
+          document.getElementById("issueDetailsInput").value = ''
+      })
+      .catch(error => {
+          // Handle errors
+          console.error('Error:', error);
+          alert(JSON.stringify(error));
+      });
+  }
+
+  fetch('/api/resource/Issue Type')
+  .then(response => response.json())
+  .then(data => {
+      var select = document.getElementById('issueTypeSelect');
+
+    data.data.forEach(issueType => {
+        var option = document.createElement('option');
+        option.value = issueType.name;
+        option.textContent = issueType.name;
+        select.appendChild(option);
+    });
+
+  })
+  .catch(error => {
+      console.error('Error fetching issue types:', error);
+  });
+
+
   </script>
 
 </body>
