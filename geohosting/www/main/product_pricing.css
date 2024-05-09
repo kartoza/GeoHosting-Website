@@ -26,9 +26,22 @@
   /* border: 5px solid green; */
 }
 
-.card-pricing:nth-child(4) {
-  background: #F4B340; /* Golden background for the fourth card */
+.card-pricing:hover{
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in;
 }
+
+.card-pricing:nth-child(4) {
+  background: #F4B340;
+  /* background-image: url('/assets/geohosting/images/portal_frame.png'); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; */
+}
+
+
+
+
 
 /* Logo */
 .logo-pricing {

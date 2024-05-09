@@ -195,9 +195,9 @@
                 // Download button
                 var downloadCell = document.createElement("td");
                 var downloadLink = document.createElement("a");
-                var currentUrl = window.location.href;
-                var domain = currentUrl.split('/')[2];
-                var downloadUrl = 'http://' + domain + '/printview?doctype=Sales Invoice&name=' + invoice.name + '&format=Kartoza%20Without%20Timesheet';
+                // var currentUrl = window.location.href;
+                // var domain = currentUrl.split('/')[2];
+                var downloadUrl = '/printview?doctype=Sales Invoice&name=' + invoice.name + '&format=Kartoza%20Without%20Timesheet';
                 downloadLink.href = downloadUrl;
                 downloadLink.className = "download-button";
                 downloadLink.innerHTML = "<img src='/assets/geohosting/images/download_icon.svg' alt='Download Icon'>";

@@ -51,7 +51,7 @@
     font-size: 24px;
     line-height: 150%;
     letter-spacing: 0.15px;
-    transition: color 0.3s; /* Smooth color transition */
+    transition: color 0.3s;
   }
 
   /* Change text color on hover */
@@ -122,7 +122,7 @@
   .input-field {
     width: 70%;
     margin-bottom: 20px;
-    margin-left: 15%; /* TODO this will ruin responsiveness on different screens */
+    margin-left: 15%;
   }
 
   .input-field input {
@@ -179,7 +179,7 @@
 
   /* Menu toggle button */
   .menu-toggle {
-    display: none; /* Hide menu toggle button by default */
+    display: none; 
     background: none;
     border: none;
     cursor: pointer;
@@ -188,41 +188,41 @@
 
   @media screen and (max-width: 768px) {
     .nav-links {
-      display: none; /* Hide nav links by default */
+      display: none; 
     }
 
     .buttons-container,
     .sign-in-button,
     .create-account-button {
-      display: none; /* Hide buttons by default */
+      display: none; 
     }
 
     .create-account-button {
-      display: none; /* Hide create account button by default */
+      display: none;
     }
 
     .sign-in-button {
-      margin-left: auto; /* Push sign in button to the right */
+      margin-left: auto;
     }
 
     .toolbar {
-      justify-content: space-between; /* Adjust spacing for responsive layout */
+      justify-content: space-between;
     }
 
     .logo {
-      margin-right: 0; /* Remove margin for logo */
+      margin-right: 0;
     }
 
     .menu-toggle {
-      display: block; /* Display the menu toggle button */
+      display: block;
     }
 
     .show {
-      display: flex; /* Show nav links when menu toggle button is clicked */
+      display: flex;
       flex-direction: column;
       position: absolute;
       background-color: #fff;
-      top: 70px; /* Position the sidebar navigation below the navbar */
+      top: 70px;
       left: 0;
       width: 100%;
       padding: 20px;
@@ -244,7 +244,6 @@
     }
 
     .customer-portal-container {
-      z-index: 1000; /* Sit on top */
       overflow: auto; 
       background-color: #FFF;
       flex-direction: row;
@@ -253,13 +252,17 @@
       align-content: flex-start;
       padding: 40px;
       gap: 30px;
-      position: absolute;
       width: 750px;
       height: auto;
       left: calc(50% - 750px/2);
       top: 259px;
       border-radius: 10px;
       /* border: 3px solid orange; */
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
 
 
@@ -276,7 +279,6 @@
   color: #57A0C7;
 }
 
-/* CSS for smaller screens */
 
 
 @media (max-width: 480px) {
@@ -301,7 +303,7 @@
 }
 
 .card:hover{
-  margin-top:10px;
+  transform: translateY(-10px);
   transition: all 0.3s ease-in;
   cursor: pointer;
 }
@@ -458,7 +460,7 @@ input:focus {
   max-width: 750px;
   height: 450px;
   left: 50%;
-  transform: translateX(-50%); /* Center horizontally */
+  transform: translateX(-50%);
   top: 159px;
   border-radius: 10px;
 }
@@ -493,9 +495,9 @@ input:focus {
         <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
         <a href="https://kartoza.com/about" class="text-btn"><span id="aboutusLink">About Us</span></a>
 
-        <a href="sign_in.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks1">Sign In</span></a>
-        <a href="sign_up.html" class="text-btn sign-in-up" style="display: none;"><span id="accountsLinks2">Sign Up</span></a>
-        <a href="#" class="text-btn sign-in-up" style="display: none;" onclick="logout()"><span id="accountsLinks3">Logout</span></a>
+        <a href="sign_in.html" class="text-btn" style="display: none;" id="accountsLinks1"><span>Sign In</span></a>
+        <a href="sign_up.html" class="text-btn" style="display: none;" id="accountsLinks2"><span>Sign Up</span></a>
+        <a href="#" class="text-btn" style="display: none;" onclick="logout()" id="accountsLinks3"><span>Logout</span></a>
 
 
     </div>    
@@ -552,32 +554,22 @@ input:focus {
     <!-- Create Account Modal -->
     <div id="createAccountModal" class="modal">
       <div class="modal-content">
-        <span class="close" onclick="closeModal('createAccountModal')" style="font-size: 34px;">&times;</span> <!-- Close button -->
+        <span class="close" onclick="closeModal('createAccountModal')" style="font-size: 34px;">&times;</span>
         <h2 class="sign-in-title" style="text-align: center;">Create a Free Account</h2>
         <div class="input-field">
-          <input type="text" placeholder="First Name">
+          <input type="text" id="firstNameInput" placeholder="First Name">
         </div>
         <div class="input-field">
-          <input type="text" placeholder="Last Name">
+          <input type="text" id="lastNameInput" placeholder="Last Name">
         </div>
         <div class="input-field">
-          <input type="email" placeholder="Email">
+          <input type="email" id="emailInput" placeholder="Email">
         </div>
-        <div class="input-field">
-          <input type="password" placeholder="Password">
-        </div>
-        <div class="input-field">
-          <input type="password" placeholder="Repeat Password">
-        </div>
-        <div class="input-field">
-          <label>
-            Countries
-            <input mbsc-input id="demo-country-picker" data-dropdown="true" data-input-style="box" data-label-style="stacked" placeholder="Please select..." />
-        </label>        
-        </div>        
-        <button class="button">Create Account</button>
+            
+        <button class="button" onclick="createAccount()">Create Account</button>
       </div>
     </div>
+    
 
 
   <div class="customer-portal-container" id="customer-portal" style="display: none;">
@@ -600,7 +592,7 @@ input:focus {
             <div class="card-image"><img src="/assets/geohosting/images/invoices.svg" alt="Invoice Icon"></div>
             <div class="card-content">
               <div class="card-heading">Invoices</div>
-              <div class="card-text">16 Invoices</div>
+              <div class="card-text" id="invoiceCount"></div>
             </div>
           </div>
           <div class="card" onclick="navigateToNotifications()">
@@ -665,23 +657,10 @@ input:focus {
           const modal = document.getElementById('signInModal');
           const body = document.getElementById('screenBody');
           modal.style.display = 'block';
-          body.classList.add('blur-background'); // Add the class to blur the background
+          body.classList.add('blur-background');
         }
 
         var customer_portal = document.getElementById("customer-portal");
-
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("customer-portal-close")[0];
-
-
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            customer_portal.style.display = "none";
-            const body = document.getElementById('screenBody');
-            body.classList.remove('blur-background'); 
-        }
-
-        // When the user clicks anywhere outside of the customer modal, close it
         window.onclick = function(event) {
             if (event.target == customer_portal) {
                 customer_portal.style.display = "none";
@@ -689,6 +668,15 @@ input:focus {
                 body.classList.remove('blur-background'); 
             }
         }
+
+        var span = document.getElementsByClassName("customer-portal-close")[0];
+        span.onclick = function() {
+            customer_portal.style.display = "none";
+            const body = document.getElementById('screenBody');
+            body.classList.remove('blur-background'); 
+        }
+
+        
     
         function openCreateAccountModal() {
           const modal = document.getElementById('createAccountModal');
@@ -702,14 +690,18 @@ input:focus {
           const body = document.getElementById('screenBody');
           modal.style.display = 'none';
           body.classList.remove('blur-background'); 
+
+          // Clear input fields
+          document.getElementById('firstNameInput').value = '';
+          document.getElementById('lastNameInput').value = '';
+          document.getElementById('emailInput').value = '';
         }
 
-        // Function to extract the current page URL
         function getCurrentPage() {
             return window.location.href.toLowerCase();
         }
 
-        // Check if the current URL contains specific keywords and apply the active class accordingly
+        // Check if the current URL contains specific keywords and apply the active class
         function setActiveNavLink() {
             const currentPage = getCurrentPage();
             const productsLink = document.getElementById('productsLink');
@@ -735,15 +727,10 @@ input:focus {
         window.onload = setActiveNavLink;
 
         function updateUrl(replaceWith){
-          // Get the current URL
           var currentUrl = window.location.href;
-          // Find the index of the first occurrence of '/'
           var firstSlashIndex = currentUrl.indexOf('/');
-          // Extract the substring before the first '/'
           var baseUrl = currentUrl.substring(0, firstSlashIndex + 1);
-          // Construct the new URL
           return baseUrl + replaceWith;
-          
         }
 
         function navigateToForgotPassword() {
@@ -791,15 +778,11 @@ input:focus {
           .then(response => response.json())
           .then(data => {
               if (data.message === 'Logged In') {
-                  // Authentication success
-                  // Perform actions like hiding the sign-in modal, displaying user avatar, saving user info returned for profile etc.
                   const accounts = document.getElementById('accounts-buttons');
                   accounts.style.display = 'none';
                   userAvatar.style.display = 'block';
                   closeModal('signInModal');
               } else {
-                  // Authentication error
-                  // Display error message to the user TODO display error on modal
                   alert(data.message);
               }
           })
@@ -814,11 +797,33 @@ input:focus {
         }
 
         function openCustomerPortal() {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          // window.scrollTo({ top: 0, behavior: 'smooth' });
+          // TODO FETCH NOTIFICATIONS SERVICES AND SUPPORT
+          fetchUserInvoices()
           customer_portal.style.display = 'flex';
           const body = document.getElementById('screenBody');
           body.classList.add('blur-background');
         }
+
+        function fetchUserInvoices() {
+          const currentUser = "{{ frappe.session.user }}";
+          const url = `/api/resource/Sales%20Invoice?filters=[["owner", "=", "${currentUser}"]]`;
+
+
+          fetch(url)
+              .then(response => response.json())
+              .then(data => {
+                  const invoiceCount = data.data.length;
+                  const invoiceCountElement = document.getElementById('invoiceCount');
+                  if(invoiceCount>1)
+                    invoiceCountElement.textContent = `${invoiceCount} Invoices`;
+                  else if(invoiceCount==1)
+                    invoiceCountElement.textContent = `${invoiceCount} Invoice`;
+              })
+              .catch(error => {
+                  console.error('Error fetching user invoices:', error);
+              });
+          }
 
         function logout() {
           fetch('/api/method/logout', {
@@ -838,33 +843,27 @@ input:focus {
                   const body = document.getElementById('screenBody');
                   body.classList.remove('blur-background'); 
 
-                  // hide the user pop up
                   if (userProfilePopup) {
                       userProfilePopup.style.display = 'none';
                   }
 
-                  // Hide the user avatar
                   if (userAvatar) {
                       userAvatar.style.display = 'none';
                   }
 
-                  // Hide the customer portal (optional TODO)
                   if (customerPortal) {
                       customerPortal.style.display = 'none';
                   }
 
-                  // Display the "Sign In" and "Create a free account" buttons
                   if (accounts) {
                       accounts.style.display = 'block';
                   }
               } else {
-                  // Handle non-200 status code (logout failed)
                   console.error('Logout failed:', response.statusText);
                   alert('Logout failed. Please try again later.');
               }
           })
           .catch(error => {
-              // Handle network error
               console.error('Error:', error);
               alert('An error occurred while logging out. Please try again later.');
           });
@@ -872,20 +871,15 @@ input:focus {
 
 
 
-      // check if user is logged in
+       // Check if the user is logged in when the page is loaded
       document.addEventListener('DOMContentLoaded', function() {
-          // Check if the user is logged in when the page is loaded
           checkLoggedInUser();
       });
 
       function checkLoggedInUser() {
           const accounts = document.getElementById('accounts-buttons');
           const userAvatar = document.getElementById('userAvatar');
-          const accountsLinks1 = document.getElementById('accountsLinks1');
-          const accountsLinks2 = document.getElementById('accountsLinks2');
-          const accountsLinks3 = document.getElementById('accountsLinks3');
 
-          // Send a GET request to the backend API to get the logged-in user
           fetch('/api/method/frappe.auth.get_logged_user', {
               method: 'GET',
               headers: {
@@ -894,105 +888,67 @@ input:focus {
               }
           })
           .then(response => {
-              // Check if the response status is 200 (OK)
               if (response.ok) {
-                  // Parse the JSON response
                   return response.json();
               } else {
-                  // Handle non-200 status code (request failed)
                   throw new Error('Failed to get logged-in user');
               }
           })
           .then(data => {
-              // Check if the user exists in the response data
               if (data && data.message) {
                   accounts.style.display = 'none';
                   userAvatar.style.display = 'block';
-                  accountsLinks1.style.display = 'none';
-                  accountsLinks2.style.display = 'none';
-                  accountsLinks3.style.display = 'block';
               } else {
                 acccounts.style.display = 'block';
                 userAvatar.style.display = 'none';
-                accountsLinks1.style.display = 'block';
-                accountsLinks2.style.display = 'block';
-                accountsLinks3.style.display = 'none';
               }
           })
           .catch(error => {
-              // Handle network error or failed request
               console.error('Error:', error);
-              // alert('An error occurred while checking logged-in user. Please try again later.');
               acccounts.style.display = 'block';
               userAvatar.style.display = 'none';
-              accountsLinks1.style.display = 'block';
-              accountsLinks2.style.display = 'block';
-              accountsLinks3.style.display = 'none';
           });
       }
 
 
 
+      function createAccount() {
+        const firstName = document.getElementById('firstNameInput').value;
+        const lastName = document.getElementById('lastNameInput').value;
+        const email = document.getElementById('emailInput').value;
 
+        const fullName = firstName + ' ' + lastName;
 
-      // Array of countries
-      const countries = [
-        "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda",
-        // Add more countries here TODO
-      ];
+        const formData = new FormData();
+        formData.append('cmd', 'frappe.core.doctype.user.user.sign_up');
+        formData.append('email', email);
+        formData.append('redirect_to', '');
+        formData.append('full_name', fullName);
 
-      // Get the select element
-      const countrySelect = document.getElementById('countrySelect');
+        // const url = 'https://kartoza-staging-v14.frappe.cloud/';
+        var currentUrl = window.location.href;
+        var domain = currentUrl.split('/')[2];
 
-      // Populate the dropdown with options
-      countries.forEach(country => {
-        const option = document.createElement('option');
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
-      });
-
-      // Add event listener for change event
-      countrySelect.addEventListener('change', function() {
-        // Get the selected option
-        const selectedOption = this.options[this.selectedIndex];
-        
-        // Log the value of the selected option (country)
-        console.log(selectedOption.value);
-      });
-
-
-      mobiscroll.setOptions({
-        theme: 'ios',
-        themeVariant: 'light'
-      });
-
-      var inst = mobiscroll.select('#demo-country-picker', {
-        display: 'anchored',
-        filter: true,
-        itemHeight: 40,
-        renderItem: function (item) {
-          return (
-            '<div class="md-country-picker-item">' +
-            '<img class="md-country-picker-flag" src="https://img.mobiscroll.com/demos/flags/' +
-            item.data.value +
-            '.png" />' +
-            item.display +
-            '</div>'
-          );
-        },
-      });
-
-      mobiscroll.getJson('https://trial.mobiscroll.com/content/countries.json', function (resp) {
-        var countries = [];
-        for (var i = 0; i < resp.length; ++i) {
-          var country = resp[i];
-          countries.push({ text: country.text, value: country.value });
-        }
-        inst.setOptions({ data: countries });
-      });
-  
-
+        fetch(domain, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (!response.ok) {
+            alert('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          alert(JSON.stringify(data.message[1]));
+          document.getElementById('firstNameInput').value = '';
+          document.getElementById('lastNameInput').value = '';
+          document.getElementById('emailInput').value = '';
+        })
+        .catch(error => {
+          console.error('There was a problem with the fetch operation:', error);
+        });
+      }
 
 
       </script>
