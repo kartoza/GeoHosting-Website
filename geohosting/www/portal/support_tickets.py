@@ -14,7 +14,7 @@ def get_context(context):
 
     support_tickets = frappe.db.get_all("Issue", filters={
         'owner': ['=', frappe.session.user],
-    }, fields='*', order_by="name") 
+    }, fields='*') 
 
     for support_ticket in support_tickets:
         for key, value in support_ticket.items():

@@ -53,13 +53,13 @@
   }
 
   .logo-container-pricing img {
-  max-width: 100%;
-  max-height: 100%;
+    max-width: 100%;
+    max-height: 100%;
   }
 
 /* Title */
 .title-pricing {
-  font-family: 'Avenir';
+  font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
   font-size: 32px;
@@ -88,7 +88,7 @@
 }
 
 .header-text-pricing {
-  font-family: 'Avenir';
+  font-family: 'Lato';
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
@@ -100,7 +100,7 @@
 
 /* Monthly Price */
 .price-pricing {
-  font-family: 'Avenir';
+  font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
   font-size: 64px;
@@ -140,11 +140,12 @@
   margin-top: 5%;
   margin-bottom: 5%;
   cursor: pointer;
+  padding: 5px;
 }
 
 /* Advanced Features Title */
 .features-title-pricing {
-  font-family: 'Avenir';
+  font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
   font-size: 16px;

@@ -1,7 +1,7 @@
 .overview-container {
   position: absolute;
-  width: 1491px;
-  height: 598px;
+  width: 1530px;
+  height: 560px;
   left: 50%; /* Centering horizontally */
   top: 10px;
   background: #57A0C7;
@@ -41,6 +41,7 @@
   margin-bottom: 20px;
   /* border: yellow 5px solid; */
   margin-top: -5%;
+  width: 100%;
 }
 
 .overview-content p {
@@ -71,10 +72,11 @@
 .overview-image {
   position: absolute;
   width: 900px;
-  height: 50vh;
+  height: 98%;
   right: 0;
   top: 0;
-  background: url('/assets/geohosting/images/overview-background.svg') center/cover no-repeat;
+  left: 39.5%;
+  background: url('/assets/geohosting/images/overview-background.svg') left/cover no-repeat;
   background-size: contain;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;

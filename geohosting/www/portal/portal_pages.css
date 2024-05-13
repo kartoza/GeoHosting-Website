@@ -1,7 +1,7 @@
   body {
     position: relative;
     background: #ECECEC;
-    font-family: 'Avenir', sans-serif;
+    font-family: 'Lato', sans-serif;
   }
 
  /* Portal Pages Heading */
@@ -34,7 +34,7 @@
   flex: none;
   order: 0;
   flex-grow: 1;
-  font-family: 'Avenir', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
