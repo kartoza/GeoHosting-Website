@@ -147,13 +147,14 @@
 // Get user profile data from the context
 var user_profile = {{ user_profile | tojson | safe }};
 user_profile = JSON.parse(user_profile)
+console.log(user_profile)
 
   // Function to populate input fields with default values
   function populateInputFields() {
       document.getElementById('name').value = user_profile.first_name;
       document.getElementById('surname').value = user_profile.last_name;
       document.getElementById('email').value = user_profile.contact_info.email;
-      document.getElementById('phone').value = user_profile.contact_info.phone==null? '':user_profile.contact_info.phone;
+      document.getElementById('phone').value = user_profile.contact_info.mobile_no==null? '':user_profile.contact_info.mobile_no;
 
       document.getElementById('institution').value = user_profile.address_info.name;
       document.getElementById('city').value = user_profile.address_info.city;
