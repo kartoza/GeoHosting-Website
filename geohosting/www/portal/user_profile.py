@@ -4,50 +4,59 @@ from frappe import _
 
 def get_context(context):
     try:
-        user_profile = frappe.get_doc("UserProfile", {"email": frappe.session.user})
+        customer = frappe.get_all("Customer", filters={"account_manager": frappe.session.user}, fields=['*'], limit=1)
 
-        # Create a dictionary containing only the necessary fields
-        user_profile_data = {
-            "first_name": user_profile.first_name,
-            "last_name": user_profile.last_name,
-            "email": user_profile.email,
-            "phone": user_profile.phone_number,
-            "institution": user_profile.institution_name,
-            "city": user_profile.institution_city,
-            "region": user_profile.institution_region,
-            "address": user_profile.institution_address,
-            "postal": user_profile.institution_postal_code,
-            "country": user_profile.institution_country,
-            "user_avatar": user_profile.user_avatar
-        }
 
-        context.user_profile = json.dumps(user_profile_data)
-    except frappe.exceptions.DoesNotExistError:
-        # If UserProfile doesn't exist for the user
-        context.create_profile_prompt = True
+        if customer:
+            user = frappe.session.user
+            primary_address = get_customer_address(user)
+
+            user_doc = frappe.get_doc("User", user)
+
+            # Create user profile data
+            user_profile_data = {
+                "customer_name": customer[0]["customer_name"],
+                "first_name": user_doc.first_name,
+                "last_name": user_doc.last_name,
+                "contact_info": {
+                    "email": user_doc.email,
+                    "mobile_no": user_doc.mobile_no,
+                },
+                "address_info": primary_address,
+                "customer_avatar": user_doc.user_image
+            }
+        
+            context.user_profile = json.dumps(user_profile_data)
+
+        else:
+            context.create_profile_prompt = True
+
+
+        
+        
+    except Exception as e:
+        frappe.log_error(f"Error fetching user profile: {str(e)}")
+        context.error_message = "Error fetching user profile"
 
     return context
 
 
-@frappe.whitelist()
-def update_user_profile(data):
-    data = frappe.parse_json(data)
+def get_customer_address(customer_name):
+    # Query the address linked to the customer
+    primary_address = frappe.get_all("Address",
+                                     filters={"owner": customer_name, "is_primary_address": 1},
+                                     fields=["name", "address_line1", "city", "country", "pincode", "state"])
 
-    user_profile = frappe.get_doc("UserProfile", {"email": frappe.session.user})
+    if primary_address:
+        # Return the primary address as a dictionary
+        return {
+            "name": primary_address[0]["name"],
+            "address_line1": primary_address[0]["address_line1"],
+            "city": primary_address[0]["city"],
+            "country": primary_address[0]["country"],
+            "pincode": primary_address[0]["pincode"],
+            "state": primary_address[0]["state"]
+        }
+    else:
+        return {}
 
-    user_profile.update({
-        "name": data.get("name"),
-        "surname": data.get("surname"),
-        "email": data.get("email"),
-        "phone_number": data.get("phone"),
-        "institution_name": data.get("institution"),
-        "institution_city": data.get("city"),
-        "institution_region": data.get("region"),
-        "institution_address": data.get("address"),
-        "institution_postal_code": data.get("postal"),
-        "institution_country": data.get("country")
-    })
-
-    user_profile.save()
-
-    return _("User profile updated successfully.")
