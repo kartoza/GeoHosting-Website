@@ -13,7 +13,6 @@
 <!-- Include Mobiscroll Select JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/@mobiscroll/react@4.10.10/dist/js/mobiscroll-select.min.js"></script>
 
-
 </head>
 <body>
 
@@ -28,12 +27,13 @@
   
   <div class="avatar-container">
     <div class="avatar">
-      <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" class="user-avatar" id="user-avatar">
+        <img src="" alt="Avatar" class="user-avatar" id="user-avatar">
     </div>
     <input type="file" id="avatar-input" accept="image/*" style="display: none;">
-    
-  <button class="learn-more-button" onclick="document.getElementById('avatar-input').click()">Upload</button>
+    <button class="learn-more-button" onclick="document.getElementById('avatar-input').click()">Upload</button>
   </div>
+
+
 
   <div class="password-container">
     <button class="learn-more-button" id="updatePasswordButton">Update password</button>
@@ -98,34 +98,39 @@
               <input type="text" id="postal" name="postal" placeholder="Postal code">
               <span class="error-message"></span>
           </div>
-          <div class="form-group">
-              <label for="country">Institution Country:</label>
-              <input type="text" id="country" name="country" placeholder="Country">
-              <span class="error-message"></span>
-          </div>
+          <!-- Include Select2 CSS -->
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+          <!-- Include jQuery (required by Select2) -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          <!-- Include Select2 JS -->
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+        <div class="form-group">
+            <label for="country">Institution Country:</label>
+            <select id="country" name="country" class="country-dropdown" value="" style="width: 100%;" placeholder="Country">
+                
+            </select>
+            <span class="error-message"></span>
+        </div>
+
       </div>
   </div>
 
   <button class="learn-more-button" id="saveButton" onclick="updateUserProfile()">Save</button>
+  <div id="loading-indicator" style="display: none;">
+    <div class="loader"></div>
+  </div>
 
   <!-- Password fields -->
     <div class="password-section hidden">
         <h2>Password Update</h2>
-        <div class="form-group">
-        <label for="old-password">Old Password:</label>
-        <div class="password-input">
-            <input type="password" id="old-password" name="old-password" placeholder="Old Password">
-            <span id="togglePasswordOld" class="toggle-password" onclick="togglePasswordVisibility('old-password')">Show</span>
-        </div>
-        <span class="error-message"></span>
-        </div>
         <div class="form-group">
         <label for="new-password">New Password:</label>
         <div class="password-input">
             <input type="password" id="new-password" name="new-password" placeholder="New Password">
             <span id="togglePasswordNew" class="toggle-password" onclick="togglePasswordVisibility('new-password')">Show</span>
         </div>
-        <span class="error-message"></span>
+        
         </div>
         <div class="form-group">
         <label for="repeat-password">Repeat Password:</label>
@@ -135,19 +140,20 @@
         </div>
         <span class="error-message"></span>
         </div>
-        <button class="learn-more-button" id="updatePasswordButton">Update Password</button>
+        <button class="learn-more-button" id="updatePasswordButton2">Update Password</button>
+        <div id="loading-indicator2" style="display: none;">
+            <div class="loader"></div>
+          </div>
     </div>
   
-
   
 </div>
 
-{% if not create_profile_prompt %}
+{% if not create_customer_prompt %}
 <script>
 // Get user profile data from the context
 var user_profile = {{ user_profile | tojson | safe }};
 user_profile = JSON.parse(user_profile)
-console.log(user_profile)
 
   // Function to populate input fields with default values
   function populateInputFields() {
@@ -156,13 +162,20 @@ console.log(user_profile)
       document.getElementById('email').value = user_profile.contact_info.email;
       document.getElementById('phone').value = user_profile.contact_info.mobile_no==null? '':user_profile.contact_info.mobile_no;
 
-      document.getElementById('institution').value = user_profile.address_info.name;
-      document.getElementById('city').value = user_profile.address_info.city;
-      document.getElementById('region').value = user_profile.address_info.state;
-      document.getElementById('address').value = user_profile.address_info.address_line1;
-      document.getElementById('postal').value = user_profile.address_info.pincode;
-      document.getElementById('country').value = user_profile.address_info.country;
-      document.getElementById('user-avatar').setAttribute('src', user_profile.customer_avatar);
+        const institutionValue = user_profile.address_info.address_title ? user_profile.address_info.address_title : '';
+        const cityValue = user_profile.address_info.city ? user_profile.address_info.city : '';
+        const regionValue = user_profile.address_info.state ? user_profile.address_info.state : '';
+        const addressValue = user_profile.address_info.address_line1 ? user_profile.address_info.address_line1 : '';
+        const postalValue = user_profile.address_info.pincode ? user_profile.address_info.pincode : '';
+        const countryValue = user_profile.address_info.country ? user_profile.address_info.country : '';
+        const avatarSrc = user_profile.customer_avatar ? user_profile.customer_avatar : '/assets/geohosting/images/user_placeholder.svg';
+
+        document.getElementById('institution').value = institutionValue;
+        document.getElementById('city').value = cityValue;
+        document.getElementById('region').value = regionValue;
+        document.getElementById('address').value = addressValue;
+        document.getElementById('postal').value = postalValue;
+        document.getElementById('user-avatar').setAttribute('src', avatarSrc);
   }
 
   // Call the populateInputFields function when the page loads
@@ -250,27 +263,60 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('avatar-input').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        const imageUrl = event.target.result;
-        document.getElementById('user-avatar').src = imageUrl;
-      }
-      reader.readAsDataURL(file);
+        uploadImage(file);
     }
   });
 
+  function uploadImage(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const userEmail = "{{ frappe.session.user }}";
+
+    // Append other form data fields
+    formData.append('is_private', '1');
+    formData.append('folder', 'Home');
+    formData.append('doctype', 'User');
+    formData.append('docname', userEmail);
+    formData.append('fieldname', 'user_image');
+
+    fetch('/api/method/upload_file', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message.file_url) {
+            const imageUrl = data.message.file_url;
+            document.getElementById('user-avatar').src = imageUrl;
+            localStorage.setItem('uploaded_image_path', imageUrl);
+            const saveButton = document.getElementById('saveButton');
+            saveButton.disabled = false;
+            saveButton.style.opacity = '1';
+        } else {
+            console.error('Error uploading image:', data);
+        }
+    })
+    .catch(error => {
+        console.error('Error uploading image:', error);
+    });
+
+}
+
   // validate input fields
-  const inputFields = document.querySelectorAll('input:not(#avatar-input):not([type="password"])');
+  const inputFields = document.querySelectorAll('input:not(#avatar-input):not([type="password"]):not(#country)');
   const saveButton = document.getElementById('saveButton');
 
   saveButton.disabled = true;
   saveButton.style.opacity = '0.5';
 
   inputFields.forEach(input => {
-      input.addEventListener('input', function() {
-          validateInputFields();
-      });
+    input.addEventListener('input', function() {
+        validateInputFields();
+    });
   });
+
+
 
   function validateInputFields() {
       let isEmpty = false;
@@ -318,18 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
       input.classList.add('error');
       alert(`${input.placeholder} cannot be empty.`);
   }
-
-
-
- // response after update
-  function updateUserProfile() {
-      // Your update logic here
-      console.log('User profile updated');
-  }
-
-
-
-
+  
  
 </script>
 
@@ -337,11 +372,17 @@ document.addEventListener('DOMContentLoaded', function () {
 <!-- queries -->
 <script>
   function updateUserProfile() {
-    // Get values from input fields
+
+    var loadingIndicator = document.getElementById('loading-indicator');
+    loadingIndicator.style.display = 'block';
+    const saveButton = document.getElementById('saveButton');
+    saveButton.style.display = 'none';
+
     var name = document.getElementById('name').value;
     var surname = document.getElementById('surname').value;
     var email = document.getElementById('email').value;
     var phone = document.getElementById('phone').value;
+
     var institution = document.getElementById('institution').value;
     var city = document.getElementById('city').value;
     var region = document.getElementById('region').value;
@@ -349,51 +390,195 @@ document.addEventListener('DOMContentLoaded', function () {
     var postal = document.getElementById('postal').value;
     var country = document.getElementById('country').value;
 
-    // Make an AJAX request to update the user profile
-    var data = {
+    const uploadedImagePath = localStorage.getItem('uploaded_image_path');
+    const userImageData = uploadedImagePath ? { user_image: uploadedImagePath } : {};
+
+
+    var user_data = {
         first_name: name,
         last_name: surname,
         email: email,
-        mobile_no: phone
+        mobile_no: phone,
+        // user_image: localStorage.getItem('uploaded_image_path')
+        ...userImageData 
     };
 
-    // Get the email address from frappe.user.session
     const userEmail = "{{ frappe.session.user }}";
 
-    // Make an AJAX request to update the user profile
+    // update the user information
     fetch(`/api/resource/User/${userEmail}`, {
         method: 'PUT',
         headers: {
             "Accept": "application/json",
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify(user_data)
     })
     .then(response => {
         if (!response.ok) {
+            loadingIndicator.style.display = 'none';
+            saveButton.style.display = 'block';
             throw new Error('Network response was not ok');
         }
         return response.json();
     })
     .then(data => {
-        // Handle success response
-        console.log(data);
-        // make another request to update or create address
-        // /api/resource/Address/${userEmail}
-        alert('User profile updated successfully');
+        updateOrCreateAddress(userEmail)
     })
     .catch(error => {
         // Handle error
         console.error('There was a problem with the fetch operation:', error);
+        loadingIndicator.style.display = 'none';
+        saveButton.style.display = 'block';
         alert('Failed to update user profile');
     });
 
+    function updateOrCreateAddress(customerName) {
+        const baseUrl = '/api/method/geohosting.api.update_or_create_address';
+        const apiUrl = `${baseUrl}`;
+
+        var addressData = {
+                // name: institution,
+                address_title: institution,
+                city: city,
+                country: country,
+                pincode: postal,
+                is_primary_address: 1,
+                state: region,
+                address_line1: address,
+                address_type: 'Billing',
+                email_id: userEmail
+            }
+
+        fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                customer_name: customerName,
+                address_data: addressData
+            }),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Your information was updated successfully.');
+            const saveButton = document.getElementById('saveButton');
+            saveButton.disabled = true;
+            saveButton.style.opacity = '0.5';
+            saveButton.style.display = 'block';
+            loadingIndicator.style.display = 'none';
+        })
+        .catch(error => {
+            console.error('There was a problem with updating the billing info', error);
+            alert('There was a problem with updating the billing info');
+            loadingIndicator.style.display = 'none';
+            saveButton.style.display = 'block';
+        });
+    }
+
 }
+
+    var user_profile = {{ user_profile | tojson | safe }};
+    user_profile = JSON.parse(user_profile)
+
+    fetch('/api/resource/Country?limit_page_length=9999')
+        .then(response => response.json())
+        .then(data => {
+            const countryNames = data.data.map(country => country.name);
+
+            $('.country-dropdown').select2({
+                data: countryNames,
+                placeholder: 'Country',
+                allowClear: true
+            });
+
+            var selectedCountry = user_profile.address_info.country;
+            var select = $('#country');
+            select.val(selectedCountry).trigger('change');
+            
+        })
+        .catch(error => {
+            console.error('Error fetching countries:', error);
+        });
 
 
 </script>
 
+<!-- update password -->
+<script>
+    const newPasswordInput = document.getElementById('new-password');
+    const repeatPasswordInput = document.getElementById('repeat-password');
+    const updatePasswordButton = document.getElementById('updatePasswordButton2');
+    var loadingIndicator = document.getElementById('loading-indicator2');
+    
 
+    newPasswordInput.addEventListener('input', validatePasswordMatch);
+    repeatPasswordInput.addEventListener('input', validatePasswordMatch);
+
+    updatePasswordButton.disabled = true;
+    updatePasswordButton.style.opacity = '0.5';
+
+    // Function to validate if the passwords match
+    function validatePasswordMatch() {
+        const newPassword = newPasswordInput.value;
+        const repeatPassword = repeatPasswordInput.value;
+        const errorMessage = document.querySelector('.password-section .error-message');
+
+        // Check if the passwords match
+        if (newPassword !== repeatPassword) {
+            errorMessage.textContent = "Passwords don't match";
+            errorMessage.style.color = 'red';
+            updatePasswordButton.disabled = true;
+            updatePasswordButton.style.opacity = '0.5';
+        } else {
+            errorMessage.textContent = '';
+            updatePasswordButton.disabled = false;
+            updatePasswordButton.style.opacity = '1'; 
+        }
+    }
+
+    updatePasswordButton.addEventListener('click', function() {
+        const newPassword = newPasswordInput.value;
+        const userEmail = "{{ frappe.session.user }}";
+        loadingIndicator.style.display = 'block';
+        updatePasswordButton.style.display = 'none';
+        fetch(`/api/resource/User/${userEmail}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ new_password: newPassword })
+        })
+        .then(response => {
+            if (!response.ok) {
+                loadingIndicator.style.display = 'none';
+                updatePasswordButton.style.display = 'block';
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            loadingIndicator.style.display = 'none';
+            updatePasswordButton.style.display = 'block';
+            alert('Password updated successfully');
+        })
+        .catch(error => {
+            // Handle error
+            console.error('There was a problem with the fetch operation:', error);
+            alert('Failed to update password');
+            loadingIndicator.style.display = 'none';
+            updatePasswordButton.style.display = 'block';
+        });
+    });
+
+</script>
 
 </body>
 </html>

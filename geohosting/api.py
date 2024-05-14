@@ -1,43 +1,26 @@
-# TODO might switch to using this
 import frappe
-from frappe import auth
+from frappe import _
 
-@frappe.whitelist(allow_guest=True)
-def login(usr, pwd):
-  try:
-    login_manager = frappe.auth.LoginManager()
-    login_manager.authenticate(user=usr, pwd=pwd)
-    login_manager.post_login()
-  except frappe.execeptions.AuthenticationError:
-    frappe.clear_messages()
-    frappe.local.reponse['message'] = {
-      "success_key": 0,
-      "message": "Invalid credentials"
-    }
-    return 'Invalid credentials'
-  
-  api_generate = generate_keys(frappe.session.user)
-  user = frappe.get_doc('User', frappe.session.user)
 
-  frappe.response['message'] = {
-    "success_key": 1,
-    "message": "Logged in",
-    "sid": frappe.session.sid,
-    "api_key": user.api_key,
-    "api_secret": api_generate,
-    "username": user.username,
-    "email": user.email
-  }
+@frappe.whitelist()
+def update_or_create_address(customer_name, address_data):
+    # Check if the address exists for the customer
+    existing_address = frappe.get_all("Address",
+                                      filters={"owner": customer_name, "is_primary_address": 1},
+                                      fields=["name","owner"])
 
-def generate_keys(user):
-  user_details = frappe.get_doc('User', user)
-  api_secret = frappe.generate_hash(length=15)
+    if existing_address:
+        existing_address_doc = frappe.get_doc("Address", existing_address[0]["name"])
+        existing_address_doc.update(address_data)
+        existing_address_doc.save()
+        return {"message": _("Address updated successfully.")}
+    else:
+        # Address does not exist, create it
+        address_doc = frappe.new_doc("Address")
+        address_doc.update({
+            "owner": customer_name,
+            **address_data
+        })
+        address_doc.insert()
+        return {"message": _("Address created successfully.")}
 
-  if not user_details.api_key:
-    api_key = frappe.generate_hash(length=15)
-    user_details.api_key = api_key
-  
-  user_details.api_secret = api_secret
-  user_details.save()
-
-  return api_secret

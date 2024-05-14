@@ -10,6 +10,7 @@ def get_context(context):
         if customer:
             user = frappe.session.user
             primary_address = get_customer_address(user)
+            create_address_prompt = not bool(primary_address)
 
             user_doc = frappe.get_doc("User", user)
 
@@ -23,13 +24,14 @@ def get_context(context):
                     "mobile_no": user_doc.mobile_no,
                 },
                 "address_info": primary_address,
-                "customer_avatar": user_doc.user_image
+                "customer_avatar": user_doc.user_image,
+                "create_address_prompt": create_address_prompt
             }
         
             context.user_profile = json.dumps(user_profile_data)
 
         else:
-            context.create_profile_prompt = True
+            context.create_customer_prompt = True
 
 
         
@@ -45,12 +47,13 @@ def get_customer_address(customer_name):
     # Query the address linked to the customer
     primary_address = frappe.get_all("Address",
                                      filters={"owner": customer_name, "is_primary_address": 1},
-                                     fields=["name", "address_line1", "city", "country", "pincode", "state"])
+                                     fields=["name", "address_title","address_line1", "city", "country", "pincode", "state"])
 
     if primary_address:
         # Return the primary address as a dictionary
         return {
             "name": primary_address[0]["name"],
+            "address_title": primary_address[0]["address_title"],
             "address_line1": primary_address[0]["address_line1"],
             "city": primary_address[0]["city"],
             "country": primary_address[0]["country"],
@@ -59,4 +62,5 @@ def get_customer_address(customer_name):
         }
     else:
         return {}
+
 
