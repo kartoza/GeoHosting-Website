@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Support Tickets</title>
-<link rel="stylesheet" href="portal_pages.css"> 
+<link rel="stylesheet" href="portal_pages.css">
+<script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/classic/ckeditor.js"></script>
 <style>
     
 
@@ -112,24 +113,79 @@ p {
     color: #888B8C;
 }
 
-    @media (max-width: 768px) {
+    
 
-        .portal-pages-heading {
-            top: -50px;
-            left: -38px;
-        }
+.support-ticket-form {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    margin-top: 5%;
+    /* border: 3px solid green; */
+    height: auto;
+    width: 550px;
+    margin-left: 20%;
+    gap: 50px;
+}
 
-        .card {
-            padding: 10px;
-            width: auto;
-            height: auto;
 
-            margin-left: 0%;
-            margin-top: 2%;
-        }
+
+ .back-icon-container img {
+    width: 60px;
+    height: 40;
+    cursor: pointer;
+  }
+
+    .back-icon-container img:hover {
+    animation: shake 0.5s ease;
+    }
+
+    .btn-positioning {
+        display: flex; margin-left: 57.5%;
 
     }
 
+@media (max-width: 768px) {
+
+.portal-pages-heading {
+    top: -50px;
+    left: -38px;
+}
+
+.card {
+    padding: 10px;
+    width: auto;
+    height: auto;
+
+    margin-left: 0%;
+    margin-top: 2%;
+}
+
+.support-ticket-form {
+    padding: 20px;
+    margin-top: 35%;
+    height: auto;
+    width: auto;
+    margin-left: 0%;
+}
+
+.back-icon-container img {
+    width: 60px;
+    height: 40;
+    margin-left: 100%;
+    cursor: pointer;
+  }
+
+  .btn-positioning {
+    margin-left: 0%;
+    display: table-column;
+  }
+
+  .ck-editor__editable {
+        width: auto;
+    }
+
+}
 </style>
 </head>
 <body>
@@ -163,15 +219,97 @@ p {
     <div id="card-container"></div>
 
 
+    
+    <div class="support-ticket-form hidden">
+
+        <div class=" ">
+            <div class="back-icon-container">
+                <img src="/assets/geohosting/images/back.png" alt="Back Icon" id="backIcon" onclick="navigateToTickets()">
+            </div>
+        </div>
+        
+    
+        <div class="input-group">
+          <div class="input-group-item">
+              <label for="nameInput">Customer:</label>
+              <input type="text" placeholder="Your Full Name" id="nameInput">
+          </div>
+          
+          <div class="input-group-item">
+              <label for="subjectInput">Subject:</label>
+              <input type="text" placeholder="Subject" id="subjectInput">
+          </div>
+          
+          <div class="input-group-item">
+              <label for="prioritySelect">Priority:</label>
+              <select id="prioritySelect">
+                  <option value="">Select Priority</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+              </select>
+          </div>
+          
+          <div class="input-group-item">
+              <label for="issueTypeSelect">Issue Type:</label>
+              <select id="issueTypeSelect">
+                  <option value="">Select Issue Type</option>
+              </select>
+          </div>
+        
+          <div class="input-group-item">
+              <label for="editor">Issue Details:</label>
+              <div id="editor"></div>
+          </div>
+      
+          <div class="input-group-item">
+            <label for="fileInput">Attachment:</label>
+            <input type="file" id="fileInput" style="display: none;">
+            <button class="learn-more-button" id="uploadButton">Upload</button>
+        </div>
+        <div id="fileList" style="margin-bottom: 5px;"></div>
+        
+        
+
+          <div class="input-group-item">
+            <label for="uploadButton">Are you done?</label>
+            <button class="learn-more-button" onclick="submitForm()" id="submitBtn">Submit</button>
+         </div>
+         <div id="loading-indicator2" style="display: none;">
+            <div class="loader"></div>
+          </div>
+      
+      
+        </div>
+    </div>
+
+
 
 <script>
-        function createNewTicket(){
-            window.location.href = 'new_ticket.html';
+        var editorData = ''
+        var uploadedFiles = [];
+        var toUpload = [];
+
+        function createNewTicket() {
+            document.querySelector('.support-ticket-table').classList.add('hidden');
+            document.getElementById('card-container').classList.add('hidden');
+            document.querySelector('.support-ticket-form').classList.remove('hidden');
+            document.querySelector('.portal-pages-heading span').textContent = 'New Ticket';
+            document.querySelector('.support-ticket-form').classList.add('slide-in-left');
         }
 
-        var support_tickets = {{ support_tickets | tojson | safe }};
+        function navigateToTickets() {
+            document.querySelector('.support-ticket-table').classList.remove('hidden');
+            document.getElementById('card-container').classList.remove('hidden');
+            document.querySelector('.support-ticket-form').classList.add('hidden');
+            document.querySelector('.portal-pages-heading span').textContent = 'Support Tickets';
+            document.querySelector('.support-ticket-table').classList.add('slide-in-right');
+            document.getElementById('card-container').classList.add('slide-in-right');
+            document.querySelector('.support-ticket-form').classList.remove('slide-in-left');
+        }
 
-        console.log(support_tickets)
+
+        var support_tickets = {{ support_tickets | tojson | safe }};
 
         function createCard(ticket) {
 
@@ -311,6 +449,225 @@ p {
     document.getElementsByName('start-date')[0].addEventListener('input', filterTickets);
     document.getElementsByName('end-date')[0].addEventListener('input', filterTickets);
     document.getElementById('clear').addEventListener('click', clearFilters);
+
+
+</script>
+
+<!-- new support ticket -->
+<script>
+
+    const userEmail = "{{ frappe.session.user }}";
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var nameInput = document.getElementById('nameInput');
+        nameInput.value = userEmail;
+        nameInput.disabled = true;
+    });
+
+
+    document.getElementById('prioritySelect').addEventListener('change', function() {
+      document.getElementById('priorityInput').value = this.value;
+    });
+
+    document.getElementById('issueTypeSelect').addEventListener('change', function() {
+      document.getElementById('issueTypeInput').value = this.value;
+    });
+
+    function submitForm() {
+      var name = document.getElementById("nameInput").value;
+      var subject = document.getElementById("subjectInput").value;
+      var priority = document.getElementById("prioritySelect").value;
+      var issueType = document.getElementById("issueTypeSelect").value;
+      var loadingIndicator = document.getElementById('loading-indicator2');
+      var submitBtn = document.getElementById('submitBtn');
+
+      loadingIndicator.style.display = 'block';
+      submitBtn.style.display = 'none';
+
+      var requestBody = {
+          "raised_by": name,
+          "owner": "{{ frappe.session.user }}",
+          "subject": subject,
+          "priority": priority,
+          "issue_type": issueType,
+          "description": editorData,
+          "status": "Open"
+      };
+
+      fetch('/api/resource/Issue', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(requestBody)
+      })
+      .then(response => {
+          if (!response.ok) {
+              loadingIndicator.style.display = 'none';
+              submitBtn.style.display = 'block';
+              throw new Error('Network response was not ok');
+              alert('failed to submit ticket');
+          }
+          return response.json();
+      })
+      .then(data => {
+          
+        // Upload files if any
+        if (toUpload.length > 0) {
+            toUpload.forEach(file => {
+                uploadFile(file, data.data.name);
+            });
+        }
+
+        alert('ticket logged');
+        loadingIndicator.style.display = 'none';
+        submitBtn.style.display = 'block';
+      })
+      .catch(error => {
+        loadingIndicator.style.display = 'none'
+        submitBtn.style.display = 'block';
+          console.error('Error:', error);
+          alert(JSON.stringify(error));
+      });
+  }
+
+  fetch('/api/resource/Issue Type')
+  .then(response => response.json())
+  .then(data => {
+      var select = document.getElementById('issueTypeSelect');
+
+    data.data.forEach(issueType => {
+        var option = document.createElement('option');
+        option.value = issueType.name;
+        option.textContent = issueType.name;
+        select.appendChild(option);
+    });
+
+  })
+  .catch(error => {
+      console.error('Error fetching issue types:', error);
+  });
+
+
+  </script>
+
+<!-- ckeditor for description -->
+<script>
+  ClassicEditor
+      .create(document.querySelector('#editor'), {
+          toolbar: {
+              items: [
+                  'heading',
+                  '|',
+                  'bold',
+                  'italic',
+                  'underline',
+                  'link',
+                  '|',
+                  'bulletedList',
+                  'numberedList',
+                  '|',
+                  'outdent',
+                  'indent',
+                  '|',
+                  'undo',
+                  'redo'
+              ]
+          },
+          language: 'en',
+          height: 800, 
+      })
+      .then(editor => {
+          console.log('Editor initialized', editor);
+          editor.model.document.on('change', () => {
+             editorData = editor.getData();
+            // console.log('Editor content:', editorData);
+        });
+      })
+      .catch(error => {
+          console.error('Error initializing CKEditor', error);
+      });
+      
+</script>
+
+<!-- upload files -->
+<script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+    var uploadButton = document.getElementById('uploadButton');
+    var fileList = document.getElementById('fileList');
+    var fileInput = document.getElementById('fileInput');
+
+    // Function to handle file input change
+    fileInput.addEventListener('change', function(event) {
+        var files = event.target.files;
+        handleFiles(files);
+    });
+
+    // Function to handle file upload
+    uploadButton.addEventListener('click', function() {
+        fileInput.click();
+    });
+
+    // Function to handle selected files
+    function handleFiles(files) {
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            uploadedFiles.push(file.name);
+            toUpload.push(file);
+        }
+        renderFileList();
+    }
+
+    // Function to render the list of uploaded files
+    function renderFileList() {
+        fileList.innerHTML = '';
+        if (uploadedFiles.length > 0) {
+            uploadedFiles.forEach(function(file, index) {
+                var listItem = document.createElement('div');
+                listItem.innerHTML = `
+                    <span>${file}</span>
+                    <button class="remove-button" data-index="${index}">Remove</button>
+                `;
+                fileList.appendChild(listItem);
+
+                // Add event listener to remove button
+                var removeButton = listItem.querySelector('.remove-button');
+                removeButton.addEventListener('click', function() {
+                    var indexToRemove = parseInt(this.getAttribute('data-index'));
+                    uploadedFiles.splice(indexToRemove, 1);
+                    toUpload.push(indexToRemove, 1);
+                    renderFileList();
+                });
+            });
+        } else {
+            // fileList.innerHTML = '<p>No files uploaded</p>';
+        }
+    }
+});
+
+
+// Function to upload file
+function uploadFile(file, issue) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('is_private', '1');
+    formData.append('folder', 'Home/Attachments');
+    formData.append('doctype', 'Issue');
+    formData.append('docname', issue);
+
+    fetch('/api/method/upload_file', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('File uploaded successfully:', data);
+    })
+    .catch(error => {
+        console.error('Error uploading file:', error);
+    });
+}
 
 
 </script>
