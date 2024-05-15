@@ -306,6 +306,12 @@ p {
             document.querySelector('.support-ticket-table').classList.add('slide-in-right');
             document.getElementById('card-container').classList.add('slide-in-right');
             document.querySelector('.support-ticket-form').classList.remove('slide-in-left');
+
+            setTimeout(function() {
+                document.getElementById('card-container').classList.remove('slide-in-right');
+                document.querySelector('.support-ticket-table').classList.remove('slide-in-right');
+            }, 2000);
+
         }
 
 
