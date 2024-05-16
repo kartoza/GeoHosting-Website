@@ -325,10 +325,9 @@ p {
         }
 
         var totalPages = 0;
-        var support_tickets = []
         var currentPage = 1;
         var cardsPerPage = 4;
-        var totalPages = 0;
+
         function fetchUserIssues() {
             const currentUser = "{{ frappe.session.user }}";
             const url = `/api/resource/Issue?fields=["*"]&filters=[["owner", "=", "${currentUser}"]]`
@@ -337,13 +336,10 @@ p {
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
-                    
-                    support_tickets = data.data;
-                    totalPages = Math.ceil(support_tickets.length / cardsPerPage);
-                    support_tickets.forEach(ticket => {
+                    data.data.forEach(ticket => {
                         createCard(ticket);
                     });
-                    displayCards(currentPage,support_tickets);
+                    totalPages = Math.ceil(data.data.length / cardsPerPage);
                 })
                 .catch(error => {
                     console.error('Error fetching user invoices:', error);
@@ -352,6 +348,7 @@ p {
 
           fetchUserIssues()
 
+        // var support_tickets = {{ support_tickets | tojson | safe }};
 
         function createCard(ticket) {
 
@@ -434,15 +431,34 @@ p {
             dateUpdated.textContent = "Date Updated " + modifiedDate;
             card.appendChild(dateUpdated);
 
+
             // Append card to container
             var container = document.getElementById("card-container");
             container.appendChild(card);
         }
 
-
-        function displayCards(pageNumber,support_tickets) {
+        function displayCards(pageNumber) {
             var container = document.getElementById("card-container");
-            container.innerHTML = ""; 
+            container.innerHTML = ""; // Clear existing cards
+
+            var startIndex = (pageNumber - 1) * cardsPerPage;
+            var endIndex = startIndex + cardsPerPage;
+
+            var ticketsToDisplay = support_tickets.slice(startIndex, endIndex);
+            ticketsToDisplay.forEach(ticket => {
+                createCard(ticket);
+            });
+        }
+
+        // Populate cards with data
+        // support_tickets.forEach(ticket => {
+        //     createCard(ticket);
+        // });
+
+
+        function displayCards(pageNumber) {
+            var container = document.getElementById("card-container");
+            container.innerHTML = ""; // Clear existing cards
 
             var startIndex = (pageNumber - 1) * cardsPerPage;
             var endIndex = startIndex + cardsPerPage;
@@ -452,10 +468,10 @@ p {
                 createCard(ticket);
             });
 
-            updatePaginationUI(support_tickets);
+            updatePaginationUI();
         }
 
-        function updatePaginationUI(support_tickets) {
+        function updatePaginationUI() {
             var paginationPages = document.getElementById("pagination-pages");
             paginationPages.innerHTML = "";
 
@@ -465,7 +481,7 @@ p {
                 pageButton.textContent = i;
                 pageButton.addEventListener("click", function() {
                     currentPage = parseInt(this.textContent);
-                    displayCards(currentPage,support_tickets);
+                    displayCards(currentPage);
                 });
                 if (i === currentPage) {
                     pageButton.classList.add("current-page");
@@ -474,6 +490,9 @@ p {
             }
         }
 
+        // Initial display
+        displayCards(currentPage);
+
         // Function to handle pagination navigation
         function goToPage(pageNumber) {
             currentPage = pageNumber;
@@ -481,6 +500,7 @@ p {
         }
 
         
+
         // filter tickets based on search text and date range
         function filterTickets() {
             var searchText = document.getElementById('search').value.toLowerCase();
@@ -619,7 +639,6 @@ p {
         }
 
         alert('ticket logged');
-        fetchUserIssues();
         loadingIndicator.style.display = 'none';
         submitBtn.style.display = 'block';
       })
@@ -678,7 +697,7 @@ p {
           height: 800, 
       })
       .then(editor => {
-        //   console.log('Editor initialized', editor);
+          console.log('Editor initialized', editor);
           editor.model.document.on('change', () => {
              editorData = editor.getData();
             // console.log('Editor content:', editorData);
