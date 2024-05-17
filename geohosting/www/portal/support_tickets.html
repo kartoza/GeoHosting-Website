@@ -485,12 +485,15 @@ p {
 
         
         // filter tickets based on search text and date range
-        function filterTickets() {
+        function filterTickets(ignore_indexes) {
             var searchText = document.getElementById('search').value.toLowerCase();
             var startDate = document.getElementsByName('start-date')[0].value;
             var endDate = document.getElementsByName('end-date')[0].value;
 
-            displayCards(1,support_tickets, true)
+            if(!ignore_indexes)
+                displayCards(1,support_tickets, ignore_indexes)
+            else 
+                displayCards(1,support_tickets, true)
             var cards = document.querySelectorAll('.card');
 
             cards.forEach(card => {
@@ -525,29 +528,42 @@ p {
         document.getElementsByName('start-date')[0].value = '';
         document.getElementsByName('end-date')[0].value = '';
         
-        filterTickets();
+        filterTickets(false);
     }
 
     // Event listener for search inputs
     // document.getElementById('search').addEventListener('input', filterTickets);
-    document.getElementsByName('start-date')[0].addEventListener('input', filterTickets);
-    document.getElementsByName('end-date')[0].addEventListener('input', filterTickets);
+    // document.getElementsByName('start-date')[0].addEventListener('input', filterTickets);
+    // document.getElementsByName('end-date')[0].addEventListener('input', filterTickets);
     // document.getElementById('clear').addEventListener('click', clearFilters);
+
+    document.getElementsByName('start-date')[0].addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+            document.getElementById('pagination-container').style.display = 'none';
+        } else {
+            document.getElementById('pagination-container').style.display = 'block';
+        }
+    });
+
+    document.getElementsByName('end-date')[0].addEventListener('input', function() {
+        if (this.value.trim() !== '') {
+            document.getElementById('pagination-container').style.display = 'none';
+        } else {
+            document.getElementById('pagination-container').style.display = 'block';
+        }
+    });
 
     document.getElementById('search').addEventListener('input', function() {
         var searchInput = this.value.trim().toLowerCase();
         if (searchInput !== '') {
-            // If there's input in the search box, hide the pagination buttons
             document.getElementById('pagination-container').style.display = 'none';
         } else {
-            // If the search box is empty, show the pagination buttons
             document.getElementById('pagination-container').style.display = 'block';
         }
         filterTickets(searchInput);
     });
 
     document.getElementById('clear').addEventListener('click', function() {
-        // When the clear button is clicked, show the pagination buttons
         document.getElementById('pagination-container').style.display = 'block';
         clearFilters();
     });
