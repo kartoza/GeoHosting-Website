@@ -67,7 +67,7 @@
     color: #000000;
     text-decoration: none;
     display: inline-block;
-    height: 3.1vh;
+    height: 3.5vh;
 }
 
 .invoice-table .download-icon,
@@ -160,13 +160,7 @@
 
         
 
-        // CLEAR SEARCH FILTERS
-        function clearFilters() {
-            document.getElementById("search").value = "";
-            document.getElementsByName("start-date")[0].value = "";
-            document.getElementsByName("end-date")[0].value = "";
-            populateInvoiceTable(invoices);
-        }
+        
 
         document.getElementById("clear-button").addEventListener("click", clearFilters);
 
@@ -229,30 +223,7 @@
         }
 
 
-        // SEARCH INVOICES
-        function filterInvoices() {
-            var searchQuery = document.getElementById("search").value.toLowerCase();
-            var startDate = document.getElementsByName("start-date")[0].value;
-            var endDate = document.getElementsByName("end-date")[0].value;
-
-            var filteredInvoices = invoices.filter(function(invoice) {
-                var titleMatches = invoice.title.toLowerCase().includes(searchQuery);
-                var dateInRange = true;
-
-                if (startDate && endDate) {
-                    dateInRange = (invoice.creation >= startDate && invoice.creation <= endDate);
-                } else if (startDate) {
-                    dateInRange = (invoice.creation >= startDate);
-                } 
-
-                console.log(dateInRange)
-
-                return titleMatches && dateInRange;
-            });
-
-            // Populate the table with filtered invoices
-            populateInvoiceTable(filteredInvoices);
-        }
+        
 
         // Call filterInvoices function when search input or date inputs change
         document.getElementById("search").addEventListener("input", filterInvoices);
@@ -295,6 +266,39 @@
 
         populateInvoiceTable(invoices, currentPage, itemsPerPage);
         updatePaginationUI(currentPage, totalPages);
+
+        // CLEAR SEARCH FILTERS
+        function clearFilters() {
+            document.getElementById("search").value = "";
+            document.getElementsByName("start-date")[0].value = "";
+            document.getElementsByName("end-date")[0].value = "";
+            populateInvoiceTable(invoices,currentPage,itemsPerPage);
+        }
+
+        // SEARCH INVOICES
+        function filterInvoices() {
+            var searchQuery = document.getElementById("search").value.toLowerCase();
+            var startDate = document.getElementsByName("start-date")[0].value;
+            var endDate = document.getElementsByName("end-date")[0].value;
+
+            var filteredInvoices = invoices.filter(function(invoice) {
+                var titleMatches = invoice.title.toLowerCase().includes(searchQuery);
+                var dateInRange = true;
+
+                if (startDate && endDate) {
+                    dateInRange = (invoice.creation >= startDate && invoice.creation <= endDate);
+                } else if (startDate) {
+                    dateInRange = (invoice.creation >= startDate);
+                } 
+
+                console.log(dateInRange)
+
+                return titleMatches && dateInRange;
+            });
+
+            // Populate the table with filtered invoices
+            populateInvoiceTable(filteredInvoices,currentPage,itemsPerPage);
+        }
     </script>
 
 
