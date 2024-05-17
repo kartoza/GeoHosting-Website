@@ -6,6 +6,7 @@
 <title>Support Tickets</title>
 <link rel="stylesheet" href="portal_pages.css">
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/classic/ckeditor.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="portal_pages.js"></script>
 <style>
     
@@ -228,7 +229,7 @@ p {
 
 
     
-    <div class="support-ticket-form hidden">
+    <div class="support-ticket-form hidden" id="backgroundContainer">
 
         <div class=" ">
             <div class="back-icon-container">
@@ -575,6 +576,26 @@ p {
       document.getElementById('issueTypeInput').value = this.value;
     });
 
+    var backgroundContainer = document.getElementById('backgroundContainer');
+
+    function showCustomAlert(message, alertType) {
+        var customAlert = document.createElement('div');
+        customAlert.classList.add('alert', alertType);
+        customAlert.innerHTML = `
+            <h4>${message}</h4>
+            <a class="close">&times;</a>
+        `;
+
+        document.body.appendChild(customAlert);
+
+        $(document).on("click", ".close", function() {
+            $(this).parent(".alert").fadeOut();
+            backgroundContainer.classList.remove('blur'); 
+        });
+
+        backgroundContainer.classList.add('blur');
+    }
+
     function submitForm() {
       var name = document.getElementById("nameInput").value;
       var subject = document.getElementById("subjectInput").value;
@@ -608,7 +629,7 @@ p {
               loadingIndicator.style.display = 'none';
               submitBtn.style.display = 'block';
               throw new Error('Network response was not ok');
-              alert('failed to submit ticket');
+              showCustomAlert('failed to submit ticket', 'danger-alert');
           }
           return response.json();
       })
@@ -620,8 +641,7 @@ p {
                 uploadFile(file, data.data.name);
             });
         }
-
-        alert('ticket logged');
+        showCustomAlert('Your ticket has been looged', 'success-alert');
         fetchUserIssues();
         loadingIndicator.style.display = 'none';
         submitBtn.style.display = 'block';
@@ -630,7 +650,7 @@ p {
         loadingIndicator.style.display = 'none'
         submitBtn.style.display = 'block';
           console.error('Error:', error);
-          alert(JSON.stringify(error));
+          showCustomAlert(JSON.stringify(error), 'danger-alert');
       });
   }
 
