@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice Table</title>
 <link rel="stylesheet" href="portal_pages.css">
+<script src="portal_pages.js"></script>
 <style>
 .invoice-table {
     border-collapse: separate;
@@ -147,9 +148,12 @@
             </tr>
         </thead>
         <tbody id="invoice-table-body">
-            <!-- Invoice rows will be dynamically populated here -->
         </tbody>
     </table>
+
+    <div id="pagination-container" class="pagination-container" >
+        <div id="pagination-pages"></div>
+    </div>
 
     
     <script>
@@ -168,11 +172,17 @@
 
 
         // POPULATE INVOICES TABLE WITH CONTEXT DATA 
-        function populateInvoiceTable(invoices) {
+        function populateInvoiceTable(invoices, currentPage, itemsPerPage) {
             var tableBody = document.getElementById("invoice-table-body");
             tableBody.innerHTML = ""; // Clear existing rows
-            
-            invoices.forEach(function(invoice) {
+
+            // Calculate the start and end index of the invoices to display based on pagination
+            var startIndex = (currentPage - 1) * itemsPerPage;
+            var endIndex = Math.min(startIndex + itemsPerPage, invoices.length);
+
+                    
+            for (var i = startIndex; i < endIndex; i++) {
+                var invoice = invoices[i];
                 var row = document.createElement("tr");
                 
                 // Checkbox
@@ -215,7 +225,7 @@
                 row.appendChild(shareCell);
                 
                 tableBody.appendChild(row);
-            });
+            };
         }
 
 
@@ -228,8 +238,6 @@
             var filteredInvoices = invoices.filter(function(invoice) {
                 var titleMatches = invoice.title.toLowerCase().includes(searchQuery);
                 var dateInRange = true;
-
-                console.log(endDate)
 
                 if (startDate && endDate) {
                     dateInRange = (invoice.creation >= startDate && invoice.creation <= endDate);
@@ -251,19 +259,42 @@
         document.getElementsByName("start-date")[0].addEventListener("input", filterInvoices);
         document.getElementsByName("end-date")[0].addEventListener("input", filterInvoices);
 
-        // INTIAL FETCHING OF CONTECT DATA
-        var invoices = {{ invoices | tojson | safe }}; // Load invoices from context
-      
+
+        function updatePaginationUI(currentPage, totalPages) {
+            var paginationPages = document.getElementById("pagination-pages");
+            paginationPages.innerHTML = "";
+
+            for (var i = 1; i <= totalPages; i++) {
+                var pageButton = document.createElement("button");
+                pageButton.classList.add("pagination-button");
+                pageButton.textContent = i;
+                pageButton.addEventListener("click", function() {
+                    currentPage = parseInt(this.textContent);
+                    populateInvoiceTable(invoices, currentPage, itemsPerPage);
+                    updatePaginationUI(currentPage, totalPages);
+                });
+                if (i === currentPage) {
+                    pageButton.classList.add("current-page");
+                }
+                paginationPages.appendChild(pageButton);
+            }
+        }
+
+        var invoices = {{ invoices | tojson | safe }};
+
+        invoices.sort((a, b) => new Date(b.creation) - new Date(a.creation));
 
         invoices.forEach(function(invoice) {
-            // Parse the ISO date string and format it as '2024-05-09'
             var date = new Date(invoice.creation);
             var formattedDate = date.toISOString().split('T')[0];
             invoice.creation = formattedDate;
         });
 
-        console.log(invoices)
-        populateInvoiceTable(invoices);
+        var itemsPerPage = 15;
+        var totalPages = Math.ceil(invoices.length / itemsPerPage);
+
+        populateInvoiceTable(invoices, currentPage, itemsPerPage);
+        updatePaginationUI(currentPage, totalPages);
     </script>
 
 

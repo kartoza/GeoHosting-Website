@@ -6,6 +6,7 @@
 <title>Support Tickets</title>
 <link rel="stylesheet" href="portal_pages.css">
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/classic/ckeditor.js"></script>
+<script src="portal_pages.js"></script>
 <style>
     
 
@@ -15,7 +16,7 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
-    width: 880px;
+    width: 875px;
     height: auto;
     background: #FFFFFF;
     border: 1px solid #E4E4E4;
@@ -320,15 +321,12 @@ p {
             setTimeout(function() {
                 document.getElementById('card-container').classList.remove('slide-in-right');
                 document.querySelector('.support-ticket-table').classList.remove('slide-in-right');
-            }, 2000);
+            }, 1500);
 
         }
 
-        var totalPages = 0;
+        
         var support_tickets = []
-        var currentPage = 1;
-        var cardsPerPage = 4;
-        var totalPages = 0;
         function fetchUserIssues() {
             const currentUser = "{{ frappe.session.user }}";
             const url = `/api/resource/Issue?fields=["*"]&filters=[["owner", "=", "${currentUser}"]]`
@@ -340,6 +338,7 @@ p {
                     
                     support_tickets = data.data;
                     totalPages = Math.ceil(support_tickets.length / cardsPerPage);
+                    support_tickets.sort((a, b) => new Date(b.creation) - new Date(a.creation));
                     support_tickets.forEach(ticket => {
                         createCard(ticket);
                     });
@@ -350,7 +349,7 @@ p {
                 });
           }
 
-          fetchUserIssues()
+        fetchUserIssues()
 
 
         function createCard(ticket) {
@@ -440,14 +439,17 @@ p {
         }
 
 
-        function displayCards(pageNumber,support_tickets) {
+        function displayCards(pageNumber,support_tickets,ignore_indexes) {
             var container = document.getElementById("card-container");
             container.innerHTML = ""; 
 
             var startIndex = (pageNumber - 1) * cardsPerPage;
             var endIndex = startIndex + cardsPerPage;
 
-            var ticketsToDisplay = support_tickets.slice(startIndex, endIndex);
+            if(ignore_indexes)
+                var ticketsToDisplay = support_tickets;
+            else
+                var ticketsToDisplay = support_tickets.slice(startIndex, endIndex);
             ticketsToDisplay.forEach(ticket => {
                 createCard(ticket);
             });
@@ -487,6 +489,7 @@ p {
             var startDate = document.getElementsByName('start-date')[0].value;
             var endDate = document.getElementsByName('end-date')[0].value;
 
+            displayCards(1,support_tickets, true)
             var cards = document.querySelectorAll('.card');
 
             cards.forEach(card => {
