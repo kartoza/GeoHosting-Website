@@ -87,6 +87,12 @@
     border-color: #57A0C7; 
 }
 
+.pagination-container-invoice {
+    display: flex;
+    justify-content: flex-end; /* Align items to the right */
+    padding: 10px 0;
+}
+
 
     /* Media query for smaller devices */
   @media (max-width: 768px) {
@@ -149,12 +155,16 @@
         </thead>
         <tbody id="invoice-table-body">
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5">
+                    <div id="pagination-container" class="pagination-container-invoice">
+                        <div id="pagination-pages"></div>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
     </table>
-
-    <div id="pagination-container" class="pagination-container" >
-        <div id="pagination-pages"></div>
-    </div>
-
     
     <script>
 

@@ -17,12 +17,12 @@
     flex-direction: column;
     align-items: flex-start;
     padding: 20px;
-    width: 875px;
+    /* width: 875px; */
     height: auto;
     background: #FFFFFF;
     border: 1px solid #E4E4E4;
     border-radius: 8px;
-    margin-left: 19.5%;
+    /* margin-left: 19.5%; */
     margin-top: 2%;
 }
 
@@ -147,12 +147,35 @@ p {
 
     }
 
+    .card-container {
+        position: relative; 
+        /* border: 5px solid red;  */
+        width: 47%; 
+        margin-left: 19.3%; 
+        height: 65vh; 
+        padding: 10px;
+    }
+
 @media (max-width: 768px) {
 
 .portal-pages-heading {
     top: -50px;
     left: -38px;
 }
+
+.card-container {
+        position: relative; 
+        /* border: 5px solid red;  */
+        width: auto; 
+        margin-left: 0%; 
+        height: auto; 
+        padding: 10px;
+    }
+
+    .pagination-container {
+        top: 500px;
+        width: 50%;
+    }
 
 .card {
     padding: 10px;
@@ -219,11 +242,13 @@ p {
         </tr>
     </table>
 
-    <div id="card-container"></div>
-
-    <div id="pagination-container" class="pagination-container">
-        <div id="pagination-pages"></div>
+    <div id="card-container" class="card-container">
+        <div id="pagination-container" class="pagination-container">
+            <div id="pagination-pages"></div>
+        </div>
     </div>
+
+    
    
 
 
@@ -442,7 +467,9 @@ p {
 
         function displayCards(pageNumber,support_tickets,ignore_indexes) {
             var container = document.getElementById("card-container");
-            container.innerHTML = ""; 
+            // container.innerHTML = ""; 
+            container.innerHTML = '<div id="pagination-container" class="pagination-container"><div id="pagination-pages"></div></div>'; // Clear previous cards and keep pagination
+
 
             var startIndex = (pageNumber - 1) * cardsPerPage;
             var endIndex = startIndex + cardsPerPage;

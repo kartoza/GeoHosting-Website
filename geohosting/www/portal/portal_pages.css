@@ -13,7 +13,7 @@
   padding: 0px 64px;
   gap: 10px;
   position: absolute;
-  width: 1200px;
+  width: 1250px;
   height: 56px;
   left: 300px;
   top: 68px;
@@ -370,11 +370,27 @@ input:focus {
       background-color: #57A0C7;
   }
 
-  .pagination-container {
+  /* .pagination-container {
     margin-left: 61.5%; 
     margin-top: 2%;
-  }
+  } */
 
+  /* .pagination-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 20px;
+} */
+
+.pagination-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns items to the right */
+  position: absolute;
+  bottom: 10px; /* Adjust as needed */
+  right: 10px;  /* Adjust as needed */
+  /* top: 600px; */
+  width: auto;
+}
 
   /* Media query for smaller devices */
 @media (max-width: 768px) {
