@@ -299,7 +299,14 @@ p {
           <div class="input-group-item">
             <label for="fileInput">Attachment:</label>
             <input type="file" id="fileInput" style="display: none;">
-            <button class="learn-more-button" id="uploadButton">Upload</button>
+            <!-- <button class="learn-more-button" id="uploadButton">Upload</button> -->
+            <button class="learn-more-button" id="uploadButton">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125" stroke="#fffffff" stroke-width="2"></path>
+              <path d="M17 15V18M17 21V18M17 18H14M17 18H20" stroke="#fffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                </svg>
+                Upload
+              </button>
         </div>
         <div id="fileList" style="margin-bottom: 5px;"></div>
         
@@ -467,8 +474,8 @@ p {
 
         function displayCards(pageNumber,support_tickets,ignore_indexes) {
             var container = document.getElementById("card-container");
-            // container.innerHTML = ""; 
             container.innerHTML = '<div id="pagination-container" class="pagination-container"><div id="pagination-pages"></div></div>'; // Clear previous cards and keep pagination
+            //container.innerHTML = ""; 
 
 
             var startIndex = (pageNumber - 1) * cardsPerPage;
@@ -516,6 +523,8 @@ p {
             var searchText = document.getElementById('search').value.toLowerCase();
             var startDate = document.getElementsByName('start-date')[0].value;
             var endDate = document.getElementsByName('end-date')[0].value;
+
+            console.log('ignore indexes: ',ignore_indexes)
 
             if(!ignore_indexes)
                 displayCards(1,support_tickets, ignore_indexes)

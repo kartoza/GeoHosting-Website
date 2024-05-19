@@ -47,7 +47,7 @@
 }
 
 
-.learn-more-button {
+/* .learn-more-button {
   background-color: #ECB44B;
   color: #fff;
   border: none;
@@ -56,10 +56,33 @@
   cursor: pointer;
   transition: background-color 0.3s;
   width: 200px;
+} */
+
+.learn-more-button {
+  border: none;
+  display: flex;
+  background-color: #ECB44B;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px;
+  transition: background-color 0.3s;
+  align-items: center;
+  justify-content: center; /* Center the contents horizontally */
+  text-align: center; /* Ensure text is centered */
+  user-select: none;
+  gap: 0.75rem;
 }
+
 
 .learn-more-button:hover {
   background-color: #57A0C7;
+  }
+
+  .learn-more-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 
   .support-ticket-table {
