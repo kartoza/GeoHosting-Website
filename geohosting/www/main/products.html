@@ -137,11 +137,14 @@
 
                 var loadingIndicator = document.getElementById('loading-indicator');
                 var hiddenSectionContent =  document.getElementById('hiddenSectionContent');
+                
+
 
                 function toggleProductDetails(item_name, logoUrl) {
                     var stockItems = JSON.parse('{{ stock_items | tojson | safe }}');
                     // console.log(stockItems); // testing purposes
-
+                    localStorage.setItem('selectedItem',item_name)
+                    
                     localStorage.setItem('logoUrl', JSON.stringify(logoUrl));
                     var hiddenSection = document.getElementById('hiddenSection');
 
@@ -184,6 +187,53 @@
                 }
 
 
+                async function fetchItemAttributes(attributeName) {
+                    const baseUrl = '/api/resource/Item%20Attribute';
+                    const filters = `[["name","like","%${encodeURIComponent(attributeName)}%"]]`;
+                    const fields = '["*"]';
+
+                    const url = `${baseUrl}?filters=${filters}&fields=${fields}`;
+
+                    try {
+                        const response = await fetch(url, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const data = await response.json();
+                        
+                        // Assuming the response has a `data` field containing the array of item attributes
+                        if (data.data && data.data.length > 0) {
+                            // Accessing the first item attribute object for demonstration purposes
+                            const itemAttribute = data.data[0];
+                            
+                            // Logging the item attribute object
+                            console.log('Item Attribute:', itemAttribute);
+                            
+                            // Extracting attribute values
+                            const attributeValues = itemAttribute.values || [];
+                            console.log('Attribute Values:', attributeValues);
+
+                            return attributeValues;
+                        } else {
+                            console.log('No item attributes found.');
+                            return [];
+                        }
+                    } catch (error) {
+                        console.error('Error fetching item attributes:', error);
+                    }
+                }
+
+                // Example usage:
+                // const attributeName = 'GeoHosting GeoSight';
+                // fetchItemAttributes(attributeName).then(attributeValues => console.log(JSON.stringify(attributeValues, null, 2)));
+
 
 
             
@@ -218,7 +268,7 @@
                                 // fetch id from local storage iterate stock items in context and find a match retrieve values to assign pricing cards TODO
 
                                 document.getElementById('pricing-card-logo').src = JSON.parse(localStorage.getItem('logoUrl'));
-                                document.getElementById('pricing-card-title-free').innerHTML = 'GeoSight Free'
+                                // document.getElementById('pricing-card-title-free').innerHTML = 'GeoSight Free'
                             } else {
                                 console.error('Error loading content:', xhr.status);
                             }
