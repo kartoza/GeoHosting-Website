@@ -33,7 +33,7 @@
         <!-- Content -->
         <div class="content">
             <div class="">
-                <img src="/assets/geohosting/images/GeoH1.png"  alt="Logo" class="geohosting-logo">
+                <img src="/assets/geohosting/images/geohosting_main_logo.png"  alt="Logo" class="geohosting-logo">
                 
                   <div class="geohosting-heading">Welcome to a better GIS platform where privacy and freedom comes first.</div>
                 
@@ -73,7 +73,6 @@
                 </div>
                 <ul>
                 <li><a href="#" id="overview-link" class="active" onclick="loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', this)">Overview</a></li>
-                <li><a href="#" id="integration-link" onclick="loadContentAndSetActiveTab(event, 'product_integration.html', 'integration-content', this)">Integration</a></li>
                 <li><a href="#" id="pricing-link" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this)">Pricing</a></li>
                 </ul>
             </div>
@@ -93,9 +92,8 @@
            
         <button id="scrollToTopBtn" onclick="scrollToTop()">&#8593;</button>
 
-            
+            <!-- scroll to top functionality -->
             <script>
-
                 // add a scroll button for easy nav
                 window.onscroll = function() {scrollFunction()};
 
@@ -134,17 +132,31 @@
 
                     requestAnimationFrame(animation);
                 }
+            </script>
+
+            
+            <script>
+
+
+                
 
                 var loadingIndicator = document.getElementById('loading-indicator');
                 var hiddenSectionContent =  document.getElementById('hiddenSectionContent');
                 
 
+                var stockItems = JSON.parse('{{ stock_items | tojson | safe }}');
+                // console.log(stockItems); // testing purposes
+                    
+
+                function getProduct(itemArray, targetItemName) {
+                    const item = itemArray.find(obj => obj.item_name === targetItemName);
+                    return item ? item : undefined;
+                }
+                
+
 
                 function toggleProductDetails(item_name, logoUrl) {
-                    var stockItems = JSON.parse('{{ stock_items | tojson | safe }}');
-                    // console.log(stockItems); // testing purposes
-                    localStorage.setItem('selectedItem',item_name)
-                    
+                    localStorage.setItem('selectedItem',item_name);
                     localStorage.setItem('logoUrl', JSON.stringify(logoUrl));
                     var hiddenSection = document.getElementById('hiddenSection');
 
@@ -153,7 +165,8 @@
                         loadingIndicator.style.display = 'block';
                         
                         smoothScrollTo(hiddenSection, 1000); 
-                        loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', document.getElementById('overview-link'), logoUrl)
+                        loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', document.getElementById('overview-link'), logoUrl);
+                        
 
                         setTimeout(() => {
                             hiddenSectionContent.style.display = 'block';
@@ -236,6 +249,45 @@
 
 
 
+                async function fetchAttachments(item_code) {
+                    const attachmentsUrl = `/api/resource/File`;
+                    const filters = [
+                        ["attached_to_doctype", "=", "Item"],
+                        ["attached_to_name", "=", item_code]
+                    ];
+                    const params = new URLSearchParams({
+                        'filters': JSON.stringify(filters),
+                        'fields': JSON.stringify(["*"]) 
+                    });
+
+                    try {
+                        const response = await fetch(`${attachmentsUrl}?${params}`);
+                        if (!response.ok) {
+                            throw new Error(`Failed to fetch attachments: ${response.statusText}`);
+                        }
+                        const attachmentsData = await response.json();
+                        // document.getElementById('attachments').textContent = JSON.stringify(attachmentsData, null, 2);
+                        // console.log("Attachments:", attachmentsData);
+                        const screenshotAttachment = attachmentsData.data.find(file => file.file_name.endsWith("screenshot.png"));
+
+                        // console.log("Screenshot Attachment:", screenshotAttachment);
+                        return screenshotAttachment.file_url;
+                    } catch (error) {
+                        console.error("Error fetching attachments:", error);
+                    }
+                }
+
+                async function setDynamicBackground(item_code) {
+                    const productScreenshotUrl = await fetchAttachments(item_code);
+
+                    if (productScreenshotUrl) {
+                        document.querySelector('.overview-image').style.backgroundImage = `url('${productScreenshotUrl}')`;
+                        document.querySelector('.overview-image-white').style.backgroundImage = `url('${productScreenshotUrl}')`;
+                    } else {
+                        console.log("No screenshot attachment found, using default background.");
+                        document.querySelector('.overview-image').style.backgroundImage = "url('/assets/geohosting/images/overview-background.svg')";
+                    }
+                }
             
                 // Function to load content and set active tab
                 function loadContentAndSetActiveTab(event, url, targetId, clickedLink, logoUrl) {
@@ -265,10 +317,23 @@
                                 // Add active class to the clicked link
                                 clickedLink.classList.add('active');
 
-                                // fetch id from local storage iterate stock items in context and find a match retrieve values to assign pricing cards TODO
+                                
+                                try 
+                                {
+                                    
+                                    const product = getProduct(stockItems, localStorage.getItem('selectedItem'));
+                                    // console.log(product)
+                                    setDynamicBackground(product.name)
 
-                                document.getElementById('pricing-card-logo').src = JSON.parse(localStorage.getItem('logoUrl'));
-                                // document.getElementById('pricing-card-title-free').innerHTML = 'GeoSight Free'
+                                    var dynamicParagraph = document.getElementById('dynamic-paragraph');
+                                    dynamicParagraph.innerHTML = product.description;
+                                    var dynamicHeader = document.getElementById('dynamic-header');
+                                    dynamicHeader.innerHTML = product.item_name + ' Platform';
+
+                                    document.getElementById('pricing-card-logo').src = product.image // JSON.parse(localStorage.getItem('logoUrl'));
+                                } catch(exception){
+                                    console.log(exception.message)
+                                }
                             } else {
                                 console.error('Error loading content:', xhr.status);
                             }

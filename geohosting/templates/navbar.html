@@ -837,7 +837,7 @@ input:focus {
                 .then(data => {
                     const issueCount = data.data.length;
                     if (Array.isArray(data.data) && data.data.length > 0) {
-                        const issueCount = data.data.length + 1;
+                        const issueCount = data.data.length;
                         const issueCountElement = document.getElementById('issuesCount');
                         issueCountElement.textContent = `${issueCount} Open`;
                     }

@@ -1,27 +1,44 @@
 .overview-container {
   position: absolute;
-  width: 1530px;
-  height: 560px;
+  width: 1488px;
+  height: 500px;
   left: 50%; /* Centering horizontally */
-  top: 10px;
+  /* top: 0px; */
   background: #57A0C7;
   border-radius: 30px;
   /* border: solid 5px green; */
   transform: translateX(-50%);
 }
 
+.container-white {
+  position: absolute;
+  width: 1488px;
+  height: 500px;
+  left: 55px;
+  background: #FFFFFF;
+  border-radius: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transform: translateX(5%);
+  left: 5.4%;
+  margin-top: 510px;
+  /* border: 5px solid gold; */
+}
 
 
 
-.overall-container {
+
+
+/* .overall-container {
   border: solid 5px black;
   height: 200vh;
   width: auto;
-}
+} */
 
 .overview-content {
   position: absolute;
-  width: 40%;
+  width: 42%;
   height: 100%;
   left: 0;
   top: 0;
@@ -44,6 +61,17 @@
   width: 100%;
 }
 
+.overview-content-white h1 {
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+
 .overview-content p {
   font-weight: 400;
   font-size: 24px;
@@ -62,47 +90,45 @@
   font-weight: 600;
 }
 
-.enterprise-solution {
-  margin-top: 25%;
+/* .enterprise-solution {
+  margin-top: 40%;
   font-size: 16px;
   text-align: center;
-  /* border: 5px solid red; */
+  border: 5px solid red;
+} */
+
+.enterprise-solution a {
+  color: inherit; 
+  text-decoration: none; 
+  transition: color 0.3s ease; 
+}
+
+/* Style for link on hover */
+.enterprise-solution a:hover {
+  color: #ECB44B; 
+  /* color: #FFD966; */
 }
 
 .overview-image {
   position: absolute;
-  width: 900px;
+  width: 838px;
   height: 98%;
   right: 0;
   top: 0;
-  left: 39.5%;
+  left: 42%;
   background: url('/assets/geohosting/images/overview-background.svg') left/cover no-repeat;
   background-size: contain;
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
+  height: 100%; 
   /* border: 5px solid purple; */
-  margin-top: 0%;
+  /* margin-top: -2%; */
 }
 
 
 
 
 
-.container-white {
-  position: absolute;
-  width: 1488px;
-  height: 588px;
-  left: 55px;
-  background: #FFFFFF;
-  border-radius: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transform: translateX(5%);
-  left: 5.8%;
-  margin-top: 625px;
-  /* border: 5px solid gold; */
-}
 
 .overview-image-white {
   width: 838px; 
@@ -119,15 +145,6 @@
   width: calc(100% - 838px - 20px); /* Adjusted width to accommodate image and spacing */
 }
 
-.overview-content-white h1 {
-  font-weight: 600;
-  font-size: 36px;
-  line-height: 150%;
-  text-align: center;
-  letter-spacing: 0.15px;
-  color: #000000;
-  margin-bottom: 20px;
-}
 
 .overview-content-white h1 {
   font-weight: 600;
