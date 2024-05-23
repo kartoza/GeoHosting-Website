@@ -134,7 +134,7 @@
                 }
             </script>
 
-            
+
             <script>
 
 
@@ -278,15 +278,19 @@
                 }
 
                 async function setDynamicBackground(item_code) {
-                    const productScreenshotUrl = await fetchAttachments(item_code);
+                    // const productScreenshotUrl = await fetchAttachments(item_code);
 
-                    if (productScreenshotUrl) {
-                        document.querySelector('.overview-image').style.backgroundImage = `url('${productScreenshotUrl}')`;
-                        document.querySelector('.overview-image-white').style.backgroundImage = `url('${productScreenshotUrl}')`;
-                    } else {
-                        console.log("No screenshot attachment found, using default background.");
-                        document.querySelector('.overview-image').style.backgroundImage = "url('/assets/geohosting/images/overview-background.svg')";
-                    }
+                    var item_name = '/assets/geohosting/images/' + localStorage.getItem('selectedItem') + '-screenshot.png'
+                    document.querySelector('.overview-image').style.backgroundImage = `url('${item_name}')`;
+                    document.querySelector('.overview-image-white').style.backgroundImage = `url('${item_name}')`;
+
+                    // if (productScreenshotUrl) {
+                    //     document.querySelector('.overview-image').style.backgroundImage = `url('${productScreenshotUrl}')`;
+                    //     document.querySelector('.overview-image-white').style.backgroundImage = `url('${productScreenshotUrl}')`;
+                    // } else {
+                    //     console.log("No screenshot attachment found, using default background.");
+                    //     document.querySelector('.overview-image').style.backgroundImage = `url('${item_name}')`;
+                    // }
                 }
             
                 // Function to load content and set active tab
