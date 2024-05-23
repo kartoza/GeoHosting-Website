@@ -45,7 +45,7 @@
   .nav-links a {
     text-decoration: none;
     color: #000000;
-    font-family: 'Avenir';
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
@@ -67,7 +67,7 @@
   .sign-in-button, .create-account-button {
     text-decoration: none;
     color: #000000;
-    font-family: 'Avenir';
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
     font-size: 24px;
@@ -309,7 +309,7 @@
 }
 
 .card-heading {
-  font-family: 'Avenir';
+  font-family: 'Lato';
   font-weight: 700;
   font-size: 28px;
   line-height: 150%;
@@ -318,7 +318,7 @@
 }
 
 .card-text {
-  font-family: 'Avenir', sans-serif;
+  font-family: 'Lato', sans-serif;
   font-weight: 400;
   font-size: 15px;
   line-height: 150%;
@@ -778,6 +778,7 @@ input:focus {
           .then(response => response.json())
           .then(data => {
               if (data.message === 'Logged In') {
+                  localStorage.setItem("owner", username);
                   const accounts = document.getElementById('accounts-buttons');
                   accounts.style.display = 'none';
                   userAvatar.style.display = 'block';
@@ -796,18 +797,18 @@ input:focus {
             userProfilePopup.style.display = 'block';
         }
 
-        function openCustomerPortal() {
+        async function openCustomerPortal() {
           // window.scrollTo({ top: 0, behavior: 'smooth' });
           // TODO FETCH NOTIFICATIONS SERVICES AND SUPPORT
-          fetchUserInvoices()
-          fetchUserIssues()
+          await fetchUserInvoices()
+          await fetchUserIssues()
           customer_portal.style.display = 'flex';
           const body = document.getElementById('screenBody');
           body.classList.add('blur-background');
         }
 
-        function fetchUserInvoices() {
-          const currentUser = "{{ frappe.session.user }}";
+        async function fetchUserInvoices() {
+          const currentUser = localStorage.getItem("owner");
           const url = `/api/resource/Sales%20Invoice?filters=[["owner", "=", "${currentUser}"]]`;
 
 
@@ -826,9 +827,8 @@ input:focus {
               });
           }
 
-          function fetchUserIssues() {
-            const currentUser = "{{ frappe.session.user }}";
-            // const url = `/api/resource/Issue?filters=[["owner", "=", "${currentUser}"]]`;
+          async function fetchUserIssues() {
+            const currentUser = localStorage.getItem("owner");
             const url = `/api/resource/Issue?filters=[["owner", "=", "${currentUser}"], ["status", "in", ["Open", "On Hold", "Replied"]]]`
 
 
