@@ -8,6 +8,7 @@
 <script src="https://cdn.ckeditor.com/ckeditor5/35.2.0/classic/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="portal_pages.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
 <style>
     
 
@@ -187,11 +188,11 @@ p {
 }
 
 .support-ticket-form {
-    padding: 20px;
+    padding: 10px;
     margin-top: 35%;
     height: auto;
     width: auto;
-    margin-left: 0%;
+    margin-left: -15%;
 }
 
 .back-icon-container img {
@@ -206,11 +207,32 @@ p {
     display: table-column;
   }
 
-  .ck-editor__editable {
-        width: auto;
-    }
+  /* .ck-editor__editable {
+        width: 350px;
+    } */
+
+    .ck-editor__editable_inline {
+            width: 300px;
+        }
+        .ck-toolbar {
+            max-width: 300px;
+        }
+        .ck-editor__top {
+            max-width: 300px;
+        }
+        .ck-editor {
+            max-width: 300px;
+        }
+
+        
+
+    
 
 }
+
+.ck-content {
+            font-family: 'Lato', sans-serif;
+        }
 
 </style>
 </head>
@@ -256,7 +278,7 @@ p {
     
     <div class="support-ticket-form hidden" id="backgroundContainer">
 
-        <div class=" ">
+        <div class="">
             <div class="back-icon-container">
                 <img src="/assets/geohosting/images/back.png" alt="Back Icon" id="backIcon" onclick="navigateToTickets()">
             </div>
@@ -307,7 +329,7 @@ p {
                 </svg>
                 Upload
               </button>
-        </div>
+         </div>
         <div id="fileList" style="margin-bottom: 5px;"></div>
         
         
@@ -750,7 +772,14 @@ p {
               ]
           },
           language: 'en',
-          height: 800, 
+          fontFamily: {
+                    options: [
+                        'default',
+                        'Lato, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+        //   height: 800, 
       })
       .then(editor => {
         //   console.log('Editor initialized', editor);

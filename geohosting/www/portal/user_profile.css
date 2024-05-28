@@ -130,6 +130,19 @@ margin-top: 10px; /* Adjust spacing as needed */
 
 /* Media query for smaller devices */
 @media (max-width: 768px) {
+  .password-section {
+    margin-top: -50%;
+    width: 400px;
+    height: auto;
+    /* border: 3px solid red; */
+  }
+  .form-group {
+    width: 400px;
+  }
+
+  .password-input {
+    width: auto;
+  }
   .portal-pages-heading {
     left: -38px;
 }
