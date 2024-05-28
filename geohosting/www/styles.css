@@ -217,9 +217,9 @@
         }
       
         .geohosting-logo {
-          height: 100px;
-          width: 250px;
-          margin-left: 20%;
+          height: auto;
+          width: 350px;
+          margin-left: 5%;
         }
       
         .description {
