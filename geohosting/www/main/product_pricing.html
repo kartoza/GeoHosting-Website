@@ -41,7 +41,7 @@
                     <div class="price-pricing" id="pricing-card-pice-free">0€</div>
                     <div class="price-details-pricing">/month</div>
                   </div>
-                  <div class="button-pricing">Get GeoSight Basic</div>
+                  <div class="button-pricing" onclick="gotoCart()">Get GeoSight Basic</div>
                   <div class="features-title-pricing">Advanced Features</div>
                   <div class="features-list-pricing">
                       <div class="feature-item-pricing"><div class="vector-pricing"> <div class="vector-tick-pricing"></div></div><div class="feature-text-pricing">Feature 1</div></div>
@@ -59,7 +59,7 @@
                     <div class="price-pricing" id="pricing-card-pice-free">0€</div>
                     <div class="price-details-pricing">/month</div>
                   </div>
-                  <div class="button-pricing">Get Geosight Advanced</div>
+                  <div class="button-pricing" onclick="gotoCart()">Get Geosight Advanced</div>
                   <div class="features-title-pricing">Advanced Features</div>
                   <div class="features-list-pricing">
                       <div class="feature-item-pricing"><div class="vector-pricing"> <div class="vector-tick-pricing"></div></div><div class="feature-text-pricing">Feature 1</div></div>
@@ -80,7 +80,7 @@
                     <div class="price-pricing" id="pricing-card-pice-free">19.99€</div>
                     <div class="price-details-pricing">/month</div>
                   </div>
-                  <div class="button-pricing-gold">Get Geosight Gold</div>
+                  <div class="button-pricing-gold" onclick="gotoCart()">Get Geosight Gold</div>
                   <div class="features-title-pricing">Advanced Features</div>
                   <div class="features-list-pricing">
                       <div class="feature-item-pricing"><div class="vector-pricing"> <div class="vector-tick-pricing"></div></div><div class="feature-text-pricing">Feature 1</div></div>
@@ -96,6 +96,11 @@
         </div>
       </div>
       <script>
+
+        function gotoCart(){
+            window.location.href = 'cart.html'
+        }
+        
         async function fetchAndGroupItemPrices() {
                     const baseUrl = '/api/resource/Item%20Price';
                     var item_name = localStorage.getItem('selectedItem');
