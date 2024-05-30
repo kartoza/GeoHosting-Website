@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!-- <link rel="stylesheet" href="../portal/portal_pages.css">  -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <style>
+        .button-pricing {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: auto;
+            height: 38px;
+            background: #ECB44B;
+            border: 1px solid #ECB44B;
+            border-radius: 5px;
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 150%;
+            text-align: center;
+            letter-spacing: 0.15px;
+            color: #FFFFFF;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .button-pricing:hover {
+            background-color: #57A0C7;
+            border: 1px solid #57A0C7;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            width: 50%;
+            box-sizing: border-box;
+            /* border: 3px solid #57A0C7; */
+            margin-left: 20%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table tr td {
+            padding: 8px;
+        }
+        #product-features ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+        
+
+        .portal-pages-headinga {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            width: 52vw;
+            margin-left: 20%;
+        }
+
+        .portal-pages-headinga span {
+            border-bottom: 2px solid #57A0C7;
+            font-family: 'Lato', sans-serif;
+            font-weight: 600;
+            font-size: 32px;
+            width: 100%;
+            color: #000000;
+        }
+
+        .logo-pricing img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .logo-pricing {
+            margin-top: 0%;
+        }
+
+        .payment-summary {
+            margin-left: 30%;
+            /* border: 3px solid #000000; */
+        }
+
+        .footer-pos {
+            margin-top: 20.7%;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                align-items: stretch;
+                margin-left: 0%;
+                width: 100%;
+            }
+            
+            .logo-pricing {
+                margin-top: 0%;
+            }
+
+            .portal-pages-headinga {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-left: 0%;
+            }
+
+            .portal-pages-headinga span {
+                font-size: 24px;
+                width: 95vw;
+            }
+
+            .payment-summary {
+                margin-left: 0;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            .footer-pos {
+                margin-top: 10%;
+            }
+        }
+    </style>
+</head>
+<body>
+    
+    {% include "templates/navbar.html" %}
+
+    {% block content %}
+
+    <div class="portal-pages-headinga">
+        <span>Checkout</span>
+    </div>
+
+    <div class="content">
+        <div id="product-details">
+            <table>
+                <tr>
+                    <td>
+                        <div class="logo-pricing">
+                            <img src="/assets/geohosting/images/Geosight.svg" id="pricing-card-logo" alt="Logo">
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Product Name</td>
+                    <td id="product-name"></td>
+                </tr>
+                <tr>
+                    <td>Product Price</td>
+                    <td id="product-price"></td>
+                </tr>
+                <tr>
+                    <td>Product Features</td>
+                    <td id="product-features"></td>
+                </tr>
+                <tr>
+                    <td>Default Hosting Provider</td>
+                    <td id="default-hosting-provider"></td>
+                </tr>
+            </table>
+        </div>
+
+        <div id="payment-summary" class="payment-summary">
+            <table>
+                <tr>
+                    <td><h3>Payment Summary</h3></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Net Total (1 Item)</td>
+                    <td id="net-total"></td>
+                </tr>
+                <tr>
+                    <td>VAT 15%</td>
+                    <td id="vat"></td>
+                </tr>
+                <tr>
+                    <td>Grand Total</td>
+                    <td id="grand-total"></td>
+                </tr>
+                <tr>
+                    <td>Currency</td>
+                    <td id="currency">ZAR</td>
+                </tr>
+                <tr>
+                    <td><button id="pay-button" class="button-pricing">Place Order</button></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+      
+
+     
+    <script>
+        function navigateToProducts(){
+            window.location.href = 'products.html';
+        }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const productName = urlParams.get('product');
+        const productPrice = urlParams.get('price');
+        const defaultHostingProvider = urlParams.get('provider');
+        const productFeatures = urlParams.get('features').split(', ');
+        
+        const netTotal = parseFloat(10);
+        const vat = (netTotal * 0.15).toFixed(2);
+        const grandTotal = (netTotal + parseFloat(vat)).toFixed(2);
+
+        document.getElementById('product-name').textContent = productName;
+        document.getElementById('product-price').textContent = productPrice;
+        const featuresList = document.createElement('ul');
+        productFeatures.forEach(feature => {
+            const listItem = document.createElement('li');
+            listItem.textContent = feature;
+            featuresList.appendChild(listItem);
+        });
+        document.getElementById('product-features').appendChild(featuresList);
+
+        document.getElementById('pay-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            payWithPaystack();
+        });
+
+        document.getElementById('net-total').textContent = netTotal;
+        document.getElementById('vat').textContent = vat;
+        document.getElementById('grand-total').textContent = grandTotal;
+
+        document.getElementById('default-hosting-provider').textContent = defaultHostingProvider;
+
+        const userEmail = "{{ frappe.session.user }}";
+
+        function payWithPaystack() {
+            let handler = PaystackPop.setup({
+                key: 'your-public-key', // Replace with your public key
+                email: userEmail,
+                amount: parseFloat(productPrice) * 100, // TODO dynamic
+                currency: "NGN", // TODO dynamic
+                ref: '' + Math.floor((Math.random() * 1000000000) + 1), // Generate a unique reference number
+                metadata: {
+                    custom_fields: [
+                        {
+                            display_name: "Product",
+                            variable_name: "product",
+                            value: productName
+                        }
+                    ]
+                },
+                callback: function(response) {
+                    handlePayment(response);
+                },
+                onClose: function() {
+                    alert('Payment cancelled');
+                }
+            });
+            handler.openIframe();
+        }
+
+        function handlePayment(response) {
+            fetch('/process-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    reference: response.reference,
+                    product: productName,
+                    price: productPrice
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                    // TODO return to same page with success message after okay click navigate to customer portal
+                      window.location.href = 'success.html';
+                  } else {
+                      alert('Payment failed');
+                  }
+              });
+        }
+    </script>
+
+{% endblock %}
+<div class="footer-pos">
+{% include "templates/footer.html" %}
+</div>
+
+</body>
+</html>

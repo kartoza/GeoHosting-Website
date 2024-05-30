@@ -134,6 +134,15 @@
                 }
             </script>
 
+            <!-- pricing -->
+            <script>
+                function gotoCart(product, price, features, provider){
+                    const queryString = `?product=${encodeURIComponent(product)}&price=${encodeURIComponent(price)}&features=${encodeURIComponent(features)}&provider=${encodeURIComponent(provider)}`;
+                    window.location.href = 'checkout.html' + queryString;
+                }
+
+            </script>
+
 
             <script>
 
