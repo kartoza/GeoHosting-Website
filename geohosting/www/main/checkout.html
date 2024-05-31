@@ -290,8 +290,21 @@
                     const productPrice = document.getElementById('product-price').textContent;
 
                     // Construct form data
+                    const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+                    console.log(selectedProduct);
+                    const words = selectedProduct.name[1];
+                    var type = '';
+                    if(words == 'Basic')
+                        type = 'SMALL';
+                    else if(words == 'Advanced')
+                        type = 'MEDIUM';
+                    else if(words == 'Gold')
+                        type = 'LARGE';
+
+                    console.log(type);
+
                     const formData = new URLSearchParams();
-                    formData.append('item_code', localStorage.getItem('item_code'));
+                    formData.append('item_code', localStorage.getItem('item_code') + '-' + type + '-DO');
                     formData.append('qty', '1');
                     formData.append('with_items', '0');
                     formData.append('cmd', 'erpnext.e_commerce.shopping_cart.cart.update_cart');
