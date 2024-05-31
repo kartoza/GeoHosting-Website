@@ -134,15 +134,7 @@
                 }
             </script>
 
-            <!-- pricing -->
-            <script>
-                function gotoCart(product, price, features, provider){
-                    const queryString = `?product=${encodeURIComponent(product)}&price=${encodeURIComponent(price)}&features=${encodeURIComponent(features)}&provider=${encodeURIComponent(provider)}`;
-                    window.location.href = 'checkout.html' + queryString;
-                }
-
-            </script>
-
+       
 
             <script>
 
@@ -209,54 +201,7 @@
                 }
 
 
-                async function fetchItemAttributes(attributeName) {
-                    const baseUrl = '/api/resource/Item%20Attribute';
-                    const filters = `[["name","like","%${encodeURIComponent(attributeName)}%"]]`;
-                    const fields = '["*"]';
-
-                    const url = `${baseUrl}?filters=${filters}&fields=${fields}`;
-
-                    try {
-                        const response = await fetch(url, {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-
-                        const data = await response.json();
-                        
-                        // Assuming the response has a `data` field containing the array of item attributes
-                        if (data.data && data.data.length > 0) {
-                            // Accessing the first item attribute object for demonstration purposes
-                            const itemAttribute = data.data[0];
-                            
-                            // Logging the item attribute object
-                            console.log('Item Attribute:', itemAttribute);
-                            
-                            // Extracting attribute values
-                            const attributeValues = itemAttribute.values || [];
-                            console.log('Attribute Values:', attributeValues);
-
-                            return attributeValues;
-                        } else {
-                            console.log('No item attributes found.');
-                            return [];
-                        }
-                    } catch (error) {
-                        console.error('Error fetching item attributes:', error);
-                    }
-                }
-
-                // Example usage:
-                // const attributeName = 'GeoHosting GeoSight';
-                // fetchItemAttributes(attributeName).then(attributeValues => console.log(JSON.stringify(attributeValues, null, 2)));
-
-
+           
 
                 async function fetchAttachments(item_code) {
                     const attachmentsUrl = `/api/resource/File`;
@@ -359,14 +304,37 @@
 
             </script>
 
-                <!-- product pricing -->
+            <!-- product pricing -->
             <script>
-                async function fetchProductPrices(itemName) {
-                    // fetching prices for digital ocean only
+                async function gotoCart(headingId) {
+                    const headingElement = document.getElementById(headingId);
+                    const headingText = headingElement.textContent || headingElement.innerText;
+
+                    const words = headingText.split(' ');
+                    const [word1, word2] = words;
+
+                    var selectedProduct = await fetchProductPrices(word1,true,word2.toLowerCase());
+                    var selectedProductAttributes = await fetchProductAttributes(word1,true,word2.toLowerCase());
+
+                    var selectedProduct = {
+                        name: words,
+                        price: selectedProduct.price,
+                        currency: selectedProduct.currency,
+                        features: selectedProductAttributes,
+                        checkoutLogo: localStorage.getItem('checkout-product-logo'),
+                        itemCode: localStorage.getItem('item-code')
+                    }
+
+                    localStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));
+                    
+                    window.location.href = 'checkout.html';
+                }
+
+                async function fetchProductPrices(itemName,singleProduct = false,selectedProduct = 'none',host = 'DO') {
                     const baseUrl = '/api/resource/Item%20Price';
                     const lowercaseItemName = itemName.toLowerCase();
                     const filters = JSON.stringify([
-                        ['item_code', 'in', [`${lowercaseItemName}-SMALL-DO`, `${lowercaseItemName}-MEDIUM-DO`, `${lowercaseItemName}-LARGE-DO`]],
+                        ['item_code', 'in', [`${lowercaseItemName}-SMALL-${host}`, `${lowercaseItemName}-MEDIUM-${host}`, `${lowercaseItemName}-LARGE-${host}`]],
                         ['selling', '=', 1]
                     ]);
                     const fields = JSON.stringify(['price_list_rate', 'currency']);
@@ -377,9 +345,26 @@
 
                         if (data.data && data.data.length > 0) {
                             // Assuming the first three entries correspond to SMALL, MEDIUM, and LARGE in that order
-                            document.getElementById('pricing-card-price-basic').innerHTML = `${data.data[0].price_list_rate} ${data.data[0].currency}`;
-                            document.getElementById('pricing-card-price-advanced').innerHTML = `${data.data[1].price_list_rate} ${data.data[1].currency}`;
-                            document.getElementById('pricing-card-price-gold').innerHTML = `${data.data[2].price_list_rate} ${data.data[2].currency}`;
+                            if(singleProduct && selectedProduct == 'basic')
+                                return {
+                                    price: data.data[0].price_list_rate,
+                                    currency: data.data[0].currency
+                                }
+                            else if(singleProduct && selectedProduct == 'advanced')
+                                return {
+                                    price: data.data[1].price_list_rate,
+                                    currency: data.data[1].currency
+                                }
+                            else if(singleProduct && selectedProduct == 'gold')
+                                return {
+                                    price: data.data[2].price_list_rate,
+                                    currency: data.data[2].currency
+                                }
+                            else {
+                                document.getElementById('pricing-card-price-basic').innerHTML = `${data.data[0].price_list_rate} ${data.data[0].currency}`;
+                                document.getElementById('pricing-card-price-advanced').innerHTML = `${data.data[1].price_list_rate} ${data.data[1].currency}`;
+                                document.getElementById('pricing-card-price-gold').innerHTML = `${data.data[2].price_list_rate} ${data.data[2].currency}`;
+                            }
                         } else {
                             console.error('No data found for the specified filters.');
                         }
@@ -388,7 +373,7 @@
                     }
                 }
 
-                async function fetchProductAttributes(baseName) {
+                async function fetchProductAttributes(baseName,singleProduct = false,selectedProduct = 'none') {
                     const baseUrl = '/api/resource/Item%20Attribute';
                     const attributeName = `GeoHosting ${baseName} Host Specifications`;
 
@@ -398,32 +383,39 @@
 
                         if (data.data && data.data.item_attribute_values) {
                             // Process attribute values
-                            data.data.item_attribute_values.forEach(attrValue => {
+                            for (let attrValue of data.data.item_attribute_values){
 
-                                var featureListId = '';
-                                if(attrValue.abbr.toLowerCase() == "small")
-                                    featureListId = `pricing-card-features-basic`;
-                                else if(attrValue.abbr.toLowerCase() == "medium")
-                                    featureListId = `pricing-card-features-advanced`;
-                                else if(attrValue.abbr.toLowerCase() == "large")
-                                    featureListId = `pricing-card-features-gold`;
-
-                                const featureList = document.getElementById(featureListId);
-                                if (featureList) {
-                                    const features = attrValue.attribute_value.split('; ');
-                                    features.forEach(feature => {
-                                        const featureItem = document.createElement('div');
-                                        featureItem.className = 'feature-item-pricing';
-                                        featureItem.innerHTML = `
-                                            <div class="vector-pricing">
-                                                <div class="vector-tick-pricing"></div>
-                                            </div>
-                                            <div class="feature-text-pricing">${feature}</div>
-                                        `;
-                                        featureList.appendChild(featureItem);
-                                    });
+                                if(singleProduct && selectedProduct == 'basic' && attrValue.abbr.toLowerCase() == "small")
+                                    return attrValue.attribute_value.split('; ');
+                                else if(singleProduct && selectedProduct == 'advanced' && attrValue.abbr.toLowerCase() == "medium")
+                                    return attrValue.attribute_value.split('; ');
+                                else if(singleProduct && selectedProduct == 'gold' && attrValue.abbr.toLowerCase() == "large")
+                                    return attrValue.attribute_value.split('; ');
+                                else if(!singleProduct){
+                                    var featureListId = '';
+                                    if(attrValue.abbr.toLowerCase() == "small")
+                                        featureListId = `pricing-card-features-basic`;
+                                    else if(attrValue.abbr.toLowerCase() == "medium")
+                                        featureListId = `pricing-card-features-advanced`;
+                                    else if(attrValue.abbr.toLowerCase() == "large")
+                                        featureListId = `pricing-card-features-gold`;
+                                    const featureList = document.getElementById(featureListId);
+                                    if (featureList) {
+                                        const features = attrValue.attribute_value.split('; ');
+                                        features.forEach(feature => {
+                                            const featureItem = document.createElement('div');
+                                            featureItem.className = 'feature-item-pricing';
+                                            featureItem.innerHTML = `
+                                                <div class="vector-pricing">
+                                                    <div class="vector-tick-pricing"></div>
+                                                </div>
+                                                <div class="feature-text-pricing">${feature}</div>
+                                            `;
+                                            featureList.appendChild(featureItem);
+                                        });
+                                    }
                                 }
-                            });
+                            }
                         } else {
                             console.error('No data found for the specified attribute name.');
                         }
@@ -434,6 +426,8 @@
 
                 function assignPricingCardValues(product){
                     document.getElementById('pricing-card-logo').src = product.image
+                    localStorage.setItem('checkout-product-logo', product.image);
+                    localStorage.setItem('item_code', product.name);
 
                     // headings
                     var dynamicHeader = document.getElementById('pricing-card-heading-basic')
@@ -457,6 +451,8 @@
                     // features
                     fetchProductAttributes(product.item_name);
                 }
+
+                
             </script>
 
         

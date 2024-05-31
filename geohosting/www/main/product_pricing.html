@@ -35,27 +35,27 @@
               <!-- Card 2 -->
               <div class="card-pricing">
                   <div class="header-pricing">
-                      <div class="header-text-pricing" id="pricing-card-heading-basic">GeoSight Basic</div>
+                      <div class="header-text-pricing" id="pricing-card-heading-basic"></div>
                   </div>
                   <div class="price-container-pricing">
                     <div class="price-pricing" id="pricing-card-price-basic">0€</div>
                     <div class="price-details-pricing">/month</div>
                   </div>
-                  <div class="button-pricing" id="pricing-card-button-basic" onclick="gotoCart('GeoSight Basic', '0€', 'Feature 1, Feature 2, Feature 3', 'AWS')">Get GeoSight Basic</div>
-                  <div class="features-title-pricing">Advanced Features</div>
+                  <div class="button-pricing" id="pricing-card-button-basic" onclick="gotoCart('pricing-card-heading-basic')">Get GeoSight Basic</div>
+                  <div class="features-title-pricing">Basic Features</div>
                   <div class="features-list-pricing" id="pricing-card-features-basic"></div>
               </div>
 
               <!-- Card 3 -->
               <div class="card-pricing">
                   <div class="header-pricing">
-                      <div class="header-text-pricing" id="pricing-card-heading-advanced">GeoSight Advanced</div>
+                      <div class="header-text-pricing" id="pricing-card-heading-advanced"></div>
                   </div>
                   <div class="price-container-pricing">
                     <div class="price-pricing" id="pricing-card-price-advanced">0€</div>
                     <div class="price-details-pricing">/month</div>
                   </div>
-                  <div class="button-pricing" id="pricing-card-button-advanced" onclick="gotoCart()">Get Geosight Advanced</div>
+                  <div class="button-pricing" id="pricing-card-button-advanced" onclick="gotoCart('pricing-card-heading-advanced')">Get Geosight Advanced</div>
                   <div class="features-title-pricing">Advanced Features</div>
                   <div class="features-list-pricing" id="pricing-card-features-advanced"></div>
               </div>
@@ -63,70 +63,20 @@
               <!-- Card 4 -->
               <div class="card-pricing">
                   <div class="header-pricing-gold">
-                      <div class="header-text-pricing" id="pricing-card-heading-gold">GeoSight Gold</div>
+                      <div class="header-text-pricing" id="pricing-card-heading-gold"></div>
                   </div>
                   <div class="price-container-pricing">
                     <div class="price-pricing" id="pricing-card-price-gold">0€</div>
                     <div class="price-details-pricing">/month</div>
                   </div>
-                  <div class="button-pricing-gold" onclick="gotoCart()" id="pricing-card-button-gold">Get Geosight Gold</div>
-                  <div class="features-title-pricing" id="pricing-card-features-gold">Advanced Features</div>
+                  <div class="button-pricing-gold" onclick="gotoCart('pricing-card-heading-gold')" id="pricing-card-button-gold">Get Geosight Gold</div>
+                  <div class="features-title-pricing" id="pricing-card-features-gold">Gold Features</div>
                   <div class="features-list-pricing"></div>
               </div>
           </div>
           
         </div>
       </div>
-      <script>
-
-
-                async function fetchAndGroupItemPrices() {
-                    const baseUrl = '/api/resource/Item%20Price';
-                    var item_name = localStorage.getItem('selectedItem');
-                    const lowerCaseItemName = item_name.toLowerCase();
-                    const filters = `[["item_name","like","%${lowerCaseItemName}%"]]`;
-                    const fields = '["*"]';
-
-                    const url = `${baseUrl}?filters=${encodeURIComponent(filters)}&fields=${encodeURIComponent(fields)}`;
-
-                    try {
-                        const response = await fetch(url, {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        });
-
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-
-                        const data = await response.json();
-                        
-                        // Process and group the data
-                        const groupedData = data.data.reduce((acc, item) => {
-                            const baseName = item.item_code.replace(/-(MEDIUM|SMALL|LARGE)-(AZ|GCP|DO|AWS)$/, '');
-                            if (!acc[baseName]) {
-                                acc[baseName] = {};
-                            }
-                            acc[baseName][item.item_code] = {
-                                price_list_rate: item.price_list_rate,
-                                currency: item.currency
-                            };
-                            return acc;
-                        }, {});
-
-                        return groupedData;
-                    } catch (error) {
-                        console.error('Error fetching and grouping item prices:', error);
-                    }
-                }
-
-                // fetchAndGroupItemPrices(item_name).then(groupedData => console.log(JSON.stringify(groupedData, null, 2)));
-
-
-                
-      </script>
       {% endblock %}
 
 </body>
