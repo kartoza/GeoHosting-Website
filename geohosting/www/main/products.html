@@ -343,7 +343,7 @@
                                     var dynamicHeader = document.getElementById('dynamic-header');
                                     dynamicHeader.innerHTML = product.item_name + ' Platform';
 
-                                    document.getElementById('pricing-card-logo').src = product.image // JSON.parse(localStorage.getItem('logoUrl'));
+                                    assignPricingCardValues(product);
                                 } catch(exception){
                                     console.log(exception.message)
                                 }
@@ -355,6 +355,56 @@
                     xhr.open('GET', url, true);
                     xhr.send();
                     smoothScrollTo(hiddenSection, 1000);
+                }
+
+                async function fetchProductPrices(itemName) {
+                    // fetching prices for digital ocean only
+                    const baseUrl = '/api/resource/Item%20Price';
+                    const lowercaseItemName = itemName.toLowerCase();
+                    const filters = JSON.stringify([
+                        ['item_code', 'in', [`${lowercaseItemName}-SMALL-DO`, `${lowercaseItemName}-MEDIUM-DO`, `${lowercaseItemName}-LARGE-DO`]],
+                        ['selling', '=', 1]
+                    ]);
+                    const fields = JSON.stringify(['price_list_rate', 'currency']);
+
+                    try {
+                        const response = await fetch(`${baseUrl}?filters=${filters}&fields=${fields}`);
+                        const data = await response.json();
+
+                        if (data.data && data.data.length > 0) {
+                            // Assuming the first three entries correspond to SMALL, MEDIUM, and LARGE in that order
+                            document.getElementById('pricing-card-price-basic').innerHTML = `${data.data[0].price_list_rate} ${data.data[0].currency}`;
+                            document.getElementById('pricing-card-price-advanced').innerHTML = `${data.data[1].price_list_rate} ${data.data[1].currency}`;
+                            document.getElementById('pricing-card-price-gold').innerHTML = `${data.data[2].price_list_rate} ${data.data[2].currency}`;
+                        } else {
+                            console.error('No data found for the specified filters.');
+                        }
+                    } catch (error) {
+                        console.error('Error fetching product prices:', error);
+                    }
+                }
+
+                function assignPricingCardValues(product){
+                    document.getElementById('pricing-card-logo').src = product.image
+
+                    // headings
+                    var dynamicHeader = document.getElementById('pricing-card-heading-basic')
+                    dynamicHeader.innerHTML = product.item_name +' Basic';
+                    dynamicHeader = document.getElementById('pricing-card-heading-advanced')
+                    dynamicHeader.innerHTML = product.item_name +' Advanced';
+                    dynamicHeader = document.getElementById('pricing-card-heading-gold')
+                    dynamicHeader.innerHTML = product.item_name +' Gold';
+
+                    // buttons
+                    var dynamicButton = document.getElementById('pricing-card-button-basic')
+                    dynamicButton.innerHTML = 'Get '+ product.item_name +' Basic';
+                    dynamicButton = document.getElementById('pricing-card-button-advanced')
+                    dynamicButton.innerHTML = 'Get '+ product.item_name +' Advanced';
+                    dynamicButton = document.getElementById('pricing-card-button-gold')
+                    dynamicButton.innerHTML = 'Get '+ product.item_name +' Gold';
+
+                    // prices
+                    fetchProductPrices(product.item_name);
                 }
             </script>
 
