@@ -357,6 +357,10 @@
                     smoothScrollTo(hiddenSection, 1000);
                 }
 
+            </script>
+
+                <!-- product pricing -->
+            <script>
                 async function fetchProductPrices(itemName) {
                     // fetching prices for digital ocean only
                     const baseUrl = '/api/resource/Item%20Price';
@@ -384,6 +388,50 @@
                     }
                 }
 
+                async function fetchProductAttributes(baseName) {
+                    const baseUrl = '/api/resource/Item%20Attribute';
+                    const attributeName = `GeoHosting ${baseName} Host Specifications`;
+
+                    try {
+                        const response = await fetch(`${baseUrl}/${attributeName}`);
+                        const data = await response.json();
+
+                        if (data.data && data.data.item_attribute_values) {
+                            // Process attribute values
+                            data.data.item_attribute_values.forEach(attrValue => {
+
+                                var featureListId = '';
+                                if(attrValue.abbr.toLowerCase() == "small")
+                                    featureListId = `pricing-card-features-basic`;
+                                else if(attrValue.abbr.toLowerCase() == "medium")
+                                    featureListId = `pricing-card-features-advanced`;
+                                else if(attrValue.abbr.toLowerCase() == "large")
+                                    featureListId = `pricing-card-features-gold`;
+
+                                const featureList = document.getElementById(featureListId);
+                                if (featureList) {
+                                    const features = attrValue.attribute_value.split('; ');
+                                    features.forEach(feature => {
+                                        const featureItem = document.createElement('div');
+                                        featureItem.className = 'feature-item-pricing';
+                                        featureItem.innerHTML = `
+                                            <div class="vector-pricing">
+                                                <div class="vector-tick-pricing"></div>
+                                            </div>
+                                            <div class="feature-text-pricing">${feature}</div>
+                                        `;
+                                        featureList.appendChild(featureItem);
+                                    });
+                                }
+                            });
+                        } else {
+                            console.error('No data found for the specified attribute name.');
+                        }
+                    } catch (error) {
+                        console.error('Error fetching product attributes:', error);
+                    }
+                }
+
                 function assignPricingCardValues(product){
                     document.getElementById('pricing-card-logo').src = product.image
 
@@ -405,6 +453,9 @@
 
                     // prices
                     fetchProductPrices(product.item_name);
+
+                    // features
+                    fetchProductAttributes(product.item_name);
                 }
             </script>
 
