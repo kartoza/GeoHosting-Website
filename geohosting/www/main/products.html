@@ -305,7 +305,116 @@
             </script>
 
             <!-- product pricing -->
+            
+                
             <script>
+
+                function formatDate(date) {
+                    let d = new Date(date),
+                        month = '' + (d.getMonth() + 1),
+                        day = '' + d.getDate(),
+                        year = d.getFullYear();
+
+                    if (month.length < 2) month = '0' + month;
+                    if (day.length < 2) day = '0' + day;
+
+                    return [year, month, day].join('-');
+                 }
+
+
+                async function createSalesOrder(headingId) {
+
+                    // TODO NEED TO CHECK IF CUSTOMER EXISTS ELSE CREATE CUSTOMER BEFORE CREATING SALES ORDER
+
+                    
+                    const customer = "{{ frappe.get_fullname() }}";
+                    const userEmail = "{{ frappe.session.user }}";
+
+                    // create item code
+                    const headingElement = document.getElementById(headingId);
+                    const headingText = headingElement.textContent || headingElement.innerText;
+
+                    const words = headingText.split(' ');
+                    const [word1, word2] = words;
+                    var type = '';
+                    if(word2 == 'Basic')
+                        type = 'SMALL';
+                    else if(word2 == 'Advanced')
+                        type = 'MEDIUM';
+                    else if(word2 == 'Gold')
+                        type = 'LARGE';
+
+                    const itemCode = word1.toLowerCase() + '-' + type + '-DO';
+
+                    const currentDate = new Date();
+                    const formattedDate = formatDate(currentDate);
+
+
+                    console.log('customer: ' + customer);
+                    console.log('item code: ' + itemCode);
+                    console.log('formatted date:'+ formattedDate);
+                    console.log('user email:'+ userEmail);
+                
+                    const formData = new FormData();
+                
+                    // Construct the Sales Order data
+                    const salesOrderData = {
+                        // docstatus: 0,
+                        doctype: "Sales Order",
+                        owner: userEmail,
+                        title: 	"{customer_name}",
+                        order_type: "Sales",
+                        transaction_date: formattedDate,
+                        company: "Kartoza",
+                        skip_delivery_note: 0,
+                        reserve_stock: 0,
+                        items: [
+                            {
+                                item_code: itemCode,
+                                qty: 1,
+                                parentfield: "items",
+                                parenttype: "Sales Order",
+                                warehouse: "All Warehouses - K", // might fetch and assign dynamically
+                                delivery_date: formattedDate
+                            }
+                        ],
+                        // taxes: ['South Africa Tax'],
+                        status: "To Deliver and Bill",
+                        delivery_status: "Not Delivered",
+                        billing_status: "Not Billed",
+                        is_internal_customer: 0,
+                        total_qty: 1,
+                        customer_name: customer,
+                        represents_company: null,
+                        customer: customer,
+                        
+                    };
+                
+                    // Add the Sales Order data to the form data
+                    formData.append("doc", JSON.stringify(salesOrderData));
+                    formData.append("action", "Submit");
+                
+                    try {
+                        const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
+                            method: 'POST',
+                            body: formData
+                        });
+                
+                        const result = await response.json();
+                        
+                        if (result.docs[0].name && result.docs[0].name) {
+                            const salesOrderName = result.docs[0].name;
+                            window.location.href = `/orders/${salesOrderName}`;
+                        } else {
+                            alert('Error: Could not create the sales order.');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Error: Could not create the sales order.');
+                    }
+                    
+                }
+
                 async function gotoCart(headingId) {
                     const headingElement = document.getElementById(headingId);
                     const headingText = headingElement.textContent || headingElement.innerText;
