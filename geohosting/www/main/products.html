@@ -379,7 +379,7 @@
                             }
                         ],
                         // taxes: ['South Africa Tax'],
-                        status: "To Deliver and Bill",
+                        // status: "To Deliver and Bill",
                         delivery_status: "Not Delivered",
                         billing_status: "Not Billed",
                         is_internal_customer: 0,
@@ -392,7 +392,8 @@
                 
                     // Add the Sales Order data to the form data
                     formData.append("doc", JSON.stringify(salesOrderData));
-                    formData.append("action", "Submit");
+                    // formData.append("action", "Submit");
+                    ormData.append("action", "Save");
                 
                     try {
                         const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
