@@ -365,7 +365,6 @@
                         title: 	"{customer_name}",
                         order_type: "Sales",
                         transaction_date: formattedDate,
-                        // company: "Kartoza",
                         // skip_delivery_note: 0,
                         reserve_stock: 0,
                         items: [
@@ -374,12 +373,12 @@
                                 qty: 1,
                                 parentfield: "items",
                                 parenttype: "Sales Order",
-                                warehouse: "All Warehouses - K", // might fetch and assign dynamically
+                                warehouse: "All Warehouses - K", // should fetch and assign dynamically
                                 delivery_date: formattedDate
                             }
                         ],
-                        // taxes: ['South Africa Tax'],
-                        // status: "To Deliver and Bill",
+                        taxes_and_charges: ['South+Africa+Tax+-+K'], // should fetch and assign dynamically
+                        status: "To Deliver and Bill",
                         delivery_status: "Not Delivered",
                         billing_status: "Not Billed",
                         is_internal_customer: 0,
@@ -392,8 +391,7 @@
                 
                     // Add the Sales Order data to the form data
                     formData.append("doc", JSON.stringify(salesOrderData));
-                    // formData.append("action", "Submit");
-                    ormData.append("action", "Save");
+                    formData.append("action", "Submit");
                 
                     try {
                         const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
