@@ -277,3 +277,80 @@
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
   }
+
+
+
+  #backgroundContainer.blur {
+    filter: blur(5px); /* Adjust the blur radius as needed */
+  }
+  
+  
+  .alert {
+    position: fixed;
+    z-index: 9999;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    max-width: 80%;
+    margin: 20px auto;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 0 15px 5px #ccc;
+  }
+  
+  
+  .close {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      opacity: 0.5;
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 50%;
+      right: 15px;
+      top: 25px;
+      text-align: center;
+      font-size: 1.6em;
+      cursor: pointer;
+  }
+  
+  .simple-alert {
+      background-color: #ebebeb;
+      border-left: 5px solid #c5c5c5;
+  }
+  
+  .simple-alert .close {
+      border-color: #c5c5c5;
+      color: #c5c5c5;
+  }
+  
+  .success-alert {
+      background-color: #ECECEC;
+      border-left: 5px solid #57A0C7;
+  }
+  
+  .success-alert .close {
+      border-color: #57A0C7;
+      color: #57A0C7;
+  }
+  
+  .danger-alert {
+      background-color: #f7a7a3;
+      border-left: 5px solid #e5726d;
+  }
+  
+  .danger-alert .close {
+      border-color: #e5726d;
+      color: #e5726d;
+  }
+  
+  .warning-alert {
+      background-color: #ffd48a;
+      border-left: 5px solid #f0bc5e;
+  }
+  
+  .warning-alert .close {
+      border-color: #f0bc5e;
+      color: #f0bc5e;
+  }

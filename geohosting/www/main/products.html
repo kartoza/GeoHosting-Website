@@ -7,6 +7,9 @@
     <title>Products</title>
     <link rel="stylesheet" href="../styles.css"> 
     <link rel="stylesheet" href="product_tabs.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="/assets/geohosting/js/util.js"></script>
 </head>
 
 <body>
@@ -139,7 +142,7 @@
             <script>
 
 
-                
+                var backgroundContainer = document.getElementById('screenBody');
 
                 var loadingIndicator = document.getElementById('loading-indicator');
                 var hiddenSectionContent =  document.getElementById('hiddenSectionContent');
@@ -304,9 +307,8 @@
 
             </script>
 
-            <!-- product pricing -->
-            
-                
+
+            <!-- product pricing --> 
             <script>
 
                 function formatDate(date) {
@@ -329,6 +331,10 @@
                     
                     const customer = "{{ frappe.get_fullname() }}";
                     const userEmail = "{{ frappe.session.user }}";
+
+                    if(userEmail === 'Guest')
+                        return 
+                            showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
 
                     // create item code
                     const headingElement = document.getElementById(headingId);
@@ -363,9 +369,8 @@
                         doctype: "Sales Order",
                         owner: userEmail,
                         title: 	"{customer_name}",
-                        order_type: "Sales",
+                        order_type: "Shopping Cart",
                         transaction_date: formattedDate,
-                        // skip_delivery_note: 0,
                         reserve_stock: 0,
                         items: [
                             {
@@ -384,7 +389,6 @@
                         is_internal_customer: 0,
                         total_qty: 1,
                         customer_name: customer,
-                        // represents_company: null,
                         customer: customer,
                         
                     };
@@ -403,22 +407,18 @@
                         
                         if (result.docs[0].name && result.docs[0].name) {
                             const salesOrderName = result.docs[0].name;
-                            window.location.href = `/orders/${salesOrderName}`;
+                            gotoCart(words,salesOrderName);
                         } else {
-                            alert('Error: Could not create the sales order.');
+                            showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
                         }
                     } catch (error) {
                         console.error('Error:', error);
-                        alert('Error: Could not create the sales order.');
+                        showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
                     }
                     
                 }
 
-                async function gotoCart(headingId) {
-                    const headingElement = document.getElementById(headingId);
-                    const headingText = headingElement.textContent || headingElement.innerText;
-
-                    const words = headingText.split(' ');
+                async function gotoCart(words,sales_order_generated) {
                     const [word1, word2] = words;
 
                     var selectedProduct = await fetchProductPrices(word1,true,word2.toLowerCase());
@@ -430,7 +430,8 @@
                         currency: selectedProduct.currency,
                         features: selectedProductAttributes,
                         checkoutLogo: localStorage.getItem('checkout-product-logo'),
-                        itemCode: localStorage.getItem('item-code')
+                        itemCode: localStorage.getItem('item-code'),
+                        sales_order_generated: sales_order_generated
                     }
 
                     localStorage.setItem('selectedProduct', JSON.stringify(selectedProduct));

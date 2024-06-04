@@ -4,11 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
-    <script src="/assets/frappe_paystack/js/vue.global.js"></script>
-    <script src="/assets/frappe_paystack/js/sweetalert2@11.js"></script>
     <script src="https://js.paystack.co/v1/inline.js"></script>
+    <link rel="stylesheet" href="../styles.css"> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/assets/geohosting/js/util.js"></script>
+  
+    
+    <script>frappe.csrf_token = “{{frappe.session.csrf_token}}”;</script>
+
     <style>
-        /* Your existing styles here */
         .button-pricing {
             display: flex;
             justify-content: center;
@@ -199,12 +203,18 @@
                         <td id="currency"></td>
                     </tr>
                     <tr>
-                        <td><button class="button-pricing" onclick="payWithPaystack()">Place Order</button></td>
+                        <td><button id="payment-request-link" class="button-pricing" href="#" onclick="makePaymentRequest()">Place Order</button></td>
                     </tr>
                 </table>
             </div>
         </div>
     </div>
+
+    <!-- general -->
+    <script>
+        
+        var backgroundContainer = document.getElementById('app');
+    </script>
 
     <!-- product information -->
     <script>
@@ -280,58 +290,109 @@
         function calculateGrandTotal(price, vatRate) {
             return price + (price * vatRate);
         }
-
     </script>
 
-    <!-- purchase product -->
-    <script>
-        function payWithPaystack() {
-                    const productName = document.getElementById('product-name').textContent;
-                    const productPrice = document.getElementById('product-price').textContent;
+<!-- make payment -->
+<script>
+        // #2 INTIATE PAYMENT
+        function makePaymentRequest() {
+            const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+            const paymentData = {
+                    net_total: calculateNetTotal(selectedProduct.price),
+                    vat: calculateVAT(selectedProduct.price, 0.15),
+                    grand_total: calculateGrandTotal(selectedProduct.price, 0.15),
+                    currency: selectedProduct.currency
+            };
+            
+            const customer = "{{ frappe.get_fullname() }}";
+            const userEmail = "{{ frappe.session.user }}";
+            const references = {
+                reference_doctype: 'Payment Request',
+                reference_docname: '',
+                gateway: 'Paystack',
+                currency: paymentData.currency,
+                amount: paymentData.grand_total,
+                description: 'geohosting product',
+                email: userEmail,
+                customer: customer,
+                sales_order: selectedProduct.sales_order_generated,
+            };
 
-                    // Construct form data
-                    const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
-                    
-                    const words = selectedProduct.name[1];
-                    var type = '';
-                    if(words == 'Basic')
-                        type = 'SMALL';
-                    else if(words == 'Advanced')
-                        type = 'MEDIUM';
-                    else if(words == 'Gold')
-                        type = 'LARGE';
+            console.log(references);
 
-                    console.log(type);
+            if (references.reference_doctype && references.reference_doctype === 'Payment Request') {
+                const url = "/api/method/geohosting.www.main.checkout.get_payment_request";
 
-                    const formData = new URLSearchParams();
-                    formData.append('item_code', localStorage.getItem('item_code') + '-' + type + '-DO');
-                    formData.append('qty', '1');
-                    formData.append('with_items', '0');
-                    formData.append('cmd', 'erpnext.e_commerce.shopping_cart.cart.update_cart');
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(references)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    if (data.message && data.message.status === 'Paid') {
+                        showCustomAlert('This order has been paid.', 'success-alert',backgroundContainer);
+                    } else if (!['USD', 'NGN', 'ZAR', 'GHS'].includes(data.message.currency)) {
+                        showCustomAlert(`Currency ${data.message.currency} is not supported, only 'USD', 'NGN', 'ZAR', 'GHS' supported.`, 'danger-alert',backgroundContainer);
+                    } else {
+                        payWithPaystack(data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error.message);
+                    showCustomAlert(JSON.stringify(error.message), 'danger-alert',backgroundContainer);
+                });
+            } else {
+                showCustomAlert('Your payment request is invalid!', 'danger-alert',backgroundContainer); 
+            }
+        }
 
-                    // Make POST request
-                    fetch('/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: formData.toString()
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.message && data.message.name) {
-                            // Redirect to the orders page with the sales order name
-                            window.location.href = `/orders/${data.message.name}`;
-                        } else {
-                            alert('Error: Could not create sales order.');
+
+        function payWithPaystack(payment_data){
+          let handler = PaystackPop.setup({
+              key: payment_data.public_key,
+              amount: payment_data.payment_request.grand_total * 100,
+              ref: payment_data.name+'='+payment_data.payment_request.reference_name+'='+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+              currency: payment_data.currency,
+              email: payment_data.email,
+              metadata: payment_data.metadata,
+
+              onClose: function(){
+                  showCustomAlert('Payment Terminated.', 'danger-alert',backgroundContainer);
+              },
+
+              callback: function(response){
+                  response.gateway=payment_data.metadata.gateway;
+                  frappe.call({
+                      type: "POST",
+                      method: "frappe_paystack.www.paystack.pay.index.verify_transaction",
+                      args:{transaction:response},
+                      callback: function(r) {
+                          showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'danger-alert',backgroundContainer);
+                          localStorage.removeItem('selectedProduct');
+                          setTimeout(() => {
+                            window.location.href = '/portal/services';
+                          }, 10000);
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('Error: Could not create sales order.');
-                    });
+                        
+                
+                  });
                 }
-    </script>
+
+            });
+  
+            handler.openIframe();
+        }
+    
+</script>
+
+
+
+    
+   
 
     <div class="footer-pos">
         {% include "templates/footer.html" %}
