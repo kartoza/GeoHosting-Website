@@ -332,9 +332,9 @@
                     const customer = "{{ frappe.get_fullname() }}";
                     const userEmail = "{{ frappe.session.user }}";
 
-                    if(userEmail === 'Guest')
-                        return 
-                            showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
+                    // if(userEmail === 'Guest')
+                    //     return 
+                    //         showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
 
                     // create item code
                     const headingElement = document.getElementById(headingId);

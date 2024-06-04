@@ -24,14 +24,15 @@ def get_payment_request(**kwargs):
                 "reference_name": data.sales_order,
                 "transaction_details": [
                     {
-                        "amount": data.amount,
+                        "amount": float(data.amount),
                         "currency": data.currency,
                         "is_subscription": 0 # TODO set to 1 once we set recurring payments
                     }
                 ],
                 "recipient_message_and_payment_details": {
                     "to": data.email,
-                    "subject": "Payment Request for " + data.sales_order
+                    "subject": "Payment Request for " + data.sales_order,
+                    "message": "Please click on the link below to make your payment"
                 },
                 "payment_gateway": data.gateway,
                 "payment_channel": "Email"
@@ -50,7 +51,7 @@ def get_payment_request(**kwargs):
             return dict(
                 payment_request=payment_request,
                 name=payment_request.name,
-                email=payment_request.email_to,
+                email=data.email,
                 currency=payment_request.currency,
                 status=payment_request.status,
                 public_key=paystack.get_public_key(),
