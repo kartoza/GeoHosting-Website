@@ -901,6 +901,8 @@ input:focus {
       });
 
       function checkLoggedInUser() {
+        try{
+          
           const accounts = document.getElementById('accounts-buttons');
           const userAvatar = document.getElementById('userAvatar');
 
@@ -932,6 +934,9 @@ input:focus {
               acccounts.style.display = 'block';
               userAvatar.style.display = 'none';
           });
+        } catch (error){
+            console.log('Error:', error);
+        }
       }
 
 

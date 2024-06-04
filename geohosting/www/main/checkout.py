@@ -22,18 +22,13 @@ def get_payment_request(**kwargs):
                 "party": data.customer,
                 "reference_doctype": "Sales Order",
                 "reference_name": data.sales_order,
-                "transaction_details": [
-                    {
-                        "amount": float(data.amount),
-                        "currency": data.currency,
-                        "is_subscription": 0 # TODO set to 1 once we set recurring payments
-                    }
-                ],
-                "recipient_message_and_payment_details": {
-                    "to": data.email,
-                    "subject": "Payment Request for " + data.sales_order,
-                    "message": "Please click on the link below to make your payment"
-                },
+                "grand_total": float(data.amount),
+                "currency": data.currency,
+                "is_subscription": 0, # TODO set to 1 once we set recurring payments
+                "email_to": data.email,
+                "subject": "Payment Request for " + data.sales_order,
+                "message": "Please click on the link below to make your payment",
+                # "payment_gateway_account": "Paystack ZAR",
                 "payment_gateway": data.gateway,
                 "payment_channel": "Email"
             })
