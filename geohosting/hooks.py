@@ -226,3 +226,11 @@ app_license = "mit"
 # default_log_clearing_doctypes = {
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
+
+
+from geohosting.api import get_user_info
+
+
+override_whitelisted_methods = {
+    "get_user_info": "geohosting.api.get_user_info"
+}

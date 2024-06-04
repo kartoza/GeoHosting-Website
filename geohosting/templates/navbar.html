@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeoHosting</title>
 <link rel="stylesheet" href="../../geohosting/www/styles.css">
+<script src="/assets/geohosting/js/util.js"></script>
 <style>
   /* Toolbar_big */
   .toolbar {
@@ -896,48 +897,25 @@ input:focus {
 
 
        // Check if the user is logged in when the page is loaded
-      document.addEventListener('DOMContentLoaded', function() {
-          checkLoggedInUser();
-      });
+      document.addEventListener('DOMContentLoaded', async function() {
+        const accounts = document.getElementById('accounts-buttons');
+        const userAvatar = document.getElementById('userAvatar');
 
-      function checkLoggedInUser() {
-        try{
-          
-          const accounts = document.getElementById('accounts-buttons');
-          const userAvatar = document.getElementById('userAvatar');
-
-          fetch('/api/method/frappe.auth.get_logged_user', {
-              method: 'GET',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Accept': 'application/json'
-              }
-          })
-          .then(response => {
-              if (response.ok) {
-                  return response.json();
-              } else {
-                  throw new Error('Failed to get logged-in user');
-              }
-          })
-          .then(data => {
-              if (data && data.message) {
-                  accounts.style.display = 'none';
-                  userAvatar.style.display = 'block';
-              } else {
-                acccounts.style.display = 'block';
-                userAvatar.style.display = 'none';
-              }
-          })
-          .catch(error => {
-              console.error('Error:', error);
+        await fetchUserInfo().then(userInfo => {
+          if (userInfo) {
+            const { current_user, customer_name } = userInfo;
+            if (!current_user || current_user === "Guest") {
               acccounts.style.display = 'block';
               userAvatar.style.display = 'none';
+            } else if (current_user) {
+                const accounts = document.getElementById('accounts-buttons');
+                accounts.style.display = 'none';
+                userAvatar.style.display = 'block';
+                closeModal('signInModal');
+              } 
+            }
           });
-        } catch (error){
-            console.log('Error:', error);
-        }
-      }
+      });
 
 
 

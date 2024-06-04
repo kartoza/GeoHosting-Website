@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600&display=swap">
+<script src="/assets/geohosting/js/util.js"></script>
 <title>Portal Sidebar</title>
 <style>
   
@@ -163,20 +164,29 @@
     window.location.href = baseUrl + replaceWith;
   }
 
-  document.addEventListener("DOMContentLoaded", function() {
-    var currentPageUrl = window.location.pathname;
+  document.addEventListener("DOMContentLoaded", async function() {
+    await fetchUserInfo().then(userInfo => {
+          if (userInfo) {
+            const { current_user, customer_name } = userInfo;
+            if (!current_user || current_user === "Guest") {
+              window.location.href ='/main/products.html';
+            } else if (current_user) {
+                var currentPageUrl = window.location.pathname;
 
-    // Get all navigation links
-    var navLinks = document.querySelectorAll('.Customer_P_Menu_Button');
+                // Get all navigation links
+                var navLinks = document.querySelectorAll('.Customer_P_Menu_Button');
 
-    // Loop through each navigation link
-    navLinks.forEach(function(link) {
-      // var linkHref = link.getAttribute('onclick').split("'")[1]; // show active page on local host //testing
-      var linkHref = link.getAttribute('onclick').split("'")[1].replace(/\.html$/, '');
+                // Loop through each navigation link
+                navLinks.forEach(function(link) {
+                  // var linkHref = link.getAttribute('onclick').split("'")[1]; // show active page on local host //testing
+                  var linkHref = link.getAttribute('onclick').split("'")[1].replace(/\.html$/, '');
 
-      if (currentPageUrl.endsWith(linkHref)) {
-        link.classList.add('active');
-      }
+                  if (currentPageUrl.endsWith(linkHref)) {
+                    link.classList.add('active');
+                  }
+                });
+              } 
+          }
     });
   });
 

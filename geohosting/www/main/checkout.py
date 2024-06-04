@@ -5,6 +5,8 @@ from frappe_paystack.utils import (
 )
 import frappe
 from frappe import _
+from datetime import datetime, timedelta
+
 
 @frappe.whitelist(allow_guest=True)
 def get_payment_request(**kwargs):
@@ -165,6 +167,9 @@ def webhook(**kwargs):
 
 
 
+import frappe
+from datetime import datetime, timedelta
+
 def create_user_product(payment_request_name):
     try:
         payment_request = frappe.get_doc('Payment Request', payment_request_name)
@@ -172,16 +177,54 @@ def create_user_product(payment_request_name):
         frappe.log_error(f'Payment Request {payment_request_name} does not exist.')
         return
 
+    # Define specifications based on item code prefix
+    specifications_map = {
+        "geonode": {
+            "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
+            "MEDIUM": "Specify medium specifications here",
+            "LARGE": "Specify large specifications here"
+        },
+        "geosight": {
+            # Specifications for geosight prefixes
+        },
+        "bims": {
+            # Specifications for bims prefixes
+        },
+        "g3w": {
+            # Specifications for g3w prefixes
+        },
+        "geoserver": {
+            # Specifications for geoserver prefixes
+        }
+    }
+
     # Extract the purchased item details
     purchased_items = payment_request.items
     for item in purchased_items:
         try:
+            # Split item code to extract prefix and size
+            prefix, size, _ = item.item_code.split('-')
+
+            # Calculate expiration date (1 month from the purchase date)
+            expiration_date = payment_request.transaction_date + timedelta(days=30)
+
+            # Get specifications based on prefix and size
+            specifications = specifications_map.get(prefix.lower(), {}).get(size.upper(), "")
+
+            # Generate image path based on prefix
+            image_path = f"/assets/geohosting/images/{prefix.upper()}.svg"
+
             # Attempt to create a User Products record
             user_product = frappe.get_doc({
                 'doctype': 'User Products',
                 'user': payment_request.email_to,
                 'product': item.item_code,
                 'purchase_date': payment_request.transaction_date,
+                'expiration_date': expiration_date,
+                'specifications': specifications,
+                'logo': image_path,
+                'url_path': f"/products/{prefix.lower()}",  # Example URL path
+                'status': "Active"  # Set default status to Active
             })
             user_product.insert(ignore_permissions=True)
             frappe.db.commit()

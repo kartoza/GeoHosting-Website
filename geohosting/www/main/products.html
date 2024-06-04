@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Products</title>
     <link rel="stylesheet" href="../styles.css"> 
     <link rel="stylesheet" href="product_tabs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
-    <script src="/assets/geohosting/js/util.js"></script>
+    <script src="/assets/geohosting/js/util.js"></script>  
 </head>
 
 <body>
@@ -223,11 +223,8 @@
                             throw new Error(`Failed to fetch attachments: ${response.statusText}`);
                         }
                         const attachmentsData = await response.json();
-                        // document.getElementById('attachments').textContent = JSON.stringify(attachmentsData, null, 2);
-                        // console.log("Attachments:", attachmentsData);
                         const screenshotAttachment = attachmentsData.data.find(file => file.file_name.endsWith("screenshot.png"));
 
-                        // console.log("Screenshot Attachment:", screenshotAttachment);
                         return screenshotAttachment.file_url;
                     } catch (error) {
                         console.error("Error fetching attachments:", error);
@@ -323,112 +320,119 @@
                     return [year, month, day].join('-');
                  }
 
+                 
 
                 async function createSalesOrder(headingId) {
-
-                    // TODO NEED TO CHECK IF CUSTOMER EXISTS ELSE CREATE CUSTOMER BEFORE CREATING SALES ORDER
-
-                    
-                    const customer = "{{ frappe.get_fullname() }}";
-                    const userEmail = "{{ frappe.session.user }}";
-
-                    console.log(userEmail)
-
-                    if(userEmail === 'Guest')
-                        showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
-                    else {
-                        // create item code
-                        const headingElement = document.getElementById(headingId);
-                        const headingText = headingElement.textContent || headingElement.innerText;
-
-                        const words = headingText.split(' ');
-                        const [word1, word2] = words;
-                        var type = '';
-                        if(word2 == 'Basic')
-                            type = 'SMALL';
-                        else if(word2 == 'Advanced')
-                            type = 'MEDIUM';
-                        else if(word2 == 'Gold')
-                            type = 'LARGE';
-
-                        const itemCode = word1.toLowerCase() + '-' + type + '-DO';
-
-                        const currentDate = new Date();
-                        const formattedDate = formatDate(currentDate);
-
-
-                        console.log('customer: ' + customer);
-                        console.log('item code: ' + itemCode);
-                        console.log('formatted date:'+ formattedDate);
-                        console.log('user email:'+ userEmail);
-                    
-                        const formData = new FormData();
-                    
-                        // Construct the Sales Order data
-                        const salesOrderData = {
-                            // docstatus: 0,
-                            doctype: "Sales Order",
-                            owner: userEmail,
-                            title: 	"{customer_name}",
-                            order_type: "Shopping Cart",
-                            transaction_date: formattedDate,
-                            reserve_stock: 0,
-                            items: [
-                                {
-                                    item_code: itemCode,
-                                    qty: 1,
-                                    parentfield: "items",
-                                    parenttype: "Sales Order",
-                                    warehouse: "All Warehouses - K", // should fetch and assign dynamically
-                                    delivery_date: formattedDate
-                                }
-                            ],
-                            status: "To Deliver and Bill",
-                            delivery_status: "Not Delivered",
-                            billing_status: "Not Billed",
-                            is_internal_customer: 0,
-                            total_qty: 1,
-                            customer_name: customer,
-                            customer: customer,
-                            taxes_and_charges: "South Africa Tax - K",
-                            taxes: [
-                            {
-                                "docstatus": 0,
-                                "doctype": "Sales Taxes and Charges",
-                                "owner": userEmail,
-                                "charge_type": "On Net Total",
-                                "parentfield": "taxes",
-                                "parenttype": "Sales Order",
-                                "account_head": "2604 - VAT Payable - K",
-                                "description": "VAT 15%",
-                            }
-                            ],
-                            
-                        };
-                    
-                        // Add the Sales Order data to the form data
-                        formData.append("doc", JSON.stringify(salesOrderData));
-                        formData.append("action", "Submit");
-                    
-                        try {
-                            const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
-                                method: 'POST',
-                                body: formData
-                            });
-                    
-                            const result = await response.json();
-                            
-                            if (result.docs[0].name && result.docs[0].name) {
-                                const salesOrderName = result.docs[0].name;
-                                gotoCart(words,salesOrderName);
+          
+                    await fetchUserInfo().then(async userInfo => {
+                        if (userInfo) {
+                            const { current_user, customer_name } = userInfo;
+                            if (!current_user || current_user === "Guest") {
+                                showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
+                            } else if (!customer_name) {
+                                showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
+                                // TODO CREATE CUSTOMER BEFORE CREATING SALES ORDER
                             } else {
-                                showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
+                                // create item code
+                                const headingElement = document.getElementById(headingId);
+                                const headingText = headingElement.textContent || headingElement.innerText;
+
+                                const words = headingText.split(' ');
+                                const [word1, word2] = words;
+                                var type = '';
+                                if(word2 == 'Basic')
+                                    type = 'SMALL';
+                                else if(word2 == 'Advanced')
+                                    type = 'MEDIUM';
+                                else if(word2 == 'Gold')
+                                    type = 'LARGE';
+
+                                const itemCode = word1.toLowerCase() + '-' + type + '-DO';
+
+                                const currentDate = new Date();
+                                const formattedDate = formatDate(currentDate);
+
+
+                                console.log('customer: ' + customer_name);
+                                console.log('item code: ' + itemCode);
+                                console.log('formatted date:'+ formattedDate);
+                                console.log('user email:'+ current_user);
+                            
+                                const formData = new FormData();
+                            
+                                // Construct the Sales Order data
+                                const salesOrderData = {
+                                    // docstatus: 0,
+                                    doctype: "Sales Order",
+                                    owner: current_user,
+                                    title: 	"{customer_name}",
+                                    order_type: "Shopping Cart",
+                                    transaction_date: formattedDate,
+                                    reserve_stock: 0,
+                                    items: [
+                                        {
+                                            item_code: itemCode,
+                                            qty: 1,
+                                            parentfield: "items",
+                                            parenttype: "Sales Order",
+                                            warehouse: "All Warehouses - K", // should fetch and assign dynamically
+                                            delivery_date: formattedDate
+                                        }
+                                    ],
+                                    status: "To Deliver and Bill",
+                                    delivery_status: "Not Delivered",
+                                    billing_status: "Not Billed",
+                                    is_internal_customer: 0,
+                                    total_qty: 1,
+                                    customer_name: customer_name,
+                                    customer: customer_name,
+                                    taxes_and_charges: "South Africa Tax - K",
+                                    taxes: [
+                                    {
+                                        "docstatus": 0,
+                                        "doctype": "Sales Taxes and Charges",
+                                        "owner": current_user,
+                                        "charge_type": "On Net Total",
+                                        "parentfield": "taxes",
+                                        "parenttype": "Sales Order",
+                                        "account_head": "2604 - VAT Payable - K",
+                                        "description": "VAT 15%",
+                                    }
+                                    ],
+                                    
+                                };
+                            
+                                // Add the Sales Order data to the form data
+                                formData.append("doc", JSON.stringify(salesOrderData));
+                                formData.append("action", "Submit");
+                            
+                                try {
+                            
+                                    const result = await saveSalesOrder(formData);
+                                    
+                                    if (result.docs[0].name && result.docs[0].name) {
+                                        const salesOrderName = result.docs[0].name;
+                                        gotoCart(words,salesOrderName);
+                                    } else 
+                                        showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
+                                } catch (error) {
+                                    console.error('Error:', error);
+                                    showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
+                                }
                             }
-                        } catch (error) {
-                            console.error('Error:', error);
-                            showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
+                        } else {
+                            console.error('Could not retrieve user information.');
                         }
-                    }
+                    });
+                }
+
+                async function saveSalesOrder(formData) {
+
+                    const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
+                        method: 'POST',
+                        body: formData,
+                    });
+                    return response.json();
                 }
 
                 async function gotoCart(words,sales_order_generated) {

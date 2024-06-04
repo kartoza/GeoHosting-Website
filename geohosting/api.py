@@ -24,3 +24,20 @@ def update_or_create_address(customer_name, address_data):
         address_doc.insert()
         return {"message": _("Address created successfully.")}
 
+
+
+@frappe.whitelist(allow_guest=True)
+def get_user_info():
+    current_user = frappe.session.user
+
+    # Fetch the associated customer
+    customer_name = None
+    if current_user and current_user != "Guest":
+        customer_record = frappe.get_all("Customer", filters={"owner": current_user}, fields=["customer_name"])
+        if customer_record:
+            customer_name = customer_record[0].customer_name
+
+    return {
+        "current_user": current_user,
+        "customer_name": customer_name
+    }

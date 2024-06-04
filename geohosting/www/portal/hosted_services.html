@@ -135,49 +135,150 @@ p {
   </div>
 
 
-  <div class="card-container">
 
-    <div class="content">
-      <div class="image-status">
-        <div class="image">
-          <img src="/assets/geohosting/images/BIMS.svg" alt="Image">
-        </div>
+  <div class="card-container" id="card-container"></div>
+  <!-- <div id="pagination-pages" class="pagination-container" ></div> -->
+  
+<script>
+  // Function to display user product cards
+function displayUserProductCards(userProducts, currentPage, itemsPerPage) {
+    var container = document.getElementById("card-container");
+    container.innerHTML = ""; // Clear previous cards
+    
+    var startIndex = (currentPage - 1) * itemsPerPage;
+    var endIndex = Math.min(startIndex + itemsPerPage, userProducts.length);
 
-        <div class="badge">
-          <div class="status-badge">
-            <div class="dot"></div>
-            <span>Active</span>
-          </div>
-        </div>
-      </div>
-      <div class="details">
-        <h2>platform.geospatialhosting.com</h2>
-        <p>POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</p>
-      </div>
-    </div>
+    for (var i = startIndex; i < endIndex; i++) {
+        var product = userProducts[i];
+        var card = createCard(product);
+        container.appendChild(card);
+    }
+}
 
-   
+// Function to create a card for a user product
+function createCard(product) {
+    var card = document.createElement("div");
+    card.classList.add("content");
 
-    <div class="content">
-      <div class="image-status">
-        <div class="image">
-          <img src="/assets/geohosting/images/BIMS.svg" alt="Image">
-        </div>
-        <div class="badge">
-          <div class="status-badge">
-            <div class="dot"></div>
-            <span>Active</span>
-          </div>
-        </div>
-      </div>
-      <div class="details">
-        <h2>platform.geospatialhosting.com</h2>
-        <p>POD Count: 4<br>Memory: 4GB<br>CPU: 2 Cores<br>Storage: 80GB SSD</p>
-      </div>
-    </div>
+    var imageStatus = document.createElement("div");
+    imageStatus.classList.add("image-status");
 
-  </div>
+    var image = document.createElement("div");
+    image.classList.add("image");
+    var img = document.createElement("img");
+    img.src = product.logo;
+    img.alt = "Image";
+    image.appendChild(img);
+    imageStatus.appendChild(image);
 
+    var badge = document.createElement("div");
+    badge.classList.add("badge");
+    var statusBadge = document.createElement("div");
+    statusBadge.classList.add("status-badge");
+    var dot = document.createElement("div");
+    dot.classList.add("dot");
+    statusBadge.appendChild(dot);
+    var statusSpan = document.createElement("span");
+    statusSpan.textContent = product.status;
+    statusBadge.appendChild(statusSpan);
+    badge.appendChild(statusBadge);
+    imageStatus.appendChild(badge);
+
+    card.appendChild(imageStatus);
+
+    var details = document.createElement("div");
+    details.classList.add("details");
+    var h2 = document.createElement("h2");
+    h2.textContent = product.product_name;
+    details.appendChild(h2);
+    var p = document.createElement("p");
+    p.innerHTML = `POD Count: ${product.pod_count}<br>Memory: ${product.memory}<br>CPU: ${product.cpu}<br>Storage: ${product.storage}`;
+    details.appendChild(p);
+    card.appendChild(details);
+
+    return card;
+}
+
+// Function to update pagination UI
+function updatePaginationUI(totalPages, currentPage) {
+    var paginationPages = document.getElementById("pagination-pages");
+    paginationPages.innerHTML = "";
+
+    for (var i = 1; i <= totalPages; i++) {
+        var pageButton = document.createElement("button");
+        pageButton.classList.add("pagination-button");
+        pageButton.textContent = i;
+        pageButton.addEventListener("click", function() {
+            currentPage = parseInt(this.textContent);
+            displayUserProductCards(userProducts, currentPage, itemsPerPage);
+        });
+        if (i === currentPage) {
+            pageButton.classList.add("current-page");
+        }
+        paginationPages.appendChild(pageButton);
+    }
+}
+
+// Sample data from context
+var userProducts = [
+    {
+        "logo": "/assets/geohosting/images/BIMS.svg",
+        "status": "Active",
+        "product_name": "platform.geospatialhosting.com",
+        "pod_count": 4,
+        "memory": "4GB",
+        "cpu": "2 Cores",
+        "storage": "80GB SSD"
+    },
+    {
+        "logo": "/assets/geohosting/images/BIMS.svg",
+        "status": "Active",
+        "product_name": "platform.geospatialhosting.com",
+        "pod_count": 4,
+        "memory": "4GB",
+        "cpu": "2 Cores",
+        "storage": "80GB SSD"
+    },
+    {
+        "logo": "/assets/geohosting/images/BIMS.svg",
+        "status": "Active",
+        "product_name": "platform.geospatialhosting.com",
+        "pod_count": 4,
+        "memory": "4GB",
+        "cpu": "2 Cores",
+        "storage": "80GB SSD"
+    },
+    {
+        "logo": "/assets/geohosting/images/BIMS.svg",
+        "status": "Active",
+        "product_name": "platform.geospatialhosting.com",
+        "pod_count": 4,
+        "memory": "4GB",
+        "cpu": "2 Cores",
+        "storage": "80GB SSD"
+    },
+    {
+        "logo": "/assets/geohosting/images/BIMS.svg",
+        "status": "Active",
+        "product_name": "platform.geospatialhosting.com",
+        "pod_count": 4,
+        "memory": "4GB",
+        "cpu": "2 Cores",
+        "storage": "80GB SSD"
+    },
+    // Add more user product data here...
+];
+
+// Pagination variables
+var currentPage = 1;
+var itemsPerPage = 4;
+var totalPages = Math.ceil(userProducts.length / itemsPerPage);
+
+// Initial display
+displayUserProductCards(userProducts, currentPage, itemsPerPage);
+updatePaginationUI(totalPages, currentPage);
+
+</script>
 
 </body>
 </html>
