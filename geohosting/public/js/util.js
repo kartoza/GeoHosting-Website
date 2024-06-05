@@ -1,22 +1,27 @@
 
 function showCustomAlert(message, alertType, backgroundContainer) {
-    var customAlert = document.createElement('div');
-    customAlert.classList.add('alert', alertType);
-    customAlert.innerHTML = `
-        <h4>${message}</h4>
-        <a class="close">&times;</a>
-    `;
+    try{
+        var customAlert = document.createElement('div');
+        customAlert.classList.add('alert', alertType);
+        customAlert.innerHTML = `
+            <h4>${message}</h4>
+            <a class="close">&times;</a>
+        `;
 
-    document.body.appendChild(customAlert);
+        document.body.appendChild(customAlert);
 
-    $(".close").click(function() {
-    $(this)
-        .parent(".alert")
-        .fadeOut();
-        backgroundContainer.classList.remove('blur'); 
-    });
+        $(".close").click(function() {
+        $(this)
+            .parent(".alert")
+            .fadeOut();
+            backgroundContainer.classList.remove('blur'); 
+        });
 
-    backgroundContainer.classList.add('blur');
+        backgroundContainer.classList.add('blur');
+    }catch(err){
+        console.error(err);
+    }
+    
 }
 
 

@@ -778,14 +778,14 @@ input:focus {
           })
           .then(response => response.json())
           .then(data => {
-              if (data.message === 'Logged In') {
+              if (data.message === 'Logged In' || data.message === 'No App') {
                   localStorage.setItem("owner", username);
                   const accounts = document.getElementById('accounts-buttons');
                   accounts.style.display = 'none';
                   userAvatar.style.display = 'block';
                   closeModal('signInModal');
               } else {
-                  alert(data.message);
+                  showCustomAlert(JSON.stringify(data.message), 'danger-alert',null);
               }
           })
           .catch(error => {
