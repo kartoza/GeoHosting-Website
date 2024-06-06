@@ -428,7 +428,7 @@
                             
                                     const result = await saveSalesOrder(formData);
                                     
-                                    if (result.docs[0].name && result.docs[0].name) {
+                                    if (result.docs[0].name) {
                                         const salesOrderName = result.docs[0].name;
                                         gotoCart(splitHeading(headingId),salesOrderName);
                                     } else {
