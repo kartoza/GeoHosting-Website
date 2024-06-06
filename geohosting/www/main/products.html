@@ -336,6 +336,12 @@
                     return btn_text;
                 }
 
+                function removeButtonLoader(dynamicButton, btn_text){
+                    dynamicButton.innerHTML = btn_text;
+                    dynamicButton.style.width = '100%';
+                    dynamicButton.style.height = 'auto';
+                }
+
                 async function createSalesOrder(headingId) {
 
                     
@@ -433,16 +439,12 @@
                                         gotoCart(splitHeading(headingId),salesOrderName);
                                     } else {
                                         showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
-                                        dynamicButton.innerHTML = btn_text;
-                                        dynamicButton.style.width = 'auto';
-                                        dynamicButton.style.height = 'auto';
+                                        removeButtonLoader(dynamicButton, btn_text);
                                     }
                                 } catch (error) {
                                     console.error('Error:', error);
                                     showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
-                                    dynamicButton.innerHTML = btn_text;
-                                    dynamicButton.style.width = 'auto';
-                                    dynamicButton.style.height = 'auto';
+                                    removeButtonLoader(dynamicButton, btn_text);
                                 }
                             }
                         } else {

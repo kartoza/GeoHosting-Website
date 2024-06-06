@@ -102,10 +102,21 @@ def queue_verify_transaction(transaction):
                 payment_request = frappe.get_doc('Payment Request', metadata.docname)
                 integration_request = frappe.get_doc("Integration Request", {
                     'reference_doctype': metadata.doctype,
-                    'reference_docname': metadata.docname})
+                    'reference_docname': metadata.docname
+                })
+
+                if not integration_request:
+                    integration_request = frappe.new_doc("Integration Request")
+                    integration_request.update({
+                        'reference_doctype': metadata.doctype,
+                        'reference_docname': metadata.docname
+                    })
+
+                # Perform the necessary operations
                 payment_request.run_method("on_payment_authorized", 'Completed')
                 integration_request.db_set('status', 'Completed')
                 frappe.db.commit()
+                create_user_product(metadata.docname)
         else:
             # Log error
             frappe.log_error(str(req.reason), 'Verify Transaction')
@@ -153,9 +164,6 @@ def webhook(**kwargs):
             payment_request.run_method("on_payment_authorized", 'Completed')
             integration_request.db_set('status', 'Completed')
             frappe.db.commit()
-            # from here trigger adding product to user and spinning up geonode or whatever product purchased via api call to jenkins
-            create_user_product(metadata.docname)
-            # if this entry point is successful might need to update payment request , sales order and create sales invoice
         else:
             # Log error
             frappe.log_error(str(req.reason), 'Verify Transaction')
