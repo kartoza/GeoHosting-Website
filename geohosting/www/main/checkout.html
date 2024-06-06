@@ -367,7 +367,6 @@
 
               callback: function(response){
                   response.gateway=payment_data.metadata.gateway;
-                  console.log('from paystack ',response);
                   fetch('/api/method/geohosting.www.main.checkout.verify_transaction', {
                     method: 'POST',
                     headers: {
@@ -383,7 +382,7 @@
                             showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'success-alert',backgroundContainer);
                             localStorage.removeItem('selectedProduct');
                             setTimeout(() => {
-                                window.location.href = '/portal/services';
+                                window.location.href = '/portal/hosted_services';
                             }, 10000);
                         }
                     })
