@@ -323,6 +323,10 @@
                  
 
                 async function createSalesOrder(headingId) {
+
+                    var dynamicButton = document.getElementById('pricing-card-button-basic')
+                    var btn_text = dynamicButton.innerHTML;
+                    dynamicButton.innerHTML = '<div class="loader"></div>';
           
                     await fetchUserInfo().then(async userInfo => {
                         if (userInfo) {
@@ -413,15 +417,19 @@
                                     if (result.docs[0].name && result.docs[0].name) {
                                         const salesOrderName = result.docs[0].name;
                                         gotoCart(words,salesOrderName);
-                                    } else 
+                                    } else {
                                         showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
+                                        dynamicButton.innerHTML = btn_text;
+                                    }
                                 } catch (error) {
                                     console.error('Error:', error);
                                     showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
+                                    dynamicButton.innerHTML = btn_text;
                                 }
                             }
                         } else {
                             console.error('Could not retrieve user information.');
+                            dynamicButton.innerHTML = btn_text;
                         }
                     });
                 }

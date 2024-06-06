@@ -205,26 +205,21 @@ def create_user_product(payment_request_name):
             # Split item code to extract prefix and size
             prefix, size, _ = item.item_code.split('-')
 
-            # Calculate expiration date (1 month from the purchase date)
-            expiration_date = payment_request.transaction_date + timedelta(days=30)
-
             # Get specifications based on prefix and size
             specifications = specifications_map.get(prefix.lower(), {}).get(size.upper(), "")
-
-            # Generate image path based on prefix
-            image_path = f"/assets/geohosting/images/{prefix.upper()}.svg"
 
             # Attempt to create a User Products record
             user_product = frappe.get_doc({
                 'doctype': 'User Products',
                 'user': payment_request.email_to,
                 'product': item.item_code,
-                'purchase_date': payment_request.transaction_date,
-                'expiration_date': expiration_date,
                 'specifications': specifications,
-                'logo': image_path,
-                'url_path': f"/products/{prefix.lower()}",  # Example URL path
-                'status': "Active"  # Set default status to Active
+                'status': "Active",
+                'product_meta': {
+                    'url_path': f"https://kartoza-staging-v14.frappe.cloud/app/main/products",
+                    'username': "Admin",
+                    'password': "test"
+                }
             })
             user_product.insert(ignore_permissions=True)
             frappe.db.commit()
@@ -233,3 +228,4 @@ def create_user_product(payment_request_name):
             return
         except Exception as e:
             frappe.log_error(f'Failed to create User Products for {payment_request.email_to}: {str(e)}')
+
