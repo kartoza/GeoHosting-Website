@@ -430,7 +430,7 @@
                                     
                                     if (result.docs[0].name && result.docs[0].name) {
                                         const salesOrderName = result.docs[0].name;
-                                        gotoCart(words,salesOrderName);
+                                        gotoCart(splitHeading(headingId),salesOrderName);
                                     } else {
                                         showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
                                         dynamicButton.innerHTML = btn_text;
