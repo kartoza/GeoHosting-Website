@@ -368,20 +368,29 @@
               callback: function(response){
                   response.gateway=payment_data.metadata.gateway;
                   console.log(response);
-                  frappe.call({
-                      type: "POST",
-                      method: "geohosting.www.main.checkout.verify_transaction",
-                      args:{transaction:response},
-                      callback: function(r) {
-                          showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'danger-alert',backgroundContainer);
-                          localStorage.removeItem('selectedProduct');
-                          setTimeout(() => {
-                            window.location.href = '/portal/services';
-                          }, 10000);
+                  fetch('/api/method/geohosting.www.main.checkout.verify_transaction', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ transaction: response })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message && data.message.status === 'Completed') {
+                            showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'success-alert',backgroundContainer);
+                            localStorage.removeItem('selectedProduct');
+                            setTimeout(() => {
+                                window.location.href = '/portal/services';
+                            }, 10000);
+                        } else {
+                            showCustomAlert('Payment verification failed.', 'danger-alert',backgroundContainer);
                         }
-                        
-                
-                  });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error.message);
+                        showCustomAlert('An error occurred during payment verification.', 'danger-alert',backgroundContainer);
+                    });
                 }
 
             });

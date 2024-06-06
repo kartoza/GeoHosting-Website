@@ -155,6 +155,7 @@ def webhook(**kwargs):
             frappe.db.commit()
             # from here trigger adding product to user and spinning up geonode or whatever product purchased via api call to jenkins
             create_user_product(metadata.docname)
+            # if this entry point is successful might need to update payment request , sales order and create sales invoice
         else:
             # Log error
             frappe.log_error(str(req.reason), 'Verify Transaction')
