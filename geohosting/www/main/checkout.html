@@ -338,6 +338,7 @@
                     } else if (!['USD', 'NGN', 'ZAR', 'GHS'].includes(data.message.currency)) {
                         showCustomAlert(`Currency ${data.message.currency} is not supported, only 'USD', 'NGN', 'ZAR', 'GHS' supported.`, 'danger-alert',backgroundContainer);
                     } else {
+                        console.log('calling paystack')
                         payWithPaystack(data.message);
                     }
                 })
@@ -366,9 +367,10 @@
 
               callback: function(response){
                   response.gateway=payment_data.metadata.gateway;
+                  console.log(response);
                   frappe.call({
                       type: "POST",
-                      method: "frappe_paystack.www.paystack.pay.index.verify_transaction",
+                      method: "geohosting.www.main.checkout.verify_transaction",
                       args:{transaction:response},
                       callback: function(r) {
                           showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'danger-alert',backgroundContainer);

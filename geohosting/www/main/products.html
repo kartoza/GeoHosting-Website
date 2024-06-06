@@ -321,12 +321,29 @@
                  }
 
                  
+                function splitHeading(headingId){
+                    const headingElement = document.getElementById(headingId);
+                    const headingText = headingElement.textContent || headingElement.innerText;
+
+                    return headingText.split(' ');
+                }
+
+                function addButtonLoader(dynamicButton){
+                    var btn_text = dynamicButton.innerHTML;
+                    dynamicButton.innerHTML = '<div class="btn_loader"></div>';
+                    dynamicButton.style.width = '55%';
+                    dynamicButton.style.height = 'auto';
+                    return btn_text;
+                }
 
                 async function createSalesOrder(headingId) {
 
-                    var dynamicButton = document.getElementById('pricing-card-button-basic')
-                    var btn_text = dynamicButton.innerHTML;
-                    dynamicButton.innerHTML = '<div class="loader"></div>';
+                    
+                    const [word1, word2] = splitHeading(headingId);
+
+                    var dynamicButton = document.getElementById('pricing-card-button-'+word2.toLowerCase())
+                    var btn_text = addButtonLoader(dynamicButton)
+                    
           
                     await fetchUserInfo().then(async userInfo => {
                         if (userInfo) {
@@ -338,11 +355,7 @@
                                 // TODO CREATE CUSTOMER BEFORE CREATING SALES ORDER
                             } else {
                                 // create item code
-                                const headingElement = document.getElementById(headingId);
-                                const headingText = headingElement.textContent || headingElement.innerText;
-
-                                const words = headingText.split(' ');
-                                const [word1, word2] = words;
+                                
                                 var type = '';
                                 if(word2 == 'Basic')
                                     type = 'SMALL';
@@ -383,7 +396,8 @@
                                             delivery_date: formattedDate
                                         }
                                     ],
-                                    status: "To Deliver and Bill",
+                                    // status: "To Deliver and Bill",
+                                    status: "Draft",
                                     delivery_status: "Not Delivered",
                                     billing_status: "Not Billed",
                                     is_internal_customer: 0,
@@ -408,7 +422,7 @@
                             
                                 // Add the Sales Order data to the form data
                                 formData.append("doc", JSON.stringify(salesOrderData));
-                                formData.append("action", "Submit");
+                                formData.append("action", "Save");
                             
                                 try {
                             
@@ -420,11 +434,15 @@
                                     } else {
                                         showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
                                         dynamicButton.innerHTML = btn_text;
+                                        dynamicButton.style.width = 'auto';
+                                        dynamicButton.style.height = 'auto';
                                     }
                                 } catch (error) {
                                     console.error('Error:', error);
                                     showCustomAlert('Could not create the sales order.', 'danger-alert',backgroundContainer);
                                     dynamicButton.innerHTML = btn_text;
+                                    dynamicButton.style.width = 'auto';
+                                    dynamicButton.style.height = 'auto';
                                 }
                             }
                         } else {
