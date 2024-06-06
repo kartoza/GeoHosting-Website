@@ -3,9 +3,6 @@ from frappe_paystack.utils import (
     compute_received_hash, getip, is_paystack_ip,
     generate_digest,
 )
-import frappe
-from frappe import _
-from datetime import datetime, timedelta
 
 
 @frappe.whitelist(allow_guest=True)
@@ -35,7 +32,7 @@ def get_payment_request(**kwargs):
                 "payment_channel": "Email"
             })
             payment_request.insert(ignore_permissions=True)
-            payment_request.submit()
+            payment_request.save()
             frappe.db.commit()
         else:
             payment_request = frappe.get_doc(data.reference_doctype, data.reference_docname)
@@ -165,10 +162,6 @@ def webhook(**kwargs):
         frappe.log_error(frappe.get_traceback() + str(frappe.form_dict), 'Verify Transaction')
 
 
-
-
-import frappe
-from datetime import datetime, timedelta
 
 def create_user_product(payment_request_name):
     try:
