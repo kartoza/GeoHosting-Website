@@ -79,12 +79,12 @@ def queue_verify_transaction(transaction):
             f"https://api.paystack.co/transaction/verify/{transaction.reference}",
             headers=headers, timeout=10
         )
-        if req.status_code in [200, 201]:
-            response = frappe._dict(req.json())
-            data = frappe._dict(response.data)
-            metadata = frappe._dict(data.metadata)
-            if not frappe.db.exists("Paystack Log", {'name': data.reference}):
-                frappe.get_doc({
+        # if req.status_code in [200, 201]:
+        response = frappe._dict(req.json())
+        data = frappe._dict(response.data)
+        metadata = frappe._dict(data.metadata)
+        if not frappe.db.exists("Paystack Log", {'name': data.reference}):
+            frappe.get_doc({
                     'doctype': "Paystack Log",
                     'amount': data.amount / 100,
                     'currency': data.currency,
@@ -96,30 +96,30 @@ def queue_verify_transaction(transaction):
                     'reference_name': metadata.reference_name,
                     'transaction_id': data.id,
                     'data': response
-                }).insert(ignore_permissions=True)
-                frappe.db.commit()
-                # Clear payment
-                payment_request = frappe.get_doc('Payment Request', metadata.docname)
-                integration_request = frappe.get_doc("Integration Request", {
+            }).insert(ignore_permissions=True)
+            frappe.db.commit()
+            # Clear payment
+            payment_request = frappe.get_doc('Payment Request', metadata.docname)
+            integration_request = frappe.get_doc("Integration Request", {
                     'reference_doctype': metadata.doctype,
                     'reference_docname': metadata.docname
-                })
+            })
 
-                if not integration_request:
-                    integration_request = frappe.new_doc("Integration Request")
-                    integration_request.update({
+            if not integration_request:
+                integration_request = frappe.new_doc("Integration Request")
+                integration_request.update({
                         'reference_doctype': metadata.doctype,
                         'reference_docname': metadata.docname
-                    })
+                })
 
-                # Perform the necessary operations
-                payment_request.run_method("on_payment_authorized", 'Completed')
-                integration_request.db_set('status', 'Completed')
-                frappe.db.commit()
-                create_user_product(metadata.docname)
-        else:
+            # Perform the necessary operations
+            payment_request.run_method("on_payment_authorized", 'Completed')
+            integration_request.db_set('status', 'Completed')
+            frappe.db.commit()
+            create_user_product(metadata.docname)
+        # else:
             # Log error
-            frappe.log_error(str(req.reason), 'Verify Transaction')
+            # frappe.log_error(str(req.reason), 'Verify Transaction')
     except Exception as e:
         frappe.log_error(frappe.get_traceback() + str(frappe.form_dict), 'Verify Transaction')
 

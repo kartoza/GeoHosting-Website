@@ -367,7 +367,7 @@
 
               callback: function(response){
                   response.gateway=payment_data.metadata.gateway;
-                  console.log(response);
+                  console.log('from paystack ',response);
                   fetch('/api/method/geohosting.www.main.checkout.verify_transaction', {
                     method: 'POST',
                     headers: {
@@ -375,16 +375,16 @@
                     },
                     body: JSON.stringify({ transaction: response })
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.message && data.message.status === 'Completed') {
+                    .then(response_from_method => {
+                        if (!response_from_method.ok) {
+                            showCustomAlert('Payment verification failed.', 'danger-alert',backgroundContainer);
+                        }
+                        if(response.status === 'success') {
                             showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'success-alert',backgroundContainer);
                             localStorage.removeItem('selectedProduct');
                             setTimeout(() => {
                                 window.location.href = '/portal/services';
                             }, 10000);
-                        } else {
-                            showCustomAlert('Payment verification failed.', 'danger-alert',backgroundContainer);
                         }
                     })
                     .catch(error => {
