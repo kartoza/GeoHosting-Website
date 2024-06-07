@@ -365,32 +365,40 @@
                   showCustomAlert('Payment Terminated.', 'danger-alert',backgroundContainer);
               },
 
-              callback: function(response){
-                  response.gateway=payment_data.metadata.gateway;
-                  fetch('/api/method/geohosting.www.main.checkout.verify_transaction', {
+              callback: function(response) {
+                response.gateway = payment_data.metadata.gateway;
+
+                // Create FormData object
+                const formData = new FormData();
+                
+                // Stringify the response and surround it with single quotes
+                const transactionData = `'${JSON.stringify(response)}'`;
+                formData.append('transaction', transactionData);
+
+                console.log(formData)
+
+                fetch('/api/method/geohosting.www.main.checkout.verify_transaction', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ transaction: response })
-                    })
-                    .then(response_from_method => {
-                        if (!response_from_method.ok) {
-                            showCustomAlert('Payment verification failed.', 'danger-alert',backgroundContainer);
-                        }
-                        if(response.status === 'success') {
-                            showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'success-alert',backgroundContainer);
-                            localStorage.removeItem('selectedProduct');
-                            setTimeout(() => {
-                                window.location.href = '/portal/hosted_services';
-                            }, 10000);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error.message);
-                        showCustomAlert('An error occurred during payment verification.', 'danger-alert',backgroundContainer);
-                    });
-                }
+                    body: formData
+                })
+                .then(response_from_method => {
+                    if (!response_from_method.ok) {
+                        showCustomAlert('Payment verification failed.', 'danger-alert', backgroundContainer);
+                    }
+                    if(response.status === 'success') {
+                        showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'success-alert', backgroundContainer);
+                        localStorage.removeItem('selectedProduct');
+                        setTimeout(() => {
+                            window.location.href = '/portal/hosted_services';
+                        }, 10000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error.message);
+                    showCustomAlert('An error occurred during payment verification.', 'danger-alert', backgroundContainer);
+                });
+            }
+
 
             });
   

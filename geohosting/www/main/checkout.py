@@ -69,14 +69,11 @@ def get_payment_request(**kwargs):
 def verify_transaction(transaction):
     frappe.enqueue(queue_verify_transaction, transaction=transaction)
 
-def fix_json(improper_json):
-    fixed_json = re.sub(r'(\w+):', r'"\1":', improper_json)
-    return fixed_json
 
 def queue_verify_transaction(transaction):
     # Custom implementation
     try:
-        transaction = frappe._dict(json.loads(fix_json(transaction)))
+        transaction = frappe._dict(json.loads(transaction))
         gateway = frappe.get_doc("Paystack Settings", transaction.gateway)
         secret_key = gateway.get_secret_key()
         headers = {"Authorization": f"Bearer {secret_key}"}
@@ -103,7 +100,7 @@ def queue_verify_transaction(transaction):
                         'data': response
                 }).insert(ignore_permissions=True)
                 frappe.db.commit()
-                # Clear payment
+
                 payment_request = frappe.get_doc('Payment Request', metadata.docname)
                 integration_request = frappe.get_doc("Integration Request", {
                         'reference_doctype': metadata.doctype,
@@ -117,18 +114,16 @@ def queue_verify_transaction(transaction):
                             'reference_docname': metadata.docname
                     })
 
-                # Perform the necessary operations
                 payment_request.run_method("on_payment_authorized", 'Completed')
                 integration_request.db_set('status', 'Completed')
                 frappe.db.commit()
 
-                # Update Sales Order status to Paid
-                sales_order = frappe.get_doc('Sales Order', metadata.reference_name)
-                sales_order.status = 'Paid'
-                sales_order.submit()
-                
-                frappe.db.commit()
-                create_user_product(metadata.docname)
+                sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
+                if sales_order:
+                    sales_order.status = 'Paid'
+                    sales_order.submit()
+                    frappe.db.commit()
+                    create_user_product(metadata.docname, sales_order)
         else:
             # Log error
             frappe.log_error(str(req.reason), 'Verify Transaction')
@@ -167,15 +162,31 @@ def webhook(**kwargs):
                 'transaction_id': data.id,
                 'data': response
             }).insert(ignore_permissions=True)
-            # Clear payment
             frappe.db.commit()
+
             payment_request = frappe.get_doc('Payment Request', metadata.docname)
             integration_request = frappe.get_doc("Integration Request", {
-                'reference_doctype': metadata.doctype,
-                'reference_docname': metadata.docname})
+                        'reference_doctype': metadata.doctype,
+                        'reference_docname': metadata.docname
+            })
+
+            if not integration_request:
+                integration_request = frappe.new_doc("Integration Request")
+                integration_request.update({
+                            'reference_doctype': metadata.doctype,
+                            'reference_docname': metadata.docname
+                })
+
             payment_request.run_method("on_payment_authorized", 'Completed')
             integration_request.db_set('status', 'Completed')
             frappe.db.commit()
+
+            sales_order = frappe.get_doc('Sales Order', metadata.reference_name.split('=')[1])
+            if sales_order:
+                    sales_order.status = 'Paid'
+                    sales_order.submit()
+                    frappe.db.commit()
+                    create_user_product(metadata.docname, sales_order)
         else:
             # Log error
             frappe.log_error(str(req.reason), 'Verify Transaction')
@@ -183,48 +194,62 @@ def webhook(**kwargs):
         frappe.log_error(frappe.get_traceback() + str(frappe.form_dict), 'Verify Transaction')
 
 
-
-def create_user_product(payment_request_name):
+def create_user_product(payment_request_name, sales_order=None):
     try:
         payment_request = frappe.get_doc('Payment Request', payment_request_name)
     except frappe.DoesNotExistError:
         frappe.log_error(f'Payment Request {payment_request_name} does not exist.')
         return
 
-    # Define specifications based on item code prefix
+    if not sales_order:
+        sales_order_name = payment_request.reference_name
+        try:
+            sales_order = frappe.get_doc('Sales Order', sales_order_name)
+        except frappe.DoesNotExistError:
+            frappe.log_error(f'Sales Order {sales_order_name} referenced in Payment Request {payment_request_name} does not exist.')
+            return
+
+    # Define specifications based on item code prefix and size example TODO extract specs from db
     specifications_map = {
         "geonode": {
             "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
+            "MEDIUM": "4 CPUs, 8GB RAM, 80GB Storage",
+            "LARGE": "8 CPUs, 16GB RAM, 120GB Storage"
+        },
+        "geosight": {
+            "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
+            "MEDIUM": "4 CPUs, 8GB RAM, 80GB Storage",
+            "LARGE": "8 CPUs, 16GB RAM, 120GB Storage"
+        },
+        "bims": {
+            "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
+            "MEDIUM": "4 CPUs, 8GB RAM, 80GB Storage",
+            "LARGE": "8 CPUs, 16GB RAM, 120GB Storage"
+        },
+        "g3w": {
+           "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
             "MEDIUM": "Specify medium specifications here",
             "LARGE": "Specify large specifications here"
         },
-        "geosight": {
-            # Specifications for geosight prefixes
-        },
-        "bims": {
-            # Specifications for bims prefixes
-        },
-        "g3w": {
-            # Specifications for g3w prefixes
-        },
         "geoserver": {
-            # Specifications for geoserver prefixes
+           "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
+            "MEDIUM": "Specify medium specifications here",
+            "LARGE": "Specify large specifications here"
         }
     }
 
-    # Extract the purchased item details
-    purchased_items = payment_request.items
-    for item in purchased_items:
+    for item in sales_order.items:
         try:
-            # Split item code to extract prefix and size
             prefix, size, _ = item.item_code.split('-')
 
-            # Get specifications based on prefix and size
             specifications = specifications_map.get(prefix.lower(), {}).get(size.upper(), "")
 
-            # Attempt to create a User Products record
+            logo = '/assets/geohosting/images/' + item.item_code.split('-')[0].upper() + '.svg'
+
+            # Create User Products record TODO add dynamic data after jenkins creates product
             user_product = frappe.get_doc({
                 'doctype': 'User Products',
+                'name': item.item_code,
                 'user': payment_request.email_to,
                 'product': item.item_code,
                 'specifications': specifications,
@@ -233,13 +258,12 @@ def create_user_product(payment_request_name):
                     'url_path': f"https://kartoza-staging-v14.frappe.cloud/app/main/products",
                     'username': "Admin",
                     'password': "test"
-                }
+                },
+                'logo': logo
             })
             user_product.insert(ignore_permissions=True)
-            frappe.db.commit()
-        except frappe.DoesNotExistError:
-            frappe.log_error('The doctype User Products does not exist.')
-            return
         except Exception as e:
             frappe.log_error(f'Failed to create User Products for {payment_request.email_to}: {str(e)}')
+            continue
 
+    frappe.db.commit()

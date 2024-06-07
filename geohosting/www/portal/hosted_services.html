@@ -137,7 +137,7 @@ p {
 
 
   <div class="card-container" id="card-container"></div>
-  <!-- <div id="pagination-pages" class="pagination-container" ></div> -->
+  <div id="pagination-pages" class="pagination-container" ></div>
   
 <script>
   // Function to display user product cards
@@ -219,58 +219,27 @@ function updatePaginationUI(totalPages, currentPage) {
     }
 }
 
-var user_products = "{{ user_products }}"
+var user_products = {{ user_products | tojson | safe }};
 console.log(user_products);
 
-// Sample data from context
-var userProducts = [
-    {
-        "logo": "/assets/geohosting/images/BIMS.svg",
-        "status": "Active",
-        "product_name": "platform.geospatialhosting.com",
-        "pod_count": 4,
-        "memory": "4GB",
-        "cpu": "2 Cores",
-        "storage": "80GB SSD"
-    },
-    {
-        "logo": "/assets/geohosting/images/BIMS.svg",
-        "status": "Active",
-        "product_name": "platform.geospatialhosting.com",
-        "pod_count": 4,
-        "memory": "4GB",
-        "cpu": "2 Cores",
-        "storage": "80GB SSD"
-    },
-    {
-        "logo": "/assets/geohosting/images/BIMS.svg",
-        "status": "Active",
-        "product_name": "platform.geospatialhosting.com",
-        "pod_count": 4,
-        "memory": "4GB",
-        "cpu": "2 Cores",
-        "storage": "80GB SSD"
-    },
-    {
-        "logo": "/assets/geohosting/images/BIMS.svg",
-        "status": "Active",
-        "product_name": "platform.geospatialhosting.com",
-        "pod_count": 4,
-        "memory": "4GB",
-        "cpu": "2 Cores",
-        "storage": "80GB SSD"
-    },
-    {
-        "logo": "/assets/geohosting/images/BIMS.svg",
-        "status": "Active",
-        "product_name": "platform.geospatialhosting.com",
-        "pod_count": 4,
-        "memory": "4GB",
-        "cpu": "2 Cores",
-        "storage": "80GB SSD"
-    },
-    // Add more user product data here...
-];
+var userProducts = [];
+
+
+// Iterate over the existing array and create new objects with dynamic values
+user_products.forEach(function(obj) {
+  var specs = JSON.parse(obj.specifications);
+  var product_meta = JSON.parse(obj.product_meta);
+    var userProduct = {
+        logo: obj.logo,
+        status: obj.status,
+        product_name: product_meta.url_path,
+        pod_count: 4,
+        memory: specs.SMALL.split(',')[1].trim(),
+        cpu: specs.SMALL.split(',')[2].trim(),
+        storage: specs.SMALL.split(',')[2].trim()
+    };
+    userProducts.push(userProduct);
+});
 
 // Pagination variables
 var currentPage = 1;
