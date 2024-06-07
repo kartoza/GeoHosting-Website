@@ -303,6 +303,10 @@
                     grand_total: calculateGrandTotal(selectedProduct.price, 0.15),
                     currency: selectedProduct.currency
             };
+
+            function removeNonNumericChars(value) {
+                return value.replace(/[^0-9.]/g, '');
+            }
             
             const customer = "{{ frappe.get_fullname() }}";
             const userEmail = "{{ frappe.session.user }}";
@@ -311,7 +315,7 @@
                 reference_docname: '',
                 gateway: 'Paystack',
                 currency: paymentData.currency,
-                amount: paymentData.grand_total,
+                amount: parseFloat(removeNonNumericChars(paymentData.grand_total)),
                 description: 'geohosting product',
                 email: userEmail,
                 customer: customer,
