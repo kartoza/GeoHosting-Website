@@ -73,6 +73,12 @@ def verify_transaction(transaction):
 def queue_verify_transaction(transaction):
     # Custom implementation
     try:
+        sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
+        if sales_order:
+            sales_order.status = 'Paid'
+            sales_order.submit()
+            frappe.db.commit()
+
         transaction = frappe._dict(json.loads(transaction))
         gateway = frappe.get_doc("Paystack Settings", transaction.gateway)
         secret_key = gateway.get_secret_key()
@@ -118,12 +124,12 @@ def queue_verify_transaction(transaction):
                 integration_request.db_set('status', 'Completed')
                 frappe.db.commit()
 
-                sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
-                if sales_order:
-                    sales_order.status = 'Paid'
-                    sales_order.submit()
-                    frappe.db.commit()
-                    create_user_product(metadata.docname, sales_order)
+                # sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
+                # if sales_order:
+                #     sales_order.status = 'Paid'
+                #     sales_order.submit()
+                #     frappe.db.commit()
+                #     create_user_product(metadata.docname, sales_order)
         else:
             # Log error
             frappe.log_error(str(req.reason), 'Verify Transaction')
