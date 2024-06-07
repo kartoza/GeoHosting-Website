@@ -385,11 +385,11 @@
                 const transactionData = `'${JSON.stringify(response)}'`;
                 formData.append('transaction', transactionData);
 
-                console.log(formData.FormData)
+                console.log(formData)
 
                 fetch('/api/method/geohosting.www.main.checkout.verify_transaction', {
                     method: 'POST',
-                    body: formData.FormData
+                    body: formData
                 })
                 .then(response_from_method => {
                     if (!response_from_method.ok) {

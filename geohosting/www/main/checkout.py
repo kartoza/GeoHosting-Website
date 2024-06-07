@@ -73,13 +73,15 @@ def verify_transaction(transaction):
 def queue_verify_transaction(transaction):
     # Custom implementation
     try:
+        
+        transaction = frappe._dict(json.loads(transaction))
+
         sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
         if sales_order:
             sales_order.status = 'Paid'
             sales_order.submit()
             frappe.db.commit()
 
-        transaction = frappe._dict(json.loads(transaction))
         gateway = frappe.get_doc("Paystack Settings", transaction.gateway)
         secret_key = gateway.get_secret_key()
         headers = {"Authorization": f"Bearer {secret_key}"}
@@ -144,6 +146,13 @@ def webhook(**kwargs):
         transaction = frappe.form_dict
         data = frappe._dict(json.loads(transaction.data))
         metadata = frappe._dict(data.metadata)
+
+        sales_order = frappe.get_doc('Sales Order', metadata.reference_name.split('=')[1])
+        if sales_order:
+            sales_order.status = 'Paid'
+            sales_order.submit()
+            frappe.db.commit()
+
         gateway = frappe.get_doc("Paystack Settings", metadata.gateway)
         secret_key = gateway.get_secret_key()
         headers = {"Authorization": f"Bearer {secret_key}"}
