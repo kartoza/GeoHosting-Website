@@ -305,8 +305,14 @@
             };
 
             function removeNonNumericChars(value) {
-                return value.replace(/[^0-9.]/g, '');
+                // Check if the value is a string before applying replace method
+                if (typeof value === 'string') {
+                    return value.replace(/[^0-9.]/g, '');
+                } else {
+                    return value; // Return the value unchanged if it's not a string
+                }
             }
+
             
             const customer = "{{ frappe.get_fullname() }}";
             const userEmail = "{{ frappe.session.user }}";
