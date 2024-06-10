@@ -398,9 +398,9 @@
                     if(response.status === 'success') {
                         showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'success-alert', backgroundContainer);
                         localStorage.removeItem('selectedProduct');
-                        setTimeout(() => {
-                            window.location.href = '/portal/hosted_services';
-                        }, 10000);
+                        // setTimeout(() => {
+                        //     window.location.href = '/portal/hosted_services';
+                        // }, 10000);
                     }
                 })
                 .catch(error => {
