@@ -383,7 +383,7 @@
                 
                 // Stringify the response and surround it with single quotes
                 const transactionData = `'${JSON.stringify(response)}'`;
-                formData.append('transaction', response);
+                formData.append('transaction', transactionData);
 
                 console.log(formData)
 
