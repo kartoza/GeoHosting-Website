@@ -79,6 +79,7 @@ def verify_transaction(transaction):
             sales_order.submit()
             frappe.db.commit()
             create_user_product(transaction.reference.split('=')[0], sales_order)
+            create_sales_invoice(sales_order)
 
         return {"status": "success", "message": "Sales order processed successfully", "transaction": transaction}
     except Exception as e:
@@ -298,3 +299,7 @@ def create_user_product(payment_request_name, sales_order=None):
             continue
 
     frappe.db.commit()
+
+
+def create_sales_invoice(sales_order):
+    pass

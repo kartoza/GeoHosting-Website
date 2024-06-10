@@ -25,6 +25,7 @@
 
   /* also known as card */
 .content {
+  position: relative;
   display: flex;
   align-items: flex-start;
   padding: 20px;
@@ -96,6 +97,65 @@ p {
   margin: 0;
 }
 
+
+
+.invoice-table {
+    width: 50%;
+    border-collapse: collapse;
+    margin-left: 20%;
+    margin-top: 5%;
+}
+
+.invoice-table th, .invoice-table td {
+    /* border: 1px solid #ddd; */
+    padding: 8px;
+    vertical-align: top;
+}
+
+
+
+.pagination-container-invoice {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.pagination-container-invoice button.active {
+    font-weight: bold;
+}
+
+/* Overlay styles */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1; 
+}
+
+/* Loading bar styles */
+.loader {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #3498db; 
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+/* Animation for loading bar */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+
 @media (max-width: 768px) {
   .portal-pages-heading {
       left: -38px;
@@ -125,7 +185,7 @@ p {
   }
 }
 
-  
+
 </style>
 </head>
 <body>
@@ -138,31 +198,108 @@ p {
     <span>Hosted Services</span>
   </div>
 
+  <table class="invoice-table">
+    <colgroup>
+      <col style="width: 50%;">
+      <col style="width: 50%;">
+  </colgroup>
+    <thead></thead>
+    <tbody id="invoice-table-body"></tbody>
+    <tfoot>
+        <tr>
+            <td colspan="5">
+                <div id="pagination-container" class="pagination-container-invoice">
+                    <div id="pagination-pages"></div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
+</table>
 
 
-  <div class="card-container" id="card-container"></div>
-  <div id="pagination-pages" class="" style="margin-top: 20%; margin-left: 50%;"></div>
+
+
   
 <script>
-  // Function to display user product cards
-function displayUserProductCards(userProducts, currentPage, itemsPerPage) {
-    var container = document.getElementById("card-container");
-    container.innerHTML = ""; // Clear previous cards
-    
-    var startIndex = (currentPage - 1) * itemsPerPage;
-    var endIndex = Math.min(startIndex + itemsPerPage, userProducts.length);
 
-    for (var i = startIndex; i < endIndex; i++) {
-        var product = userProducts[i];
-        var card = createCard(product);
-        container.appendChild(card);
+// Function to update pagination UI
+function updatePaginationUI(totalPages, currentPage) {
+    var paginationPages = document.getElementById("pagination-pages");
+    paginationPages.innerHTML = "";
+
+    for (var i = 1; i <= totalPages; i++) {
+        var pageButton = document.createElement("button");
+        pageButton.classList.add("pagination-button");
+        pageButton.textContent = i;
+        pageButton.addEventListener("click", function() {
+            currentPage = parseInt(this.textContent);
+            displayUserProductCards(userProducts, currentPage, itemsPerPage);
+        });
+        if (i === currentPage) {
+            pageButton.classList.add("current-page");
+        }
+        paginationPages.appendChild(pageButton);
     }
 }
 
-// Function to create a card for a user product
-function createCard(product) {
+
+function displayUserProductCards(userProducts, currentPage, itemsPerPage) {
+    var tableBody = document.getElementById("invoice-table-body");
+    tableBody.innerHTML = ""; // Clear previous rows
+
+    var startIndex = (currentPage - 1) * itemsPerPage;
+    var endIndex = Math.min(startIndex + itemsPerPage, userProducts.length);
+
+    for (var i = startIndex; i < endIndex; i += 2) {
+      var row = document.createElement("tr");
+
+      var firstProductCell = document.createElement("td");
+      var firstProduct = userProducts[i];
+      var isFirstCard = i === startIndex; // Check if it's the first card in the row
+      var firstCard = createCard(firstProduct, isFirstCard);
+      firstProductCell.appendChild(firstCard);
+      row.appendChild(firstProductCell);
+
+      // Create second card if available
+      var secondProductCell = document.createElement("td");
+      if (i + 1 < endIndex) {
+          var secondProduct = userProducts[i + 1];
+          var secondCard = createCard(secondProduct, false);
+          secondProductCell.appendChild(secondCard);
+      } else {
+          // If there's no second product, create an empty cell
+          secondProductCell.innerHTML = "&nbsp;";
+      }
+      row.appendChild(secondProductCell);
+
+      tableBody.appendChild(row);
+  }
+
+    var totalPages = Math.ceil(userProducts.length / itemsPerPage);
+
+    updatePaginationUI(totalPages, currentPage)
+
+}
+
+function createCard(product, isFirstCard) {
     var card = document.createElement("div");
     card.classList.add("content");
+
+    // Overlay with loading bar and message for the first card TODO if a new service is purchased this will be displayed
+    if (isFirstCard) {
+        var overlay = document.createElement("div");
+        overlay.classList.add("overlay");
+
+        var loader = document.createElement("div");
+        loader.classList.add("loader");
+        overlay.appendChild(loader);
+
+        var message = document.createElement("div");
+        message.textContent = "Spinning up service. Please wait a maximum of 10 minutes";
+        overlay.appendChild(message);
+
+        card.appendChild(overlay);
+    }
 
     var imageStatus = document.createElement("div");
     imageStatus.classList.add("image-status");
@@ -193,7 +330,10 @@ function createCard(product) {
     var details = document.createElement("div");
     details.classList.add("details");
     var h2 = document.createElement("h2");
-    h2.textContent = product.product_name;
+    var productNameLink = document.createElement("a"); // Create anchor tag for the product name
+    productNameLink.textContent = product.product_name;
+    productNameLink.href = product.link; // Set the href attribute to the product link
+    h2.appendChild(productNameLink); // Append anchor tag to the heading
     details.appendChild(h2);
     var p = document.createElement("p");
     p.innerHTML = `POD Count: ${product.pod_count}<br>Memory: ${product.memory}<br>CPU: ${product.cpu}<br>Storage: ${product.storage}`;
@@ -203,31 +343,12 @@ function createCard(product) {
     return card;
 }
 
-// Function to update pagination UI
-function updatePaginationUI(totalPages, currentPage) {
-    var paginationPages = document.getElementById("pagination-pages");
-    paginationPages.innerHTML = "";
 
-    for (var i = 1; i <= totalPages; i++) {
-        var pageButton = document.createElement("button");
-        pageButton.classList.add("pagination-button");
-        pageButton.textContent = i;
-        pageButton.addEventListener("click", function() {
-            currentPage = parseInt(this.textContent);
-            displayUserProductCards(userProducts, currentPage, itemsPerPage);
-        });
-        if (i === currentPage) {
-            pageButton.classList.add("current-page");
-        }
-        paginationPages.appendChild(pageButton);
-    }
-}
 
 var user_products = {{ user_products | tojson | safe }};
 console.log(user_products);
 
-var userProducts = [];
-
+var userProducts = []
 
 // Iterate over the existing array and create new objects with dynamic values
 user_products.forEach(function(obj) {
@@ -244,6 +365,55 @@ user_products.forEach(function(obj) {
     };
     userProducts.push(userProduct);
 });
+
+// add test dummy products
+userProducts.push(
+  {
+  "logo": "/assets/geohosting/images/BIMS.svg",
+  "name": "geosight-SMALL-DO",
+  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+  "product": "geosight-SMALL-DO",
+  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+  "specifications": "{\n            \"SMALL\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            \"MEDIUM\": \"4 CPUs, 8GB RAM, 80GB Storage\",\n            \"LARGE\": \"8 CPUs, 16GB RAM, 120GB Storage\"\n        }",
+  "status": "Active"
+},
+{
+  "logo": "/assets/geohosting/images/BIMS.svg",
+  "name": "geosight-SMALL-DO",
+  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+  "product": "geosight-SMALL-DO",
+  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+  "specifications": "{\n            \"SMALL\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            \"MEDIUM\": \"4 CPUs, 8GB RAM, 80GB Storage\",\n            \"LARGE\": \"8 CPUs, 16GB RAM, 120GB Storage\"\n        }",
+  "status": "Active"
+},
+{
+  "logo": "/assets/geohosting/images/BIMS.svg",
+  "name": "geosight-SMALL-DO",
+  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+  "product": "geosight-SMALL-DO",
+  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+  "specifications": "{\n            \"SMALL\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            \"MEDIUM\": \"4 CPUs, 8GB RAM, 80GB Storage\",\n            \"LARGE\": \"8 CPUs, 16GB RAM, 120GB Storage\"\n        }",
+  "status": "Active"
+},
+{
+  "logo": "/assets/geohosting/images/BIMS.svg",
+  "name": "geosight-SMALL-DO",
+  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+  "product": "geosight-SMALL-DO",
+  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+  "specifications": "{\n            \"SMALL\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            \"MEDIUM\": \"4 CPUs, 8GB RAM, 80GB Storage\",\n            \"LARGE\": \"8 CPUs, 16GB RAM, 120GB Storage\"\n        }",
+  "status": "Active"
+},
+{
+  "logo": "/assets/geohosting/images/BIMS.svg",
+  "name": "geosight-SMALL-DO",
+  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+  "product": "geosight-SMALL-DO",
+  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+  "specifications": "{\n            \"SMALL\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            \"MEDIUM\": \"4 CPUs, 8GB RAM, 80GB Storage\",\n            \"LARGE\": \"8 CPUs, 16GB RAM, 120GB Storage\"\n        }",
+  "status": "Active"
+}
+)
 
 // Pagination variables
 var currentPage = 1;
