@@ -67,75 +67,81 @@ def get_payment_request(**kwargs):
 
 @frappe.whitelist(allow_guest=True)
 def verify_transaction(transaction):
+    update_records(transaction)
     frappe.enqueue(queue_verify_transaction, transaction=transaction)
 
-def queue_verify_transaction(transaction):
+def update_records(transaction):
     try:
+        transaction = frappe._dict(json.loads(transaction))
+        payment_request = frappe.get_doc('Payment Request', transaction.reference.split('=')[0])
+        payment_request.run_method("on_payment_authorized", 'Completed')
+        frappe.db.commit()
+
+        sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
+        if sales_order:
+            sales_order.status = 'Paid'
+            sales_order.submit()
+            frappe.db.commit()
+            create_user_product(transaction.reference.split('=')[0], sales_order)
+
         return {"status": "success", "message": "Sales order processed successfully", "transaction": transaction}
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "queue_verify_transaction")
-        return {"status": "error", "message": str(e)}
+        return {"status": "error", "message": str(e), "transaction": transaction}
 
 
-# def queue_verify_transaction(transaction):
-#     try:
+def queue_verify_transaction(transaction):
+    try:
         
-#         transaction = frappe._dict(json.loads(transaction))
-#         gateway = frappe.get_doc("Paystack Settings", transaction.gateway)
-#         secret_key = gateway.get_secret_key()
-#         headers = {"Authorization": f"Bearer {secret_key}"}
-#         req = requests.get(
-#             f"https://api.paystack.co/transaction/verify/{transaction.reference}",
-#             headers=headers, timeout=10
-#         )
-#         if req.status_code in [200, 201]:
-#             response = frappe._dict(req.json())
-#             data = frappe._dict(response.data)
-#             metadata = frappe._dict(data.metadata)
-#             if not frappe.db.exists("Paystack Log", {'name': data.reference}):
-#                 frappe.get_doc({
-#                         'doctype': "Paystack Log",
-#                         'amount': data.amount / 100,
-#                         'currency': data.currency,
-#                         'message': response.message,
-#                         'status': data.status,
-#                         'reference': data.reference,
-#                         'payment_request': metadata.docname,
-#                         'reference_doctype': metadata.reference_doctype,
-#                         'reference_name': metadata.reference_name,
-#                         'transaction_id': data.id,
-#                         'data': response
-#                 }).insert(ignore_permissions=True)
-#                 frappe.db.commit()
+        transaction = frappe._dict(json.loads(transaction))
+        gateway = frappe.get_doc("Paystack Settings", transaction.gateway)
+        secret_key = gateway.get_secret_key()
+        headers = {"Authorization": f"Bearer {secret_key}"}
+        req = requests.get(
+            f"https://api.paystack.co/transaction/verify/{transaction.reference}",
+            headers=headers, timeout=10
+        )
+        if req.status_code in [200, 201]:
+            response = frappe._dict(req.json())
+            data = frappe._dict(response.data)
+            metadata = frappe._dict(data.metadata)
+            if not frappe.db.exists("Paystack Log", {'name': data.reference}):
+                frappe.get_doc({
+                        'doctype': "Paystack Log",
+                        'amount': data.amount / 100,
+                        'currency': data.currency,
+                        'message': response.message,
+                        'status': data.status,
+                        'reference': data.reference,
+                        'payment_request': metadata.docname,
+                        'reference_doctype': metadata.reference_doctype,
+                        'reference_name': metadata.reference_name,
+                        'transaction_id': data.id,
+                        'data': response
+                }).insert(ignore_permissions=True)
+                frappe.db.commit()
 
-#                 payment_request = frappe.get_doc('Payment Request', metadata.docname)
-#                 integration_request = frappe.get_doc("Integration Request", {
-#                         'reference_doctype': metadata.doctype,
-#                         'reference_docname': metadata.docname
-#                 })
+                integration_request = frappe.get_doc("Integration Request", {
+                        'reference_doctype': metadata.doctype,
+                        'reference_docname': metadata.docname
+                })
 
-#                 if not integration_request:
-#                     integration_request = frappe.new_doc("Integration Request")
-#                     integration_request.update({
-#                             'reference_doctype': metadata.doctype,
-#                             'reference_docname': metadata.docname
-#                     })
+                if not integration_request:
+                    integration_request = frappe.new_doc("Integration Request")
+                    integration_request.update({
+                            'reference_doctype': metadata.doctype,
+                            'reference_docname': metadata.docname
+                    })
+                
+                integration_request.db_set('status', 'Completed')
+                frappe.db.commit()
 
-#                 payment_request.run_method("on_payment_authorized", 'Completed')
-#                 integration_request.db_set('status', 'Completed')
-#                 frappe.db.commit()
-
-#                 sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
-#                 if sales_order:
-#                     sales_order.status = 'Paid'
-#                     sales_order.submit()
-#                     frappe.db.commit()
-#                     create_user_product(metadata.docname, sales_order)
-#         else:
-#             # Log error
-#             frappe.log_error(str(req.reason), 'Verify Transaction')
-#     except Exception as e:
-#         frappe.log_error(frappe.get_traceback() + str(frappe.form_dict), 'Verify Transaction')
+                
+        else:
+            # Log error
+            frappe.log_error(str(req.reason), 'Verify Transaction')
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback() + str(frappe.form_dict), 'Verify Transaction')
 
 
 # @frappe.whitelist(allow_guest=True)
