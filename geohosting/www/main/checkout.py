@@ -67,8 +67,25 @@ def get_payment_request(**kwargs):
 
 @frappe.whitelist(allow_guest=True)
 def verify_transaction(transaction):
-    update_records(transaction)
-    frappe.enqueue(queue_verify_transaction, transaction=transaction)
+    try:
+        transaction = frappe._dict(json.loads(transaction))
+        payment_request = frappe.get_doc('Payment Request', transaction.reference.split('=')[0])
+        payment_request.run_method("on_payment_authorized", 'Completed')
+        frappe.db.commit()
+
+        sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
+        if sales_order:
+            sales_order.status = 'Paid'
+            sales_order.submit()
+            frappe.db.commit()
+            create_user_product(transaction.reference.split('=')[0], sales_order)
+
+        return {"status": "success", "message": "Sales order processed successfully", "transaction": transaction}
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "queue_verify_transaction")
+        return {"status": "error", "message": str(e), "transaction": transaction}
+    # update_records(transaction)
+    # frappe.enqueue(queue_verify_transaction, transaction=transaction)
 
 def update_records(transaction):
     try:
