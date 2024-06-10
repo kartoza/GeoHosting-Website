@@ -569,10 +569,7 @@
               callback: function(response) {
                 response.gateway = payment_data.metadata.gateway;
 
-                // Create FormData object
                 const formData = new FormData();
-                
-                // Stringify the response and surround it with single quotes
                 const transactionData = JSON.stringify(response);
                 formData.append('transaction', transactionData);
 
