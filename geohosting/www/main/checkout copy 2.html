@@ -10,7 +10,7 @@
     <script src="/assets/geohosting/js/util.js"></script>
   
     
-    <script>frappe.csrf_token = “{{frappe.session.csrf_token}}”;</script>
+    <script>frappe.csrf_token = “{{frappe.session.csrf_token}}”</script>
 
     <style>
         .button-pricing {
@@ -52,18 +52,11 @@
             margin-left: 20%;
         }
 
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        table tr td {
-            padding: 8px;
-        }
+      
 
         #product-features ul {
             margin: 0;
-            padding-left: 20px;
+            /* padding-left: 20px; */
         }
 
         .portal-pages-headinga {
@@ -139,74 +132,97 @@
                 margin-top: 10%;
             }
         }
+
+
+        .table-container {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 10px;
+            max-width: 800px !important;
+            margin: 0 auto;
+            margin-left: 21%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th{
+            text-align: left;
+            padding: 4px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        td ,ul, li {
+            text-align: left;
+            padding: 4px;
+        }
+        .item-col {
+            width: 30%;
+        }
+        .quantity-col {
+            width:25%;
+            /* border: 3px solid red; */
+        }
+        .subtotal-col {
+            width: 25%;
+        }
+        .product-col {
+            width:25%;
+            /* border: 3px solid blue; */
+        }
+        .hosting-col {
+            width: 25%;
+            /* border: solid 3px green; */
+        }
+    
     </style>
 </head>
-<body>
+
+  <body>
     {% include "templates/navbar.html" %}
     <div id="app">
         <div class="portal-pages-headinga">
             <span>Checkout</span>
         </div>
-        <div class="content">
-            <div id="product-details">
-                <table>
+        
+        <div class="table-container">
+            <table>
+                <thead>
                     <tr>
-                        <td>
+                        <th class="item-col">Item</th>
+                        <!-- <th class="product-col">Product Name</th> -->
+                        <th class="quantity-col">Product Features</th>
+                        <th class="hosting-col">Hosting Provider</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="item-col">
                             <div class="logo-pricing">
                                 <img src="" id="pricing-card-logo" alt="Logo">
                             </div>
                         </td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Product Name</td>
-                        <td id="product-name"></td>
-                    </tr>
-                    <tr>
-                        <td>Product Price</td>
-                        <td id="product-price"></td>
-                    </tr>
-                    <tr>
-                        <td>Product Features</td>
-                        <td>
-                            <ul id="product-features">
+                        <td class="quantity-col">
+                            <ul id="product-features"></ul>
+                        </td>
+                        <td class="hosting-col">
+                            <ul>
+                                <li>Digital Ocean</li>
                             </ul>
                         </td>
                     </tr>
                     <tr>
-                        <td>Default Hosting Provider</td>
-                        <td>Digital Ocean</td>
+                        <td class="item-col" id="product-name">
+                            
+                        </td>
+                        <td class="quantity-col"></td>
+                        <td class="hosting-col"></td>
                     </tr>
-                </table>
-            </div>
-
-            <div id="payment-summary" class="payment-summary">
-                <table>
-                    <tr>
-                        <td><h3>Payment Summary</h3></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>Net Total (1 Item)</td>
-                        <td id="net-total"></td>
-                    </tr>
-                    <tr>
-                        <td>VAT 15%</td>
-                        <td id="vat-amount"></td>
-                    </tr>
-                    <tr>
-                        <td>Grand Total</td>
-                        <td id="grand-total"></td>
-                    </tr>
-                    <tr>
-                        <td>Currency</td>
-                        <td id="currency"></td>
-                    </tr>
-                    <tr>
-                        <td><button id="payment-request-link" class="button-pricing" href="#" onclick="makePaymentRequest()">Place Order</button></td>
-                    </tr>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
 
@@ -376,7 +392,6 @@
               },
 
               callback: function(response) {
-                console.log(response);
                 response.gateway = payment_data.metadata.gateway;
 
                 // Create FormData object
@@ -419,8 +434,8 @@
 </script>
 
 
-    <div class="footer-pos">
-        {% include "templates/footer.html" %}
-    </div>
+<div class="footer-pos">
+    {% include "templates/footer.html" %}
+</div> 
 </body>
 </html>
