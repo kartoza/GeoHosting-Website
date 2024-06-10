@@ -76,10 +76,76 @@ def queue_verify_transaction(transaction):
         
         transaction = frappe._dict(json.loads(transaction))
 
-        sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
+        sales_order_reference = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
+        try:
+            sales_order = frappe.get_doc('Sales Order', sales_order_reference)
+        except frappe.DoesNotExistError:
+            sales_order = None
+
         if sales_order:
             sales_order.status = 'Paid'
             sales_order.submit()
+            frappe.db.commit()
+        else:
+            # Create a new Sales Order if it doesn't exist
+            sales_order_data = {
+                "docstatus": 0,
+                "doctype": "Sales Order",
+                "owner": "tinashe@kartoza.com",
+                "title": "{customer_name}",
+                "order_type": "Sales",
+                "transaction_date": "2024-06-10",
+                "currency": "ZAR",
+                "selling_price_list": "2024 Standard Selling - ZAR",
+                "price_list_currency": "ZAR",
+                "ignore_pricing_rule": 0,
+                "disable_rounded_total": 1,
+                "apply_discount_on": "Grand Total",
+                "delivery_status": "Not Delivered",
+                "billing_status": "Not Billed",
+                "party_account_currency": "ZAR",
+                "items": [{
+                    "docstatus": 0,
+                    "doctype": "Sales Order Item",
+                    "owner": "tinashe@kartoza.com",
+                    "parentfield": "items",
+                    "parenttype": "Sales Order",
+                    "item_code": "geonode-LARGE-DO",
+                    "warehouse": "All Warehouses - K",
+                    "income_account": "4101 - Sales - K",
+                    "expense_account": "5266-001 - Cost of Goods Sold - K",
+                    "discount_account": None,
+                    "provisional_expense_account": None,
+                    "cost_center": "Main - K",
+                    "qty": 1,
+                    "stock_qty": 1,
+                    "transaction_date": "2024-06-10",
+                    
+                    "delivery_date": "2024-06-15",
+                }],
+                
+                "customer_name": "Tinashe Chiraya",
+                "represents_company": None,
+                "customer": "Tinashe Chiraya - 1",
+                "taxes_and_charges": "South Africa Tax - K",
+                "taxes": [{
+                    "doctype": "Sales Taxes and Charges",
+                    "owner": "tinashe@kartoza.com",
+                    "charge_type": "On Net Total",
+                    "cost_center": "Main - K",
+                    "parentfield": "taxes",
+                    "parenttype": "Sales Order",
+                    "account_head": "2604 - VAT Payable - K",
+                    "description": "VAT 15%",
+                    "rate": 15,
+                }],
+                "payment_terms_template": "Website Sales",
+                "set_warehouse": "All Warehouses - K",
+                "terms": f"<div class=\"ql-editor read-mode\"><p>{json.dumps(transaction)}</p></div>"
+            }
+            sales_order_doc = frappe.get_doc(sales_order_data)
+            sales_order_doc.insert(ignore_permissions=True)
+            sales_order_doc.submit()
             frappe.db.commit()
 
         gateway = frappe.get_doc("Paystack Settings", transaction.gateway)
@@ -147,10 +213,76 @@ def webhook(**kwargs):
         data = frappe._dict(json.loads(transaction.data))
         metadata = frappe._dict(data.metadata)
 
-        sales_order = frappe.get_doc('Sales Order', metadata.reference_name.split('=')[1])
+        sales_order_reference = frappe.get_doc('Sales Order', metadata.reference_name.split('=')[1])
+        try:
+            sales_order = frappe.get_doc('Sales Order', sales_order_reference)
+        except frappe.DoesNotExistError:
+            sales_order = None
+
         if sales_order:
             sales_order.status = 'Paid'
             sales_order.submit()
+            frappe.db.commit()
+        else:
+            # Create a new Sales Order if it doesn't exist
+            sales_order_data = {
+                "docstatus": 0,
+                "doctype": "Sales Order",
+                "owner": "tinashe@kartoza.com",
+                "title": "{customer_name}",
+                "order_type": "Sales",
+                "transaction_date": "2024-06-10",
+                "currency": "ZAR",
+                "selling_price_list": "2024 Standard Selling - ZAR",
+                "price_list_currency": "ZAR",
+                "ignore_pricing_rule": 0,
+                "disable_rounded_total": 1,
+                "apply_discount_on": "Grand Total",
+                "delivery_status": "Not Delivered",
+                "billing_status": "Not Billed",
+                "party_account_currency": "ZAR",
+                "items": [{
+                    "docstatus": 0,
+                    "doctype": "Sales Order Item",
+                    "owner": "tinashe@kartoza.com",
+                    "parentfield": "items",
+                    "parenttype": "Sales Order",
+                    "item_code": "geonode-LARGE-DO",
+                    "warehouse": "All Warehouses - K",
+                    "income_account": "4101 - Sales - K",
+                    "expense_account": "5266-001 - Cost of Goods Sold - K",
+                    "discount_account": None,
+                    "provisional_expense_account": None,
+                    "cost_center": "Main - K",
+                    "qty": 1,
+                    "stock_qty": 1,
+                    "transaction_date": "2024-06-10",
+                    
+                    "delivery_date": "2024-06-15",
+                }],
+                
+                "customer_name": "Tinashe Chiraya",
+                "represents_company": None,
+                "customer": "Tinashe Chiraya - 1",
+                "taxes_and_charges": "South Africa Tax - K",
+                "taxes": [{
+                    "doctype": "Sales Taxes and Charges",
+                    "owner": "tinashe@kartoza.com",
+                    "charge_type": "On Net Total",
+                    "cost_center": "Main - K",
+                    "parentfield": "taxes",
+                    "parenttype": "Sales Order",
+                    "account_head": "2604 - VAT Payable - K",
+                    "description": "VAT 15%",
+                    "rate": 15,
+                }],
+                "payment_terms_template": "Website Sales",
+                "set_warehouse": "All Warehouses - K",
+                "terms": f"<div class=\"ql-editor read-mode\"><p>{json.dumps(transaction)}</p></div>"
+            }
+            sales_order_doc = frappe.get_doc(sales_order_data)
+            sales_order_doc.insert(ignore_permissions=True)
+            sales_order_doc.submit()
             frappe.db.commit()
 
         gateway = frappe.get_doc("Paystack Settings", metadata.gateway)
