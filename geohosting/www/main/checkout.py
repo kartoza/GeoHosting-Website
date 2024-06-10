@@ -68,7 +68,7 @@ def get_payment_request(**kwargs):
 @frappe.whitelist(allow_guest=True)
 def verify_transaction(transaction):
     try:
-        transaction = frappe._dict(transaction)
+        transaction = frappe._dict(json.loads(transaction))
         payment_request = frappe.get_doc('Payment Request', transaction.reference.split('=')[0])
         payment_request.run_method("on_payment_authorized", 'Completed')
         frappe.db.commit()
