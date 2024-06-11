@@ -75,8 +75,12 @@ def verify_transaction(transaction):
 
         sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
         if sales_order:
+            if sales_order.docstatus == 0:
+                sales_order.submit()
+                frappe.db.commit()
+
             sales_order.status = 'Paid'
-            sales_order.submit()
+            sales_order.save()
             frappe.db.commit()
             create_user_product(transaction.reference.split('=')[0], sales_order)
             create_sales_invoice(sales_order)
@@ -97,8 +101,12 @@ def update_records(transaction):
 
         sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
         if sales_order:
+            if sales_order.docstatus == 0:
+                sales_order.submit()
+                frappe.db.commit()
+
             sales_order.status = 'Paid'
-            sales_order.submit()
+            sales_order.save()
             frappe.db.commit()
             create_user_product(transaction.reference.split('=')[0], sales_order)
 
@@ -153,6 +161,8 @@ def queue_verify_transaction(transaction):
                 
                 integration_request.db_set('status', 'Completed')
                 frappe.db.commit()
+
+            update_records(transaction)
 
                 
         else:
@@ -302,4 +312,5 @@ def create_user_product(payment_request_name, sales_order=None):
 
 
 def create_sales_invoice(sales_order):
+    # TODO might not need to create one since this might be an automated transaction on subscriptions
     pass
