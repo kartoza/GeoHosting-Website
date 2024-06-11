@@ -332,14 +332,14 @@
                     var btn_text = dynamicButton.innerHTML;
                     dynamicButton.innerHTML = '<div class="btn_loader"></div>';
                     dynamicButton.style.width = '55%';
-                    dynamicButton.style.height = 'auto';
+                    dynamicButton.style.height = '10px';
                     return btn_text;
                 }
 
                 function removeButtonLoader(dynamicButton, btn_text){
                     dynamicButton.innerHTML = btn_text;
-                    dynamicButton.style.width = '100%';
-                    dynamicButton.style.height = 'auto';
+                    dynamicButton.style.width = 'auto';
+                    dynamicButton.style.height = '10px';
                 }
 
                 async function createSalesOrder(headingId) {
@@ -531,7 +531,7 @@
                                         minimumFractionDigits: 0,
                                         maximumFractionDigits: 0
                                     });
-                                    document.getElementById('pricing-card-price-basic').innerHTML = `${formattedPrice} ${data.data[0].currency}`;
+                                    document.getElementById('pricing-card-price-basic').innerHTML = `${formattedPrice_basic} ${data.data[0].currency}`;
                                     document.getElementById('pricing-card-price-advanced').innerHTML = `${formattedPrice_advanced} ${data.data[1].currency}`;
                                     document.getElementById('pricing-card-price-gold').innerHTML = `${formattedPrice_gold} ${data.data[2].currency}`;
                                 }catch(e){
