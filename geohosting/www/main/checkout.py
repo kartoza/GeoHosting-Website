@@ -76,7 +76,7 @@ def verify_transaction(transaction):
                 sales_order.submit()
                 frappe.db.commit()
 
-            sales_order.status = 'Paid'
+            sales_order.status = 'Completed'
             sales_order.save()
             frappe.db.commit()
             create_user_product(transaction.reference.split('=')[0], sales_order)
