@@ -2,8 +2,7 @@
   position: absolute;
   width: 1488px;
   height: 500px;
-  left: 50%; /* Centering horizontally */
-  /* top: 0px; */
+  left: 50%;
   background: #57A0C7;
   border-radius: 30px;
   /* border: solid 5px green; */
@@ -27,15 +26,6 @@
   /* border: 5px solid gold; */
 }
 
-
-
-
-
-/* .overall-container {
-  border: solid 5px black;
-  height: 200vh;
-  width: auto;
-} */
 
 .overview-content {
   position: absolute;
@@ -91,12 +81,6 @@
   font-weight: 600;
 }
 
-/* .enterprise-solution {
-  margin-top: 40%;
-  font-size: 16px;
-  text-align: center;
-  border: 5px solid red;
-} */
 
 .enterprise-solution a {
   color: inherit; 
@@ -112,7 +96,7 @@
 
 .overview-image {
   position: absolute;
-  width: 838px;
+  width: 800px;
   height: 98%;
   right: 0;
   top: 0;
@@ -131,7 +115,7 @@
 
 
 .overview-image-white {
-  width: 838px; 
+  width: 800px; 
   background: url('/assets/geohosting/images/overview-background.svg') center/cover no-repeat;
   background-size: contain;
   border-top-left-radius: 30px;
@@ -142,7 +126,7 @@
 }
 
 .overview-content-white {
-  width: calc(100% - 838px - 20px); /* Adjusted width to accommodate image and spacing */
+  width: calc(100% - 838px - 20px); 
 }
 
 
