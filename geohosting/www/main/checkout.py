@@ -68,6 +68,7 @@ def get_payment_request(**kwargs):
 @frappe.whitelist(allow_guest=True)
 def verify_transaction(transaction):
     try:
+        transaction = frappe._dict(json.loads(transaction))
 
         sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
         if sales_order:
