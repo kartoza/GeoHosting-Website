@@ -232,19 +232,37 @@
                 }
 
                 async function setDynamicBackground(item_code) {
-                    // const productScreenshotUrl = await fetchAttachments(item_code);
+                    
+                    document.querySelector('.overview-image').innerHTML = '<div class="overlay"></div><div class="loader"></div>';
+                    document.querySelector('.overview-image-white').innerHTML = '<div class="overlay"></div><div class="loader"></div>';
 
-                    var item_name = '/assets/geohosting/images/' + localStorage.getItem('selectedItem') + '-screenshot.png'
-                    document.querySelector('.overview-image').style.backgroundImage = `url('${item_name}')`;
-                    document.querySelector('.overview-image-white').style.backgroundImage = `url('${item_name}')`;
 
-                    // if (productScreenshotUrl) {
-                    //     document.querySelector('.overview-image').style.backgroundImage = `url('${productScreenshotUrl}')`;
-                    //     document.querySelector('.overview-image-white').style.backgroundImage = `url('${productScreenshotUrl}')`;
-                    // } else {
-                    //     console.log("No screenshot attachment found, using default background.");
-                    //     document.querySelector('.overview-image').style.backgroundImage = `url('${item_name}')`;
-                    // }
+                    var item_name = '/assets/geohosting/images/' + localStorage.getItem('selectedItem') + '-screenshot.png';
+                    var overviewImage = document.querySelector('.overview-image');
+                    var overviewImageWhite = document.querySelector('.overview-image-white');
+
+                    // Create new image element
+                    var image = new Image();
+
+                    // Set image source
+                    image.src = item_name;
+
+                    // When image is fully loaded
+                    image.onload = function() {
+                        // Set background images
+                        overviewImage.style.backgroundImage = `url('${item_name}')`;
+                        overviewImageWhite.style.backgroundImage = `url('${item_name}')`;
+
+                        // Remove overlay and loader
+                        overviewImage.innerHTML = '';
+                        overviewImageWhite.innerHTML = '';
+                    };
+
+                    // If image fails to load
+                    image.onerror = function() {
+                        // Handle error, for example, display an error message
+                        console.error('Failed to load image:', item_name);
+                    };
                 }
             
                 // Function to load content and set active tab
