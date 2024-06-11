@@ -41,3 +41,26 @@ def get_user_info():
         "current_user": current_user,
         "customer_name": customer_name
     }
+
+@frappe.whitelist(allow_guest=True)
+def update_sales_order():
+    try:
+        sales_order = frappe.get_doc('Sales Order', 'SAL-ORD-2024-00019')
+        if sales_order:
+            if sales_order.docstatus == 0:
+                # Update fields
+                sales_order.db_set('status', 'Completed')
+                sales_order.db_set('per_delivered', 100)
+                sales_order.db_set('per_billed', 100)
+                
+                # Save the document
+                sales_order.save(ignore_permissions=True)
+                sales_order.submit()
+                frappe.db.commit()
+        return {'status': 'success', 'message': 'Sales Order updated successfully.'}
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), 'Update Sales Order Fields')
+        return {'status': 'error', 'message': str(e)}
+    
+
+

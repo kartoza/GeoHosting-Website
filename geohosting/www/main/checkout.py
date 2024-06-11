@@ -68,25 +68,11 @@ def get_payment_request(**kwargs):
 @frappe.whitelist(allow_guest=True)
 def verify_transaction(transaction):
     try:
-        transaction = frappe._dict(json.loads(transaction))
-
-        sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
-        if sales_order:
-            if sales_order.docstatus == 0:
-                sales_order.status = 'Completed'
-                sales_order.submit()
-                frappe.db.commit()
-
-
-            create_user_product(transaction.reference.split('=')[0], sales_order)
-            create_sales_invoice(sales_order)
-
-        return {"status": "success", "message": "Sales order processed successfully", "transaction": transaction}
+        # Synchronously verify the transaction and return the response to the frontend
+        response = queue_verify_transaction(transaction)
+        return response
     except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "queue_verify_transaction")
-        return {"status": "error", "message": str(e), "transaction": transaction}
-    # frappe.enqueue(queue_verify_transaction, transaction=transaction)
-
+        return {'status': 'error', 'message': str(e)}
 
 def queue_verify_transaction(transaction):
     try:
@@ -139,18 +125,24 @@ def queue_verify_transaction(transaction):
             sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
             if sales_order:
                 if sales_order.docstatus == 0:
-                    sales_order.status = 'Completed'
+                    sales_order.db_set('status', 'Completed')
+                    sales_order.db_set('per_delivered', 100)
+                    sales_order.db_set('per_billed', 100)
+                    
+                    # Save the document
+                    sales_order.save(ignore_permissions=True)
                     sales_order.submit()
                     frappe.db.commit()
 
                 create_user_product(transaction.reference.split('=')[0], sales_order)
-
                 
+            return {'status': 'success', 'message': 'Transaction verified and processed successfully.'}
         else:
-            # Log error
             frappe.log_error(str(req.reason), 'Verify Transaction')
+            return {'status': 'error', 'message': str(req.reason)}
     except Exception as e:
         frappe.log_error(frappe.get_traceback() + str(frappe.form_dict), 'Verify Transaction')
+        return {'status': 'error', 'message': str(e)}
 
 
 # @frappe.whitelist(allow_guest=True)
@@ -206,10 +198,16 @@ def queue_verify_transaction(transaction):
 
 #             sales_order = frappe.get_doc('Sales Order', metadata.reference_name.split('=')[1])
 #             if sales_order:
-#                     sales_order.status = 'Paid'
+#                 if sales_order.docstatus == 0:
+#                     sales_order.db_set('status', 'Completed')
+#                     sales_order.db_set('per_delivered', 100)
+#                     sales_order.db_set('per_billed', 100)
+                    
+#                     # Save the document
+#                     sales_order.save(ignore_permissions=True)
 #                     sales_order.submit()
 #                     frappe.db.commit()
-#                     create_user_product(metadata.docname, sales_order)
+#                 create_user_product(metadata.reference_name.split('=')[1], sales_order)
 #         else:
 #             # Log error
 #             frappe.log_error(str(req.reason), 'Verify Transaction')
@@ -262,7 +260,6 @@ def create_user_product(payment_request_name, sales_order=None):
     }
 
     MAX_NAME_LENGTH = 140
-    MAX_SPECIFICATIONS_LENGTH = 255  
 
 
 
@@ -271,9 +268,8 @@ def create_user_product(payment_request_name, sales_order=None):
             prefix, size, _ = item.item_code.split('-')
 
             specifications = specifications_map.get(prefix.lower(), {}).get(size.upper(), "")
-
+            
             name = item.item_code[:MAX_NAME_LENGTH]
-            specifications = specifications[:MAX_SPECIFICATIONS_LENGTH]
 
             logo = '/assets/geohosting/images/' + item.item_code.split('-')[0].upper() + '.svg'
 
@@ -284,9 +280,7 @@ def create_user_product(payment_request_name, sales_order=None):
                 'user': payment_request.email_to,
                 'product': item.item_code,
                 'specifications': {
-                    "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
-                    "MEDIUM": "Specify medium specifications here",
-                    "LARGE": "Specify large specifications here"
+                    "specifications": specifications
                 },
                 'status': "Active",
                 'product_meta': {
