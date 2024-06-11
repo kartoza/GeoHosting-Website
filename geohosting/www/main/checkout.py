@@ -68,10 +68,6 @@ def get_payment_request(**kwargs):
 @frappe.whitelist(allow_guest=True)
 def verify_transaction(transaction):
     try:
-        transaction = frappe._dict(json.loads(transaction))
-        payment_request = frappe.get_doc('Payment Request', transaction.reference.split('=')[0])
-        payment_request.run_method("on_payment_authorized", 'Completed')
-        frappe.db.commit()
 
         sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
         if sales_order:
@@ -89,31 +85,7 @@ def verify_transaction(transaction):
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), "queue_verify_transaction")
         return {"status": "error", "message": str(e), "transaction": transaction}
-    # update_records(transaction)
     # frappe.enqueue(queue_verify_transaction, transaction=transaction)
-
-def update_records(transaction):
-    try:
-        transaction = frappe._dict(json.loads(transaction))
-        payment_request = frappe.get_doc('Payment Request', transaction.reference.split('=')[0])
-        payment_request.run_method("on_payment_authorized", 'Completed')
-        frappe.db.commit()
-
-        sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
-        if sales_order:
-            if sales_order.docstatus == 0:
-                sales_order.submit()
-                frappe.db.commit()
-
-            sales_order.status = 'Paid'
-            sales_order.save()
-            frappe.db.commit()
-            create_user_product(transaction.reference.split('=')[0], sales_order)
-
-        return {"status": "success", "message": "Sales order processed successfully", "transaction": transaction}
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "queue_verify_transaction")
-        return {"status": "error", "message": str(e), "transaction": transaction}
 
 
 def queue_verify_transaction(transaction):
@@ -147,6 +119,7 @@ def queue_verify_transaction(transaction):
                 }).insert(ignore_permissions=True)
                 frappe.db.commit()
 
+                payment_request = frappe.get_doc('Payment Request', metadata.docname)
                 integration_request = frappe.get_doc("Integration Request", {
                         'reference_doctype': metadata.doctype,
                         'reference_docname': metadata.docname
@@ -160,9 +133,19 @@ def queue_verify_transaction(transaction):
                     })
                 
                 integration_request.db_set('status', 'Completed')
+                payment_request.run_method("on_payment_authorized", 'Completed')
                 frappe.db.commit()
 
-            update_records(transaction)
+            sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
+            if sales_order:
+                if sales_order.docstatus == 0:
+                    sales_order.submit()
+                    frappe.db.commit()
+
+                sales_order.status = 'Paid'
+                sales_order.save()
+                frappe.db.commit()
+                create_user_product(transaction.reference.split('=')[0], sales_order)
 
                 
         else:
