@@ -142,7 +142,7 @@ def queue_verify_transaction(transaction):
                     sales_order.status = 'Completed'
                     sales_order.submit()
                     frappe.db.commit()
-                    
+
                 create_user_product(transaction.reference.split('=')[0], sales_order)
 
                 
@@ -261,21 +261,33 @@ def create_user_product(payment_request_name, sales_order=None):
         }
     }
 
+    MAX_NAME_LENGTH = 140
+    MAX_SPECIFICATIONS_LENGTH = 255  
+
+
+
     for item in sales_order.items:
         try:
             prefix, size, _ = item.item_code.split('-')
 
             specifications = specifications_map.get(prefix.lower(), {}).get(size.upper(), "")
 
+            name = item.item_code[:MAX_NAME_LENGTH]
+            specifications = specifications[:MAX_SPECIFICATIONS_LENGTH]
+
             logo = '/assets/geohosting/images/' + item.item_code.split('-')[0].upper() + '.svg'
 
             # Create User Products record TODO add dynamic data after jenkins creates product
             user_product = frappe.get_doc({
                 'doctype': 'User Products',
-                'name': item.item_code,
+                'name': name,
                 'user': payment_request.email_to,
                 'product': item.item_code,
-                'specifications': specifications,
+                'specifications': {
+                    "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
+                    "MEDIUM": "Specify medium specifications here",
+                    "LARGE": "Specify large specifications here"
+                },
                 'status': "Active",
                 'product_meta': {
                     'url_path': f"https://kartoza-staging-v14.frappe.cloud/app/main/products",

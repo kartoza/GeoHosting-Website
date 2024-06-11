@@ -333,7 +333,13 @@ function createCard(product, isFirstCard) {
     var productNameLink = document.createElement("a"); // Create anchor tag for the product name
     productNameLink.textContent = product.product_name;
     productNameLink.href = product.link; // Set the href attribute to the product link
+
+    // Set inline styles
+    productNameLink.style.color = 'black';
+    productNameLink.style.fontSize = '16px'; // Adjust the font size as needed
+
     h2.appendChild(productNameLink); // Append anchor tag to the heading
+
     details.appendChild(h2);
     var p = document.createElement("p");
     p.innerHTML = `POD Count: ${product.pod_count}<br>Memory: ${product.memory}<br>CPU: ${product.cpu}<br>Storage: ${product.storage}`;
