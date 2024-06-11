@@ -73,12 +73,11 @@ def verify_transaction(transaction):
         sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
         if sales_order:
             if sales_order.docstatus == 0:
+                sales_order.status = 'Completed'
                 sales_order.submit()
                 frappe.db.commit()
 
-            sales_order.status = 'Completed'
-            sales_order.save()
-            frappe.db.commit()
+
             create_user_product(transaction.reference.split('=')[0], sales_order)
             create_sales_invoice(sales_order)
 
@@ -140,12 +139,10 @@ def queue_verify_transaction(transaction):
             sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
             if sales_order:
                 if sales_order.docstatus == 0:
+                    sales_order.status = 'Completed'
                     sales_order.submit()
                     frappe.db.commit()
-
-                sales_order.status = 'Completed'
-                sales_order.save()
-                frappe.db.commit()
+                    
                 create_user_product(transaction.reference.split('=')[0], sales_order)
 
                 

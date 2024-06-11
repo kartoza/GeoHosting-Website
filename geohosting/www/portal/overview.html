@@ -8,7 +8,87 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Avenir:wght@400;600&display=swap">
 <style>
 
-  
+.customer-portal-container {
+  margin-top: 20%;
+  margin-left: 20%;
+     
+      position: relative;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: none;
+    }
+
+    .card {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 10px;
+  isolation: isolate;
+  width: 230px;
+  height: 230px;
+  position: relative;
+  box-sizing: border-box;
+  background: #F9F9F9;
+  border: 1px solid rgba(217, 217, 217, 0.5);
+  border-radius: 10px;
+}
+
+.card:hover{
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in;
+  cursor: pointer;
+}
+
+.card-heading {
+  font-family: 'Lato';
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 150%;
+  color: #000000;
+  /* border: 3px solid yellow; */
+}
+
+.card-text {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 150%;
+  margin-top: -15px;
+  color: #57A0C7;
+  /* border: 3px solid blue; */
+}
+
+.card-image {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  left: 20px;
+  top: 20px;
+  background: #FFFFFF;
+  border-radius: 10px;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card-content {
+  padding: 10px;
+  width: auto;
+  /* border: 3px solid red; */
+  position: relative;
+  top: 120px;
+}
+
+.card-content > * {
+  margin-bottom: 10px;
+}
+
 </style>
 </head>
 <body>
@@ -19,6 +99,58 @@
   <div class="portal-pages-heading">
     <span>Overview</span>
   </div>
+
+  
+  <div class="customer-portal-container" id="customer-portal">
+            
+    <span class="customer-portal-close">&times;</span>
+    
+
+
+  <div class="card" onclick="navigateToHostedServices()">
+    <div class="card-image"><img src="/assets/geohosting/images/services.svg" alt="Service Icon"></div>
+    <div class="card-content">
+        <div class="card-heading">Services</div>
+        <div class="card-text">2 Active</div>
+    </div>
+  </div>
+  <div class="card" onclick="navigateToInvoices()">
+    <div class="card-image"><img src="/assets/geohosting/images/invoices.svg" alt="Invoice Icon"></div>
+    <div class="card-content">
+      <div class="card-heading">Invoices</div>
+      <div class="card-text" id="invoiceCount"></div>
+    </div>
+  </div>
+  <div class="card" onclick="navigateToNotifications()">
+    <div class="card-image"><img src="/assets/geohosting/images/notifications.svg" alt="Notification Icon"></div>
+    <div class="card-content">
+      <div class="card-heading">Notifications</div>
+      <div class="card-text">2 Unread</div>
+    </div>
+  </div>
+  <div class="card" onclick="navigateToProfile()">
+    <div class="card-image"><img src="/assets/geohosting/images/profile.svg" alt="Profile Icon"></div>
+    <div class="card-content">
+      <div class="card-heading">Profile</div>
+    </div>
+  </div>
+  <div class="card" onclick="navigateToSupport()">
+    <div class="card-image"><img src="/assets/geohosting/images/support.svg" alt="Support Icon"></div>
+    <div class="card-content">
+      <div class="card-heading">Support</div>
+      <div class="card-text" id="issuesCount"></div>
+    </div>
+    
+  </div>
+  <div class="card" onclick="logout()">
+    <div class="card-image"><img src="/assets/geohosting/images/back.svg" alt="Back Icon"></div>
+    <div class="card-content">
+      <div class="card-heading">Logout</div>
+    </div>
+  </div>
+
+
+</div>
 
 
 </body>
