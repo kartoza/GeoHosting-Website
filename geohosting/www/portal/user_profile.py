@@ -3,6 +3,8 @@ import json
 from frappe import _
 from jinja2.runtime import DebugUndefined
 
+no_cache = 1
+
 def get_context(context):
     try:
         user = frappe.session.user

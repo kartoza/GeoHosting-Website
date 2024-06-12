@@ -5,7 +5,6 @@ from frappe_paystack.utils import (
     generate_digest,
 )
 
-
 @frappe.whitelist(allow_guest=True)
 def get_payment_request(**kwargs):
     # Custom implementation
@@ -106,19 +105,21 @@ def queue_verify_transaction(transaction):
                 frappe.db.commit()
 
                 payment_request = frappe.get_doc('Payment Request', metadata.docname)
-                integration_request = frappe.get_doc("Integration Request", {
+                integration_request = frappe.db.exists({
+                    'doctype': 'Integration Request',
+                    'reference_doctype': metadata.doctype,
+                    'reference_docname': metadata.docname
+                })
+                
+                if not integration_request:
+                    integration_request = frappe.get_doc({
+                        'doctype': 'Integration Request',
                         'reference_doctype': metadata.doctype,
                         'reference_docname': metadata.docname
-                })
-
-                if not integration_request:
-                    integration_request = frappe.new_doc("Integration Request")
-                    integration_request.update({
-                            'reference_doctype': metadata.doctype,
-                            'reference_docname': metadata.docname
                     })
+                    integration_request.insert(ignore_permissions=True)
                 
-                integration_request.db_set('status', 'Completed')
+                frappe.db.set_value("Integration Request", integration_request.name, 'status', 'Completed')
                 payment_request.run_method("on_payment_authorized", 'Completed')
                 frappe.db.commit()
 

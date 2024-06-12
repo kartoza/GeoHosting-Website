@@ -1,5 +1,6 @@
 import frappe
 
+no_cache = 1
 def get_user_products():
     try:
         user = frappe.session.user

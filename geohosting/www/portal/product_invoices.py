@@ -2,6 +2,8 @@ import frappe
 
 from datetime import datetime, date, timedelta
 
+no_cache = 1
+
 def serialize_datetime(obj):
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
