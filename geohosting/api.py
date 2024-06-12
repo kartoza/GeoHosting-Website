@@ -43,20 +43,22 @@ def get_user_info():
     }
 
 @frappe.whitelist(allow_guest=True)
-def update_sales_order():
+def update_sales_order(sales_order):
     try:
-        sales_order = frappe.get_doc('Sales Order', 'SAL-ORD-2024-00019')
+        sales_order = frappe.get_doc('Sales Order', sales_order)
         if sales_order:
             if sales_order.docstatus == 0:
-                # Update fields
-                sales_order.db_set('status', 'Completed')
-                sales_order.db_set('per_delivered', 100)
-                sales_order.db_set('per_billed', 100)
-                
-                # Save the document
-                sales_order.save(ignore_permissions=True)
-                sales_order.submit()
-                frappe.db.commit()
+                # Set fields while ignoring permissions
+                    sales_order.db_set('status', 'Completed', update_modified=False)
+                    sales_order.db_set('per_delivered', 100, update_modified=False)
+                    sales_order.db_set('per_billed', 100, update_modified=False)
+                    
+                    # Save the document while ignoring permissions
+                    sales_order.save(ignore_permissions=True)
+
+                    # Submit the document
+                    sales_order.submit()
+                    frappe.db.commit()
         return {'status': 'success', 'message': 'Sales Order updated successfully.'}
     except Exception as e:
         frappe.log_error(frappe.get_traceback(), 'Update Sales Order Fields')
