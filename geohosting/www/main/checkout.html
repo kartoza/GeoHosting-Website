@@ -585,14 +585,16 @@
                     }
                     if(response.status === 'success') {
                         showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'success-alert', backgroundContainer);
-                        localStorage.removeItem('selectedProduct');
+                        
                         const paymentButton = document.getElementById('payment-request-link');
                         if (paymentButton) {
                             paymentButton.textContent = 'Paid';
                             paymentButton.style.backgroundColor = '#3498db';
                             paymentButton.disabled = true; 
                         }
+                        
                         // setTimeout(() => {
+                        //     localStorage.removeItem('selectedProduct');
                         //     window.location.href = '/portal/hosted_services';
                         // }, 5000);
                     }

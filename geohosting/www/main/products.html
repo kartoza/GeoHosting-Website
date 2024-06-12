@@ -549,9 +549,9 @@
                                         minimumFractionDigits: 0,
                                         maximumFractionDigits: 0
                                     });
-                                    document.getElementById('pricing-card-price-basic').innerHTML = `${formattedPrice_basic} ${data.data[0].currency}`;
-                                    document.getElementById('pricing-card-price-advanced').innerHTML = `${formattedPrice_advanced} ${data.data[1].currency}`;
-                                    document.getElementById('pricing-card-price-gold').innerHTML = `${formattedPrice_gold} ${data.data[2].currency}`;
+                                    document.getElementById('pricing-card-price-basic').innerHTML = `${formattedPrice_basic}<br>${data.data[0].currency}`;
+                                    document.getElementById('pricing-card-price-advanced').innerHTML = `${formattedPrice_advanced}<br>${data.data[1].currency}`;
+                                    document.getElementById('pricing-card-price-gold').innerHTML = `${formattedPrice_gold}<br>${data.data[2].currency}`;
                                 }catch(e){
                                     console.log(e);
                                 }
