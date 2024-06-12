@@ -131,7 +131,7 @@ def queue_verify_transaction(transaction):
                     sales_order.db_set('per_billed', 100)
                     
                     # Save the document
-                    sales_order.save(ignore_permissions=True)
+                    # sales_order.save(ignore_permissions=True)
                     sales_order.submit()
                     frappe.db.commit()
 

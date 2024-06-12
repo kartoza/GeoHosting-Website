@@ -17,7 +17,7 @@
     left: 26%; 
     transform: translateX(-26%);
     top: 178px;
-    border: 3px solid red;
+    /* border: 3px solid red; */
     width: 22vw;
 }
 
@@ -159,8 +159,33 @@ p {
 @media (max-width: 768px) {
   .portal-pages-heading {
       left: -38px;
+     position: relative;
   }
 
+  .invoice-table {
+    margin-left: 0%;
+    width: auto;
+    margin-top: 20%;
+  }
+
+
+    .invoice-table, 
+    .invoice-table thead, 
+    .invoice-table tbody, 
+    .invoice-table th, 
+    .invoice-table td, 
+    .invoice-table tr {
+        display: block;
+    }
+
+    .invoice-table tr {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .overlay {
+      z-index: 0; 
+  }
   .portal-pages-heading span {
     width: auto;
     height: auto;

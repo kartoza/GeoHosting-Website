@@ -172,10 +172,6 @@
                         loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', document.getElementById('overview-link'), logoUrl);
                         
 
-                        setTimeout(() => {
-                            hiddenSectionContent.style.display = 'block';
-                            loadingIndicator.style.display = 'none';
-                        }, 3000);
                     } else {
                         hiddenSection.style.display = 'none';
                     }
@@ -267,8 +263,7 @@
             
                 // Function to load content and set active tab
                 function loadContentAndSetActiveTab(event, url, targetId, clickedLink, logoUrl) {
-                    hiddenSectionContent.style.display = 'none';
-                    loadingIndicator.style.display = 'block';
+                    
                     event.preventDefault(); // Prevent default anchor behavior
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function() {
