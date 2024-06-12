@@ -386,8 +386,11 @@
             const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
             const sales_order = selectedProduct.sales_order_generated;
             const printViewUrl = `printview?doctype=Sales Order&name=${sales_order}&format=Standard`;
+            var currentUrl = window.location.href;
+            var firstSlashIndex = currentUrl.indexOf('/');
+            var baseUrl = currentUrl.substring(0, firstSlashIndex + 1);
             // document.getElementById('print-link').setAttribute('href', printViewUrl);
-            window.open(printViewUrl, '_blank');
+            window.open(baseUrl + printViewUrl, '_blank');
         }
     </script>
 
