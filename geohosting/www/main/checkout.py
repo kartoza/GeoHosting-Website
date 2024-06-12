@@ -126,12 +126,6 @@ def queue_verify_transaction(transaction):
             sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
             if sales_order:
                 if sales_order.docstatus == 0:
-                    sales_order.db_set('status', 'Completed')
-                    sales_order.db_set('per_delivered', 100)
-                    sales_order.db_set('per_billed', 100)
-                    
-                    # Save the document
-                    # sales_order.save(ignore_permissions=True)
                     sales_order.submit()
                     frappe.db.commit()
 

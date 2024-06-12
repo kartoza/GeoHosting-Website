@@ -485,11 +485,33 @@ input:focus {
   color: #F4B340;
 }
 
+.toolbar-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .toolbar-table td {
+    border: none;
+    vertical-align: middle;
+  }
+
+  .toolbar-table img {
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .toolbar-table .nav-links a {
+    margin-right: 20px;
+  }
+
+  .toolbar-table .buttons-container button {
+    margin-left: 10px;
+  }
 </style>
 </head>
 <body class="navbar">
-  <div class="toolbar">
-    <a href="https://kartoza.com/">
+  <!--<div class="toolbar">
+     <a href="https://kartoza.com/">
       <img src="/assets/geohosting/images/kartoza-logo-only.png" alt="Logo" class="logo" style="height: auto; width: 50px;">
     </a>
     <div class="nav-links">
@@ -507,13 +529,60 @@ input:focus {
           <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
           <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
       </div>
-      <button class="menu-toggle">&#9776;</button> <!-- Menu toggle button for responsive layout -->
+      <button class="menu-toggle">&#9776;</button> 
 
-    <!-- User Avatar -->
+    
     <div id="userAvatar" style="display: none; height: 50px;">
-        <!-- User avatar image -->
-        <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" style="height: 100%;" onclick="openCustomerPortal()">
+        
+        <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" style="height: 100%; cursor: pointer;" onclick="openCustomerPortal()">
     </div>
+
+    <div id="" style=" height: 30px;">
+      <img src="/assets/geohosting/images/logout.png" alt="Logout" style="height: 100%; cursor: pointer;" onclick="logout()">
+  </div>
+
+  <div id="" style=" height: 30px;">
+    <img src="/assets/geohosting/images/back.svg" alt="Logout" style="height: 100%; cursor: pointer;" onclick="logout()">
+</div> -->
+
+<div class="toolbar">
+  <table class="toolbar-table">
+    <tr>
+      <td style="width: 18%; text-align: right;">
+        <a href="https://kartoza.com/">
+          <img src="/assets/geohosting/images/kartoza-logo-only.png" alt="Logo" class="logo" style="width: 50px;">
+        </a>
+      </td>
+      <td style="width: 50%;">
+        <div class="nav-links">
+          <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
+          <a href="https://kartoza.com/about" class="text-btn"><span id="aboutusLink">About Us</span></a>
+          <a href="sign_in.html" class="text-btn" style="display: none;" id="accountsLinks1"><span>Sign In</span></a>
+          <a href="sign_up.html" class="text-btn" style="display: none;" id="accountsLinks2"><span>Sign Up</span></a>
+          <a href="#" class="text-btn" style="display: none;" onclick="logout()" id="accountsLinks3"><span>Logout</span></a>
+        </div>
+      </td>
+      <td style="text-align: left;">
+        <div class="buttons-container" id="accounts-buttons">
+          <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
+          <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
+        </div>
+      </td>
+      <td style="text-align: right;">
+        <div id="userAvatar" style="display: none; height: 50px;">
+          <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" onclick="navigateToHostedServices()">
+        </div>
+      </td>
+      <td style="display: none; height: 50px;" id="log-out">
+        <img src="/assets/geohosting/images/back.svg" style="margin-left:5%" alt="Back" onclick="logout()">
+      </td>
+      <td style="width: 50px;">
+        <button class="menu-toggle">&#9776;</button>
+      </td>
+      
+    </tr>
+  </table>
+</div>
 
 
     <!-- User Profile Pop-up -->
@@ -782,6 +851,8 @@ input:focus {
               if (data.message === 'Logged In' || data.message === 'No App') {
                   localStorage.setItem("owner", username);
                   const accounts = document.getElementById('accounts-buttons');
+                  const logout = document.getElementById('log-out');
+                  logout.style.display = 'block';
                   accounts.style.display = 'none';
                   userAvatar.style.display = 'block';
                   closeModal('signInModal');
@@ -868,6 +939,13 @@ input:focus {
                   const customerPortal = document.getElementById('customer-portal');
                   const body = document.getElementById('screenBody');
                   body.classList.remove('blur-background'); 
+                  const logout = document.getElementById('log-out');
+                  
+
+                  if(logout){
+                    logout.style.display = 'none';
+
+                  }
 
                   if (userProfilePopup) {
                       userProfilePopup.style.display = 'none';
@@ -912,6 +990,8 @@ input:focus {
                 const accounts = document.getElementById('accounts-buttons');
                 accounts.style.display = 'none';
                 userAvatar.style.display = 'block';
+                const logout = document.getElementById('log-out');
+                logout.style.display = 'block';
                 closeModal('signInModal');
               } 
             }
