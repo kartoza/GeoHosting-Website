@@ -126,7 +126,7 @@ def queue_verify_transaction(transaction):
 
             sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
             if sales_order:
-                # update_sales_order(sales_order)
+                update_sales_order(sales_order)
                 create_user_product(transaction.reference.split('=')[0], sales_order)
                 
             return {'status': 'success', 'message': 'Transaction verified and processed successfully.'}
@@ -298,7 +298,7 @@ def create_sales_invoice(sales_order):
 
 def update_sales_order(sales_order):
     try:
-        if sales_order.docstatus == 0:
+        if sales_order.docstatus == 1:
             # Set fields while ignoring permissions
             sales_order.db_set('status', 'Completed', update_modified=False)
             sales_order.db_set('per_delivered', 100, update_modified=False)
@@ -308,7 +308,7 @@ def update_sales_order(sales_order):
             sales_order.save(ignore_permissions=True)
 
             # Submit the document
-            sales_order.submit()
+            # sales_order.submit()
             frappe.db.commit()
                 
     except Exception as e:

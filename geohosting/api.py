@@ -43,9 +43,9 @@ def get_user_info():
     }
 
 @frappe.whitelist(allow_guest=True)
-def update_sales_order(sales_order):
+def update_sales_order():
     try:
-        sales_order = frappe.get_doc('Sales Order', sales_order)
+        sales_order = frappe.get_doc('Sales Order', 'SAL-ORD-2024-00020')
         if sales_order:
             if sales_order.docstatus == 0:
                 # Set fields while ignoring permissions
