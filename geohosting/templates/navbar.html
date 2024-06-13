@@ -908,7 +908,7 @@ input:focus {
             if (!current_user || current_user === "Guest") {
               displayAuthenticationButtons(false);
             } else if (current_user) {
-                refreshCSRFToken()
+                // refreshCSRFToken()
                 displayAuthenticationButtons(true);
                 closeModal('signInModal');
               } 

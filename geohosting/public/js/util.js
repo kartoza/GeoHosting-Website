@@ -113,7 +113,7 @@ async function fetchWithCSRF(url, options) {
         const response = await fetch(url, options);
 
         // Handle CSRF token error (403)
-        if (response.status === 403 || response.status === 417) {
+        if (response.status === 403 || response.status === 417 || response.status === 400) {
             // Refresh CSRF token
             await refreshCSRFToken();
 
