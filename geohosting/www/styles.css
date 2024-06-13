@@ -118,17 +118,17 @@
         }
       
         .geohosting-heading {
-          font-family: 'Lato';
+          /* font-family: 'Lato';
           font-style: normal; 
-          font-size: 50px;
+          font-size: 50px; */
           line-height: 100%; 
           text-align: center;
           color:grey;
           letter-spacing: 0.15px;
-          width:55%; 
+          width:65%; 
           margin-bottom:5%; 
-          /* margin-top:5%;  */
-          margin-left: 25%;
+          margin-top: 2%;
+          margin-left: 20%;
           /* border: solid 5px orange; */
         }
       
@@ -145,10 +145,9 @@
         }
         
         .product {
-          width: calc(23.33% - 20px);  /* Adjusted width for three products per row */
-          padding: 20px;
+          width: calc(23.33% - 20px);
           background-color: #ECECEC;
-          border-radius: 10px;
+          border-radius: 15px;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
           text-align: center;
           /* border: 5px solid black; */
@@ -179,13 +178,19 @@
           background-color: #ECB44B;
           color: #fff;
           border: none;
-          padding: 10px 20px;
           border-radius: 5px;
           cursor: pointer;
           transition: background-color 0.3s;
           position: absolute;
-          left: 35%;
+          left: 24%;
           bottom: 5%;
+          width: 224px;
+          height: 54px;
+          padding: 8px 16px;
+          font-family: 'Lato' ,sans-serif;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 18px;
       }
       
       .product .learn-more-button:hover {
@@ -231,6 +236,11 @@
           width: 350px;
           margin-left: 5%;
         }
+
+        .product .learn-more-button {
+          
+          left: 21%;
+      }
       
         .description {
           height:auto; 
@@ -387,7 +397,7 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
-}
+  }
 
 .overlay-loader {
   border: 8px solid #f3f3f3; /* Light grey */

@@ -96,6 +96,7 @@ function navigateToInvoices(){
 async function refreshCSRFToken() {
     const response = await fetch('/api/method/geohosting.api.get_csrf_token');
     const data = await response.json();
+    console.log(data);
     if (data && data.csrf_token) {
         document.cookie = `csrf_token=${data.csrf_token}; path=/`;
     }
@@ -111,6 +112,7 @@ async function fetchWithCSRF(url, options) {
 
         // Fetch initial response
         const response = await fetch(url, options);
+        console.log(response);
 
         // Handle CSRF token error (403)
         if (response.status === 403 || response.status === 417 || response.status === 400) {

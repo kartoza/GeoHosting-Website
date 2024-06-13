@@ -123,10 +123,7 @@
 }
 
 .header-text-pricing {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
+  
   line-height: 150%;
   text-align: center;
   letter-spacing: 0.15px;
@@ -135,10 +132,10 @@
 
 /* Monthly Price */
 .price-pricing {
-  font-family: 'Lato', sans-serif;
+  /* font-family: 'Lato', sans-serif;
   font-style: normal;
   font-weight: 700;
-  font-size: 64px;
+  font-size: 64px; */
   line-height: 150%;
   text-align: center;
   letter-spacing: 0.15px;
@@ -150,8 +147,8 @@
 }
 
 .price-details-pricing {
-  font-size: 16px;
-  font-weight: 600;
+  /* font-size: 16px;
+  font-weight: 600; */
   color: #000000;
   display: flex;
   justify-content: center;
@@ -163,31 +160,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: auto;
-  height: 10px;
   background: #57A0C7;
   border: 1px solid #57A0C7;
-  border-radius: 30px;
-  font-family: 'Lato';
+  border-radius: 40px;
+  font-family: 'Lato', 'sans-serif';
   font-style: normal;
-  font-weight: 200;
-  font-size: 20px;
-  line-height: 150%;
+  font-weight: bold;
   text-align: center;
   letter-spacing: 0.15px;
   color: #FFFFFF;
   margin-top: 5%;
   margin-bottom: 5%;
   cursor: pointer;
-  padding: 20px;
+  padding: 8px 16px;
+  width: 230px;
+  height: 54px;
+  font-size: 18px;
 }
 
 /* Advanced Features Title */
 .features-title-pricing {
-  font-family: 'Lato';
+  /* font-family: 'Lato';
   font-style: normal;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 16px; */
   line-height: 150%;
   text-align: center;
   letter-spacing: 0.15px;

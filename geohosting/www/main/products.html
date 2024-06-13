@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token }}">
     <title>Products</title>
     <link rel="stylesheet" href="../styles.css"> 
+    <link rel="stylesheet" href="../style_guidelines.css"> 
     <link rel="stylesheet" href="product_tabs.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="/assets/geohosting/js/util.js"></script>  
@@ -38,7 +39,7 @@
             <div class="">
                 <img src="/assets/geohosting/images/geohosting_main_logo.png"  alt="Logo" class="geohosting-logo">
                 
-                  <div class="geohosting-heading">Welcome to a better GIS platform where privacy and freedom comes first.</div>
+                  <div class="geohosting-heading lato-sans-serif-bold-64">Welcome to a better GIS platform where privacy and freedom comes first.</div>
                 
                  <div class="products-container">
 
@@ -49,11 +50,11 @@
                             <img src="{{ item.image }}" alt="Product">
                         </div>
                       
-                        <h2>{{ item.item_name }}</h2>
-                        <div class="description">
+                        <div class="lato-sans-serif-bold-24">{{ item.item_name }}</div>
+                        <div class="description lato-sans-serif-regular-16">
                             <p><script>document.write(trimDescription('{{ item.description }}'));</script></p>
                         </div>
-                        <button class="learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
+                        <button class="product learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
                         <div></div>
                 
                     </div>
@@ -67,16 +68,14 @@
 
         <div id="hiddenSection" style="display: none;">
 
-            
-
             <!-- Navbar -->
             <div class="secondary-navigation-bar" id="navbar">
                 <div class="secondary-logo">
                 <img src="" id="navbar-logo" alt="Logo">
                 </div>
                 <ul>
-                <li><a href="#" id="overview-link" class="active" onclick="loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', this)">Overview</a></li>
-                <li><a href="#" id="pricing-link" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this)">Pricing</a></li>
+                <li><a href="#" id="overview-link" class="active lato-sans-regular-24" onclick="loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', this)">Overview</a></li>
+                <li><a href="#" id="pricing-link" class="lato-sans-regular-24" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this)">Pricing</a></li>
                 </ul>
             </div>
             
@@ -184,7 +183,6 @@
                     buttons.forEach(function(button) {
                         if (button === currentButton) {
                             button.textContent = isExpanded ? 'Close' : 'Learn more';
-                            button.style.marginLeft = isExpanded ? '5%' : '';
                             isExpanded?button.classList.add('active'):button.classList.remove('active')
                         } else {
                             if (isExpanded) {
@@ -270,39 +268,35 @@
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
-                                setTimeout(function() {
-                                    hiddenSectionContent.style.display = 'block';
-                                    loadingIndicator.style.display = 'none';
-                                    var targetElement = document.getElementById(targetId);
-                                    
-                                    // Hide content of the previously active tab
-                                    document.querySelectorAll('#hiddenSectionContent > div').forEach(function(content) {
-                                        if (content !== targetElement) {
-                                            content.style.display = 'none';
-                                        }
-                                    });
-                                    
-                                    targetElement.innerHTML = xhr.responseText;
-                                    
-                                    // Make the loaded content visible
-                                    targetElement.style.display = 'block';
-                                    
-                                    // Remove active class from all links
-                                    document.querySelectorAll('.secondary-navigation-bar ul li a').forEach(function(link) {
-                                        link.classList.remove('active');
-                                    });
-                                    
-                                    // Add active class to the clicked link
-                                    clickedLink.classList.add('active');
-                                }, 2000);
-
-
-                                
-                                try 
-                                {
-                                    const product = getProduct(stockItems, localStorage.getItem('selectedItem'));
-                                    // console.log(product)
+                                try {
+                                   
                                     setTimeout(function() {
+                                        hiddenSectionContent.style.display = 'block';
+                                        
+                                        
+                                        var targetElement = document.getElementById(targetId);
+                                        
+                                        // Hide content of the previously active tab
+                                        document.querySelectorAll('#hiddenSectionContent > div').forEach(function(content) {
+                                            if (content !== targetElement) {
+                                                content.style.display = 'none';
+                                            }
+                                        });
+                                        
+                                        targetElement.innerHTML = xhr.responseText;
+                                        
+                                        
+                                        
+                                        // Remove active class from all links
+                                        document.querySelectorAll('.secondary-navigation-bar ul li a').forEach(function(link) {
+                                            link.classList.remove('active');
+                                        });
+                                        
+                                        // Add active class to the clicked link
+                                        clickedLink.classList.add('active');
+
+                                        const product = getProduct(stockItems, localStorage.getItem('selectedItem'));
+                                        
                                         setDynamicBackground(product.name)
 
                                         var dynamicParagraph = document.getElementById('dynamic-paragraph');
@@ -310,10 +304,16 @@
                                         var dynamicHeader = document.getElementById('dynamic-header');
                                         dynamicHeader.innerHTML = product.item_name + ' Platform';
 
-                                        assignPricingCardValues(product);
-                                    },2000)
-                                    
+                                        if (url.includes('product_pricing')) {
+                                            assignPricingCardValues(product);
+                                        }
 
+                                        loadingIndicator.style.display = 'none';
+
+                                        // Make the loaded content visible
+                                        targetElement.style.display = 'block';
+                                        smoothScrollTo(hiddenSection, 1000);
+                                    }, 1500);
                                     
                                 } catch(exception){
                                     console.log(exception.message)
@@ -357,15 +357,15 @@
                 function addButtonLoader(dynamicButton){
                     var btn_text = dynamicButton.innerHTML;
                     dynamicButton.innerHTML = '<div class="btn_loader"></div>';
-                    dynamicButton.style.width = '55%';
-                    dynamicButton.style.height = '10px';
+                    dynamicButton.style.width = '230px';
+                    dynamicButton.style.height = '54px';
                     return btn_text;
                 }
 
                 function removeButtonLoader(dynamicButton, btn_text){
                     dynamicButton.innerHTML = btn_text;
-                    dynamicButton.style.width = 'auto';
-                    dynamicButton.style.height = '10px';
+                    dynamicButton.style.width = '230px';
+                    dynamicButton.style.height = '54px';
                 }
 
                 async function createSalesOrder(headingId) {

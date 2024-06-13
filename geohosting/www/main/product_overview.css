@@ -35,7 +35,7 @@
   top: 0;
   padding: 70px;
   box-sizing: border-box;
-  font-family: 'Lato';
+  font-family: 'Lato' , 'sans-serif';
   /* border: 5px solid brown; */
 }
 

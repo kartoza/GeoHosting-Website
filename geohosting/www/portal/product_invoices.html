@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice Table</title>
 <link rel="stylesheet" href="portal_pages.css">
+<link rel="stylesheet" href="../style_guidelines.css">
 <script src="portal_pages.js"></script>
 <style>
 .invoice-table {
@@ -50,7 +51,7 @@
 
 .invoice-table .invoice-title {
     /* color: #075192; */
-    font-weight: bold;
+    /* font-weight: bold; */
     border-radius: 10px;
 }
 
@@ -67,7 +68,8 @@
     color: #000000;
     text-decoration: none;
     display: inline-block;
-    height: 3.5vh;
+    height: 40px;
+    width: 40px;
 }
 
 .invoice-table .download-icon,
@@ -127,14 +129,14 @@
     <table class="support-ticket-table">
         <tr>
             <th>
-                <input type="text" id="search" name="search" style="border: 1px solid gray; width: 250px;" placeholder="Search Invoices">
+                <input type="text" id="search" name="search" style="border: 1px solid gray; width: 276px; height: 40px;" placeholder="Search Invoices">
             </th>
             <th>
                 <div class="date-fields">
                     <label for="start-date">Start: </label>
-                    <input type="date" name="start-date">
+                    <input type="date" name="start-date" style="width: 276px; height: 40px;" >
                     <label for="end-date" class="end-date-margin">End: </label>
-                    <input type="date"  id="end-date" name="end-date">
+                    <input type="date"  id="end-date" name="end-date" style="width: 276px; height: 40px;" >
                     <label for="clear" class="end-date-margin" id="clear-button" onclick="clearFilters()"><span>Clear</span></label>
                 </div>
                 
@@ -198,6 +200,7 @@
                 var titleCell = document.createElement("td");
                 titleCell.textContent = invoice.name + ' ' + invoice.title;
                 titleCell.classList.add("invoice-title");
+                titleCell.classList.add("lato-sans-serif-semibold-16");
                 row.appendChild(titleCell);
                 
                 // Date issued

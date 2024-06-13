@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GeoHosting</title>
 <link rel="stylesheet" href="../../geohosting/www/styles.css">
+<link rel="stylesheet" href="../../geohosting/www/style_guidelines.css">
 <script src="/assets/geohosting/js/util.js"></script>
 <style>
   /* Toolbar_big */
@@ -65,36 +66,7 @@
     color: #F4B340;
   }
 
-  /* Sign in and create account buttons */
-  .sign-in-button, .create-account-button {
-    text-decoration: none;
-    color: #000000;
-    font-family: 'Lato';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 24px;
-    line-height: 150%;
-    letter-spacing: 0.15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-  }
-
-  .sign-in-button:hover {
-    background-color: #57A0C7;
-    color: #FFFFFF;
-    border-radius: 10px;
-   }
-
-  .create-account-button {
-    background: #F4B340;
-    border-radius: 10px;
-    color: #FFFFFF;
-  }
-
-  .create-account-button:hover {
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3); 
-  }
+ 
 
 
   /* Sign-in modal styles */
@@ -217,6 +189,7 @@
 
     .menu-toggle {
       display: block;
+      padding: auto;
     }
 
     .show {
@@ -427,9 +400,16 @@ input:focus {
 }
   
 
-
+.logout-logo{
+  margin-left:5%; 
+  margin-top: 3%;
+}
 
 @media screen and (max-width: 768px) {
+  .logout-logo{
+    margin-top: 50%;
+  }
+
   .card {
     display: flex;
     flex-direction: column;
@@ -519,30 +499,31 @@ input:focus {
           <img src="/assets/geohosting/images/kartoza-logo-only.png" alt="Logo" class="logo" style="width: 50px;">
         </a>
       </td>
-      <td style="width: 50%;">
+      <td style="width: 40%;">
         <div class="nav-links">
-          <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
-          <a href="https://kartoza.com/about" class="text-btn"><span id="aboutusLink">About Us</span></a>
-          <a href="#" class="text-btn"  id="accountsLinks1" style="display: none;" onclick="navigateToSignIn()"><span>Sign In</span></a>
-          <a href="#" class="text-btn"  id="accountsLinks2" style="display: none;" onclick="navigateToSignUp()"><span>Sign Up</span></a>
+          <a href="products.html" class="text-btn lato-sans-regular-24"><span id="productsLink">Products</span></a>
+          <a href="https://kartoza.com/about" class="text-btn lato-sans-regular-24"><span id="aboutusLink">About Us</span></a>
+          <a href="#" class="text-btn lato-sans-regular-24"  id="accountsLinks1" style="display: none;" onclick="navigateToSignIn()"><span>Sign In</span></a>
+          <a href="#" class="text-btn lato-sans-regular-24"  id="accountsLinks2" style="display: none;" onclick="navigateToSignUp()"><span>Sign Up</span></a>
         </div>
       </td>
       <td style="text-align: left;">
         <div class="buttons-container" id="accounts-buttons" style="display: none;">
-          <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
-          <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
+          <button class="sign-in-button " onclick="openSignInModal()">Sign In</button>
+          <button class="create-account-button " onclick="openCreateAccountModal()">Create a free account</button>
         </div>
       </td>
       <td style="text-align: right;">
         <div id="userAvatar" style="display: none; height: 50px;">
-          <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" onclick="navigateToHostedServices()">
+            <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" title="Portal Pages" onclick="navigateToHostedServices()">
         </div>
       </td>
-      <td style="display: none; height: 50px;" id="log-out">
-        <img src="/assets/geohosting/images/back.svg" style="margin-left:5%" alt="Back" onclick="logout()">
+      <td style="display: none; height: 35px;" id="log-out">
+          <img class="logout-logo" src="/assets/geohosting/images/logout_exit.png" alt="Logout" title="Logout" onclick="logout()">
       </td>
+    
       <td style="width: 50px;">
-        <button class="menu-toggle">&#9776;</button>
+        <button class="menu-toggle"><img class="logout-logo"  style="height: 35px;" src="/assets/geohosting/images/menu.png" alt="Logout" title="Logout"></button>
       </td>
       
     </tr>

@@ -6,6 +6,7 @@
 <title>GeoHosting</title>
 <link rel="stylesheet" href="portal_pages.css">
 <link rel="stylesheet" href="user_profile.css">
+<script src="/assets/geohosting/js/util.js"></script>
 <script src="portal_pages.js"></script>
  <!-- Include Select2 CSS -->
  <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -326,26 +327,35 @@ document.addEventListener('DOMContentLoaded', function () {
     formData.append('docname', userEmail);
     formData.append('fieldname', 'user_image');
 
-    fetch('/api/method/upload_file', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message.file_url) {
-            const imageUrl = data.message.file_url;
-            document.getElementById('user-avatar').src = imageUrl;
-            localStorage.setItem('uploaded_image_path', imageUrl);
-            const saveButton = document.getElementById('saveButton');
-            saveButton.disabled = false;
-            saveButton.style.opacity = '1';
-        } else {
-            console.error('Error uploading image:', data);
-        }
-    })
-    .catch(error => {
-        console.error('Error uploading image:', error);
-    });
+    const options = {
+            method: 'POST',
+            body: formData
+        };
+
+        // update the user information
+        fetchWithCSRF('/api/method/upload_file', options)
+        .then(response => response.json())
+        .then(data => {
+            if (data.message.file_url) {
+                const imageUrl = data.message.file_url;
+                document.getElementById('user-avatar').src = imageUrl;
+                localStorage.setItem('uploaded_image_path', imageUrl);
+                const saveButton = document.getElementById('saveButton');
+                saveButton.disabled = false;
+                saveButton.style.opacity = '1';
+            } else {
+                console.error('Error uploading image:', data);
+            }
+        })
+        .catch(error => {
+            console.error('Error uploading image:', error);
+        });
+
+    // fetch('/api/method/upload_file', {
+    //     method: 'POST',
+    //     body: formData
+    // })
+    
 
 }
 
@@ -451,15 +461,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const userEmail = "{{ frappe.session.user }}";
 
-    // update the user information
-    fetch(`/api/resource/User/${userEmail}`, {
+    const url = `/api/resource/User/${userEmail}`
+
+    const options = {
         method: 'PUT',
         headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json'
         },
-        body: JSON.stringify(user_data)
-    })
+        body: JSON.stringify(user_data),
+    };
+
+    // update the user information
+    fetchWithCSRF(url, options)
     .then(response => {
         if (!response.ok) {
             loadingIndicator.style.display = 'none';
@@ -479,6 +492,17 @@ document.addEventListener('DOMContentLoaded', function () {
         showCustomAlert('Failed to update user profile', 'danger-alert');
     });
 
+    // update the user information
+    // fetch(`/api/resource/User/${userEmail}`, {
+    //     method: 'PUT',
+    //     headers: {
+    //         "Accept": "application/json",
+    //         "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(user_data)
+    // })
+    
+
     function updateOrCreateAddress(customerName) {
         const baseUrl = '/api/method/geohosting.api.update_or_create_address';
         const apiUrl = `${baseUrl}`;
@@ -496,7 +520,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 email_id: userEmail
             }
 
-        fetch(apiUrl, {
+        const options = {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -505,7 +529,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 customer_name: customerName,
                 address_data: addressData
             }),
-        })
+        };
+
+        // update the user information
+        fetchWithCSRF(apiUrl, options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -526,6 +553,18 @@ document.addEventListener('DOMContentLoaded', function () {
             loadingIndicator.style.display = 'none';
             saveButton.style.display = 'block';
         });
+
+        // fetch(apiUrl, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify({
+        //         customer_name: customerName,
+        //         address_data: addressData
+        //     }),
+        // })
+        
     }
 
 }
