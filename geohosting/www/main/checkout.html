@@ -609,10 +609,10 @@
                             paymentButton.disabled = true; 
                         }
 
-                        // setTimeout(() => {
-                        //     localStorage.removeItem('selectedProduct');
-                        //     window.location.href = '/portal/hosted_services';
-                        // }, 5000);
+                        setTimeout(() => {
+                            localStorage.removeItem('selectedProduct');
+                            window.location.href = '/portal/hosted_services';
+                        }, 5000);
                     }
                 })
                 .catch(error => {
