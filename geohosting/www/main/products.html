@@ -263,45 +263,58 @@
             
                 // Function to load content and set active tab
                 function loadContentAndSetActiveTab(event, url, targetId, clickedLink, logoUrl) {
-                    
+                    hiddenSectionContent.style.display = 'none';
+                    loadingIndicator.style.display = 'block';
                     event.preventDefault(); // Prevent default anchor behavior
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState === XMLHttpRequest.DONE) {
                             if (xhr.status === 200) {
-                                hiddenSectionContent.style.display = 'block';
-                                loadingIndicator.style.display = 'none';
-                                var targetElement = document.getElementById(targetId);
-                                // Hide content of the previously active tab
-                                document.querySelectorAll('#hiddenSectionContent > div').forEach(function(content) {
-                                    if (content !== targetElement) {
-                                        content.style.display = 'none';
-                                    }
-                                });
-                                targetElement.innerHTML = xhr.responseText;
-                                // Make the loaded content visible
-                                targetElement.style.display = 'block';
-                                // Remove active class from all links
-                                document.querySelectorAll('.secondary-navigation-bar ul li a').forEach(function(link) {
-                                    link.classList.remove('active');
-                                });
-                                // Add active class to the clicked link
-                                clickedLink.classList.add('active');
+                                setTimeout(function() {
+                                    hiddenSectionContent.style.display = 'block';
+                                    loadingIndicator.style.display = 'none';
+                                    var targetElement = document.getElementById(targetId);
+                                    
+                                    // Hide content of the previously active tab
+                                    document.querySelectorAll('#hiddenSectionContent > div').forEach(function(content) {
+                                        if (content !== targetElement) {
+                                            content.style.display = 'none';
+                                        }
+                                    });
+                                    
+                                    targetElement.innerHTML = xhr.responseText;
+                                    
+                                    // Make the loaded content visible
+                                    targetElement.style.display = 'block';
+                                    
+                                    // Remove active class from all links
+                                    document.querySelectorAll('.secondary-navigation-bar ul li a').forEach(function(link) {
+                                        link.classList.remove('active');
+                                    });
+                                    
+                                    // Add active class to the clicked link
+                                    clickedLink.classList.add('active');
+                                }, 2000);
+
 
                                 
                                 try 
                                 {
-                                    
                                     const product = getProduct(stockItems, localStorage.getItem('selectedItem'));
                                     // console.log(product)
-                                    setDynamicBackground(product.name)
+                                    setTimeout(function() {
+                                        setDynamicBackground(product.name)
 
-                                    var dynamicParagraph = document.getElementById('dynamic-paragraph');
-                                    dynamicParagraph.innerHTML = product.description;
-                                    var dynamicHeader = document.getElementById('dynamic-header');
-                                    dynamicHeader.innerHTML = product.item_name + ' Platform';
+                                        var dynamicParagraph = document.getElementById('dynamic-paragraph');
+                                        dynamicParagraph.innerHTML = product.description;
+                                        var dynamicHeader = document.getElementById('dynamic-header');
+                                        dynamicHeader.innerHTML = product.item_name + ' Platform';
 
-                                    assignPricingCardValues(product);
+                                        assignPricingCardValues(product);
+                                    },2000)
+                                    
+
+                                    
                                 } catch(exception){
                                     console.log(exception.message)
                                 }
@@ -468,36 +481,36 @@
                     });
                 }
 
-                // async function saveSalesOrder(formData) {
-                //     const url = '/api/method/frappe.desk.form.save.savedocs';
-
-                //     const options = {
-                //         method: 'POST',
-                //         body: formData,
-                //     };
-
-                //     try {
-                //         const response = await fetchWithCSRF(url, options);
-                        
-                //         return response.json();
-
-                //     } catch (error) {
-                //         console.error('Error saving sales order:', error);
-                //         throw error;
-                //     }
-                // }
-
-
                 async function saveSalesOrder(formData) {
+                    const url = '/api/method/frappe.desk.form.save.savedocs';
 
-                    const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
+                    const options = {
                         method: 'POST',
                         body: formData,
-                    });
+                    };
+
+                    try {
+                        const response = await fetchWithCSRF(url, options);
+                        
+                        return response.json();
+
+                    } catch (error) {
+                        console.error('Error saving sales order:', error);
+                        throw error;
+                    }
+                }
+
+
+                // async function saveSalesOrder(formData) {
+
+                //     const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
+                //         method: 'POST',
+                //         body: formData,
+                //     });
 
                     
-                    return response.json();
-                }
+                //     return response.json();
+                // }
 
                 async function gotoCart(words,sales_order_generated) {
                     const [word1, word2] = words;

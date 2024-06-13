@@ -274,7 +274,7 @@ def create_user_product(payment_request_name, sales_order=None):
                 'user': payment_request.email_to,
                 'product': item.item_code,
                 'specifications': {
-                    "specifications": specifications
+                    "specifications": "8 CPUs, 16GB RAM, 120GB Storage"
                 },
                 'status': "Active",
                 'product_meta': {

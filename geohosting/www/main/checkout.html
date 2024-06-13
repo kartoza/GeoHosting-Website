@@ -525,31 +525,64 @@
             console.log(references);
 
             if (references.reference_doctype && references.reference_doctype === 'Payment Request') {
-                const url = "/api/method/geohosting.www.main.checkout.get_payment_request";
 
-                fetch(url, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(references)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    if (data.message && data.message.status === 'Paid') {
-                        showCustomAlert('This order has been paid.', 'success-alert',backgroundContainer);
-                    } else if (!['USD', 'NGN', 'ZAR', 'GHS'].includes(data.message.currency)) {
-                        showCustomAlert(`Currency ${data.message.currency} is not supported, only 'USD', 'NGN', 'ZAR', 'GHS' supported.`, 'danger-alert',backgroundContainer);
-                    } else {
-                        console.log('calling paystack')
-                        payWithPaystack(data.message);
+                    const url = "/api/method/geohosting.www.main.checkout.get_payment_request";
+
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(references),
+                    };
+
+                    try {
+                        fetchWithCSRF(url, options)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            if (data.message && data.message.status === 'Paid') {
+                                showCustomAlert('This order has been paid.', 'success-alert', backgroundContainer);
+                            } else if (!['USD', 'NGN', 'ZAR', 'GHS'].includes(data.message.currency)) {
+                                showCustomAlert(`Currency ${data.message.currency} is not supported, only 'USD', 'NGN', 'ZAR', 'GHS' supported.`, 'danger-alert', backgroundContainer);
+                            } else {
+                                payWithPaystack(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error.message);
+                            showCustomAlert(JSON.stringify(error.message), 'danger-alert', backgroundContainer);
+                        });
+                    } catch (error) {
+                        console.error('Error saving sales order:', error);
+                        throw error;
                     }
-                })
-                .catch(error => {
-                    console.error('Error:', error.message);
-                    showCustomAlert(JSON.stringify(error.message), 'danger-alert',backgroundContainer);
-                });
+
+                // const url = "/api/method/geohosting.www.main.checkout.get_payment_request";
+
+                // fetch(url, {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json'
+                //     },
+                //     body: JSON.stringify(references)
+                // })
+                // .then(response => response.json())
+                // .then(data => {
+                //     console.log(data);
+                //     if (data.message && data.message.status === 'Paid') {
+                //         showCustomAlert('This order has been paid.', 'success-alert',backgroundContainer);
+                //     } else if (!['USD', 'NGN', 'ZAR', 'GHS'].includes(data.message.currency)) {
+                //         showCustomAlert(`Currency ${data.message.currency} is not supported, only 'USD', 'NGN', 'ZAR', 'GHS' supported.`, 'danger-alert',backgroundContainer);
+                //     } else {
+                //         console.log('calling paystack')
+                //         payWithPaystack(data.message);
+                //     }
+                // })
+                // .catch(error => {
+                //     console.error('Error:', error.message);
+                //     showCustomAlert(JSON.stringify(error.message), 'danger-alert',backgroundContainer);
+                // });
             } else {
                 showCustomAlert('Your payment request is invalid!', 'danger-alert',backgroundContainer); 
             }
@@ -578,10 +611,14 @@
 
                 console.log(formData)
 
-                fetch('/api/method/geohosting.www.main.checkout.verify_transaction', {
+                const url = "/api/method/geohosting.www.main.checkout.verify_transaction";
+
+                const options = {
                     method: 'POST',
-                    body: formData
-                })
+                    body: formData,
+                };
+
+                fetchWithCSRF(url, options)
                 .then(response_from_method => {
                     if (!response_from_method.ok) {
                         showCustomAlert('Payment verification failed.', 'danger-alert', backgroundContainer);
@@ -597,16 +634,46 @@
                             paymentButton.disabled = true; 
                         }
 
-                        setTimeout(() => {
-                            localStorage.removeItem('selectedProduct');
-                            window.location.href = '/portal/hosted_services';
-                        }, 5000);
+                        // setTimeout(() => {
+                        //     localStorage.removeItem('selectedProduct');
+                        //     window.location.href = '/portal/hosted_services';
+                        // }, 5000);
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error.message);
                     showCustomAlert('An error occurred during payment verification.', 'danger-alert', backgroundContainer);
                 });
+
+                // fetch('/api/method/geohosting.www.main.checkout.verify_transaction', {
+                //     method: 'POST',
+                //     body: formData
+                // })
+                // .then(response_from_method => {
+                //     if (!response_from_method.ok) {
+                //         showCustomAlert('Payment verification failed.', 'danger-alert', backgroundContainer);
+                //     }
+                //     if(response.status === 'success') {
+                //         showCustomAlert('Your payment was successful, we will issue you a receipt shortly. Redirecting you to services page...', 'success-alert', backgroundContainer);
+                        
+                //         const paymentButton = document.getElementById('payment-request-link');
+                //         if (paymentButton) {
+                //             paymentButton.textContent = 'Paid';
+                //             paymentButton.style.backgroundColor = '#57A0C7';
+                //             paymentButton.style.borderColor = '#57A0C7';
+                //             paymentButton.disabled = true; 
+                //         }
+
+                //         setTimeout(() => {
+                //             localStorage.removeItem('selectedProduct');
+                //             window.location.href = '/portal/hosted_services';
+                //         }, 5000);
+                //     }
+                // })
+                // .catch(error => {
+                //     console.error('Error:', error.message);
+                //     showCustomAlert('An error occurred during payment verification.', 'danger-alert', backgroundContainer);
+                // });
             }
 
 
