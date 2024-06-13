@@ -510,40 +510,6 @@ input:focus {
 </style>
 </head>
 <body class="navbar">
-  <!--<div class="toolbar">
-     <a href="https://kartoza.com/">
-      <img src="/assets/geohosting/images/kartoza-logo-only.png" alt="Logo" class="logo" style="height: auto; width: 50px;">
-    </a>
-    <div class="nav-links">
-        
-        <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
-        <a href="https://kartoza.com/about" class="text-btn"><span id="aboutusLink">About Us</span></a>
-
-        <a href="sign_in.html" class="text-btn" style="display: none;" id="accountsLinks1"><span>Sign In</span></a>
-        <a href="sign_up.html" class="text-btn" style="display: none;" id="accountsLinks2"><span>Sign Up</span></a>
-        <a href="#" class="text-btn" style="display: none;" onclick="logout()" id="accountsLinks3"><span>Logout</span></a>
-
-
-    </div>    
-      <div class="buttons-container" id="accounts-buttons">
-          <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
-          <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
-      </div>
-      <button class="menu-toggle">&#9776;</button> 
-
-    
-    <div id="userAvatar" style="display: none; height: 50px;">
-        
-        <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" style="height: 100%; cursor: pointer;" onclick="openCustomerPortal()">
-    </div>
-
-    <div id="" style=" height: 30px;">
-      <img src="/assets/geohosting/images/logout.png" alt="Logout" style="height: 100%; cursor: pointer;" onclick="logout()">
-  </div>
-
-  <div id="" style=" height: 30px;">
-    <img src="/assets/geohosting/images/back.svg" alt="Logout" style="height: 100%; cursor: pointer;" onclick="logout()">
-</div> -->
 
 <div class="toolbar">
   <table class="toolbar-table">
@@ -557,13 +523,12 @@ input:focus {
         <div class="nav-links">
           <a href="products.html" class="text-btn"><span id="productsLink">Products</span></a>
           <a href="https://kartoza.com/about" class="text-btn"><span id="aboutusLink">About Us</span></a>
-          <a href="sign_in.html" class="text-btn" style="display: none;" id="accountsLinks1"><span>Sign In</span></a>
-          <a href="sign_up.html" class="text-btn" style="display: none;" id="accountsLinks2"><span>Sign Up</span></a>
-          <a href="#" class="text-btn" style="display: none;" onclick="logout()" id="accountsLinks3"><span>Logout</span></a>
+          <a href="#" class="text-btn"  id="accountsLinks1" style="display: none;" onclick="navigateToSignIn()"><span>Sign In</span></a>
+          <a href="#" class="text-btn"  id="accountsLinks2" style="display: none;" onclick="navigateToSignUp()"><span>Sign Up</span></a>
         </div>
       </td>
       <td style="text-align: left;">
-        <div class="buttons-container" id="accounts-buttons">
+        <div class="buttons-container" id="accounts-buttons" style="display: none;">
           <button class="sign-in-button" onclick="openSignInModal()">Sign In</button>
           <button class="create-account-button" onclick="openCreateAccountModal()">Create a free account</button>
         </div>
@@ -584,14 +549,6 @@ input:focus {
   </table>
 </div>
 
-
-    <!-- User Profile Pop-up -->
-    <div id="userProfilePopup" style="display: none; position: absolute; top: 50px; right: 10px; z-index: 1000; background-color: white; border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
-        <ul style="list-style-type: none; padding: 0;">
-            <li><a href="#" style="text-decoration: none; color: #333;">Profile</a></li>
-            <li><a href="#" style="text-decoration: none; color: #333;" onclick="logout()">Logout</a></li>
-        </ul>
-    </div>
 
 
     </div>
@@ -646,11 +603,7 @@ input:focus {
   <div class="customer-portal-container" id="customer-portal" style="display: none;">
             
             <span class="customer-portal-close">&times;</span>
-            <!-- <div class="portal-pages-heading">
-              <span>Customer Portal</span>
-            </div> -->
-
- 
+           
        
           <div class="card" onclick="navigateToHostedServices()">
             <div class="card-image"><img src="/assets/geohosting/images/services.svg" alt="Service Icon"></div>
@@ -698,6 +651,12 @@ input:focus {
 </div>
   
     <script>
+      const menuToggle = document.querySelector('.menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+      const AccountsButton = document.querySelector('.buttons-container');
+      const accountsLinks = document.querySelector('.accounts-links');
+      const userAvatar = document.getElementById('userAvatar');
+
       function togglePasswordVisibility() {
         var passwordInput = document.getElementById("password");
         var togglePasswordButton = document.getElementById("togglePassword");
@@ -711,13 +670,6 @@ input:focus {
         }
       }
 
-
-        const menuToggle = document.querySelector('.menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        const AccountsButton = document.querySelector('.buttons-container');
-        const accountsLinks = document.querySelector('.accounts-links');
-        const userAvatar = document.getElementById('userAvatar');
-        const userProfilePopup = document.getElementById('userProfilePopup');
     
         menuToggle.addEventListener('click', () => {
           navLinks.classList.toggle('show');
@@ -768,12 +720,11 @@ input:focus {
           document.getElementById('emailInput').value = '';
         }
 
-        function getCurrentPage() {
-            return window.location.href.toLowerCase();
-        }
+        
 
         // Check if the current URL contains specific keywords and apply the active class
         function setActiveNavLink() {
+          try{
             const currentPage = getCurrentPage();
             const productsLink = document.getElementById('productsLink');
             const aboutusLink = document.getElementById('aboutusLink');
@@ -792,40 +743,50 @@ input:focus {
             else if (currentPage.includes('sign_up')) {
                 accountsLink2.classList.add('active');
             }
+          }
+            catch(e){
+              console.log(e)
+
+            }
         }
 
         // Call the function when the page loads
         window.onload = setActiveNavLink;
+        
 
-        function updateUrl(replaceWith){
-          var currentUrl = window.location.href;
-          var firstSlashIndex = currentUrl.indexOf('/');
-          var baseUrl = currentUrl.substring(0, firstSlashIndex + 1);
-          return baseUrl + replaceWith;
-        }
+        function displayAuthenticationButtons(logged_in) { 
+          const accounts = document.getElementById('accounts-buttons');
+          const logout = document.getElementById('log-out');
+          const userAvatar = document.getElementById('userAvatar');
+          const accountsLinks1 = document.getElementById('accountsLinks1');
+          const accountsLinks2 = document.getElementById('accountsLinks2');
 
-        function navigateToForgotPassword() {
-            window.location.href = updateUrl('account/forgot_password.html');
-        }
+          
 
-        function navigateToSupport(){
-          window.location.href = updateUrl('portal/support_tickets.html');
-        }
+          if(logout)
+            (logged_in)? logout.style.display = 'block':logout.style.display = 'none';
+          if(accounts)
+            (logged_in)? accounts.style.display = 'none':accounts.style.display = 'block';
+          if(userAvatar)
+            (logged_in)?userAvatar.style.display = 'block':userAvatar.style.display = 'none';
+          
 
-        function navigateToNotifications(){
-          window.location.href = updateUrl('portal/user_notifications.html');
-        }
+            function isSmallScreen() {
+                return window.innerWidth <= 768;
+            }
 
-        function navigateToHostedServices(){
-          window.location.href = updateUrl('portal/hosted_services.html');
-        }
-
-        function navigateToProfile(){
-          window.location.href = updateUrl('portal/user_profile.html');
-        }
-
-        function navigateToInvoices(){
-          window.location.href = updateUrl('portal/product_invoices.html');
+            if (isSmallScreen()) {
+              if(accountsLinks1)
+                (logged_in)?accountsLinks1.style.display = 'none':accountsLinks1.style.display = 'block';
+              if(accountsLinks2)
+                (logged_in)?accountsLinks2.style.display = 'none':accountsLinks2.style.display = 'block';
+            } else {
+                console.log('User is on a larger screen.');
+            }
+          
+          
+          
+          return
         }
 
 
@@ -850,11 +811,7 @@ input:focus {
           .then(data => {
               if (data.message === 'Logged In' || data.message === 'No App') {
                   localStorage.setItem("owner", username);
-                  const accounts = document.getElementById('accounts-buttons');
-                  const logout = document.getElementById('log-out');
-                  logout.style.display = 'block';
-                  accounts.style.display = 'none';
-                  userAvatar.style.display = 'block';
+                  displayAuthenticationButtons(true);
                   closeModal('signInModal');
               } else {
                   showCustomAlert(JSON.stringify(data.message), 'danger-alert',null);
@@ -865,10 +822,6 @@ input:focus {
           });
         }
 
-
-        function openUserProfile() {
-            userProfilePopup.style.display = 'block';
-        }
 
         async function openCustomerPortal() {
           // window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -932,44 +885,15 @@ input:focus {
           })
           .then(response => {
               if (response.ok) {
-                  // Perform actions after successful logout
-                  const accounts = document.getElementById('accounts-buttons');
-                  const userProfilePopup = document.getElementById('userProfilePopup');
-                  const userAvatar = document.getElementById('userAvatar');
-                  const customerPortal = document.getElementById('customer-portal');
-                  const body = document.getElementById('screenBody');
-                  body.classList.remove('blur-background'); 
-                  const logout = document.getElementById('log-out');
-                  
-
-                  if(logout){
-                    logout.style.display = 'none';
-
-                  }
-
-                  if (userProfilePopup) {
-                      userProfilePopup.style.display = 'none';
-                  }
-
-                  if (userAvatar) {
-                      userAvatar.style.display = 'none';
-                  }
-
-                  if (customerPortal) {
-                      customerPortal.style.display = 'none';
-                  }
-
-                  if (accounts) {
-                      accounts.style.display = 'block';
-                  }
+                  displayAuthenticationButtons(false)
               } else {
                   console.error('Logout failed:', response.statusText);
-                  alert('Logout failed. Please try again later.');
+                  showCustomAlert('Logout failed. Please try again.', 'danger-alert', null);
               }
           })
           .catch(error => {
               console.error('Error:', error);
-              alert('An error occurred while logging out. Please try again later.');
+              showCustomAlert('Logout failed. Please try again.', 'danger-alert', null);
           });
       }
 
@@ -977,21 +901,15 @@ input:focus {
 
        // Check if the user is logged in when the page is loaded
       document.addEventListener('DOMContentLoaded', async function() {
-        const accounts = document.getElementById('accounts-buttons');
-        const userAvatar = document.getElementById('userAvatar');
 
         await fetchUserInfo().then(userInfo => {
           if (userInfo) {
             const { current_user, customer_name } = userInfo;
             if (!current_user || current_user === "Guest") {
-              acccounts.style.display = 'block';
-              userAvatar.style.display = 'none';
+              displayAuthenticationButtons(false);
             } else if (current_user) {
-                const accounts = document.getElementById('accounts-buttons');
-                accounts.style.display = 'none';
-                userAvatar.style.display = 'block';
-                const logout = document.getElementById('log-out');
-                logout.style.display = 'block';
+                refreshCSRFToken()
+                displayAuthenticationButtons(true);
                 closeModal('signInModal');
               } 
             }
@@ -1024,11 +942,12 @@ input:focus {
         .then(response => {
           if (!response.ok) {
             alert('Network response was not ok');
+            showCustomAlert('An error occurred during payment verification.', 'danger-alert', null);
           }
           return response.json();
         })
         .then(data => {
-          alert(JSON.stringify(data.message[1]));
+          showCustomAlert(JSON.stringify(data.message[1]), 'success-alert', null);
           document.getElementById('firstNameInput').value = '';
           document.getElementById('lastNameInput').value = '';
           document.getElementById('emailInput').value = '';

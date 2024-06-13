@@ -587,7 +587,7 @@
                         showCustomAlert('Payment verification failed.', 'danger-alert', backgroundContainer);
                     }
                     if(response.status === 'success') {
-                        showCustomAlert('Your payment was successful, we will issue you a receipt shortly.', 'success-alert', backgroundContainer);
+                        showCustomAlert('Your payment was successful, we will issue you a receipt shortly. Redirecting you to services page...', 'success-alert', backgroundContainer);
                         
                         const paymentButton = document.getElementById('payment-request-link');
                         if (paymentButton) {
@@ -597,10 +597,10 @@
                             paymentButton.disabled = true; 
                         }
 
-                        // setTimeout(() => {
-                        //     localStorage.removeItem('selectedProduct');
-                        //     window.location.href = '/portal/hosted_services';
-                        // }, 5000);
+                        setTimeout(() => {
+                            localStorage.removeItem('selectedProduct');
+                            window.location.href = '/portal/hosted_services';
+                        }, 5000);
                     }
                 })
                 .catch(error => {

@@ -469,13 +469,35 @@
                 }
 
                 async function saveSalesOrder(formData) {
+                    const url = '/api/method/frappe.desk.form.save.savedocs';
 
-                    const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
+                    const options = {
                         method: 'POST',
                         body: formData,
-                    });
-                    return response.json();
+                    };
+
+                    try {
+                        const response = await fetchWithCSRF(url, options);
+                        
+                        return response.json();
+
+                    } catch (error) {
+                        console.error('Error saving sales order:', error);
+                        throw error;
+                    }
                 }
+
+
+                // async function saveSalesOrder(formData) {
+
+                //     const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
+                //         method: 'POST',
+                //         body: formData,
+                //     });
+
+                    
+                //     return response.json();
+                // }
 
                 async function gotoCart(words,sales_order_generated) {
                     const [word1, word2] = words;

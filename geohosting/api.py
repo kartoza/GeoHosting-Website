@@ -1,6 +1,7 @@
 import frappe
 from frappe import _
 
+no_cache = 1
 
 @frappe.whitelist()
 def update_or_create_address(customer_name, address_data):
@@ -43,26 +44,10 @@ def get_user_info():
     }
 
 @frappe.whitelist(allow_guest=True)
-def update_sales_order():
-    try:
-        sales_order = frappe.get_doc('Sales Order', 'SAL-ORD-2024-00020')
-        if sales_order:
-            if sales_order.docstatus == 0:
-                # Set fields while ignoring permissions
-                    sales_order.db_set('status', 'Completed', update_modified=False)
-                    sales_order.db_set('per_delivered', 100, update_modified=False)
-                    sales_order.db_set('per_billed', 100, update_modified=False)
-                    
-                    # Save the document while ignoring permissions
-                    sales_order.save(ignore_permissions=True)
-
-                    # Submit the document
-                    sales_order.submit()
-                    frappe.db.commit()
-        return {'status': 'success', 'message': 'Sales Order updated successfully.'}
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), 'Update Sales Order Fields')
-        return {'status': 'error', 'message': str(e)}
+def get_csrf_token():
+    return {
+        "csrf_token": frappe.sessions.get_csrf_token()
+    }
     
 
 

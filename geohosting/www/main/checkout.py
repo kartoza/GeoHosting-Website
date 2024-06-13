@@ -121,7 +121,8 @@ def queue_verify_transaction(transaction):
                 
                 frappe.db.set_value("Integration Request", integration_request.name, 'status', 'Completed')
                 payment_request.run_method("on_payment_authorized", 'Completed')
-                payment_request.submit()
+                if payment_request.docstatus == 0:
+                    payment_request.submit()
                 frappe.db.commit()
 
             sales_order = frappe.get_doc('Sales Order', transaction.reference.split('=')[1])
@@ -292,7 +293,7 @@ def create_user_product(payment_request_name, sales_order=None):
 
 
 def create_sales_invoice(sales_order):
-    # TODO might not need to create one since this might be an automated transaction on subscriptions
+    # TODO might not need to create one since this might be an automated transaction
     pass
 
 
