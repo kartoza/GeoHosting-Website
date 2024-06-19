@@ -77,87 +77,64 @@
         .content {
           position: relative;
           z-index: 998;
-          width: auto;
+          width: 100%;
           height: auto;
           margin-top: 3%;
-          /* border: 5px solid springgreen; */
           display: flex;
           flex-direction: column;
           align-items: center;
+          justify-content: center;
           padding: 0px;
           margin-bottom: 3%;
+          text-align: center;
+          /* border: 3px red solid; */
         }
 
-
-        .h1 {
-          font-size: 24px;
-          color: #333;
-        }
-
-        @media screen and (max-width: 768px) {
-          .content {
-            font-size: 16px; /* Decrease font size for smaller screens */
-            height: auto;
-            overflow: auto;
-            margin-top: 5%;
-            z-index: 998;
-          }
-
-          
-        }
-     
-
-
-      
+        /* Logo styles */
         .geohosting-logo {
           height: 200px; 
           width: 885px;
-          /* border: 5px yellow solid; */
-          /* margin: 0 auto; */
-          margin-left: 28%;
+          /* border: 3px yellow solid; */
         }
-      
+
+        /* Heading styles */
         .geohosting-heading {
-          /* font-family: 'Lato';
-          font-style: normal; 
-          font-size: 50px; */
           line-height: 100%; 
-          text-align: center;
-          color:grey;
+          color: grey;
           letter-spacing: 0.15px;
-          width:65%; 
-          margin-bottom:5%; 
-          margin-top: 2%;
-          margin-left: 20%;
-          /* border: solid 5px orange; */
+          width: 70%; 
+          margin-top: 3%;
+          margin-left: 15%;
+          /* border: solid 3px orange; */
         }
-      
+
+    
         .products-container {
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
           gap: 20px;
           width: 90%;
-          /* border: 5px solid gray; */
           overflow-y: auto;
-          margin-top: -3%;
+          margin-top: 3%;
           margin-left: 5.5%;
+          /* border: 3px solid gray; */
         }
         
         .product {
-          width: calc(23.33% - 20px);
+          width: calc(23.33% - 40px);
           background-color: #ECECEC;
-          border-radius: 15px;
+          border-radius: 20px;
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
           text-align: center;
-          /* border: 5px solid black; */
           position: relative;
-          height:43vh;
+          height:35vh;
           padding: 30px;
+          /* border: 5px solid black; */
         }
       
         .product img {
-          width: 15vh; /* Adjust logo width */
+          width: 15vh;
           height: auto; /* Maintain aspect ratio */
           margin-bottom: 10px;
         }
@@ -182,7 +159,7 @@
           cursor: pointer;
           transition: background-color 0.3s;
           position: absolute;
-          left: 24%;
+          left: 23%;
           bottom: 5%;
           width: 224px;
           height: 54px;
@@ -215,6 +192,23 @@
           width:100%;
           /* border:5px solid purple; */
         }
+
+        .h1 {
+          font-size: 24px;
+          color: #333;
+        }
+
+        @media screen and (max-width: 768px) {
+          .content {
+            font-size: 16px; /* Decrease font size for smaller screens */
+            height: auto;
+            overflow: auto;
+            margin-top: 5%;
+            z-index: 998;
+          }
+
+          
+        }
       
         @media (max-width: 768px) {
         .container {
@@ -225,22 +219,20 @@
         }
       
         .geohosting-heading {
-          width: 250px;
+          width: auto;
           margin-top: 0px;
-          font-size: 16px;
-          margin-left: 20%;
+          font-size: 14px;
+          margin-left: -5%;
         }
       
         .geohosting-logo {
           height: auto;
           width: 350px;
-          margin-left: 5%;
         }
 
         .product .learn-more-button {
-          
-          left: 21%;
-      }
+          left: 20%;
+        }
       
         .description {
           height:auto; 

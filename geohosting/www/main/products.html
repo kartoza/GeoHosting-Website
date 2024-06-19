@@ -24,14 +24,80 @@
         <!-- Right background image -->
         <div class="background-right"></div>
         <script>
+            function parseHTML(description) {
+                const parser = new DOMParser();
+                return parser.parseFromString(description, 'text/html');
+            }
+
+            function getDescriptionByHeader(doc, header) {
+                const paragraphs = doc.querySelectorAll('p');
+                let captureText = false;
+                let description = '';
+                paragraphs.forEach(p => {
+                    if (p.querySelector('strong') && p.querySelector('strong').textContent.trim() === header) {
+                        captureText = true;
+                    } else if (captureText && p.querySelector('strong')) {
+                        captureText = false;
+                    } else if (captureText) {
+                        description += p.textContent + ' ';
+                    }
+                });
+                return description.trim() || 'No description available';
+            }
+
             function trimDescription(description) {
-                const maxCharacters = 280; // Maximum number of characters
-                if (description.length > maxCharacters) {
-                    // Trim the description and append '...'
-                    return description.substring(0, maxCharacters - 3) + '...</p></div>';
-                } else {
-                    return description;
-                }
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'short description');
+            }
+
+            function getOverviewDescription(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'overview description');
+            }
+
+            function getOverviewDescriptionHeader(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'overview header');
+            }
+
+            function getOverviewContinuation(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'overview continuation');
+            }
+
+            function getOverviewContinuationHeader(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'overview continuation header');
+            }
+
+            function getWhatDoesItDo(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'what does it do');
+            }
+
+            function getWhoIsItFor(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'who is it for');
+            }
+
+            function getHowDoesItWork(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'how does it work');
+            }
+
+            function getOpenPlatform(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'open platform');
+            }
+
+            function getGithubLink(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'github link');
+            }
+
+            function getSupportLink(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'support link');
             }
             </script>
         <!-- Content -->
@@ -52,7 +118,11 @@
                       
                         <div class="lato-sans-serif-bold-24">{{ item.item_name }}</div>
                         <div class="description lato-sans-serif-regular-16">
-                            <p><script>document.write(trimDescription('{{ item.description }}'));</script></p>
+                            <p>
+                                <script>
+                                    document.write(trimDescription(`{{ item.description | replace("'", "\\'") | replace('\n', '') }}`));
+                                </script>
+                            </p>
                         </div>
                         <button class="product learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
                         <div></div>
@@ -148,7 +218,7 @@
                 
 
                 var stockItems = JSON.parse('{{ stock_items | tojson | safe }}');
-                // console.log(stockItems); // testing purposes
+                console.log(stockItems); // testing purposes
                     
 
                 function getProduct(itemArray, targetItemName) {
@@ -258,11 +328,33 @@
                         console.error('Failed to load image:', item_name);
                     };
                 }
+
+                function setDynamicContent(product) {
+                    var dynamicParagraph = document.getElementById('dynamic-paragraph');
+                    dynamicParagraph.innerHTML = getOverviewDescription(product.description);
+                    var dynamicHeader = document.getElementById('dynamic-header');
+                    dynamicHeader.innerHTML = getOverviewDescriptionHeader(product.description);
+
+                    dynamicParagraph = document.getElementById('dynamic-paragraph-integration');
+                    dynamicParagraph.innerHTML = getOverviewContinuation(product.description);
+                    dynamicHeader = document.getElementById('dynamic-header-integration');
+                    dynamicHeader.innerHTML = getOverviewContinuationHeader(product.description);
+
+                    dynamicParagraph = document.getElementById('who-is-it-for-des');
+                    dynamicParagraph.innerHTML = getWhoIsItFor(product.description);
+
+                    dynamicParagraph = document.getElementById('what-does-it-do-des');
+                    dynamicParagraph.innerHTML = getWhatDoesItDo(product.description);
+
+                    dynamicParagraph = document.getElementById('how-does-it-work-des');
+                    dynamicParagraph.innerHTML = getHowDoesItWork(product.description);
+                    
+                }
+
             
                 // Function to load content and set active tab
                 function loadContentAndSetActiveTab(event, url, targetId, clickedLink, logoUrl) {
                     hiddenSectionContent.style.display = 'none';
-                    loadingIndicator.style.display = 'block';
                     event.preventDefault(); // Prevent default anchor behavior
                     var xhr = new XMLHttpRequest();
                     xhr.onreadystatechange = function() {
@@ -270,7 +362,7 @@
                             if (xhr.status === 200) {
                                 try {
                                    
-                                    setTimeout(function() {
+                                    
                                         hiddenSectionContent.style.display = 'block';
                                         
                                         
@@ -296,24 +388,25 @@
                                         clickedLink.classList.add('active');
 
                                         const product = getProduct(stockItems, localStorage.getItem('selectedItem'));
+
+                                        // assign dynamic values to product overview
                                         
                                         setDynamicBackground(product.name)
 
-                                        var dynamicParagraph = document.getElementById('dynamic-paragraph');
-                                        dynamicParagraph.innerHTML = product.description;
-                                        var dynamicHeader = document.getElementById('dynamic-header');
-                                        dynamicHeader.innerHTML = product.item_name + ' Platform';
+                                        setDynamicContent(product)
+
 
                                         if (url.includes('product_pricing')) {
                                             assignPricingCardValues(product);
                                         }
 
+                                    setTimeout(function() {
                                         loadingIndicator.style.display = 'none';
-
-                                        // Make the loaded content visible
                                         targetElement.style.display = 'block';
                                         smoothScrollTo(hiddenSection, 1000);
                                     }, 1500);
+
+                                    
                                     
                                 } catch(exception){
                                     console.log(exception.message)
