@@ -354,6 +354,7 @@
             
                 // Function to load content and set active tab
                 function loadContentAndSetActiveTab(event, url, targetId, clickedLink, logoUrl) {
+                    loadingIndicator.style.display = 'block';
                     hiddenSectionContent.style.display = 'none';
                     event.preventDefault(); // Prevent default anchor behavior
                     var xhr = new XMLHttpRequest();
