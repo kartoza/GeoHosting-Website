@@ -2,6 +2,9 @@
 
 .overview-content {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; 
   width: 42%;
   height: 100%;
   left: 0;
@@ -35,7 +38,6 @@
   margin-bottom: 20px;
 }
 
-
 .overview-content p {
   font-weight: 400;
   font-size: 24px;
@@ -44,9 +46,7 @@
   letter-spacing: 0.15px;
   color: #000000;
   margin-bottom: 20px;
-  /* border: 5px solid blue; */
 }
-
 
 .overview-content a {
   color: #000000;
@@ -54,6 +54,10 @@
   font-weight: 600;
 }
 
+.overview-content .enterprise-solution {
+  font-size: 16px;
+  margin-top: auto;
+}
 
 .enterprise-solution a {
   color: inherit; 
@@ -64,8 +68,8 @@
 /* Style for link on hover */
 .enterprise-solution a:hover {
   color: #ECB44B; 
-  /* color: #FFD966; */
 }
+
 
 .overview-image {
   position: absolute;

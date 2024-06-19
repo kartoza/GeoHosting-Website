@@ -330,25 +330,38 @@
                 }
 
                 function setDynamicContent(product) {
-                    var dynamicParagraph = document.getElementById('dynamic-paragraph');
-                    dynamicParagraph.innerHTML = getOverviewDescription(product.description);
-                    var dynamicHeader = document.getElementById('dynamic-header');
-                    dynamicHeader.innerHTML = getOverviewDescriptionHeader(product.description);
+                    try{
+                        var dynamicParagraph = document.getElementById('dynamic-paragraph');
+                        dynamicParagraph.innerHTML = getOverviewDescription(product.description);
+                        var dynamicHeader = document.getElementById('dynamic-header');
+                        dynamicHeader.innerHTML = getOverviewDescriptionHeader(product.description);
 
-                    dynamicParagraph = document.getElementById('dynamic-paragraph-integration');
-                    dynamicParagraph.innerHTML = getOverviewContinuation(product.description);
-                    dynamicHeader = document.getElementById('dynamic-header-integration');
-                    dynamicHeader.innerHTML = getOverviewContinuationHeader(product.description);
+                        dynamicParagraph = document.getElementById('dynamic-paragraph-integration');
+                        dynamicParagraph.innerHTML = getOverviewContinuation(product.description);
+                        dynamicHeader = document.getElementById('dynamic-header-integration');
+                        dynamicHeader.innerHTML = getOverviewContinuationHeader(product.description);
 
-                    dynamicParagraph = document.getElementById('who-is-it-for-des');
-                    dynamicParagraph.innerHTML = getWhoIsItFor(product.description);
+                        dynamicParagraph = document.getElementById('who-is-it-for-des');
+                        dynamicParagraph.innerHTML = getWhoIsItFor(product.description);
 
-                    dynamicParagraph = document.getElementById('what-does-it-do-des');
-                    dynamicParagraph.innerHTML = getWhatDoesItDo(product.description);
+                        dynamicParagraph = document.getElementById('what-does-it-do-des');
+                        dynamicParagraph.innerHTML = getWhatDoesItDo(product.description);
 
-                    dynamicParagraph = document.getElementById('how-does-it-work-des');
-                    dynamicParagraph.innerHTML = getHowDoesItWork(product.description);
-                    
+                        dynamicParagraph = document.getElementById('how-does-it-work-des');
+                        dynamicParagraph.innerHTML = getHowDoesItWork(product.description);
+
+                        dynamicParagraph = document.getElementById('open-platform');
+                        dynamicParagraph.innerHTML = getOpenPlatform(product.description);
+
+
+                        dynamicParagraph = document.getElementById('source-code-link');
+                        dynamicParagraph.innerHTML = getGithubLink(product.description);
+
+                    }
+                    catch(error) {
+                        console.log(error);
+                    }
+                     
                 }
 
             

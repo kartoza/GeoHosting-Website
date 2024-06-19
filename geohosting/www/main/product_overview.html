@@ -46,15 +46,17 @@
         position: relative;
         display: flex;
         flex-wrap: wrap;
-        width: 90%;
+        width: 100%;
         overflow-y: auto;
         margin-top: 40px;
         /* border: 3px solid gray; */
-        margin-left: -2%;
+        margin-left: 0%;
+        gap: 50px;
+
       }
 
       .overview-card {
-        width: calc(23.33% - 40px);
+        width: calc(53.33% - 180px);
         background-color: #ECECEC;
         border-radius: 20px;
         box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -62,6 +64,7 @@
         position: relative;
         padding: 30px;
         height: 28vh;
+        
       }
 
       .overview-card-description {
@@ -78,7 +81,30 @@
         margin-bottom: 1em; 
       }
 
-     
+      .group-210 {
+        position: relative;
+        width: 679px;
+        height: 157.81px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: inherit;
+        padding: 20px; 
+        /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
+        border-radius: 10px;
+        margin-bottom: 5%;
+      }
+
+      .group-210-paragraph {
+        font-size: 16px; 
+        line-height: 1.5;
+        color: #000000; 
+      }
+
+
+
 
         @media (min-width: 1024px) {
           .overview-card {
@@ -171,6 +197,14 @@
             width: 100%;
             margin-left: -10%;
           }
+
+          .group-210 {
+            width: 90%;
+            height: auto; 
+            top: auto; 
+            position: relative; 
+            margin-top: 20px; 
+          }
         }
 
         @media (max-width: 768px) {
@@ -252,6 +286,12 @@
               </div>
             </div>
 
+
+          </div>
+
+          <div class="group-210">
+            <div class="lato-sans-serif-bold-24">Open Platform</div>
+            <p class="group-210-paragraph" id="open-platform"></p>
           </div>
 
         </div>
