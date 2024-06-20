@@ -507,7 +507,7 @@ input:focus {
       </td>
       <td style="width: 40%;">
         <div class="nav-links">
-          <a href="products.html" class="text-btn lato-sans-regular-24"><span id="productsLink">Products</span></a>
+          <a href="#" class="text-btn lato-sans-regular-24"><span id="productsLink" onclick="navigateToProducts()">Products</span></a>
           <a href="https://kartoza.com/about" class="text-btn lato-sans-regular-24"><span id="aboutusLink">About Us</span></a>
           <a href="#" class="text-btn lato-sans-regular-24"  id="accountsLinks1" style="display: none;" onclick="navigateToSignIn()"><span>Sign In</span></a>
           <a href="#" class="text-btn lato-sans-regular-24"  id="accountsLinks2" style="display: none;" onclick="navigateToSignUp()"><span>Sign Up</span></a>
@@ -764,7 +764,7 @@ input:focus {
           
 
             function isSmallScreen() {
-                return window.innerWidth <= 768;
+                return window.innerWidth <= 1024;
             }
 
             if (isSmallScreen()) {

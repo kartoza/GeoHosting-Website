@@ -103,8 +103,11 @@
           color: grey;
           letter-spacing: 0.15px;
           width: 70%; 
-          margin-top: 3%;
+          margin-top: 4%;
           margin-left: 15%;
+          font-family: 'Lato', sans-serif;
+          font-weight: bold;
+          font-size: 64px;
           /* border: solid 3px orange; */
         }
 
@@ -116,7 +119,7 @@
           gap: 20px;
           width: 90%;
           overflow-y: auto;
-          margin-top: 3%;
+          margin-top: 4%;
           margin-left: 5.5%;
           /* border: 3px solid gray; */
         }
@@ -219,10 +222,11 @@
         }
       
         .geohosting-heading {
-          width: auto;
-          margin-top: 0px;
-          font-size: 14px;
-          margin-left: -5%;
+          width: 90%;
+          margin-top: 15px;
+          margin-bottom: 15px;
+          font-size: 18px;
+          margin-left: 3%;
         }
       
         .geohosting-logo {

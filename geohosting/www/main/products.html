@@ -105,7 +105,7 @@
             <div class="">
                 <img src="/assets/geohosting/images/geohosting_main_logo.png"  alt="Logo" class="geohosting-logo">
                 
-                  <div class="geohosting-heading lato-sans-serif-bold-64">Welcome to a better GIS platform where privacy and freedom comes first.</div>
+                  <div class="geohosting-heading">Welcome to a better GIS platform where privacy and freedom comes first.</div>
                 
                  <div class="products-container">
 
@@ -204,6 +204,26 @@
 
                     requestAnimationFrame(animation);
                 }
+            </script>
+
+            <script>
+                function openSourcePage() {
+                    const sourceCodeLink = document.getElementById('source-code-link').href;
+                    if (sourceCodeLink) {
+                        window.open(sourceCodeLink, '_blank');
+                    } else {
+                        console.log('Source code link is not defined.');
+                    }
+                }
+
+                    function visitSupportCenter() {
+                        const supportLink = document.getElementById('support-link').href;
+                        if (supportLink) {
+                            window.open(supportLink, '_blank');
+                        } else {
+                            console.log('Support link is not defined.');
+                        }
+                    }
             </script>
 
        
@@ -489,9 +509,10 @@
                             const { current_user, customer_name } = userInfo;
                             if (!current_user || current_user === "Guest") {
                                 showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
+                                removeButtonLoader(dynamicButton, btn_text);
                             } else if (!customer_name) {
                                 showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
-                                // TODO CREATE CUSTOMER BEFORE CREATING SALES ORDER
+                                removeButtonLoader(dynamicButton, btn_text);
                             } else {
                                 // create item code
                                 

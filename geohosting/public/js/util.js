@@ -84,6 +84,10 @@ function navigateToHostedServices(){
   window.location.href = updateUrl('portal/hosted_services.html');
 }
 
+function navigateToProducts(){
+    window.location.href = updateUrl('main/products.html');
+  }
+
 function navigateToProfile(){
   window.location.href = updateUrl('portal/user_profile.html');
 }

@@ -318,6 +318,12 @@
 
 /* Responsive Design */
 @media only screen and (max-width: 768px) {
+
+  .table-container {
+    margin-top: 400%;
+    width: 100%;
+    
+  }
   .custom-table {
     width: 100%;
   }
