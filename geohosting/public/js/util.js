@@ -100,9 +100,8 @@ function navigateToInvoices(){
 async function refreshCSRFToken() {
     const response = await fetch('/api/method/geohosting.api.get_csrf_token');
     const data = await response.json();
-    console.log(data);
-    if (data && data.csrf_token) {
-        document.cookie = `csrf_token=${data.csrf_token}; path=/`;
+    if (data && data.message.csrf_token) {
+        document.cookie = `csrf_token=${data.message.csrf_token}; path=/`;
     }
 }
 
@@ -114,24 +113,27 @@ async function fetchWithCSRF(url, options) {
             options.headers = {};
         }
 
-        // Fetch initial response
-        const response = await fetch(url, options);
-        console.log(response);
-
-        // Handle CSRF token error (403)
-        if (response.status === 403 || response.status === 417 || response.status === 400) {
-            // Refresh CSRF token
-            await refreshCSRFToken();
-
-            // Update headers with new CSRF token
-            options.headers['X-Frappe-CSRF-Token'] = getCookie('csrf_token');
-
-            // Re-fetch with updated options
-            return await fetch(url, options);
-        }
-
-        // Return the response for successful requests
+        await refreshCSRFToken();
+        options.headers['X-Frappe-CSRF-Token'] = getCookie('csrf_token');
+        const response =  await fetch(url, options);
         return response;
+
+        // Fetch initial response
+        // const response = await fetch(url, options);
+
+        // // Handle CSRF token error (403)
+        // if (response.status === 403 || response.status === 417 || response.status === 400) {
+        //     // Refresh CSRF token
+        //     await refreshCSRFToken();
+
+        //     // Update headers with new CSRF token
+        //     options.headers['X-Frappe-CSRF-Token'] = getCookie('csrf_token');
+
+        //     // Re-fetch with updated options
+        //     return await fetch(url, options);
+        // }
+
+        // return response;
 
     } catch (error) {
         console.error('Error fetching with CSRF token:', error);

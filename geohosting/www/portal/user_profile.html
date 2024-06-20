@@ -328,12 +328,12 @@ document.addEventListener('DOMContentLoaded', function () {
     formData.append('fieldname', 'user_image');
 
     const options = {
-            method: 'POST',
-            body: formData
-        };
+        method: 'POST',
+        body: formData
+    };
 
-        // update the user information
-        fetchWithCSRF('/api/method/upload_file', options)
+    // update the user information
+    fetchWithCSRF('/api/method/upload_file', options)
         .then(response => response.json())
         .then(data => {
             if (data.message.file_url) {
@@ -350,13 +350,6 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error('Error uploading image:', error);
         });
-
-    // fetch('/api/method/upload_file', {
-    //     method: 'POST',
-    //     body: formData
-    // })
-    
-
 }
 
   // validate input fields
@@ -466,6 +459,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const options = {
         method: 'PUT',
         headers: {
+            "Accept": "application/json",
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(user_data),
@@ -491,16 +485,6 @@ document.addEventListener('DOMContentLoaded', function () {
         saveButton.style.display = 'block';
         showCustomAlert('Failed to update user profile', 'danger-alert');
     });
-
-    // update the user information
-    // fetch(`/api/resource/User/${userEmail}`, {
-    //     method: 'PUT',
-    //     headers: {
-    //         "Accept": "application/json",
-    //         "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(user_data)
-    // })
     
 
     function updateOrCreateAddress(customerName) {
@@ -553,17 +537,6 @@ document.addEventListener('DOMContentLoaded', function () {
             loadingIndicator.style.display = 'none';
             saveButton.style.display = 'block';
         });
-
-        // fetch(apiUrl, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify({
-        //         customer_name: customerName,
-        //         address_data: addressData
-        //     }),
-        // })
         
     }
 
@@ -633,13 +606,18 @@ document.addEventListener('DOMContentLoaded', function () {
         const userEmail = "{{ frappe.session.user }}";
         loadingIndicator.style.display = 'block';
         updatePasswordButton.style.display = 'none';
-        fetch(`/api/resource/User/${userEmail}`, {
+
+
+        const options = {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ new_password: newPassword })
-        })
+        }
+
+        // update the user information
+        fetchWithCSRF(`/api/resource/User/${userEmail}`, options)
         .then(response => {
             if (!response.ok) {
                 loadingIndicator.style.display = 'none';

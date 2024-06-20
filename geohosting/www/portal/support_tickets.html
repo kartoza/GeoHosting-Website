@@ -9,6 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="portal_pages.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+<script src="/assets/geohosting/js/util.js"></script> 
 <style>
     
 
@@ -350,6 +351,7 @@ p {
 
 
 <script>
+
         var editorData = ''
         var uploadedFiles = [];
         var toUpload = [];
@@ -387,9 +389,12 @@ p {
             const currentUser = "{{ frappe.session.user }}";
             const url = `/api/resource/Issue?fields=["*"]&filters=[["owner", "=", "${currentUser}"]]`
 
+            const options = {
+                method: 'GET'
+            };
 
-            fetch(url)
-                .then(response => response.json())
+            fetchWithCSRF(url, options)
+            .then(response => response.json())
                 .then(data => {
                     
                     support_tickets = data.data;
@@ -403,6 +408,23 @@ p {
                 .catch(error => {
                     console.error('Error fetching user invoices:', error);
                 });
+
+
+            // fetch(url)
+            //     .then(response => response.json())
+            //     .then(data => {
+                    
+            //         support_tickets = data.data;
+            //         totalPages = Math.ceil(support_tickets.length / cardsPerPage);
+            //         support_tickets.sort((a, b) => new Date(b.creation) - new Date(a.creation));
+            //         support_tickets.forEach(ticket => {
+            //             createCard(ticket);
+            //         });
+            //         displayCards(currentPage,support_tickets);
+            //     })
+            //     .catch(error => {
+            //         console.error('Error fetching user invoices:', error);
+            //     });
           }
 
         fetchUserIssues()
@@ -692,13 +714,15 @@ p {
           "status": "Open"
       };
 
-      fetch('/api/resource/Issue', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(requestBody)
-      })
+      const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      }
+
+      fetchWithCSRF('/api/resource/Issue', options)
       .then(response => {
           if (!response.ok) {
               loadingIndicator.style.display = 'none';
