@@ -108,32 +108,29 @@ async function refreshCSRFToken() {
 
 async function fetchWithCSRF(url, options) {
     try {
-        // Check if options contain headers; if not, initialize headers object
         if (!options.headers) {
             options.headers = {};
         }
 
-        await refreshCSRFToken();
-        options.headers['X-Frappe-CSRF-Token'] = getCookie('csrf_token');
-        const response =  await fetch(url, options);
+        let csrfToken = getCookie('csrf_token');
+
+        if (!csrfToken) {
+            await refreshCSRFToken();
+            csrfToken = getCookie('csrf_token');
+        }
+
+        options.headers['X-Frappe-CSRF-Token'] = csrfToken;
+
+        let response = await fetch(url, options);
+
+        if (response.status === 400 || response.status === 403) {
+            await refreshCSRFToken();
+            csrfToken = getCookie('csrf_token');
+            options.headers['X-Frappe-CSRF-Token'] = csrfToken;
+            response = await fetch(url, options);
+        }
+
         return response;
-
-        // Fetch initial response
-        // const response = await fetch(url, options);
-
-        // // Handle CSRF token error (403)
-        // if (response.status === 403 || response.status === 417 || response.status === 400) {
-        //     // Refresh CSRF token
-        //     await refreshCSRFToken();
-
-        //     // Update headers with new CSRF token
-        //     options.headers['X-Frappe-CSRF-Token'] = getCookie('csrf_token');
-
-        //     // Re-fetch with updated options
-        //     return await fetch(url, options);
-        // }
-
-        // return response;
 
     } catch (error) {
         console.error('Error fetching with CSRF token:', error);
