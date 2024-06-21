@@ -251,7 +251,7 @@
  /* Sign in and create account buttons */
  .sign-in-button, .create-account-button {
   text-decoration: none;
-  color: #000000;
+  color: #FFFFFF;
   font-family: 'Lato' ,sans-serif;
   font-style: normal;
   font-weight: bold;
@@ -286,8 +286,8 @@
 @media (max-width: 768px) {
   
 
-  .lato-sans-serif-bold-64 {
+  /* .lato-sans-serif-bold-64 {
     font-size: 24px;
-  }
+  } */
 
 }

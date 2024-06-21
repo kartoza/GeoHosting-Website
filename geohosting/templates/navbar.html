@@ -14,7 +14,7 @@
     height: 70px;
     left: 0px;
     top: 0;
-    background: #FFFFFF;
+    background: #414042;
     border-radius: 0px 0px 10px 10px;
     display: flex;
     align-items: center;
@@ -23,7 +23,8 @@
     box-sizing: border-box;
     z-index: 999;
     position: sticky;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* background: #FFFFFF; */
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
     /* border: 5px salmon solid; */
   }
 
@@ -47,7 +48,7 @@
   /* Navigation links without underline */
   .nav-links a {
     text-decoration: none;
-    color: #000000;
+    color: #FFFFFF;
     font-family: 'Lato';
     font-style: normal;
     font-weight: 400;
@@ -520,12 +521,12 @@ input:focus {
         </div>
       </td>
       <td style="text-align: right;">
-        <div id="userAvatar" style="display: none; height: 50px;">
-            <img src="/assets/geohosting/images/user_placeholder.svg" alt="User Avatar" title="Portal Pages" onclick="navigateToHostedServices()">
+        <div id="userAvatar" style="display: none; height: 40px;">
+            <img src="/assets/geohosting/images/nav/Filled Profile.svg" alt="User Avatar" title="Portal Pages" onclick="navigateToHostedServices()">
         </div>
       </td>
-      <td style="display: none; height: 35px;" id="log-out">
-          <img class="logout-logo" src="/assets/geohosting/images/logout_exit.png" alt="Logout" title="Logout" onclick="logout()">
+      <td style="display: none; height: 40px; margin-bottom: 6%;" id="log-out">
+          <img class="logout-logo" src="/assets/geohosting/images/nav/Filled Logout.svg" alt="Logout" title="Logout" onclick="logout()">
       </td>
     
       <td style="width: 50px;">
@@ -767,13 +768,22 @@ input:focus {
                 return window.innerWidth <= 1024;
             }
 
-            if (isSmallScreen()) {
+            function isMobileDevice() {
+                return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+            }
+
+            if (isSmallScreen() || isMobileDevice()) {
+              const productsLink = document.getElementById('productsLink');
+              const aboutusLink = document.getElementById('aboutusLink');
+              productsLink.style.color = '#000000';
+              aboutusLink.style.color = '#000000';
+              accountsLinks2.style.color = accountsLinks1.style.color = '#000000';
               if(accountsLinks1)
                 (logged_in)?accountsLinks1.style.display = 'none':accountsLinks1.style.display = 'block';
               if(accountsLinks2)
                 (logged_in)?accountsLinks2.style.display = 'none':accountsLinks2.style.display = 'block';
             } else {
-                console.log('User is on a larger screen.');
+                console.log('User is not on mobile.');
             }
           
           
@@ -865,7 +875,11 @@ input:focus {
                     console.error('Error fetching user invoices:', error);
                 });
           }
-          
+
+
+        function deleteCookie(name) {
+            document.cookie = name + '=; Max-Age=0; path=/;';
+        }
 
         function logout() {
           fetch('/api/method/logout', {
@@ -878,6 +892,8 @@ input:focus {
           .then(response => {
               if (response.ok) {
                   displayAuthenticationButtons(false)
+                  deleteCookie('csrf_token');
+                  localStorage.clear();
               } else {
                   console.error('Logout failed:', response.statusText);
                   showCustomAlert('Logout failed. Please try again.', 'danger-alert', null);
