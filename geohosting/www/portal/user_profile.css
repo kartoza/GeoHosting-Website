@@ -38,6 +38,7 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  /* border: 3px solid blue; */
 }
 
 .form-group label {
@@ -67,10 +68,11 @@
   border-radius: 4px;
   margin-bottom: 6px;
   padding: 10px;
+  /* border: 3px solid yellow; */
 } 
 
 .attach-button {
-margin-top: 10px; /* Adjust spacing as needed */
+  margin-top: 10px; /* Adjust spacing as needed */
 }
 
 
@@ -131,36 +133,69 @@ margin-top: 10px; /* Adjust spacing as needed */
 /* Media query for smaller devices */
 @media (max-width: 768px) {
   .password-section {
-    margin-top: -50%;
-    width: 400px;
+    margin-top: -60%;
+    width: 100% !important;
     height: auto;
     /* border: 3px solid red; */
   }
+
+  .user-info{
+    width: 100% !important;
+  }
   .form-group {
-    width: 400px;
+    width: 100% !important;
+  }
+
+  .form-group input {
+    width: 100% !important;
+  }
+
+  .billing-info {
+    flex-direction: column;
+    width: 100% !important;
+  }
+
+  .billing-info-left,
+  .billing-info-right {
+    width: 100% !important;
   }
 
   .password-input {
-    width: auto;
+    width: 100% !important;
   }
   .portal-pages-heading {
     left: -38px;
 }
 
+
+
 .avatar-container{
-  left: -80px;
+  left: -70px;
   top: 130px;
   margin-right: 0px;
   position: relative;
   width: auto;
+  /* border: 3px solid red; */
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start; 
+  justify-content: flex-start; 
+}
+
+.avatar-container img, .avatar-container button {
+  align-self: flex-start;
 }
 
 .password-container {
-  left: -80px;
+  left: -70px;
   top: 140px;
   margin-right: 0px;
   position: relative;
   width: auto;
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start; 
+  justify-content: flex-start;
 }
 
   .container {
@@ -224,13 +259,13 @@ color: #F4B340;
 }
 
 .small-input {
-  width: calc(100% - 200px); /* Adjust as needed */
-  margin-left: 10px; /* Adjust spacing between dropdown and input field */
+  width: calc(100% - 200px);
+  margin-left: 10px;
 }
 
-/* Adjust the dropdown styling as needed */
+
 #salutation {
-  width: 80px; /* Adjust dropdown width as needed */
+  width: 80px; 
 }
 
 
