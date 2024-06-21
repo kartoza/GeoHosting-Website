@@ -321,7 +321,8 @@
                     document.querySelector('.overview-image-white').innerHTML = '<div class="overlay-white"></div><div class="overlay-loader "></div>';
 
 
-                    var item_name = '/assets/geohosting/images/' + localStorage.getItem('selectedItem') + '-screenshot.png';
+                    var main_item_name = '/assets/geohosting/images/Product_Images/' + localStorage.getItem('selectedItem') + '/main.png';
+                    var secondary_item_name = '/assets/geohosting/images/Product_Images/' + localStorage.getItem('selectedItem') + '/secondary.png';
                     var overviewImage = document.querySelector('.overview-image');
                     var overviewImageWhite = document.querySelector('.overview-image-white');
 
@@ -329,13 +330,13 @@
                     var image = new Image();
 
                     // Set image source
-                    image.src = item_name;
+                    image.src = main_item_name;
 
                     // When image is fully loaded
                     image.onload = function() {
                         // Set background images
-                        overviewImage.style.backgroundImage = `url('${item_name}')`;
-                        overviewImageWhite.style.backgroundImage = `url('${item_name}')`;
+                        overviewImage.style.backgroundImage = `url('${main_item_name}')`;
+                        overviewImageWhite.style.backgroundImage = `url('${secondary_item_name}')`;
 
                         // Remove overlay and loader
                         overviewImage.innerHTML = '';
@@ -345,7 +346,7 @@
                     // If image fails to load
                     image.onerror = function() {
                         // Handle error, for example, display an error message
-                        console.error('Failed to load image:', item_name);
+                        console.error('Failed to load image:', main_item_name);
                     };
                 }
 

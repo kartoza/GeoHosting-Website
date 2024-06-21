@@ -102,8 +102,9 @@ p {
 .invoice-table {
     width: 50%;
     border-collapse: collapse;
-    margin-left: 20%;
-    margin-top: 5%;
+    margin-left: 19.5%;
+    margin-top: 2%;
+    /* border: 3px solid red; */
 }
 
 .invoice-table th, .invoice-table td {
@@ -155,8 +156,51 @@ p {
     100% { transform: rotate(360deg); }
 }
 
+.search-filter-container {
+    display: flex;
+    gap: 10px; 
+    align-items: center; 
+}
+
+#status-filter {
+    width: auto; 
+}
+
+#status-filter {
+    background-color: white; 
+    color: black; 
+    border: 1px solid gray;
+    width: 150px;
+    height: 40px; 
+    margin-left: 15px; 
+    padding: 5px; 
+    text-align: center; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    appearance: none; 
+}
+
+#status-filter option {
+    text-align: center;
+}
+
+/* Style the dropdown arrow */
+#status-filter::after {
+    content: '▼';
+    position: absolute;
+    right: 10px;
+    pointer-events: none;
+}
 
 @media (max-width: 768px) {
+  #status-filter {
+    margin-top: 3%;
+    margin-left: 0px;
+  }
+
+  .support-ticket-table{
+    margin-top: 17%;
+  }
   .portal-pages-heading {
       left: -38px;
      position: relative;
@@ -165,7 +209,7 @@ p {
   .invoice-table {
     margin-left: 0%;
     width: auto;
-    margin-top: 20%;
+    margin-top: 3%;
   }
 
 
@@ -211,6 +255,8 @@ p {
 }
 
 
+
+
 </style>
 </head>
 <body>
@@ -222,6 +268,20 @@ p {
   <div class="portal-pages-heading">
     <span>Hosted Services</span>
   </div>
+
+  <table class="support-ticket-table">
+    <tr>
+        <th>
+            <input type="text" id="search" name="search" style="border: 1px solid gray; width: 276px; height: 40px;" placeholder="Search Products">
+            <select id="status-filter" name="status-filter">
+              <option value="all">All</option>
+              <option value="active">Active</option>
+              <option value="disabled">Disabled</option>
+          </select>
+            <label for="clear" class="end-date-margin" id="clear-button" onclick="clearFilters()"><span>Clear</span></label>
+        </th>
+    </tr>
+</table>
 
   <table class="invoice-table">
     <colgroup>
@@ -246,6 +306,19 @@ p {
 
   
 <script>
+
+document.getElementById('status-filter').addEventListener('change', function() {
+    const selectedStatus = this.value;
+    // Add logic to filter products based on selectedStatus
+    console.log('Selected Status:', selectedStatus);
+});
+
+function clearFilters() {
+    document.getElementById('search').value = '';
+    document.getElementById('status-filter').value = 'all';
+    // Add logic to reset the filters and display all products
+}
+
 
 // Function to update pagination UI
 function updatePaginationUI(totalPages, currentPage) {
