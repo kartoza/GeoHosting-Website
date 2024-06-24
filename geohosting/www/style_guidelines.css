@@ -26,6 +26,12 @@
   font-size: 48px;
 }
 
+.lato-sans-serif-bold-48 {
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+  font-size: 48px;
+}
+
 .lato-sans-serif-medium-16 {
   font-family: 'Lato', sans-serif;
   font-weight: 500;
@@ -261,8 +267,8 @@
   background: none;
   border: none;
   cursor: pointer;
-  width: 224px;
-  height: 54px;
+  width: 220px;
+  height: 40px;
   padding: 8px 16px;
 }
 

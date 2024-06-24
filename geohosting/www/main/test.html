@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product overview</title>
+    <link rel="stylesheet" href="../styles.css"> 
+    <link rel="stylesheet" href="product_overview.css"> 
+    <style>
+      .container {
+        width: 1380px;
+        height: 511px;
+        background: #57A0C7;
+        border-radius: 20px;
+        /* padding:  100px;  */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+      }
+
+    .content-table {
+        width: 100%;
+        height: 100%;
+        color: white;
+        /* border: 3px solid red; */
+    }
+
+    .text-column {
+        width: 50%; 
+        
+        /* border: 3px solid yellow; */
+    }
+
+    .header {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: center;
+        color: #FFFFFF;
+        word-wrap: break-word;
+    }
+
+    .paragraph {
+        text-align: justify;
+        padding: 50px;
+        /* font-weight: 400; */
+        font-size: 24px;
+        /* line-height: 150%; */
+        /* letter-spacing: 0.15px; */
+        color: #FFFFFF;
+    }
+
+    .image-column {
+        width: 100%; 
+        height: 100%;
+        display: flex;
+        /* border: 3px solid green; */
+        /* padding-right: 50px; */
+    }
+
+    .image {
+      width: 90%;
+      height: 500px;
+      background: url('/assets/geohosting/images/Product_Images/GeoNode/main.png') left/cover no-repeat;
+      /* background-size:  90% 75%; */
+      background-size:  contain;
+    }
+
+
+
+    </style>
+    
+</head>
+
+<body>
+
+
+    {% block content %}
+    <div class="background-container" id="screenBody">
+      
+
+        <!-- Left background image -->
+        <div class="background-left"></div>
+        <!-- Right background image -->
+        <div class="background-right"></div>
+        <!-- Content goes here -->
+        <div class="main-container">
+
+          <div class="container">
+            <table class="content-table">
+                <tr>
+                    <td class="text-column">
+                        <div class="header">Geospatial Content<br>Management System</div>
+                        <div class="paragraph">GeoNode is a Spatial Data Infrastructure hub with tools for uploading, describing & cataloguing, viewing and sharing your spatial datasets.</div>
+                    </td>
+                    <td class="image-column">
+                      <div class="image"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        
+        </div>
+        
+        <script>
+           
+        </script>
+      </div>
+      {% endblock %}
+
+</body>
+
+</html>

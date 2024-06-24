@@ -18,30 +18,6 @@
         height: auto;
       }
 
-      .overview-container {
-        position: relative;
-        background: #57A0C7;
-        border-radius: 30px;
-        width: 1488px;
-        height: 500px;
-        background: #57A0C7;
-        border-radius: 30px;
-        /* border: solid 5px green; */
-      }
-
-      .container-white {
-        position: relative;
-        background: #FFFFFF;
-        border-radius: 30px;
-        margin-top: 20px;
-        width: 1488px;
-        height: 500px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        /* border: 5px solid gold; */
-      }
-
       .overview-cards-container {
         position: relative;
         display: flex;
@@ -94,113 +70,150 @@
         padding: 20px; 
         /* box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); */
         border-radius: 10px;
+        margin-bottom: 3%;
+      }
+
+      .project-partner {
+        position: relative;
+        width: 50%;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        background: inherit;
         margin-bottom: 5%;
+        display: none;
+        /* border: 3px solid red; */
       }
 
       .group-210-paragraph {
         font-size: 16px; 
         line-height: 1.5;
-        color: #000000; 
       }
 
 
+    .overview-container {
+        width: 1380px;
+        height: 511px;
+        background: #57A0C7;
+        border-radius: 20px;
+        /* padding:  100px;  */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .overview-container-white {
+        width: 1380px;
+        height: 511px;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    .content-table {
+        width: 100%;
+        height: 100%;
+        color: #FFFFFF;
+        /* border: 3px solid red; */
+    }
+
+    .text-column {
+        width: 50%; 
+        /* border: 3px solid yellow; */
+    }
+
+    .text-column-white {
+        width: 50%; 
+        /* border: 3px solid yellow; */
+    }
+
+    .header {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: center;
+        color: #FFFFFF;
+        word-wrap: break-word;
+    }
+
+    .header-white {
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        font-size: 32px;
+        font-weight: bold;
+        text-align: center;
+        color: #212121;
+        word-wrap: break-word;
+    }
+
+    .paragraph {
+        text-align: justify;
+        padding: 50px;
+        font-size: 24px;
+        color: #FFFFFF;
+    }
+
+    .paragraph-white {
+        text-align: justify;
+        padding: 50px;
+        font-size: 24px;
+        color: #3E3E3E;
+    }
+
+    .image-column {
+        width: 100%; 
+        height: 100%;
+        display: flex;
+        /* border: 3px solid blue; */
+    }
+
+    .overview-image {
+      width: 92%;
+      height: 500px;
+      background: url('/assets/geohosting/images/Product_Images/GeoNode/main.png') left/cover no-repeat;
+      /* background-size:  90% 75%; */
+      background-size:  contain;
+    }
+
+    .overview-image-white {
+      width: 90%;
+      height: 500px;
+      background: url('/assets/geohosting/images/Product_Images/GeoNode/main.png') left/cover no-repeat;
+      background-size:  contain;
+    }
+
+    .project-partner-image {
+      width: 100%;
+      height: 200px;
+      background: url('/assets/geohosting/images/Product_Images/BIMS/partner.png') left/cover no-repeat;
+      background-size:  contain;
+      margin-left: 5%;
+
+    }
 
 
-        @media (min-width: 1024px) {
+    @media (min-width: 1024px) {
           .overview-card {
             width: calc(23.33% - 40px);
           }
         }
+
+        
 
         @media (max-width: 768px) {
 
           .main-container {
             width:90%;
             padding: 40px;
-            /* border: 3px solid blue; */
-          }
-          
-
-          .overview-container {
-            width: 90%;
-            height: 90vh;
-            display: flex;
-            flex-wrap: wrap;
-            position: relative;
-            padding: auto;
-            margin-left: -10%;
-          }
-
-          .overview-content h1 {
-            font-weight: 600;
-            font-size: 26px;
-            text-align: center;
-            letter-spacing: 0.15px;
-            color: #000000;
-            width: 100%;
-          }
-
-          .overview-content-white h1 {
-            font-weight: 600;
-            font-size: 26px;
-            line-height: 150%;
-          }
-
-          .overview-image {
-            width: 90%;
-            height: 180px; 
-            position: relative;
-            left: 5%;
-            top: 75%;
-          }
-
-          
-
-          .overview-content{
-            height: auto;
-            width: auto;
-          }
-          .overview-content p {
-            top: 20%;
-            width: 95%;
-            height: 65%;
-            overflow: auto;
-            margin-bottom: 5px;
-
-          }
-
-          .overview-content .enterprise-solution {
-            margin-top: 150%;
-          }
-
-
-          .overview-round-btn{
-            width: auto;
-            height: auto;
-            font-size: 16px;
-          }
-
-
-
-
-          .container-white {
-            width: 90%;
-            height: auto;
-            top: auto;
-            display: flex;
-            flex-wrap: wrap;
-            position: relative;
-            margin-left: -10%;
-          }
-
-          .overview-image-white {
-            width: 100%;
-            height: 180px; 
-            margin-bottom: 5%;
-          }
-
-          .overview-content-white {
-              width: 100%; 
           }
 
           .overview-card {
@@ -225,14 +238,8 @@
         }
 
         @media (max-width: 768px) {
-          .overview-container,
-          .container-white,
           .overview-cards-container {
             width: 100%; 
-          }
-
-          .container-white {
-            flex-direction: column;
           }
 
           .overview-card {
@@ -241,6 +248,44 @@
           }
         }
 
+        /* Responsive styles */
+      @media (max-width: 768px) {
+          .overview-container-white,
+          .overview-container {
+              width: 100%;
+              height: auto;
+              padding: 20px;
+              z-index: 1;
+              margin-left: -10%;
+          }
+
+          .content-table {
+              display: flex;
+              flex-direction: column;
+          }
+
+          .text-column-white, .text-column, .image-column {
+              width: 100%;
+              text-align: center;
+          }
+
+          .header-white,
+          .header {
+              font-size: 24px;
+              padding: 10px;
+          }
+
+          .paragraph-white,
+          .paragraph {
+              padding: 20px;
+              font-size: 18px;
+          }
+
+          .overview-image-white,
+          .overview-image {
+              display: none;
+          }
+      }
 
 
 
@@ -254,51 +299,63 @@
     {% block content %}
     <div class="background-container" id="screenBody">
       
-
-        <!-- Left background image -->
         <div class="background-left"></div>
-        <!-- Right background image -->
         <div class="background-right"></div>
-        <!-- Content goes here -->
+
         <div class="main-container">
 
-          <div class="overview-container">
 
-            <div class="overview-content">
-              <h1 id="dynamic-header"></h1>
-              <p class="overview-content p" id="dynamic-paragraph"></p>
-              <span class="enterprise-solution">Need an enterprise solution. <a href="#">Talk to us</a> for a private instance!</span>
-            </div>
-            <div class="overview-image"></div>
+          <div class="overview-container">
+            <table class="content-table">
+                <tr>
+                    <td class="text-column">
+                        <div class="header" id="dynamic-header">Geospatial Content<br>Management System</div>
+                        <div class="paragraph"  id="dynamic-paragraph"></div>
+                    </td>
+                    <td class="image-column">
+                      <div class="overview-image"></div>
+                    </td>
+                </tr>
+            </table>
           </div>
-          
-          <div class="container-white">
-            <div class="overview-image-white"></div>
-            <div class="overview-content-white">
-              <h1 id="dynamic-header-integration"></h1>
-              <p id="dynamic-paragraph-integration"></p>
-            </div>
+
+         
+
+          <div class="overview-container-white">
+            <table class="content-table">
+                <tr>
+                  <td class="image-column">
+                    <div class="overview-image-white"></div>
+                  </td>
+
+                    <td class="text-column-white">
+                        <div class="header-white" id="dynamic-header-integration">Geospatial Content<br>Management System</div>
+                        <div class="paragraph-white"  id="dynamic-paragraph-integration"></div>
+                    </td>
+                    
+                </tr>
+            </table>
           </div>
         
           <div class="overview-cards-container">
 
             <div class="overview-card">
               <div class="lato-sans-serif-bold-24">What does it do?</div>
-              <div class="overview-card-description lato-sans-serif-regular-16">
+              <div class="overview-card-description lato-sans-serif-regular-16 text-secondary">
                 <p id="what-does-it-do-des"></p>
               </div>
             </div>
 
             <div class="overview-card">
               <div class="lato-sans-serif-bold-24">How does it work?</div>
-              <div class="overview-card-description lato-sans-serif-regular-16">
+              <div class="overview-card-description lato-sans-serif-regular-16 text-secondary">
                 <p id="how-does-it-work-des"></p>
               </div>
             </div>
 
             <div class="overview-card">
               <div class="lato-sans-serif-bold-24">Who is it for?</div>
-              <div class="overview-card-description lato-sans-serif-regular-16">
+              <div class="overview-card-description lato-sans-serif-regular-16 text-secondary">
                 <p id="who-is-it-for-des"></p>
               </div>
             </div>
@@ -308,7 +365,12 @@
 
           <div class="group-210">
             <div class="lato-sans-serif-bold-24">Open Platform</div>
-            <p class="group-210-paragraph" id="open-platform"></p>
+            <p class="group-210-paragraph text-secondary" id="open-platform"></p>
+          </div>
+
+          <div class="project-partner" id="project-partner">
+            <div class="lato-sans-serif-bold-24" style="margin-bottom: 2%;">Project Partner</div>
+            <div class="project-partner-image" id="project-partner-image"></div>
           </div>
 
         </div>

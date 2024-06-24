@@ -144,3 +144,54 @@ function getCookie(name) {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
+
+function insertLineBreakIfNeeded(text) {
+    const maxLength = 29;
+
+    if (text.length <= maxLength) {
+        return text;
+    }
+
+    // Split the text into words
+    const words = text.split(' ');
+
+    // Reconstruct the text with words, inserting <br> where needed
+    let line1 = '';
+    let line2 = '';
+
+    for (let word of words) {
+        if ((line1 + ' ' + word).length <= maxLength) {
+            line1 += (line1 === '' ? '' : ' ') + word;
+        } else {
+            line2 += (line2 === '' ? '' : ' ') + word;
+        }
+    }
+
+    return line1 + '<br>' + line2;
+}
+
+// TODO: for future usage it is better to fetch images for each product in erpnext when product is clicked
+async function fetchAttachments(item_code) {
+    const attachmentsUrl = `/api/resource/File`;
+    const filters = [
+        ["attached_to_doctype", "=", "Item"],
+        ["attached_to_name", "=", item_code]
+    ];
+    const params = new URLSearchParams({
+        'filters': JSON.stringify(filters),
+        'fields': JSON.stringify(["*"]) 
+    });
+
+    try {
+        const response = await fetch(`${attachmentsUrl}?${params}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch attachments: ${response.statusText}`);
+        }
+        const attachmentsData = await response.json();
+        const screenshotAttachment = attachmentsData.data.find(file => file.file_name.endsWith("screenshot.png"));
+
+        return screenshotAttachment.file_url;
+    } catch (error) {
+        console.error("Error fetching attachments:", error);
+    }
+}

@@ -5,11 +5,11 @@
   align-items: flex-start;
   padding: 0px;
   gap: 14px;
-  position: absolute;
+  position: relative;
   width: 1380px;
   height: auto;
-  left: calc(50% - 1380px/2);
-  top: 0px;
+  left: 0%;
+  top: -12%;
   /* border: 5px solid red; */
 }
 
@@ -173,7 +173,7 @@
   margin-bottom: 5%;
   cursor: pointer;
   padding: 8px 16px;
-  width: 230px;
+  width: 220px;
   height: 54px;
   font-size: 18px;
 }
@@ -252,7 +252,6 @@
 }
 
 .table-container {
-  margin-top: 30%; /* Adjust margin as needed */
   width: 80%;
   display: flex;
   justify-content: center;

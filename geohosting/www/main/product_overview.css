@@ -1,6 +1,6 @@
 
 
-.overview-content {
+/* .overview-content {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -12,30 +12,28 @@
   padding: 70px;
   box-sizing: border-box;
   font-family: 'Lato' , 'sans-serif';
-  /* border: 5px solid brown; */
 }
 
 .overview-content h1 {
-  font-weight: 600;
-  font-size: 36px;
+  font-size: 32px;
+  font-weight: bold;;
   line-height: 150%;
   text-align: center;
   letter-spacing: 0.15px;
-  color: #000000;
+  color: #FFFFFF;
   margin-bottom: 20px;
-  margin-top: -5%;
+  margin-top: -3%;
   width: 100%;
-  /* border: yellow 5px solid; */
 }
 
 .overview-content-white h1 {
-  font-weight: 600;
-  font-size: 36px;
+  font-weight: bold;
+  font-size: 32px;
   line-height: 150%;
   text-align: center;
   letter-spacing: 0.15px;
-  color: #000000;
-  margin-bottom: 20px;
+  color: #212121;
+  margin-top: 0px;
 }
 
 .overview-content p {
@@ -44,13 +42,20 @@
   line-height: 150%;
   text-align: center;
   letter-spacing: 0.15px;
-  color: #000000;
-  /* margin-bottom: 20px; */
+  color: #FFFFFF;
   width: auto;
   height: auto;
-  top: 20%;
-  
-  /* border: 3px solid #000000; */
+  top: 27%;
+}
+
+.overview-content-white p {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 150%;
+  text-align: center;
+  letter-spacing: 0.15px;
+  color: #3E3E3E;
+  margin-top: -20px;
 }
 
 
@@ -71,7 +76,6 @@
   transition: color 0.3s ease; 
 }
 
-/* Style for link on hover */
 .enterprise-solution a:hover {
   color: #ECB44B; 
 }
@@ -89,7 +93,6 @@
   border-top-right-radius: 30px;
   border-bottom-right-radius: 30px;
   height: 100%; 
-  /* border: 5px solid purple; */
 }
 
 
@@ -101,40 +104,17 @@
   width: 800px; 
   background: url('/assets/geohosting/images/overview-background.svg') center/cover no-repeat;
   background-size: contain;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
-  /* border: 5px solid purple; */
   height: 50vh; 
   margin-top: 0%;
 }
 
 .overview-content-white {
   width: calc(100% - 838px - 20px); 
-}
+} */
 
 
-.overview-content-white h1 {
-  font-weight: 600;
-  font-size: 36px;
-  line-height: 150%;
-  text-align: center;
-  letter-spacing: 0.15px;
-  color: #000000;
-  margin-bottom: 20px;
-  /* border: yellow 5px solid; */
-  margin-top: -5%;
-}
 
-.overview-content-white p {
-  font-weight: 400;
-  font-size: 24px;
-  line-height: 150%;
-  text-align: center;
-  letter-spacing: 0.15px;
-  color: #000000;
-  margin-bottom: 20px;
-  /* border: 5px solid blue; */
-}
+
 
 
 

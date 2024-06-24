@@ -99,6 +99,16 @@
                 const doc = parseHTML(description);
                 return getDescriptionByHeader(doc, 'support link');
             }
+
+            function getSupportDescription(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'support description');
+            }
+
+            function getProjectPartner(description) {
+                const doc = parseHTML(description);
+                return getDescriptionByHeader(doc, 'project partner');
+            }
             </script>
         <!-- Content -->
         <div class="content">
@@ -106,7 +116,7 @@
              class="">
                 <img src="/assets/geohosting/images/geohosting_main_logo.png"  alt="Logo" class="geohosting-logo">
                 
-                  <div class="geohosting-heading">Welcome to a better GIS platform where privacy and freedom comes first.</div>
+                  <div class="geohosting-heading text-main">Welcome to a better GIS platform where privacy and freedom comes first.</div>
                 
                  <div class="products-container">
 
@@ -117,8 +127,8 @@
                             <img src="{{ item.image }}" alt="Product">
                         </div>
                       
-                        <div class="lato-sans-serif-bold-24">{{ item.item_name }}</div>
-                        <div class="description lato-sans-serif-regular-16">
+                        <div class="lato-sans-serif-bold-24 text-main">{{ item.item_name }}</div>
+                        <div class="description lato-sans-serif-regular-16 text-secondary">
                             <p>
                                 <script>
                                     document.write(trimDescription(`{{ item.description | replace("'", "\\'") | replace('\n', '') }}`));
@@ -145,8 +155,8 @@
                 <img src="" id="navbar-logo" alt="Logo">
                 </div>
                 <ul>
-                <li><a href="#" id="overview-link" class="active lato-sans-regular-24" onclick="loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', this)">Overview</a></li>
-                <li><a href="#" id="pricing-link" class="lato-sans-regular-24" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this)">Pricing</a></li>
+                <li><a href="#" id="overview-link" class="active lato-sans-serif-bold-24 text-main" onclick="loadContentAndSetActiveTab(event, 'product_overview.html', 'overview-content', this)">Overview</a></li>
+                <li><a href="#" id="pricing-link" class="lato-sans-serif-bold-24 text-main" onclick="loadContentAndSetActiveTab(event, 'product_pricing.html', 'pricing-content', this)">Pricing</a></li>
                 </ul>
             </div>
             
@@ -159,15 +169,12 @@
                 <div id="pricing-content" style="display: none;"></div>
             </div>
 
-            
-
         </div>
            
         <button id="scrollToTopBtn" onclick="scrollToTop()">&#8593;</button>
 
             <!-- scroll to top functionality -->
             <script>
-                // add a scroll button for easy nav
                 window.onscroll = function() {scrollFunction()};
 
                 function scrollFunction() {
@@ -239,7 +246,7 @@
                 
 
                 var stockItems = JSON.parse('{{ stock_items | tojson | safe }}');
-                console.log(stockItems); // testing purposes
+                // console.log(stockItems); // testing purposes
                     
 
                 function getProduct(itemArray, targetItemName) {
@@ -291,30 +298,7 @@
 
            
 
-                async function fetchAttachments(item_code) {
-                    const attachmentsUrl = `/api/resource/File`;
-                    const filters = [
-                        ["attached_to_doctype", "=", "Item"],
-                        ["attached_to_name", "=", item_code]
-                    ];
-                    const params = new URLSearchParams({
-                        'filters': JSON.stringify(filters),
-                        'fields': JSON.stringify(["*"]) 
-                    });
-
-                    try {
-                        const response = await fetch(`${attachmentsUrl}?${params}`);
-                        if (!response.ok) {
-                            throw new Error(`Failed to fetch attachments: ${response.statusText}`);
-                        }
-                        const attachmentsData = await response.json();
-                        const screenshotAttachment = attachmentsData.data.find(file => file.file_name.endsWith("screenshot.png"));
-
-                        return screenshotAttachment.file_url;
-                    } catch (error) {
-                        console.error("Error fetching attachments:", error);
-                    }
-                }
+                
 
                 async function setDynamicBackground(item_code) {
                     document.querySelector('.overview-image').innerHTML = '<div class="overlay"></div><div class="overlay-loader"></div>';
@@ -352,18 +336,21 @@
                     };
                 }
 
+                
+
 
                 function setDynamicContent(product) {
                     try{
                         var dynamicParagraph = document.getElementById('dynamic-paragraph');
                         dynamicParagraph.innerHTML = getOverviewDescription(product.description);
                         var dynamicHeader = document.getElementById('dynamic-header');
-                        dynamicHeader.innerHTML = getOverviewDescriptionHeader(product.description);
+                        dynamicHeader.innerHTML = insertLineBreakIfNeeded(getOverviewDescriptionHeader(product.description));
 
                         dynamicParagraph = document.getElementById('dynamic-paragraph-integration');
                         dynamicParagraph.innerHTML = getOverviewContinuation(product.description);
                         dynamicHeader = document.getElementById('dynamic-header-integration');
-                        dynamicHeader.innerHTML = getOverviewContinuationHeader(product.description);
+                        
+                        dynamicHeader.innerHTML = insertLineBreakIfNeeded(getOverviewContinuationHeader(product.description));
 
                         dynamicParagraph = document.getElementById('who-is-it-for-des');
                         dynamicParagraph.innerHTML = getWhoIsItFor(product.description);
@@ -377,10 +364,15 @@
                         dynamicParagraph = document.getElementById('open-platform');
                         dynamicParagraph.innerHTML = getOpenPlatform(product.description);
 
-
-                        dynamicParagraph = document.getElementById('source-code-link');
-                        dynamicParagraph.innerHTML = getGithubLink(product.description);
-
+                        dynamicParagraph = document.getElementById('project-partner');
+                        var result = getProjectPartner(product.description);
+                        // console.log('product partner?',result); // debugging purposes
+                        if(result !== 'No description available'){
+                            dynamicParagraph.style.display = 'block';
+                            var project_partner = '/assets/geohosting/images/Product_Images/' + localStorage.getItem('selectedItem') + '/partner.png';
+                            dynamicParagraph = document.getElementById('project-partner-image');
+                            dynamicParagraph.style.backgroundImage = `url('${project_partner}')`;
+                        }
                     }
                     catch(error) {
                         console.log(error);
@@ -433,6 +425,15 @@
 
                                         if (url.includes('product_pricing')) {
                                             assignPricingCardValues(product);
+
+                                            var dynamicValue = document.getElementById('source-code-link');
+                                            dynamicValue.innerHTML = getGithubLink(product.description);
+
+                                            dynamicValue = document.getElementById('support-link');
+                                            dynamicValue.innerHTML = getSupportLink(product.description);
+
+                                            var dynamicValue = document.getElementById('support-description');
+                                            dynamicValue.innerHTML = getSupportDescription(product.description);
                                         }
 
                                         setTimeout(function() {
@@ -445,7 +446,7 @@
                                             // Transition to fully visible
                                             setTimeout(function() {
                                                 hiddenSectionContent.classList.add('fully-visible');
-                                            }, 50); // Small delay to trigger transition
+                                            }, 50);
                                             
                                             smoothScrollTo(hiddenSection, 1000);
                                         }, 1500);
