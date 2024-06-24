@@ -492,6 +492,22 @@ input:focus {
   .toolbar-table .buttons-container button {
     margin-left: 10px;
   }
+
+  /* Add this CSS to your styles */
+  @media only screen and (max-width: 768px) {
+      body::before {
+          content: "mobile";
+          display: none;
+      }
+  }
+
+  @media only screen and (min-width: 769px) {
+      body::before {
+          content: "desktop";
+          display: none;
+      }
+  }
+
 </style>
 </head>
 <body class="navbar">
@@ -528,7 +544,7 @@ input:focus {
       </td>
     
       <td style="width: 50px;">
-        <button class="menu-toggle"><img class="logout-logo"  style="height: 35px;" src="/assets/geohosting/images/menu.png" alt="Logout" title="Logout"></button>
+        <button class="menu-toggle"><img class="logout-logo"  style="height: 30px; margin-bottom: 5px;" src="/assets/geohosting/images/menu.png" alt="Logout" title="Logout"></button>
       </td>
       
     </tr>
@@ -763,17 +779,12 @@ input:focus {
           
 
             try{
-              function isSmallScreen() {
-                  return window.innerWidth <= 768;
-              }
-
               function isMobileDevice() {
-                  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-                  return (/Mobi|Android|iPhone|iPad|iPod/i.test(userAgent)) || ('ontouchstart' in window);
+                  return window.getComputedStyle(document.body, '::before').content.includes("mobile");
               }
               
 
-              if (isSmallScreen() || isMobileDevice()) {
+              if (isMobileDevice()) {
                 accountsLinks2.style.color = accountsLinks1.style.color = '#FFFFFF';
                 if(accountsLinks1)
                   (logged_in)?accountsLinks1.style.display = 'none':accountsLinks1.style.display = 'block';

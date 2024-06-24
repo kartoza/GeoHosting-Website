@@ -307,10 +307,11 @@
 
 
   #backgroundContainer.blur {
-    filter: blur(5px); /* Adjust the blur radius as needed */
+    filter: blur(5px); 
   }
   
   
+  /* system alerts */
   .alert {
     position: fixed;
     z-index: 9999;
@@ -382,9 +383,10 @@
   }
 
 
+  /* overlay on overview cards */
   .overlay {
     position: absolute;
-    top: 0;
+    top: 28px;
     left: 0;
     right: 0;
     bottom: 0;
@@ -393,11 +395,27 @@
     justify-content: center;
     align-items: center;
     border-radius: 10px;
+    height: 85%;
+  }
+
+  .overlay-white {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 55%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    height: 85%;
   }
 
 .overlay-loader {
-  border: 8px solid #f3f3f3; /* Light grey */
-  border-top: 8px solid #3498db; /* Blue */
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
   border-radius: 50%;
   width: 60px;
   height: 60px;
@@ -406,16 +424,14 @@
   margin-left: 45%;
 }
 
-.overlay-white {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 55%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
+
+.visible {
+  display: block;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
 }
+
+.fully-visible {
+  opacity: 1;
+}
+

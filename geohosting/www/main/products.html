@@ -102,10 +102,11 @@
             </script>
         <!-- Content -->
         <div class="content">
-            <div class="">
+            <div
+             class="">
                 <img src="/assets/geohosting/images/geohosting_main_logo.png"  alt="Logo" class="geohosting-logo">
                 
-                  <div class="geohosting-heading">Welcome to A better GIS platform where privacy and freedom comes first.</div>
+                  <div class="geohosting-heading">Welcome to a better GIS platform where privacy and freedom comes first.</div>
                 
                  <div class="products-container">
 
@@ -316,39 +317,41 @@
                 }
 
                 async function setDynamicBackground(item_code) {
-                    
-                    document.querySelector('.overview-image').innerHTML = '<div class="overlay"></div><div class="overlay-loader "></div>';
-                    document.querySelector('.overview-image-white').innerHTML = '<div class="overlay-white"></div><div class="overlay-loader "></div>';
-
+                    document.querySelector('.overview-image').innerHTML = '<div class="overlay"></div><div class="overlay-loader"></div>';
+                    document.querySelector('.overview-image-white').innerHTML = '<div class="overlay-white"></div><div class="overlay-loader"></div>';
 
                     var main_item_name = '/assets/geohosting/images/Product_Images/' + localStorage.getItem('selectedItem') + '/main.png';
                     var secondary_item_name = '/assets/geohosting/images/Product_Images/' + localStorage.getItem('selectedItem') + '/secondary.png';
                     var overviewImage = document.querySelector('.overview-image');
                     var overviewImageWhite = document.querySelector('.overview-image-white');
 
-                    // Create new image element
-                    var image = new Image();
+                    var mainImage = new Image();
+                    var secondaryImage = new Image();
 
-                    // Set image source
-                    image.src = main_item_name;
+                    mainImage.src = main_item_name;
+                    secondaryImage.src = secondary_item_name;
 
-                    // When image is fully loaded
-                    image.onload = function() {
-                        // Set background images
+                    mainImage.onload = function() {
                         overviewImage.style.backgroundImage = `url('${main_item_name}')`;
-                        overviewImageWhite.style.backgroundImage = `url('${secondary_item_name}')`;
-
-                        // Remove overlay and loader
                         overviewImage.innerHTML = '';
+                    };
+
+                    secondaryImage.onload = function() {
+                        overviewImageWhite.style.backgroundImage = `url('${secondary_item_name}')`;
                         overviewImageWhite.innerHTML = '';
                     };
 
-                    // If image fails to load
-                    image.onerror = function() {
-                        // Handle error, for example, display an error message
+                    mainImage.onerror = function() {
                         console.error('Failed to load image:', main_item_name);
+                        // overviewImage.innerHTML = 'Failed to load image';
+                    };
+
+                    secondaryImage.onerror = function() {
+                        console.error('Failed to load image:', secondary_item_name);
+                        // overviewImageWhite.innerHTML = 'Failed to load image';
                     };
                 }
+
 
                 function setDynamicContent(product) {
                     try{
@@ -397,9 +400,7 @@
                             if (xhr.status === 200) {
                                 try {
                                    
-                                    
                                         hiddenSectionContent.style.display = 'block';
-                                        
                                         
                                         var targetElement = document.getElementById(targetId);
                                         
@@ -424,22 +425,30 @@
 
                                         const product = getProduct(stockItems, localStorage.getItem('selectedItem'));
 
-                                        // assign dynamic values to product overview
+                                        // assign dynamic values
                                         
                                         setDynamicBackground(product.name)
 
                                         setDynamicContent(product)
 
-
                                         if (url.includes('product_pricing')) {
                                             assignPricingCardValues(product);
                                         }
 
-                                    setTimeout(function() {
-                                        loadingIndicator.style.display = 'none';
-                                        targetElement.style.display = 'block';
-                                        smoothScrollTo(hiddenSection, 1000);
-                                    }, 1500);
+                                        setTimeout(function() {
+                                            loadingIndicator.style.display = 'none';
+                                            targetElement.style.display = 'block';
+                                            
+                                            hiddenSectionContent.classList.remove('hidden');
+                                            hiddenSectionContent.classList.add('visible');
+
+                                            // Transition to fully visible
+                                            setTimeout(function() {
+                                                hiddenSectionContent.classList.add('fully-visible');
+                                            }, 50); // Small delay to trigger transition
+                                            
+                                            smoothScrollTo(hiddenSection, 1000);
+                                        }, 1500);
 
                                     
                                     
