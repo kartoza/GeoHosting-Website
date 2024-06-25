@@ -131,27 +131,30 @@
           box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
           text-align: center;
           position: relative;
-          height:35vh;
+          height:37vh;
           padding: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          gap: 20px;
+
           /* border: 5px solid black; */
         }
       
         .product img {
           width: 15vh;
-          height: auto; /* Maintain aspect ratio */
-          margin-bottom: 10px;
+          height: auto; 
         }
       
         .product h2 {
           font-size: 20px;
           color: #333;
-          margin-bottom: 10px;
         }
       
         .product p {
           font-size: 16px;
-          color: #666;
-          margin-bottom: 10px;
+          color: #3E3E3E;
         }
       
         .product .learn-more-button {
@@ -161,9 +164,7 @@
           border-radius: 5px;
           cursor: pointer;
           transition: background-color 0.3s;
-          position: absolute;
-          left: 20%;
-          bottom: 5%;
+          position: relative;
           width: 224px;
           height: 54px;
           padding: 8px 16px;
@@ -232,10 +233,6 @@
         .geohosting-logo {
           height: auto;
           width: 350px;
-        }
-
-        .product .learn-more-button {
-          left: 20%;
         }
       
         .description {
