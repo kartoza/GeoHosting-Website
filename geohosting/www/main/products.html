@@ -716,8 +716,6 @@
                                     document.getElementById('pricing-card-price-advanced').innerHTML = formattedPrice_advanced;
                                     document.getElementById('pricing-card-price-gold').innerHTML = formattedPrice_gold;
                                 }catch(e){
-                                    let formattedPrice_basic = formatCurrency(data.data[0].price_list_rate, data.data[0].currency);
-                                    document.getElementById('pricing-card-price-basic').innerHTML = formattedPrice_basic;
                                     console.log(e);
                                 }
                             }
