@@ -195,3 +195,34 @@ async function fetchAttachments(item_code) {
         console.error("Error fetching attachments:", error);
     }
 }
+
+
+function formatCurrency(value, currency) {
+    // Determine the minimum and maximum fraction digits based on the value
+    let isInteger = Number.isInteger(value);
+    let options = {
+        style: 'currency',
+        currency: currency,
+        minimumFractionDigits: isInteger ? 0 : 2,
+        maximumFractionDigits: isInteger ? 0 : 2
+    };
+    
+    // Format the value using toLocaleString
+    let formattedValue = value.toLocaleString('en-ZA', options);
+
+    // Check if the value has two decimal places and needs a line break for readability
+    if (!isInteger && value >= 100000) {
+        let parts = formattedValue.split('.');
+        let main = parts[0];
+        let decimals = parts.length > 1 ? '.' + parts[1] : '';
+        formattedValue = `${main}<br>${decimals}`;
+    } else if (value >= 1000000) {
+        let parts = formattedValue.split('.');
+        let main = parts[0];
+        let decimals = parts.length > 1 ? '.' + parts[1] : '';
+        formattedValue = `${main}<br>${decimals}`;
+    }
+
+    // Return the formatted string
+    return formattedValue;
+}

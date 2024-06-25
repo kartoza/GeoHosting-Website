@@ -32,13 +32,14 @@
                   </div>
                   <!-- <div class="title">Geosight</div> -->
               </div>
+
               <!-- Card 2 -->
               <div class="card-pricing">
                   <div class="header-pricing">
                       <div class="header-text-pricing lato-sans-serif-bold-24" id="pricing-card-heading-basic"></div>
                   </div>
                   <div class="price-container-pricing">
-                    <div class="price-pricing lato-sans-serif-bold-64" id="pricing-card-price-basic">0<br>€</div>
+                    <div class="price-pricing lato-sans-serif-bold-64" id="pricing-card-price-basic">0</div>
                     <div class="price-details-pricing lato-sans-serif-bold-24">/month</div>
                   </div>
                   <div class="button-pricing" id="pricing-card-button-basic" onclick="createSalesOrder('pricing-card-heading-basic')">Get GeoSight Basic</div>
@@ -52,7 +53,7 @@
                       <div class="header-text-pricing lato-sans-serif-bold-24" id="pricing-card-heading-advanced"></div>
                   </div>
                   <div class="price-container-pricing">
-                    <div class="price-pricing lato-sans-serif-bold-64" id="pricing-card-price-advanced">0<br>€</div>
+                    <div class="price-pricing lato-sans-serif-bold-64" id="pricing-card-price-advanced">0</div>
                     <div class="price-details-pricing lato-sans-serif-bold-24">/month</div>
                   </div>
                   <div class="button-pricing" id="pricing-card-button-advanced" onclick="createSalesOrder('pricing-card-heading-advanced')">Get Geosight Advanced</div>
@@ -66,7 +67,7 @@
                       <div class="header-text-pricing lato-sans-serif-bold-24" id="pricing-card-heading-gold"></div>
                   </div>
                   <div class="price-container-pricing">
-                    <div class="price-pricing lato-sans-serif-bold-64" id="pricing-card-price-gold">0<br>€</div>
+                    <div class="price-pricing lato-sans-serif-bold-64" id="pricing-card-price-gold">0</div>
                     <div class="price-details-pricing lato-sans-serif-bold-24">/month</div>
                   </div>
                   <div class="button-pricing" onclick="createSalesOrder('pricing-card-heading-gold')" id="pricing-card-button-gold">
@@ -85,14 +86,14 @@
               <td class="logo-cell"><img src="/assets/geohosting/images/download_pricing_icon.svg" alt="Logo 1"></td>
               <td>
                 <div class="header-text">Download</div>
-                <p class="table-paragraph">The source code of GeoSight is freely available on Github here:</p>
-                <span><a id="source-code-link" href="#" target="_blank"></a></span>
+                <p class="table-paragraph" id="source-code-text"></p>
+                <span onclick="openSourcePage()"><a id="source-code-link"></a></span>
               </td>
               <td class="logo-cell"><img src="/assets/geohosting/images/support_icon.svg" alt="Logo 2"></td>
               <td>
                 <div class="header-text">Support</div>
                 <p class="table-paragraph" id="support-description"></p>
-                <span style="display: none;"><a id="support-link" href="#" target="_blank"></a></span>
+                <span style="display: none;" onclick="visitSupportCenter()"><a id="support-link"></a></span>
               </td>
             </tr>
             <tr>

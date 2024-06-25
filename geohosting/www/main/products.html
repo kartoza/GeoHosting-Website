@@ -215,10 +215,11 @@
             </script>
 
             <script>
+
                 function openSourcePage() {
-                    const sourceCodeLink = document.getElementById('source-code-link').href;
+                    const sourceCodeLink = document.getElementById('source-code-link');
                     if (sourceCodeLink) {
-                        window.open(sourceCodeLink, '_blank');
+                        window.open(sourceCodeLink.innerText, '_blank');
                     } else {
                         console.log('Source code link is not defined.');
                     }
@@ -227,7 +228,7 @@
                     function visitSupportCenter() {
                         const supportLink = document.getElementById('support-link').href;
                         if (supportLink) {
-                            window.open(supportLink, '_blank');
+                            window.open(supportLink.innerText, '_blank');
                         } else {
                             console.log('Support link is not defined.');
                         }
@@ -428,6 +429,9 @@
 
                                             var dynamicValue = document.getElementById('source-code-link');
                                             dynamicValue.innerHTML = getGithubLink(product.description);
+
+                                            dynamicValue = document.getElementById('source-code-text');
+                                            dynamicValue.innerHTML = 'The source code of '+ localStorage.getItem('selectedItem')+' is is freely available on Github here:';
 
                                             dynamicValue = document.getElementById('support-link');
                                             dynamicValue.innerHTML = getSupportLink(product.description);
@@ -703,31 +707,19 @@
                                     currency: data.data[2].currency
                                 }
                             else {
-                                // let formattedPrice = data.data[0].price_list_rate.toLocaleString('en-ZA', { style: 'currency', currency: 'ZAR' });
                                 try {
-                                    let formattedPrice_basic = data.data[0].price_list_rate.toLocaleString('en-ZA', {
-                                        minimumFractionDigits: 0,
-                                        maximumFractionDigits: 0
-                                    });
+                                    let formattedPrice_basic = formatCurrency(data.data[0].price_list_rate, data.data[0].currency);
+                                    let formattedPrice_advanced = formatCurrency(data.data[1].price_list_rate, data.data[1].currency);
+                                    let formattedPrice_gold = formatCurrency(data.data[2].price_list_rate, data.data[2].currency);
 
-                                    let formattedPrice_advanced = data.data[1].price_list_rate.toLocaleString('en-ZA', {
-                                        minimumFractionDigits: 0,
-                                        maximumFractionDigits: 0
-                                    });
-
-                                    let formattedPrice_gold = data.data[2].price_list_rate.toLocaleString('en-ZA', {
-                                        minimumFractionDigits: 0,
-                                        maximumFractionDigits: 0
-                                    });
-                                    document.getElementById('pricing-card-price-basic').innerHTML = `${formattedPrice_basic}<br>${data.data[0].currency}`;
-                                    document.getElementById('pricing-card-price-advanced').innerHTML = `${formattedPrice_advanced}<br>${data.data[1].currency}`;
-                                    document.getElementById('pricing-card-price-gold').innerHTML = `${formattedPrice_gold}<br>${data.data[2].currency}`;
+                                    document.getElementById('pricing-card-price-basic').innerHTML = formattedPrice_basic;
+                                    document.getElementById('pricing-card-price-advanced').innerHTML = formattedPrice_advanced;
+                                    document.getElementById('pricing-card-price-gold').innerHTML = formattedPrice_gold;
                                 }catch(e){
+                                    let formattedPrice_basic = formatCurrency(data.data[0].price_list_rate, data.data[0].currency);
+                                    document.getElementById('pricing-card-price-basic').innerHTML = formattedPrice_basic;
                                     console.log(e);
                                 }
-
-
-                                
                             }
                         } else {
                             console.error('No data found for the specified filters.');
