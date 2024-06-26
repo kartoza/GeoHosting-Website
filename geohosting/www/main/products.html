@@ -661,6 +661,8 @@
                     var selectedProduct = await fetchProductPrices(word1,true,word2.toLowerCase());
                     var selectedProductAttributes = await fetchProductAttributes(word1,true,word2.toLowerCase());
 
+                    console.log('selectedProduct', selectedProduct)
+
                     var selectedProduct = {
                         name: words,
                         price: selectedProduct.price,
@@ -724,7 +726,7 @@
                                     minimumFractionDigits: value % 1 === 0 ? 0 : 2,
                                     maximumFractionDigits: value % 1 === 0 ? 0 : 2
                                 });
-                                return formattedValue.length > 10 ? formattedValue.replace(',', '<br>') : formattedValue;
+                                return formattedValue.length > 10 ? formattedValue.replace(',', '<br>.') : formattedValue;
                             };
                             
                             try {
