@@ -643,25 +643,11 @@
                     }
                 }
 
-
-                // async function saveSalesOrder(formData) {
-
-                //     const response = await fetch('/api/method/frappe.desk.form.save.savedocs', {
-                //         method: 'POST',
-                //         body: formData,
-                //     });
-
-                    
-                //     return response.json();
-                // }
-
                 async function gotoCart(words,sales_order_generated) {
                     const [word1, word2] = words;
 
                     var selectedProduct = await fetchProductPrices(word1,true,word2.toLowerCase());
                     var selectedProductAttributes = await fetchProductAttributes(word1,true,word2.toLowerCase());
-
-                    console.log('selectedProduct', selectedProduct)
 
                     var selectedProduct = {
                         name: words,
