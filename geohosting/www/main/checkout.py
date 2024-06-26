@@ -255,26 +255,25 @@ def create_user_product(payment_request_name, sales_order=None):
 
     MAX_NAME_LENGTH = 140
 
-
-
     for item in sales_order.items:
         try:
             prefix, size, _ = item.item_code.split('-')
 
             specifications = specifications_map.get(prefix.lower(), {}).get(size.upper(), "")
             
-            name = item.item_code[:MAX_NAME_LENGTH]
+            # Create a unique name combining item_code and customer name
+            name = f"{item.item_code}_{payment_request.email_to[:MAX_NAME_LENGTH - len(item.item_code) - 1]}"
 
             logo = '/assets/geohosting/images/' + item.item_code.split('-')[0].upper() + '.svg'
 
-            # Create User Products record TODO add dynamic data after jenkins creates product
+            # Create User Products record
             user_product = frappe.get_doc({
                 'doctype': 'User Products',
-                'name': name,
+                'name': name[:MAX_NAME_LENGTH],  # Ensure name doesn't exceed maximum length
                 'user': payment_request.email_to,
                 'product': item.item_code,
                 'specifications': {
-                    "specifications": "8 CPUs, 16GB RAM, 120GB Storage"
+                    "specifications": specifications
                 },
                 'status': "Active",
                 'product_meta': {
@@ -290,6 +289,7 @@ def create_user_product(payment_request_name, sales_order=None):
             continue
 
     frappe.db.commit()
+
 
 
 def create_sales_invoice(sales_order):
