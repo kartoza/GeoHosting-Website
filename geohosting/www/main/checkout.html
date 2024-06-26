@@ -17,6 +17,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            width: auto !important;
+            height: 54px;
+            background: #ECB44B;
+            border: 1px solid #ECB44B;
+            border-radius: 5px;
+            font-family: 'Lato', 'sans-serif';
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 0.15px;
+            color: #FFFFFF;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            cursor: pointer;
+            padding: 8px 16px;
+        }
+
+        .button-pricingb {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 230px;
             height: 54px;
             background: #ECB44B;
@@ -36,6 +58,11 @@
         }
 
         .button-pricing:hover {
+            background-color: #57A0C7;
+            border: 1px solid #57A0C7;
+        }
+
+        .button-pricingb:hover {
             background-color: #57A0C7;
             border: 1px solid #57A0C7;
         }
@@ -288,12 +315,15 @@
                 <h2 id="sales-order-generated"></h2>
                 <div class="actions" style="gap: 10px;">
                     <div class="dropdown">
-                        <button class="button-pricing" >Actions</button>
-                        <div class="dropdown-content">
+                        <button class="button-pricing">
+                            <img src="/assets/geohosting/images/Printer Icon.svg" alt="print action" style="width: 40px; height: 40px;" onclick="openPrintView()">
+                        </button>
+                        
+                        <!-- <div class="dropdown-content">
                             <span onclick="openPrintView()" style="cursor: pointer">Print</span>
-                        </div>
+                        </div> -->
                     </div>
-                    <button id="payment-request-link" class="button-pricing" href="#" onclick="makePaymentRequest()"></button>
+                    <button id="payment-request-link" class="button-pricingb" href="#" onclick="makePaymentRequest()"></button>
                 </div>
             </div>
 
@@ -460,7 +490,8 @@
 
                 const payment_request_link = document.getElementById('payment-request-link');
                 if (payment_request_link) {
-                    payment_request_link.textContent = `PAY R ${paymentData.grand_total}`;
+                    // payment_request_link.textContent = `PAY R ${paymentData.grand_total}`;
+                    payment_request_link.textContent = `Complete Checkout`
                 }
 
                 const customer = document.getElementById('customer');

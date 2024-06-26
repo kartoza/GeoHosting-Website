@@ -303,7 +303,7 @@
 
                 async function setDynamicBackground(item_code) {
                     document.querySelector('.overview-image').innerHTML = '<div class="overlay"></div><div class="overlay-loader"></div>';
-                    document.querySelector('.overview-image-white').innerHTML = '<div class="overlay-white"></div><div class="overlay-loader"></div>';
+                    document.querySelector('.overview-image-white').innerHTML = '<div class="overlay-white"></div><div class="overlay-loader-white"></div>';
 
                     var main_item_name = '/assets/geohosting/images/Product_Images/' + localStorage.getItem('selectedItem') + '/main.png';
                     var secondary_item_name = '/assets/geohosting/images/Product_Images/' + localStorage.getItem('selectedItem') + '/secondary.png';
@@ -689,6 +689,8 @@
                         const response = await fetch(`${baseUrl}?filters=${filters}&fields=${fields}`);
                         const data = await response.json();
 
+                        console.log(data);
+
                         if (data.data && data.data.length > 0) {
                             // Assuming the first three entries correspond to SMALL, MEDIUM, and LARGE in that order
                             if(singleProduct && selectedProduct == 'basic')
@@ -716,6 +718,8 @@
                                     document.getElementById('pricing-card-price-advanced').innerHTML = formattedPrice_advanced;
                                     document.getElementById('pricing-card-price-gold').innerHTML = formattedPrice_gold;
                                 }catch(e){
+                                    // let formattedPrice_basic = formatCurrency('124501.62', data.data[0].currency);
+                                    // document.getElementById('pricing-card-price-basic').innerHTML = formattedPrice_basic;
                                     console.log(e);
                                 }
                             }

@@ -191,7 +191,7 @@
       
         .description {
           height:auto; 
-          max-height: 36.5%;
+          max-height: 40%;
           overflow-y: auto; 
           width:100%;
           /* border:5px solid purple; */
@@ -381,33 +381,15 @@
 
 
   /* overlay on overview cards */
-  .overlay {
-    position: absolute;
-    top: 28px;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  .overlay, .overlay-white {
+    position: relative;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 10px;
     height: 85%;
-  }
-
-  .overlay-white {
-    position: absolute;
-    top: 28px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 55%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 10px;
-    height: 85%;
+    margin-top: 10px;
   }
 
 .overlay-loader {
@@ -417,8 +399,21 @@
   width: 60px;
   height: 60px;
   animation: spin 2s linear infinite;
-  margin-top: 25%;
-  margin-left: 45%;
+  position: absolute;
+  top: 10%;
+  left: 65%;
+}
+
+.overlay-loader-white {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+  position: absolute;
+  top: 33%;
+  left: 28%;
 }
 
 

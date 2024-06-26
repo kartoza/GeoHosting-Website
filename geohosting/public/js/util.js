@@ -209,20 +209,22 @@ function formatCurrency(value, currency) {
     
     // Format the value using toLocaleString
     let formattedValue = value.toLocaleString('en-ZA', options);
+    console.log('product price',value)
+    let number = parseFloat(value);
 
     // Check if the value has two decimal places and needs a line break for readability
-    if (!isInteger && value >= 100000) {
+    if (!isInteger && number >= 100000) {
         let parts = formattedValue.split('.');
         let main = parts[0];
         let decimals = parts.length > 1 ? '.' + parts[1] : '';
         formattedValue = `${main}<br>${decimals}`;
-    } else if (value >= 1000000) {
+    } else if (number >= 1000000) {
         let parts = formattedValue.split('.');
         let main = parts[0];
         let decimals = parts.length > 1 ? '.' + parts[1] : '';
         formattedValue = `${main}<br>${decimals}`;
     }
 
-    // Return the formatted string
-    return formattedValue;
+    
+   
 }
