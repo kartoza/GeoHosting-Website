@@ -676,55 +676,70 @@
                     window.location.href = 'checkout.html';
                 }
 
-                async function fetchProductPrices(itemName,singleProduct = false,selectedProduct = 'none',host = 'DO') {
+                async function fetchProductPrices(itemName, singleProduct = false, selectedProduct = 'none', host = 'DO') {
                     const baseUrl = '/api/resource/Item%20Price';
                     const lowercaseItemName = itemName.toLowerCase();
-                    const filters = JSON.stringify([
-                        ['item_code', 'in', [`${lowercaseItemName}-SMALL-${host}`, `${lowercaseItemName}-MEDIUM-${host}`, `${lowercaseItemName}-LARGE-${host}`]],
-                        ['selling', '=', 1]
-                    ]);
-                    const fields = JSON.stringify(['price_list_rate', 'currency']);
-
-                    try {
+                    const sizes = ['SMALL', 'MEDIUM', 'LARGE'];
+                    
+                    const fetchPriceForSize = async (size) => {
+                        const filters = JSON.stringify([
+                            ['item_code', '=', `${lowercaseItemName}-${size}-${host}`],
+                            ['selling', '=', 1]
+                        ]);
+                        const fields = JSON.stringify(['price_list_rate', 'currency']);
+                        
                         const response = await fetch(`${baseUrl}?filters=${filters}&fields=${fields}`);
                         const data = await response.json();
-
-                        console.log(data);
-
-                        if (data.data && data.data.length > 0) {
-                            // Assuming the first three entries correspond to SMALL, MEDIUM, and LARGE in that order
-                            if(singleProduct && selectedProduct == 'basic')
-                                return {
-                                    price: data.data[0].price_list_rate,
-                                    currency: data.data[0].currency
-                                }
-                            else if(singleProduct && selectedProduct == 'advanced')
-                                return {
-                                    price: data.data[1].price_list_rate,
-                                    currency: data.data[1].currency
-                                }
-                            else if(singleProduct && selectedProduct == 'gold')
-                                return {
-                                    price: data.data[2].price_list_rate,
-                                    currency: data.data[2].currency
-                                }
-                            else {
-                                try {
-                                    let formattedPrice_basic = formatCurrency(data.data[0].price_list_rate, data.data[0].currency);
-                                    let formattedPrice_advanced = formatCurrency(data.data[1].price_list_rate, data.data[1].currency);
-                                    let formattedPrice_gold = formatCurrency(data.data[2].price_list_rate, data.data[2].currency);
-
-                                    document.getElementById('pricing-card-price-basic').innerHTML = formattedPrice_basic;
-                                    document.getElementById('pricing-card-price-advanced').innerHTML = formattedPrice_advanced;
-                                    document.getElementById('pricing-card-price-gold').innerHTML = formattedPrice_gold;
-                                }catch(e){
-                                    // let formattedPrice_basic = formatCurrency('124501.62', data.data[0].currency);
-                                    // document.getElementById('pricing-card-price-basic').innerHTML = formattedPrice_basic;
-                                    console.log(e);
-                                }
-                            }
+                        return data.data;
+                    };
+                    
+                    try {
+                        const smallData = await fetchPriceForSize('SMALL');
+                        const mediumData = await fetchPriceForSize('MEDIUM');
+                        const largeData = await fetchPriceForSize('LARGE');
+                        
+                        // Function to get the preferred price based on currency priority
+                        const getPreferredPrice = (data) => {
+                            if (!data || data.length === 0) return null;
+                            let price = data.find(item => item.currency === 'ZAR');
+                            if (price) return price;
+                            price = data.find(item => item.currency === 'EUR');
+                            if (price) return price;
+                            return data[0];
+                        };
+                        
+                        const smallPrice = getPreferredPrice(smallData);
+                        const mediumPrice = getPreferredPrice(mediumData);
+                        const largePrice = getPreferredPrice(largeData);
+                        
+                        if (singleProduct) {
+                            if (selectedProduct === 'basic') return smallPrice;
+                            if (selectedProduct === 'advanced') return mediumPrice;
+                            if (selectedProduct === 'gold') return largePrice;
                         } else {
-                            console.error('No data found for the specified filters.');
+                            const formatCurrency = (value, currency) => {
+                                let formattedValue = value.toLocaleString('en-ZA', {
+                                    style: 'currency',
+                                    currency: currency,
+                                    minimumFractionDigits: value % 1 === 0 ? 0 : 2,
+                                    maximumFractionDigits: value % 1 === 0 ? 0 : 2
+                                });
+                                return formattedValue.length > 10 ? formattedValue.replace(',', '<br>') : formattedValue;
+                            };
+                            
+                            try {
+                                if (smallPrice) {
+                                    document.getElementById('pricing-card-price-basic').innerHTML = formatCurrency(smallPrice.price_list_rate, smallPrice.currency);
+                                }
+                                if (mediumPrice) {
+                                    document.getElementById('pricing-card-price-advanced').innerHTML = formatCurrency(mediumPrice.price_list_rate, mediumPrice.currency);
+                                }
+                                if (largePrice) {
+                                    document.getElementById('pricing-card-price-gold').innerHTML = formatCurrency(largePrice.price_list_rate, largePrice.currency);
+                                }
+                            } catch (e) {
+                                console.log(e);
+                            }
                         }
                     } catch (error) {
                         console.error('Error fetching product prices:', error);
