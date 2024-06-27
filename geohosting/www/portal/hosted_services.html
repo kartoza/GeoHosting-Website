@@ -132,7 +132,7 @@ p {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.753);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -393,7 +393,7 @@ function createCard(product, isFirstCard) {
         overlay.appendChild(loader);
 
         var message = document.createElement("div");
-        message.textContent = "Spinning up service. Please wait a maximum of 10 minutes";
+        message.textContent = "Spinning up service. Please wait...";
         overlay.appendChild(message);
 
         card.appendChild(overlay);
@@ -471,53 +471,53 @@ user_products.forEach(function(obj) {
 });
 
 // add test dummy products
-userProducts.push(
-  {
-  "logo": "/assets/geohosting/images/BIMS.svg",
-  "name": "geosight-SMALL-DO",
-  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-  "product": "geosight-SMALL-DO",
-  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-  "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            \"MEDIUM\": \"4 CPUs, 8GB RAM, 80GB Storage\",\n            \"LARGE\": \"8 CPUs, 16GB RAM, 120GB Storage\"\n        }",
-  "status": "Active"
-},
-{
-  "logo": "/assets/geohosting/images/BIMS.svg",
-  "name": "geosight-SMALL-DO",
-  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-  "product": "geosight-SMALL-DO",
-  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-  "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            }",
-  "status": "Active"
-},
-{
-  "logo": "/assets/geohosting/images/BIMS.svg",
-  "name": "geosight-SMALL-DO",
-  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-  "product": "geosight-SMALL-DO",
-  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-  "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n             }",
-  "status": "Active"
-},
-{
-  "logo": "/assets/geohosting/images/BIMS.svg",
-  "name": "geosight-SMALL-DO",
-  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-  "product": "geosight-SMALL-DO",
-  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-  "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n                 }",
-  "status": "Active"
-},
-{
-  "logo": "/assets/geohosting/images/BIMS.svg",
-  "name": "geosight-SMALL-DO",
-  "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-  "product": "geosight-SMALL-DO",
-  "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-  "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n             }",
-  "status": "Active"
-}
-)
+// userProducts.push(
+//   {
+//   "logo": "/assets/geohosting/images/BIMS.svg",
+//   "name": "geosight-SMALL-DO",
+//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+//   "product": "geosight-SMALL-DO",
+//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            \"MEDIUM\": \"4 CPUs, 8GB RAM, 80GB Storage\",\n            \"LARGE\": \"8 CPUs, 16GB RAM, 120GB Storage\"\n        }",
+//   "status": "Active"
+// },
+// {
+//   "logo": "/assets/geohosting/images/BIMS.svg",
+//   "name": "geosight-SMALL-DO",
+//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+//   "product": "geosight-SMALL-DO",
+//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            }",
+//   "status": "Active"
+// },
+// {
+//   "logo": "/assets/geohosting/images/BIMS.svg",
+//   "name": "geosight-SMALL-DO",
+//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+//   "product": "geosight-SMALL-DO",
+//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n             }",
+//   "status": "Active"
+// },
+// {
+//   "logo": "/assets/geohosting/images/BIMS.svg",
+//   "name": "geosight-SMALL-DO",
+//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+//   "product": "geosight-SMALL-DO",
+//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n                 }",
+//   "status": "Active"
+// },
+// {
+//   "logo": "/assets/geohosting/images/BIMS.svg",
+//   "name": "geosight-SMALL-DO",
+//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
+//   "product": "geosight-SMALL-DO",
+//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
+//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n             }",
+//   "status": "Active"
+// }
+// )
 
 // Pagination variables
 var currentPage = 1;
