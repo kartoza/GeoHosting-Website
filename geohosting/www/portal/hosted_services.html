@@ -272,8 +272,8 @@ p {
   <table class="support-ticket-table">
     <tr>
         <th>
-            <input type="text" id="search" name="search" style="border: 1px solid gray; width: 276px; height: 40px;" placeholder="Search Products">
-            <select id="status-filter" name="status-filter">
+            <input type="text" id="search" name="search" style="border: 1px solid gray; width: 276px; height: 40px;" placeholder="Search Products" oninput="filterProducts()">
+            <select id="status-filter" name="status-filter" onchange="filterProducts()">
               <option value="all">All</option>
               <option value="active">Active</option>
               <option value="disabled">Disabled</option>
@@ -527,6 +527,23 @@ var totalPages = Math.ceil(userProducts.length / itemsPerPage);
 // Initial display
 displayUserProductCards(userProducts, currentPage, itemsPerPage);
 updatePaginationUI(totalPages, currentPage);
+
+// filter products
+function filterProducts() {
+    var searchQuery = document.getElementById('search').value.toLowerCase();
+    var statusFilter = document.getElementById('status-filter').value;
+    
+    var filteredProducts = userProducts.filter(function(product) {
+        var matchesSearch = product.product_name.toLowerCase().includes(searchQuery);
+        var matchesStatus = (statusFilter === 'all') || (product.status.toLowerCase() === statusFilter);
+        return matchesSearch && matchesStatus;
+    });
+
+    totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+    currentPage = 1;
+    displayUserProductCards(filteredProducts, currentPage, itemsPerPage);
+    updatePaginationUI(totalPages, currentPage);
+}
 
 </script>
 
