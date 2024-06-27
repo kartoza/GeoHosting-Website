@@ -643,6 +643,7 @@
                     if (!response_from_method.ok) {
                         showCustomAlert('Payment verification failed.', 'danger-alert', backgroundContainer);
                     }
+                    console.log('debug ',response_from_method)
                     if(response.status === 'success') {
                         showCustomAlert('Your payment was successful, we will issue you a receipt shortly. Redirecting you to services page...', 'success-alert', backgroundContainer);
                         

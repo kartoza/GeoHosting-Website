@@ -379,12 +379,12 @@ function displayUserProductCards(userProducts, currentPage, itemsPerPage) {
 
 }
 
-function createCard(product, isFirstCard) {
+function createCard(product) {
     var card = document.createElement("div");
     card.classList.add("content");
 
-    // Overlay with loading bar and message for the first card TODO if a new service is purchased this will be displayed
-    if (isFirstCard) {
+    // Overlay with loading bar and message if the product build is 'Pending'
+    if (product.build === 'Pending') {
         var overlay = document.createElement("div");
         overlay.classList.add("overlay");
 
@@ -428,15 +428,15 @@ function createCard(product, isFirstCard) {
     var details = document.createElement("div");
     details.classList.add("details");
     var h2 = document.createElement("h2");
-    var productNameLink = document.createElement("a"); // Create anchor tag for the product name
+    var productNameLink = document.createElement("a"); 
     productNameLink.textContent = product.product_name;
-    productNameLink.href = product.link; // Set the href attribute to the product link
+    productNameLink.href = product.link;
 
     // Set inline styles
-    productNameLink.style.color = 'black';
-    productNameLink.style.fontSize = '16px'; // Adjust the font size as needed
+    productNameLink.style.color = '3E3E3E';
+    productNameLink.style.fontSize = '16px';
 
-    h2.appendChild(productNameLink); // Append anchor tag to the heading
+    h2.appendChild(productNameLink);
 
     details.appendChild(h2);
     var p = document.createElement("p");
@@ -449,8 +449,9 @@ function createCard(product, isFirstCard) {
 
 
 
+
 var user_products = {{ user_products | tojson | safe }};
-console.log(user_products);
+console.log(user_products); //debug purposes
 
 var userProducts = []
 
@@ -461,6 +462,7 @@ user_products.forEach(function(obj) {
     var userProduct = {
         logo: obj.logo,
         status: obj.status,
+        build: obj.build,
         product_name: product_meta.url_path,
         pod_count: 4,
         memory: specs.specifications.split(',')[1].trim(),
@@ -470,54 +472,7 @@ user_products.forEach(function(obj) {
     userProducts.push(userProduct);
 });
 
-// add test dummy products
-// userProducts.push(
-//   {
-//   "logo": "/assets/geohosting/images/BIMS.svg",
-//   "name": "geosight-SMALL-DO",
-//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-//   "product": "geosight-SMALL-DO",
-//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            \"MEDIUM\": \"4 CPUs, 8GB RAM, 80GB Storage\",\n            \"LARGE\": \"8 CPUs, 16GB RAM, 120GB Storage\"\n        }",
-//   "status": "Active"
-// },
-// {
-//   "logo": "/assets/geohosting/images/BIMS.svg",
-//   "name": "geosight-SMALL-DO",
-//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-//   "product": "geosight-SMALL-DO",
-//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n            }",
-//   "status": "Active"
-// },
-// {
-//   "logo": "/assets/geohosting/images/BIMS.svg",
-//   "name": "geosight-SMALL-DO",
-//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-//   "product": "geosight-SMALL-DO",
-//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n             }",
-//   "status": "Active"
-// },
-// {
-//   "logo": "/assets/geohosting/images/BIMS.svg",
-//   "name": "geosight-SMALL-DO",
-//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-//   "product": "geosight-SMALL-DO",
-//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n                 }",
-//   "status": "Active"
-// },
-// {
-//   "logo": "/assets/geohosting/images/BIMS.svg",
-//   "name": "geosight-SMALL-DO",
-//   "product_name": "https://kartoza-staging-v14.frappe.cloud/app/main/products",
-//   "product": "geosight-SMALL-DO",
-//   "product_meta": "{\n                    \"url_path\": \"https://kartoza-staging-v14.frappe.cloud/app/main/products\",\n                    \"username\": \"Admin\",\n                    \"password\": \"test\"\n}",
-//   "specifications": "{\n            \"specifications\": \"2 CPUs, 8GB RAM, 60GB Storage\",\n             }",
-//   "status": "Active"
-// }
-// )
+
 
 // Pagination variables
 var currentPage = 1;

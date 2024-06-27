@@ -5,7 +5,7 @@ def get_user_products():
     try:
         user = frappe.session.user
         
-        user_products = frappe.get_all("User Products", filters={"user": user}, fields=["name", "product", "specifications", "status", "product_meta", "logo"])
+        user_products = frappe.get_all("User Products", filters={"user": user}, fields=["name", "product", "specifications", "status","build", "product_meta", "logo"])
         
         return user_products
     except Exception as e:

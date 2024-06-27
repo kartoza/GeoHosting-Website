@@ -50,4 +50,17 @@ def get_csrf_token():
     }
     
 
+@frappe.whitelist(allow_guest=True)
+def check_user_product_purchase(product_id):
+    current_user = frappe.session.user
+
+    if current_user and current_user != "Guest":
+        user_products = frappe.get_all("User Products", filters={"user": current_user}, fields=["product"])
+        owned_products = [product.product for product in user_products]
+
+        if product_id in owned_products:
+            return {"status": "error", "message": _("You already own this product.")}
+
+    return {"status": "success", "message": _("You can purchase this product.")}
+
 

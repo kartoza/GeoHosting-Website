@@ -275,9 +275,10 @@ def create_user_product(payment_request_name, sales_order=None):
                 'specifications': {
                     "specifications": specifications
                 },
-                'status': "Active",
+                'status': "Inactive",
+                'build': 'Pending',
                 'product_meta': {
-                    'url_path': f"https://kartoza-staging-v14.frappe.cloud/app/main/products",
+                    'url_path': f"constructing",
                     'username': "Admin",
                     'password': "test"
                 },

@@ -510,6 +510,45 @@
                     dynamicButton.style.height = '54px';
                 }
 
+                function generateItemCode(word1,word2){
+                    // create item code   
+                    var type = '';
+                    if(word2 == 'Basic')
+                        type = 'SMALL';
+                    else if(word2 == 'Advanced')
+                        type = 'MEDIUM';
+                    else if(word2 == 'Gold')
+                        type = 'LARGE';
+
+                    return word1.toLowerCase() + '-' + type + '-DO';
+                }
+
+                async function checkUserProductPurchase(productId) {
+                    try {
+                        const response = await fetch('/api/method/geohosting.api.check_user_product_purchase', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ product_id: productId }),
+                        });
+
+                        const data = await response.json();
+                        console.log(data); // debugging purposes
+
+                        if (data.message.status === 'error') {
+                            showCustomAlert(JSON.stringify(data.message.message), 'danger-alert');
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        showCustomAlert('An error occurred while checking the product purchase.', 'danger-alert');
+                        return false;
+                    }
+                }
+
                 async function createSalesOrder(headingId) {
 
                     
@@ -522,24 +561,19 @@
                     await fetchUserInfo().then(async userInfo => {
                         if (userInfo) {
                             const { current_user, customer_name } = userInfo;
+
                             if (!current_user || current_user === "Guest") {
                                 showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
                                 removeButtonLoader(dynamicButton, btn_text);
                             } else if (!customer_name) {
                                 showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
                                 removeButtonLoader(dynamicButton, btn_text);
-                            } else {
-                                // create item code
+                            } else if(!checkUserProductPurchase(generateItemCode(word1, word2))) {
+                                removeButtonLoader(dynamicButton, btn_text);
+                            }
+                            else {
+                                const itemCode = generateItemCode(word1, word2);
                                 
-                                var type = '';
-                                if(word2 == 'Basic')
-                                    type = 'SMALL';
-                                else if(word2 == 'Advanced')
-                                    type = 'MEDIUM';
-                                else if(word2 == 'Gold')
-                                    type = 'LARGE';
-
-                                const itemCode = word1.toLowerCase() + '-' + type + '-DO';
 
                                 const currentDate = new Date();
                                 const formattedDate = formatDate(currentDate);
