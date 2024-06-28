@@ -568,7 +568,7 @@
                             } else if (!customer_name) {
                                 showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
                                 removeButtonLoader(dynamicButton, btn_text);
-                            } else if(!checkUserProductPurchase(generateItemCode(word1, word2))) {
+                            } else if(checkUserProductPurchase(generateItemCode(word1, word2))) {
                                 removeButtonLoader(dynamicButton, btn_text);
                             }
                             else {

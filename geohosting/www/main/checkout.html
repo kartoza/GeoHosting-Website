@@ -85,7 +85,7 @@
             margin: 0;
         }
 
-        .portal-pages-headinga {
+        .portal-pages-heading-top {
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -97,13 +97,23 @@
             margin-left: 14%;
         }
 
-        .portal-pages-headinga span {
+
+        .portal-pages-heading-top span {
             border-bottom: 2px solid #57A0C7;
             font-family: 'Lato', sans-serif;
             font-weight: 600;
             font-size: 32px;
             width: 100%;
             color: #212121;
+        }
+
+        .bottom-line {
+            /* position: fixed; */
+            /* bottom: 0; */
+            /* left: 0; */
+            width: 72.5vw;
+            margin-left: 14%;
+            border-bottom: 2px solid #57A0C7;
         }
 
         .logo-pricing img {
@@ -186,7 +196,7 @@
         }
 
         .order-summary {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
             border-radius: 10px;
             overflow: hidden;
             padding: 20px;
@@ -201,6 +211,8 @@
         .order-header h3 {
             margin: 0;
             font-weight: bold;
+            width: 50%;
+            display: inline;
         }
         .actions {
             display: flex;
@@ -269,13 +281,13 @@
                 margin: 10px 0;
             }
 
-            .portal-pages-headinga {
+            .portal-pages-heading-top {
                 flex-direction: column;
                 align-items: flex-start;
                 margin-left: 0%;
             }
 
-            .portal-pages-headinga span {
+            .portal-pages-heading-top span {
                 font-size: 24px;
                 width: 85vw;
             }
@@ -295,7 +307,7 @@
 
         
         .spaced-rows tr {
-            border-bottom: 10px solid transparent;
+            border-bottom: 15px solid transparent;
         }
 
         
@@ -317,7 +329,7 @@
   <body>
     {% include "templates/navbar.html" %}
     <div id="app">
-        <div class="portal-pages-headinga">
+        <div class="portal-pages-heading-top">
             <span>Checkout</span>
         </div>
         
@@ -327,9 +339,9 @@
                 <h2 id="sales-order-generated"></h2>
                 <div class="actions" style="gap: 10px;">
                     <div class="dropdown">
-                        <!-- <button class="button-pricing"> -->
-                            <img src="/assets/geohosting/images/Printer Icon.svg" alt="print action" style="width: 40px; height: 40px; cursor: pointer;" onclick="openPrintView()">
-                        <!-- </button> -->
+                        <button class="button-pricing" onclick="openPrintView()">
+                            Print
+                        </button>
                         
                         <!-- <div class="dropdown-content">
                             <span onclick="openPrintView()" style="cursor: pointer">Print</span>
@@ -342,10 +354,11 @@
             <div class="order-header">
                 
                 
-                <h3>To Deliver and Bill</h3>
-                <div class="actionss">
+                <h3>To Deliver and Bill <span id="customer" style="margin-left: 15px; font-weight: normal;">John</span></h3>
+                
+                <!-- <div class="actions">
                     <h3 id="customer"></h3>
-                </div>
+                </div> -->
             </div>
             
         <div class="tables-wrapper">
@@ -629,7 +642,7 @@
                 const transactionData = JSON.stringify(response);
                 formData.append('transaction', transactionData);
 
-                console.log('debug ',formData)
+                console.log('debug ',formData) // debug purposes
 
                 const url = "/api/method/geohosting.www.main.checkout.verify_transaction";
 
@@ -639,12 +652,12 @@
                 };
 
                 fetchWithCSRF(url, options)
+                .then(response => response.json())
                 .then(response_from_method => {
                     if (!response_from_method.ok) {
                         showCustomAlert('Payment verification failed.', 'danger-alert', backgroundContainer);
                     }
-                    console.log('debug ',response_from_method)
-                    if(response.status === 'success') {
+                    if (response_from_method.message.status === 'success' && response_from_method.message.message === 'Transaction verified and processed successfully.') {
                         showCustomAlert('Your payment was successful, we will issue you a receipt shortly. Redirecting you to services page...', 'success-alert', backgroundContainer);
                         
                         const paymentButton = document.getElementById('payment-request-link');
@@ -657,8 +670,10 @@
 
                         setTimeout(() => {
                             localStorage.removeItem('selectedProduct');
-                            // window.location.href = '/portal/hosted_services';
+                            window.location.href = '/portal/hosted_services';
                         }, 5000);
+                    }else {
+                        showCustomAlert(response_from_method.message.message, 'danger-alert', backgroundContainer);
                     }
                 })
                 .catch(error => {
@@ -675,7 +690,7 @@
     
 </script>
 
-    
+<div class="bottom-line"></div>
 <div class="footer-pos">
     {% include "templates/footer.html" %}
 </div> 
