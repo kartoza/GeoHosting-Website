@@ -568,8 +568,10 @@
                             } else if (!customer_name) {
                                 showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
                                 removeButtonLoader(dynamicButton, btn_text);
-                            } else if(checkUserProductPurchase(generateItemCode(word1, word2))) {
+                            } else if(!checkUserProductPurchase(generateItemCode(word1, word2))) {
+                                console.log('Cannot purchase product')
                                 removeButtonLoader(dynamicButton, btn_text);
+                                return
                             }
                             else {
                                 const itemCode = generateItemCode(word1, word2);
