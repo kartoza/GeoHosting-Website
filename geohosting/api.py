@@ -62,5 +62,3 @@ def check_user_product_purchase(product_id):
             return {"status": "error", "message": _("You already own this product.")}
 
     return {"status": "success", "message": _("You can purchase this product.")}
-
-
