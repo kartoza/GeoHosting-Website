@@ -234,3 +234,7 @@ from geohosting.api import get_user_info
 override_whitelisted_methods = {
     "get_user_info": "geohosting.api.get_user_info"
 }
+
+override_whitelisted_methods = {
+    "frappe.www.login.sign_up": "geohosting.custom_signup.CustomSignup.signup"
+}
