@@ -339,7 +339,7 @@ p {
 
           <div class="input-group-item">
             <label for="uploadButton">Are you done?</label>
-            <button class="learn-more-button" onclick="submitForm()" id="submitBtn">Submit</button>
+            <button class="learn-more-button" id="submitBtn">Submit</button>
          </div>
          <div id="loading-indicator2" style="display: none;">
             <div class="loader"></div>
@@ -356,9 +356,28 @@ p {
         var editorData = ''
         var uploadedFiles = [];
         var toUpload = [];
+        var editIssueIdInput;   
 
         // render different screens + transitions
-        function createNewTicket() {
+        function createNewTicket(ticket) {
+            if(ticket) {
+                document.getElementById("nameInput").value = '{{frappe.session.user}}';
+                document.getElementById("subjectInput").value = ticket.subject;
+                document.getElementById("prioritySelect").value = ticket.priority;
+                document.getElementById("issueTypeSelect").value = ticket.issue_type;
+                editorInstance.setData(ticket.description);
+                document.getElementById("submitBtn").setAttribute("data-issue-id", ticket.issue_id);
+                editIssueIdInput = ticket.name;
+                document.getElementById("submitBtn").addEventListener('click',updateTicket)
+            }else{
+                document.getElementById("nameInput").value = '{{frappe.session.user}}';
+                document.getElementById("subjectInput").value = "";
+                document.getElementById("prioritySelect").value = "";
+                document.getElementById("issueTypeSelect").value = "";
+                editorInstance.setData("");
+                document.getElementById("submitBtn").setAttribute("data-issue-id", "");
+                document.getElementById("submitBtn").addEventListener('click',submitForm)
+            }
             document.querySelector('.support-ticket-table').classList.add('hidden');
             document.getElementById('card-container').classList.add('hidden');
             document.getElementById('pagination-container').classList.add('hidden');
@@ -436,6 +455,8 @@ p {
             // Create card container
             var card = document.createElement("div");
             card.classList.add("card");
+            card.addEventListener('click',function(){createNewTicket(ticket)})
+
 
             // Create row for title and status
             var row = document.createElement("div");
@@ -738,7 +759,7 @@ p {
         // Upload files if any
         if (toUpload.length > 0) {
             toUpload.forEach(file => {
-                uploadFile(file, data.data.name);
+                uploadFile(file, data.message.data.name);
             });
         }
         showCustomAlert('Your ticket has been logged', 'success-alert');
@@ -752,7 +773,74 @@ p {
           console.error('Error:', error);
           showCustomAlert(JSON.stringify(error), 'danger-alert');
       });
-  }
+    }
+
+    async function updateTicket() {
+      var name = document.getElementById("nameInput").value;
+      var subject = document.getElementById("subjectInput").value;
+      var priority = document.getElementById("prioritySelect").value;
+      var issueType = document.getElementById("issueTypeSelect").value;
+      var loadingIndicator = document.getElementById('loading-indicator2');
+      var submitBtn = document.getElementById('submitBtn');
+        console.log("calling update event----")
+      loadingIndicator.style.display = 'block';
+      submitBtn.style.display = 'none';
+
+      var requestBody = {
+          "issue_id": editIssueIdInput,
+          "raised_by": name,
+          "owner": "{{ frappe.session.user }}",
+          "subject": subject,
+          "priority": priority,
+          "issue_type": issueType,
+          "description": editorData,
+          "status": "Open"
+      };
+
+      console.log(requestBody);
+
+      const options = {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      }
+
+        const url = `/api/method/geohosting.www.portal.support_tickets.update_issue`;
+
+        await fetchWithCSRF(url, options)
+        .then(response => {
+            console.log('Fetch response received:', response); // Add logging
+            if (!response.ok) {
+                loadingIndicator1.style.display = 'none';
+                submitBtn.style.display = 'block';
+                showCustomAlert('Failed to update ticket', 'danger-alert');
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Fetch response JSON:', data); // Add logging
+            // Upload files if any
+            if (toUpload.length > 0) {
+                toUpload.forEach(file => {
+                    uploadFile(file, data.message.data.name);
+                });
+            }
+            showCustomAlert('Your ticket has been updated', 'success-alert');
+            fetchUserIssues();
+            navigateToTickets();
+            loadingIndicator.style.display = 'none';
+            submitBtn.style.display = 'block';
+        })
+        .catch(error => {
+            loadingIndicator.style.display = 'none';
+            submitBtn.style.display = 'block';
+            console.error('Error:', error);
+            showCustomAlert(JSON.stringify(error), 'danger-alert');
+        });
+    }
 
   fetch('/api/resource/Issue Type')
   .then(response => response.json())
@@ -776,6 +864,7 @@ p {
 
 <!-- ckeditor for description -->
 <script>
+    let editorInstance;
   ClassicEditor
       .create(document.querySelector('#editor'), {
           toolbar: {
@@ -808,6 +897,7 @@ p {
         //   height: 800, 
       })
       .then(editor => {
+        editorInstance = editor
         //   console.log('Editor initialized', editor);
           editor.model.document.on('change', () => {
              editorData = editor.getData();
