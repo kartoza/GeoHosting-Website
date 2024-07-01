@@ -561,6 +561,9 @@
                     await fetchUserInfo().then(async userInfo => {
                         if (userInfo) {
                             const { current_user, customer_name } = userInfo;
+                            const canPurchase = await checkUserProductPurchase(generateItemCode(word1, word2));
+                            console.log(canPurchase);
+
 
                             if (!current_user || current_user === "Guest") {
                                 showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
@@ -568,7 +571,7 @@
                             } else if (!customer_name) {
                                 showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
                                 removeButtonLoader(dynamicButton, btn_text);
-                            } else if(!checkUserProductPurchase(generateItemCode(word1, word2))) {
+                            } else if(!canPurchase) {
                                 console.log('Cannot purchase product')
                                 removeButtonLoader(dynamicButton, btn_text);
                                 return

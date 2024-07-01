@@ -5,6 +5,8 @@ from frappe_paystack.utils import (
     generate_digest,
 )
 
+no_cache = 1
+
 @frappe.whitelist(allow_guest=True)
 def get_payment_request(**kwargs):
     # Custom implementation
