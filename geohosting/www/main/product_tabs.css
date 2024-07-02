@@ -88,3 +88,59 @@
     display: none;
   }
 }
+
+.products-container{
+    gap: 70px;
+}
+
+.product-soon {
+position: relative;
+}
+
+.product-soon::before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.8);
+    content: "";
+    left: 0;
+    right: 0;
+    border-radius: 20px;
+    top: 0;
+    z-index: 9;
+}
+
+.coming-soon-box {
+    width: calc(100% + 5px);
+    padding: 14px 20px;
+    background-color: #ECB44B;
+    font-size: 30px;
+    color: #fff;
+    position: absolute;
+    font-weight: 700;
+    z-index: 11;
+}
+
+.coming-soon-box::before{
+    width: 0;
+    right: 0;
+    border-top: 22px solid #a87f32;
+    border-left: 22px solid transparent;
+    content: "";
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    bottom: -21px;
+}
+
+.coming-soon-box::after{
+    width: 0;
+    right: 0;
+    border-top: 22px solid #a87f32;
+    border-right: 22px solid transparent;
+    content: "";
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    bottom: -21px;
+}
