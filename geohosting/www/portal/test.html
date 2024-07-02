@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Table</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            gap: 10px;
+            width: 335px;
+            height: 276px;
+            background: #FFFFFF;
+            border-radius: 5px;
+            /* border: 3px solid red; */
+            margin-left: 10%;
+        }
+        .table {
+            width: 100% !important;
+            border-collapse: collapse;
+            /* border: solid 3px salmon; */
+        }
+        .table td {
+            padding: 10px;
+        }
+        .logo {
+            width: 140px;
+            height: 140px;
+        }
+        .badge {
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+            background: #57A0C7;
+            border-radius: 45px;
+            color: #FFFFFF;
+            /* border: 3px solid blue; */
+            width: 60%;
+            margin-left: 35px;
+            position: relative;
+        }
+        .badge .circle {
+            width: 20px;
+            height: 20px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            margin-left: 5px;
+            margin-top: 2px;
+        }
+        .editable-text {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .editable-text svg {
+            cursor: pointer;
+        }
+        .text {
+            color: #555555;
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            border: 3px solid gold;
+        }
+        .heading {
+            color: #3E3E3E;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 27px;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <table class="table">
+            <tr>
+                <td rowspan="2">
+                    <img src="/assets/geohosting/images/BIMS.svg" alt="Logo" class="logo">
+                </td>
+                <td class="text" style="text-align: right; display: flex; align-items: right; flex-direction: column;">
+                    <div class="badge">
+                        Active
+                        <div class="circle"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <!-- just to push the badge upwards -->
+                <td class="text"></td>
+            </tr>
+            <tr>
+              <td class="text" colspan="2">
+                <div class="editable-text">
+                  <div class="heading">platform.geospatialhosting.com</div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L7.5 20.5H3v-4.5L16.732 3.732z"/>
+                  </svg>
+                </div>
+              </td>
+          </tr>
+            <tr>
+                <td class="text">Storage: 500GB</td>
+                <td class="text">Memory: 32GB</td>
+            </tr>
+            <tr>
+                <td class="text">CPU: 4 Cores</td>
+                <td class="text"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
