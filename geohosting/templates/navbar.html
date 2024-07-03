@@ -589,7 +589,7 @@ input:focus {
         <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
          
         <div class="input-field">
-          <h2 class="sign-in-title" for="firstname">Firstname</h2>
+          <h2 class="sign-in-title" for="firstname">First name</h2>
           <input type="text" id="firstNameInput" placeholder="First Name">
         </div>
         <div class="input-field">
@@ -945,16 +945,18 @@ input:focus {
         const fullName = firstName + ' ' + lastName;
 
         const formData = new FormData();
-        formData.append('cmd', 'frappe.core.doctype.user.user.sign_up');
         formData.append('email', email);
         formData.append('redirect_to', '');
         formData.append('full_name', fullName);
 
         // const url = 'https://kartoza-staging-v14.frappe.cloud/';
         var currentUrl = window.location.href;
-        var domain = currentUrl.split('/')[2];
+        const domain = currentUrl.split('/')[2];
+        const url = `http://${domain}/api/method/geohosting.custom_signup.custom_signup`;
 
-        fetch(domain, {
+        console.log(domain)
+
+        fetch(url, {
           method: 'POST',
           body: formData
         })
