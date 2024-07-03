@@ -21,6 +21,20 @@
   top: 68px;
 }
 
+.portal-pages-heading-bottom {
+  /* TODO */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 64px;
+  gap: 10px;
+  position: absolute;
+  width: 1250px;
+  height: 56px;
+  left: 300px;
+  top: 68px;
+}
+
 .portal-pages-heading span {
   box-sizing: border-box;
   /* Auto layout */

@@ -56,12 +56,11 @@
   gap: 5px;
 }
 
-.badge {
+/* .badge {
   display: flex;
   flex-direction: column;
   gap: auto;
-  /* border: 3px solid yellow; */
-}
+} */
 
 
 .image-status {
@@ -192,69 +191,209 @@ p {
     pointer-events: none;
 }
 
-@media (max-width: 768px) {
-  #status-filter {
-    margin-top: 3%;
-    margin-left: 0px;
-  }
-
-  .support-ticket-table{
-    margin-top: 17%;
-  }
-  .portal-pages-heading {
-      left: -38px;
-     position: relative;
-  }
-
-  .invoice-table {
-    margin-left: 0%;
-    width: auto;
-    margin-top: 3%;
-  }
 
 
-    .invoice-table, 
-    .invoice-table thead, 
-    .invoice-table tbody, 
-    .invoice-table th, 
-    .invoice-table td, 
-    .invoice-table tr {
-        display: block;
-    }
 
-    .invoice-table tr {
-        display: flex;
-        flex-direction: column;
-    }
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            gap: 10px;
+            width: 335px;
+            height: 276px;
+            background: #FFFFFF;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        .content {
+            position: relative;
+            display: flex;
+            align-items: flex-start;
+            padding: 20px;
+            gap: 20px;
+            width: auto;
+            background: #FFFFFF;
+            border: 2px solid rgba(217, 217, 217, 0.5);
+            border-radius: 8px;
+            flex-direction: column;
+        }
+        .invoice-table {
+            width: 70%;
+            border-collapse: collapse;
+            margin-left: 19.5%;
+            margin-top: 1%;
+        }
+        .invoice-table th, .invoice-table td {
+            padding: 8px;
+            vertical-align: top;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .table td {
+            padding: 10px;
+        }
+        .logo {
+            width: 140px;
+            height: 140px;
+        }
+        .badge {
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+            background: #57A0C7;
+            border-radius: 45px;
+            color: #FFFFFF;
+            width: 60%;
+            position: relative;
+        }
+        .badge .circle {
+            width: 20px;
+            height: 20px;
+            background: #FFFFFF;
+            border-radius: 50%;
+            margin-left: 5px;
+            margin-top: 2px;
+        }
+        .badge-inactive {
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+            background: #FFFFFF;
+            border-radius: 45px;
+            color: #3E3E3E;
+            width: 60%;
+            position: relative;
+        }
+        .badge-inactive .circle {
+            width: 20px;
+            height: 20px;
+            background: #888B8C;
+            border-radius: 50%;
+            margin-left: 5px;
+            margin-top: 2px;
+        }
+        .editable-text {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .editable-text svg {
+            cursor: pointer;
+        }
+        .text {
+            color: #555555;
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            /* border: 3px solid gold; */
+        }
+        .text-right {
+            color: #555555;
+            font-family: 'Lato', sans-serif;
+            font-size: 16px;
+            line-height: 24px;
+            /* border: 3px solid gold; */
+            align-items: right;
+            display: flex !important;
+            justify-content: right !important;
+        }
+        .heading {
+            color: #3E3E3E;
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+            line-height: 27px;
+        }
+        .pagination-container-invoice {
+            text-align: center;
+        }
+        .pagination-container-invoice .page {
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+        }
 
-    .overlay {
-      z-index: 0; 
-  }
-  .portal-pages-heading span {
-    width: auto;
-    height: auto;
-  }
-  .card-container {
-    
-    left: 42%; 
-    transform: translateX(-50%);
-  }
+        .portal-pages-heading {
+          top: 45px;
+          width: 1410px;
+        }
+        .support-ticket-table{
+          margin-top: 3%;
+        }
 
-  .content {
-    width: auto;
-  }
+        .invoice-table tfoot {
+            border-top: 2px solid #57A0C7 !important;
+        }
 
-  .image-status {
-    gap: 60px;
-  }
+        @media (max-width: 768px) {
+          #status-filter {
+            margin-top: 3%;
+            margin-left: 0px;
+          }
 
- 
-  h2 {
-    font-size: 15px;
-  }
-}
+          .support-ticket-table{
+            margin-top: 17%;
+          }
+          .portal-pages-heading {
+              left: -38px;
+            position: relative;
+          }
+
+          .invoice-table {
+            margin-left: 0%;
+            width: auto;
+            margin-top: 3%;
+          }
 
 
+            .invoice-table, 
+            .invoice-table thead, 
+            .invoice-table tbody, 
+            .invoice-table th, 
+            .invoice-table td, 
+            .invoice-table tr {
+                display: block;
+            }
+
+            .invoice-table tr {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .overlay {
+              z-index: 0; 
+          }
+          .portal-pages-heading span {
+            width: auto;
+            height: auto;
+          }
+          .card-container {
+            
+            left: 42%; 
+            transform: translateX(-50%);
+          }
+
+          .content {
+            width: auto;
+          }
+
+          .image-status {
+            gap: 60px;
+          }
+
+        
+          h2 {
+            font-size: 15px;
+          }
+
+          .text-right {
+            width: 50%;
+          }
+        }
 
 
 </style>
@@ -272,8 +411,8 @@ p {
   <table class="support-ticket-table">
     <tr>
         <th>
-            <input type="text" id="search" name="search" style="border: 1px solid gray; width: 276px; height: 40px;" placeholder="Search Products" oninput="filterProducts()">
-            <select id="status-filter" name="status-filter" onchange="filterProducts()">
+            <input type="text" id="search" name="search" style=" width: 276px; height: 40px;" placeholder="Search Products" oninput="filterProducts()">
+            <select id="status-filter" name="status-filter" onchange="filterProducts()" style="border: none; color: #3E3E3E;">
               <option value="all">All</option>
               <option value="active">Active</option>
               <option value="disabled">Disabled</option>
@@ -281,25 +420,26 @@ p {
             <label for="clear" class="end-date-margin" id="clear-button" onclick="clearFilters()"><span>Clear</span></label>
         </th>
     </tr>
-</table>
+  </table>
 
   <table class="invoice-table">
     <colgroup>
-      <col style="width: 50%;">
-      <col style="width: 50%;">
-  </colgroup>
+        <col style="width: 33%;">
+        <col style="width: 33%;">
+        <col style="width: 33%;">
+    </colgroup>
     <thead></thead>
     <tbody id="invoice-table-body"></tbody>
     <tfoot>
         <tr>
-            <td colspan="5">
+            <td colspan="3">
                 <div id="pagination-container" class="pagination-container-invoice">
                     <div id="pagination-pages"></div>
                 </div>
             </td>
         </tr>
     </tfoot>
-</table>
+  </table>
 
 
 
@@ -307,198 +447,329 @@ p {
   
 <script>
 
-document.getElementById('status-filter').addEventListener('change', function() {
-    const selectedStatus = this.value;
-    // Add logic to filter products based on selectedStatus
-    console.log('Selected Status:', selectedStatus);
-});
+        function createCard(product) {
+            var container = document.createElement("div");
+            container.classList.add("content");
+            
+            // Create main table element
+            var table = document.createElement("table");
+            table.classList.add("table");
 
-function clearFilters() {
-    document.getElementById('search').value = '';
-    document.getElementById('status-filter').value = 'all';
-    // Add logic to reset the filters and display all products
-}
+            // Row 1: Logo and Badge
+            var row1 = document.createElement("tr");
 
+            // Logo cell
+            var logoCell = document.createElement("td");
+            logoCell.setAttribute("rowspan", "2");
+            var logoImg = document.createElement("img");
+            logoImg.src = product.logo;
+            logoImg.alt = "Logo";
+            logoImg.classList.add("logo");
+            logoCell.appendChild(logoImg);
+            row1.appendChild(logoCell);
 
-// Function to update pagination UI
-function updatePaginationUI(totalPages, currentPage) {
-    var paginationPages = document.getElementById("pagination-pages");
-    paginationPages.innerHTML = "";
+            // Badge cell
+            var badgeCell = document.createElement("td");
+            badgeCell.classList.add("text-right");
+            badgeCell.style.textAlign = "right";
 
-    for (var i = 1; i <= totalPages; i++) {
-        var pageButton = document.createElement("button");
-        pageButton.classList.add("pagination-button");
-        pageButton.textContent = i;
-        pageButton.addEventListener("click", function() {
-            currentPage = parseInt(this.textContent);
-            displayUserProductCards(userProducts, currentPage, itemsPerPage);
-        });
-        if (i === currentPage) {
-            pageButton.classList.add("current-page");
+            // Create badge
+            var badge = document.createElement("div");
+            (product.status === "Active")? badge.classList.add("badge"): badge.classList.add("badge-inactive");
+            badge.textContent = (product.status === "Active")? "Active": "Inactive"
+
+            var circle = document.createElement("div");
+            circle.classList.add("circle");
+            badge.appendChild(circle);
+
+            badgeCell.appendChild(badge);
+            row1.appendChild(badgeCell);
+
+            table.appendChild(row1);
+
+            // Row 2: Empty cell for alignment
+            var row2 = document.createElement("tr");
+            var emptyCell = document.createElement("td");
+            emptyCell.classList.add("text");
+            row2.appendChild(emptyCell);
+
+            // Row 3: Heading and SVG
+            var row3 = document.createElement("tr");
+            var headingCell = document.createElement("td");
+            headingCell.classList.add("text");
+            headingCell.setAttribute("colspan", "2");
+
+            var editableText = document.createElement("div");
+            editableText.classList.add("editable-text");
+
+            var heading = document.createElement("div");
+            heading.classList.add("heading");
+            var headingText = product.product_name.length > 22 ? product.product_name.substring(0, 37) + '...' : product.product_name;
+            heading.textContent = headingText;
+
+            // SVG
+            var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("fill", "none");
+            svg.setAttribute("viewBox", "0 0 24 24");
+            svg.setAttribute("stroke", "currentColor");
+            svg.setAttribute("width", "20");
+            svg.setAttribute("height", "20");
+
+            var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("stroke-linecap", "round");
+            path.setAttribute("stroke-linejoin", "round");
+            path.setAttribute("stroke-width", "2");
+            path.setAttribute("d", "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L7.5 20.5H3v-4.5L16.732 3.732z");
+
+            svg.appendChild(path);
+            editableText.appendChild(heading);
+            editableText.appendChild(svg);
+            headingCell.appendChild(editableText);
+            row3.appendChild(headingCell);
+            table.appendChild(row2);
+            table.appendChild(row3);
+
+            // Row 4: Specifications
+            var row4 = document.createElement("tr");
+            var storageCell = document.createElement("td");
+            storageCell.classList.add("text");
+            storageCell.textContent = `Storage: ${product.storage}`;
+
+            var memoryCell = document.createElement("td");
+            memoryCell.classList.add("text");
+            memoryCell.textContent = `Memory: ${product.memory}`;
+
+            row4.appendChild(storageCell);
+            row4.appendChild(memoryCell);
+            table.appendChild(row4);
+
+            // Row 5: CPU
+            var row5 = document.createElement("tr");
+            var cpuCell = document.createElement("td");
+            cpuCell.classList.add("text");
+            cpuCell.textContent = `CPU: ${product.cpu}`;
+            row5.appendChild(cpuCell);
+
+            var emptyCell2 = document.createElement("td");
+            emptyCell2.classList.add("text");
+            row5.appendChild(emptyCell2);
+            table.appendChild(row5);
+
+            // Overlay with loading bar and message if the product build is 'Pending'
+            if (product.build === 'Pending') {
+                var overlay = document.createElement("div");
+                overlay.classList.add("overlay");
+
+                var loader = document.createElement("div");
+                loader.classList.add("loader");
+                overlay.appendChild(loader);
+
+                var message = document.createElement("div");
+                message.textContent = "Spinning up service. Please wait...";
+                overlay.appendChild(message);
+
+                container.appendChild(overlay);
+            }
+
+            // Return the constructed table element
+            container.appendChild(table);
+
+            // Return the container
+            return container;
         }
-        paginationPages.appendChild(pageButton);
-    }
-}
-
-
-function displayUserProductCards(userProducts, currentPage, itemsPerPage) {
-    var tableBody = document.getElementById("invoice-table-body");
-    tableBody.innerHTML = ""; // Clear previous rows
-
-    var startIndex = (currentPage - 1) * itemsPerPage;
-    var endIndex = Math.min(startIndex + itemsPerPage, userProducts.length);
-
-    for (var i = startIndex; i < endIndex; i += 2) {
-      var row = document.createElement("tr");
-
-      var firstProductCell = document.createElement("td");
-      var firstProduct = userProducts[i];
-      var isFirstCard = i === startIndex; // Check if it's the first card in the row
-      var firstCard = createCard(firstProduct, isFirstCard);
-      firstProductCell.appendChild(firstCard);
-      row.appendChild(firstProductCell);
-
-      // Create second card if available
-      var secondProductCell = document.createElement("td");
-      if (i + 1 < endIndex) {
-          var secondProduct = userProducts[i + 1];
-          var secondCard = createCard(secondProduct, false);
-          secondProductCell.appendChild(secondCard);
-      } else {
-          // If there's no second product, create an empty cell
-          secondProductCell.innerHTML = "&nbsp;";
-      }
-      row.appendChild(secondProductCell);
-
-      tableBody.appendChild(row);
-  }
-
-    var totalPages = Math.ceil(userProducts.length / itemsPerPage);
-
-    updatePaginationUI(totalPages, currentPage)
-
-}
-
-function createCard(product) {
-    var card = document.createElement("div");
-    card.classList.add("content");
-
-    // Overlay with loading bar and message if the product build is 'Pending'
-    if (product.build === 'Pending') {
-        var overlay = document.createElement("div");
-        overlay.classList.add("overlay");
-
-        var loader = document.createElement("div");
-        loader.classList.add("loader");
-        overlay.appendChild(loader);
-
-        var message = document.createElement("div");
-        message.textContent = "Spinning up service. Please wait...";
-        overlay.appendChild(message);
-
-        card.appendChild(overlay);
-    }
-
-    var imageStatus = document.createElement("div");
-    imageStatus.classList.add("image-status");
-
-    var image = document.createElement("div");
-    image.classList.add("image");
-    var img = document.createElement("img");
-    img.src = product.logo;
-    img.alt = "Image";
-    image.appendChild(img);
-    imageStatus.appendChild(image);
-
-    var badge = document.createElement("div");
-    badge.classList.add("badge");
-    var statusBadge = document.createElement("div");
-    statusBadge.classList.add("status-badge");
-    var dot = document.createElement("div");
-    dot.classList.add("dot");
-    statusBadge.appendChild(dot);
-    var statusSpan = document.createElement("span");
-    statusSpan.textContent = product.status;
-    statusBadge.appendChild(statusSpan);
-    badge.appendChild(statusBadge);
-    imageStatus.appendChild(badge);
-
-    card.appendChild(imageStatus);
-
-    var details = document.createElement("div");
-    details.classList.add("details");
-    var h2 = document.createElement("h2");
-    var productNameLink = document.createElement("a"); 
-    productNameLink.textContent = product.product_name;
-    productNameLink.href = product.link;
-
-    // Set inline styles
-    productNameLink.style.color = '#3E3E3E';
-    productNameLink.style.fontSize = '16px';
-
-    h2.appendChild(productNameLink);
-
-    details.appendChild(h2);
-    var p = document.createElement("p");
-    p.innerHTML = `POD Count: ${product.pod_count}<br>Memory: ${product.memory}<br>CPU: ${product.cpu}<br>Storage: ${product.storage}`;
-    details.appendChild(p);
-    card.appendChild(details);
-
-    return card;
-}
 
 
 
+        var user_products = {{ user_products | tojson | safe }};
+        console.log(user_products); //debug purposes
 
-var user_products = {{ user_products | tojson | safe }};
-console.log(user_products); //debug purposes
+        var userProducts = []
 
-var userProducts = []
+        // Iterate over the existing array and create new objects with dynamic values
+        user_products.forEach(function(obj) {
+          var specs = JSON.parse(obj.specifications);
+          var product_meta = JSON.parse(obj.product_meta);
+            var userProduct = {
+                logo: obj.logo,
+                status: obj.status,
+                build: obj.build,
+                product_name: product_meta.url_path,
+                pod_count: 4,
+                memory: specs.specifications.split(',')[1].trim(),
+                cpu: specs.specifications.split(',')[2].trim(),
+                storage: specs.specifications.split(',')[2].trim()
+            };
+            userProducts.push(userProduct);
+        });
 
-// Iterate over the existing array and create new objects with dynamic values
-user_products.forEach(function(obj) {
-  var specs = JSON.parse(obj.specifications);
-  var product_meta = JSON.parse(obj.product_meta);
-    var userProduct = {
-        logo: obj.logo,
-        status: obj.status,
-        build: obj.build,
-        product_name: product_meta.url_path,
-        pod_count: 4,
-        memory: specs.specifications.split(',')[1].trim(),
-        cpu: specs.specifications.split(',')[2].trim(),
-        storage: specs.specifications.split(',')[2].trim()
-    };
-    userProducts.push(userProduct);
-});
+        userProducts.push(
+          {
+            product_name: 'https://platform.geospatialhosting.com',
+            logo: "/assets/geohosting/images/BIMS.svg",
+            status: "Active",
+            build: "Complete",
+            product_meta: '{"url_path": "platform.geospatialhosting.com"}',
+            specifications: '{"specifications": "POD Count: 4, Memory: 32GB, CPU: 4 Cores, Storage: 500GB"}',
+            memory: ' 32GB',
+            cpu: ' 4 Cores',
+            storage: ' 500GB'
+          },
+          {
+            product_name: 'https://platform.geospatialhosting.com',
+            logo: "/assets/geohosting/images/BIMS.svg",
+            status: "Active",
+            build: "Complete",
+            product_meta: '{"url_path": "datahosting.com"}',
+            specifications: '{"specifications": "POD Count: 6, Memory: 64GB, CPU: 8 Cores, Storage: 1TB"}'
+          },
+          {
+            product_name: 'https://platform.geospatialhosting.com',
+            logo: "/assets/geohosting/images/BIMS.svg",
+            status: "Active",
+            build: "Complete",
+            product_meta: '{"url_path": "mapsplatform.com"}',
+            specifications: '{"specifications": "POD Count: 3, Memory: 16GB, CPU: 2 Cores, Storage: 250GB"}'
+          },
+          {
+            product_name: 'https://platform.geospatialhosting.com',
+            logo: "/assets/geohosting/images/BIMS.svg",
+            status: "Active",
+            build: "Pending",
+            product_meta: '{"url_path": "cloudservices.net"}',
+            specifications: '{"specifications": "POD Count: 5, Memory: 128GB, CPU: 16 Cores, Storage: 2TB"}'
+          },
+          {
+            product_name: 'https://platform.geospatialhosting.com',
+            logo: "/assets/geohosting/images/BIMS.svg",
+            status: "Active",
+            build: "Pending",
+            product_meta: '{"url_path": "cloudservices.net"}',
+            specifications: '{"specifications": "POD Count: 5, Memory: 128GB, CPU: 16 Cores, Storage: 2TB"}'
+          },
+          {
+            product_name: 'https://platform.geospatialhosting.com',
+            logo: "/assets/geohosting/images/BIMS.svg",
+            status: "Active",
+            build: "Pending",
+            product_meta: '{"url_path": "cloudservices.net"}',
+            specifications: '{"specifications": "POD Count: 5, Memory: 128GB, CPU: 16 Cores, Storage: 2TB"}'
+          },
+          {
+            product_name: 'https://platform.geospatialhosting.com',
+            logo: "/assets/geohosting/images/BIMS.svg",
+            status: "Active",
+            build: "Pending",
+            product_meta: '{"url_path": "cloudservices.net"}',
+            specifications: '{"specifications": "POD Count: 5, Memory: 128GB, CPU: 16 Cores, Storage: 2TB"}'
+          }
+        )
 
 
 
-// Pagination variables
-var currentPage = 1;
-var itemsPerPage = 4;
-var totalPages = Math.ceil(userProducts.length / itemsPerPage);
+          // Function to update pagination UI
+          function updatePaginationUI(totalPages, currentPage) {
+              var paginationPages = document.getElementById("pagination-pages");
+              paginationPages.innerHTML = "";
 
-// Initial display
-displayUserProductCards(userProducts, currentPage, itemsPerPage);
-updatePaginationUI(totalPages, currentPage);
+              for (var i = 1; i <= totalPages; i++) {
+                  var pageButton = document.createElement("button");
+                  pageButton.classList.add("pagination-button");
+                  pageButton.textContent = i;
+                  pageButton.addEventListener("click", function() {
+                      currentPage = parseInt(this.textContent);
+                      displayUserProductCards(userProducts, currentPage, itemsPerPage);
+                  });
+                  if (i === currentPage) {
+                      pageButton.classList.add("current-page");
+                  }
+                  paginationPages.appendChild(pageButton);
+              }
+          }
 
-// filter products
-function filterProducts() {
-    var searchQuery = document.getElementById('search').value.toLowerCase();
-    var statusFilter = document.getElementById('status-filter').value;
-    
-    var filteredProducts = userProducts.filter(function(product) {
-        var matchesSearch = product.product_name.toLowerCase().includes(searchQuery);
-        var matchesStatus = (statusFilter === 'all') || (product.status.toLowerCase() === statusFilter);
-        return matchesSearch && matchesStatus;
-    });
 
-    totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-    currentPage = 1;
-    displayUserProductCards(filteredProducts, currentPage, itemsPerPage);
-    updatePaginationUI(totalPages, currentPage);
-}
+          function displayUserProductCards(userProducts, currentPage, itemsPerPage) {
+            var tableBody = document.getElementById("invoice-table-body");
+            tableBody.innerHTML = ""; // Clear previous rows
+
+            var startIndex = (currentPage - 1) * itemsPerPage;
+            var endIndex = Math.min(startIndex + itemsPerPage, userProducts.length);
+
+            for (var i = startIndex; i < endIndex; i += 3) {
+                var row = document.createElement("tr");
+
+                for (var j = 0; j < 3; j++) {
+                    var cell = document.createElement("td");
+                    if (i + j < endIndex) {
+                        var product = userProducts[i + j];
+                        cell.appendChild(createCard(product));
+                    } else {
+                        cell.innerHTML = "&nbsp;";
+                    }
+                    row.appendChild(cell);
+                }
+
+                tableBody.appendChild(row);
+            }
+
+            // Add two empty rows at the end for spacing of footer top border line
+            for (var k = 0; k < 2; k++) {
+                var emptyRow = document.createElement("tr");
+                var emptyCell1 = document.createElement("td");
+                var emptyCell2 = document.createElement("td");
+                var emptyCell3 = document.createElement("td");
+
+                emptyRow.appendChild(emptyCell1);
+                emptyRow.appendChild(emptyCell2);
+                emptyRow.appendChild(emptyCell3);
+
+                tableBody.appendChild(emptyRow);
+            }
+
+            var totalPages = Math.ceil(userProducts.length / itemsPerPage);
+            updatePaginationUI(totalPages, currentPage);
+        }
+
+
+
+        // Pagination variables
+        var currentPage = 1;
+        var itemsPerPage = 6;
+        var totalPages = Math.ceil(userProducts.length / itemsPerPage);
+
+        // filters
+        document.getElementById('status-filter').addEventListener('change', function() {
+            const selectedStatus = this.value;
+            console.log('Selected Status:', selectedStatus);
+        });
+
+        function clearFilters() {
+            document.getElementById('search').value = '';
+            document.getElementById('status-filter').value = 'all';
+            displayUserProductCards(userProducts, currentPage, itemsPerPage);
+            updatePaginationUI(totalPages, currentPage);
+        }
+
+        function filterProducts() {
+            var searchQuery = document.getElementById('search').value.toLowerCase();
+            var statusFilter = document.getElementById('status-filter').value;
+            
+            var filteredProducts = userProducts.filter(function(product) {
+                var matchesSearch = product.product_name.toLowerCase().includes(searchQuery);
+                var matchesStatus = (statusFilter === 'all') || (product.status.toLowerCase() === statusFilter);
+                return matchesSearch && matchesStatus;
+            });
+
+            totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            currentPage = 1;
+            displayUserProductCards(filteredProducts, currentPage, itemsPerPage);
+            updatePaginationUI(totalPages, currentPage);
+        }
+        
+
+        // Initial display
+        displayUserProductCards(userProducts, currentPage, itemsPerPage);
+        updatePaginationUI(totalPages, currentPage);
+
 
 </script>
 

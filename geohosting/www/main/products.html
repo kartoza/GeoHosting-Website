@@ -121,7 +121,7 @@
                  <div class="products-container">
 
                     {% for item in stock_items %}
-
+                    {% if item.item_name == "GeoNode" %}
                     <div class="product">
                         <div>
                             <img src="{{ item.image }}" alt="Product">
@@ -139,7 +139,26 @@
                         <div></div>
                 
                     </div>
-
+                    {% else %}
+                        <div class="product product-soon">
+                        <div class="coming-soon-box">Coming Soon</div>
+                            <div>
+                                <img src="{{ item.image }}" alt="Product">
+                            </div>
+                          
+                            <div class="lato-sans-serif-bold-24 text-main">{{ item.item_name }}</div>
+                            <div class="description lato-sans-serif-regular-16 text-secondary">
+                                <p>
+                                    <script>
+                                        document.write(trimDescription(`{{ item.description | replace("'", "\\'") | replace('\n', '') }}`));
+                                    </script>
+                                </p>
+                            </div>
+                            <button class="product learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
+                            <div></div>
+                    
+                        </div>  
+                    {% endif %}
                     {% endfor %}
 
                 </div>
@@ -534,7 +553,6 @@
                         });
 
                         const data = await response.json();
-                        console.log(data); // debugging purposes
 
                         if (data.message.status === 'error') {
                             showCustomAlert(JSON.stringify(data.message.message), 'danger-alert');
@@ -562,7 +580,6 @@
                         if (userInfo) {
                             const { current_user, customer_name } = userInfo;
                             const canPurchase = await checkUserProductPurchase(generateItemCode(word1, word2));
-                            console.log(canPurchase);
 
 
                             if (!current_user || current_user === "Guest") {
