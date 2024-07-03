@@ -144,3 +144,36 @@ position: relative;
     right: 0;
     bottom: -21px;
 }
+
+.coming-soon{
+  position: relative;
+}
+.coming-soon::before{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.45);
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+}
+
+.coming-soon-container {
+  gap: 37px;
+  overflow: visible;
+}
+
+.coming-soon-img {
+  position: absolute;
+  top: -35px;
+  right: -36px;
+  z-index: 10;
+}
+
+.coming-soon .coming-soon-img img {
+  width: 180px;
+}
+.coming-soon-container .description{
+  overflow: visible;
+}
