@@ -160,8 +160,8 @@ position: relative;
 }
 
 .coming-soon-container {
-  gap: 37px;
-  overflow: visible;
+  gap: 37px !important;
+  overflow: visible !important;
 }
 
 .coming-soon-img {
