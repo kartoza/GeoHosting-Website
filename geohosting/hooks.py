@@ -229,10 +229,12 @@ app_license = "mit"
 
 
 from geohosting.api import get_user_info
+from geohosting.www.portal.support_tickets import update_issue
 
 
 override_whitelisted_methods = {
-    "get_user_info": "geohosting.api.get_user_info"
+    "get_user_info": "geohosting.api.get_user_info",
+    "geohosting.www.portal.support_tickets": "geohosting.www.portal.support_tickets",
 }
 
 override_whitelisted_methods = {
