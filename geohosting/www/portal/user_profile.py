@@ -5,6 +5,7 @@ from jinja2.runtime import DebugUndefined
 
 no_cache = 1
 
+
 def get_context(context):
     try:
         user = frappe.session.user
@@ -59,11 +60,13 @@ def get_context(context):
 
     return context
 
+
 def get_customer_address(customer_name):
     # Query the address linked to the customer
     primary_address = frappe.get_all("Address",
                                      filters={"owner": customer_name, "is_primary_address": 1},
-                                     fields=["name", "address_title", "address_line1", "city", "country", "pincode", "state"])
+                                     fields=["name", "address_title", "address_line1", "city", "country", "pincode",
+                                             "state"])
 
     if primary_address:
         # Return the primary address as a dictionary
