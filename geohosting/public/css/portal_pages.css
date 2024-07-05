@@ -1,24 +1,22 @@
   body {
-    position: relative;
-    background: #ECECEC;
-    font-family: 'Lato', sans-serif;
-    /* border: 5px solid red; */
-    margin-top: 1%;
+      position: relative;
+      font-family: 'Lato', sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+  }
+
+  .container {
+      display: flex;
   }
 
  /* Portal Pages Heading */
  .portal-pages-heading {
   /* Auto layout */
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px 64px;
-  gap: 10px;
-  position: absolute;
-  width: 1250px;
-  height: 56px;
-  left: 300px;
-  top: 68px;
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction: row;
 }
 
 .portal-pages-heading-bottom {
@@ -26,41 +24,52 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 0px 64px;
   gap: 10px;
-  position: absolute;
-  width: 1250px;
-  height: 56px;
-  left: 300px;
-  top: 68px;
 }
 
 .portal-pages-heading span {
   box-sizing: border-box;
-  /* Auto layout */
   display: flex;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
   padding: 0px 0px 8px;
-  gap: 10px;
-  width: 237px;
-  height: 48px;
-  border-bottom: 2px solid #57A0C7;
-  /* Inside auto layout */
-  flex: none;
-  order: 0;
-  flex-grow: 1;
+  width: 100%; /* Make the span take the full width of its container */
+  border-bottom: 2px solid #AEAEAE;
   font-family: 'Lato', sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 32px;
   line-height: 150%;
-  /* identical to box height, or 48px */
-  display: flex;
-  align-items: center;
   letter-spacing: 0.15px;
   color: #000000;
 }
+
+/*.portal-pages-heading span {*/
+/*  box-sizing: border-box;*/
+/*  !* Auto layout *!*/
+/*  display: flex;*/
+/*  flex-direction: row;*/
+/*  align-items: center;*/
+/*  padding: 0px 0px 8px;*/
+/*  gap: 10px;*/
+/*  width: 237px;*/
+/*  height: 48px;*/
+/*  border-bottom: 2px solid #AEAEAE;*/
+/*  !* Inside auto layout *!*/
+/*  flex: none;*/
+/*  order: 0;*/
+/*  flex-grow: 1;*/
+/*  font-family: 'Lato', sans-serif;*/
+/*  font-style: normal;*/
+/*  font-weight: 600;*/
+/*  font-size: 32px;*/
+/*  line-height: 150%;*/
+/*  !* identical to box height, or 48px *!*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  letter-spacing: 0.15px;*/
+/*  color: #000000;*/
+/*}*/
 
 
 
@@ -96,7 +105,6 @@
     border-spacing: 0;
     width: 60%;
     margin-top: 5%;
-    margin-left: 19.5%;
 }
 
 .support-ticket-table th,
@@ -119,26 +127,26 @@
 
 .support-ticket-table .date-fields {
     display: flex;
-    align-items: center; 
-    font-weight: normal; 
+    align-items: center;
+    font-weight: normal;
 }
 
 /* Adjust label styles */
 .support-ticket-table .date-fields label {
-    margin-right: 10px; 
+    margin-right: 10px;
 }
 
 /* Adjust input styles */
 .support-ticket-table .date-fields input[type="date"] {
     padding: 8px;
     box-sizing: border-box;
-    border: 1px solid gray; 
+    border: 1px solid gray;
     width: 276px; height: 40px;
     border-radius: 4px;
 }
 
 .support-ticket-table th span {
-  font-weight: normal; 
+  font-weight: normal;
   color: #57A0C7;;
   cursor: pointer;
 }
@@ -174,13 +182,13 @@
 
   .support-ticket-table .date-fields {
     display: flex;
-    align-items: start; 
+    align-items: start;
     flex-direction: column;
   }
 
   /* Adjust label styles */
   .support-ticket-table .date-fields label {
-      margin-right: 0px; 
+      margin-right: 0px;
   }
 
   .end-date-margin {
@@ -297,7 +305,7 @@
   /* border: 3px solid yellow; */
 }
 
-.input-group input, 
+.input-group input,
 .input-group select,
 .input-group textarea {
   width: 550px;
@@ -311,7 +319,7 @@
 
 
 .row {
-  display: flex; 
+  display: flex;
   gap: 20px;
 }
 
@@ -369,7 +377,7 @@ input:focus {
       animation: spin 2s linear infinite;
       margin: 0 auto;
     }
-    
+
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
@@ -377,7 +385,7 @@ input:focus {
 
 
     .pagination-button {
-      background-color: #ECB44B; 
+      background-color: #ECB44B;
       border: none;
       color: white;
       padding: 10px 20px;
@@ -387,19 +395,19 @@ input:focus {
       font-size: 16px;
       margin: 4px 2px;
       cursor: pointer;
-      border-radius: 10px; 
+      border-radius: 10px;
     }
-  
+
   .current-page {
       background-color: #57A0C7
   }
-  
+
   .pagination-button:hover {
       background-color: #57A0C7;
   }
 
   /* .pagination-container {
-    margin-left: 61.5%; 
+    margin-left: 61.5%;
     margin-top: 2%;
   } */
 
@@ -439,7 +447,7 @@ input:focus {
     width: 100% !important;
     margin-left: -10%;
   }
-  
+
 
   .input-group input,
   .input-group select,
@@ -449,10 +457,10 @@ input:focus {
   }
 
   .pagination-container {
-    margin-left: 72.5%; 
+    margin-left: 72.5%;
   }
 
-  
+
 }
 
 

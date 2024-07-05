@@ -4,127 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice Table</title>
-<link rel="stylesheet" href="portal_pages.css">
-<link rel="stylesheet" href="../style_guidelines.css">
-<script src="portal_pages.js"></script>
-<style>
-.invoice-table {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 60%;
-    margin-left: 20%;
-    margin-top: 2%;
-}
-
-.invoice-table th {
-    border-bottom: 1px solid gray; 
-}
-
-.invoice-table th,
-.invoice-table td {
-    padding: 10px;
-    text-align: left;
-}
-
-.invoice-table th:nth-child(1),
-.invoice-table td:nth-child(1) {
-    width: 50px; /* Adjust width of the first column */
-}
-
-.invoice-table th:nth-child(2),
-.invoice-table td:nth-child(2) {
-    width: auto; /* Adjust width of the second column */
-}
-
-.invoice-table th:nth-child(3),
-.invoice-table td:nth-child(3) {
-    width: auto; /* Adjust width of the third column */
-}
-
-.invoice-table th:nth-child(4),
-.invoice-table td:nth-child(4),
-.invoice-table th:nth-child(5),
-.invoice-table td:nth-child(5) {
-    width: 20px; /* Adjust width of the fourth and fifth columns */
-    height: auto;
-}
-
-.invoice-table .invoice-title {
-    /* color: #075192; */
-    /* font-weight: bold; */
-    border-radius: 10px;
-}
-
-.invoice-table .date-issued {
-    /* color: #075192; */
-    font-weight: normal;
-}
-
-.invoice-table .download-button,
-.invoice-table .share-button {
-    background-color: #F4B340;
-    border-radius: 6px;
-    padding: 10px; /* Increase padding for better image fit */
-    color: #000000;
-    text-decoration: none;
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-}
-
-.invoice-table .download-icon,
-.invoice-table .share-icon {
-    vertical-align: middle;
-    margin-right: 5px;
-    font-size: 18px;
-    height: auto;
-    max-width: 100%;
-}
-
-.invoice-table input[type="checkbox"] {
-    transform: scale(1.5); /* Increase the size of the checkbox */
-}
-
-.invoice-table input[type="checkbox"]::before {
-    border-color: #57A0C7; 
-}
-
-.pagination-container-invoice {
-    display: flex;
-    justify-content: flex-end; /* Align items to the right */
-    padding: 10px 0;
-}
-
-
-    /* Media query for smaller devices */
-  @media (max-width: 768px) {
-
-    .portal-pages-heading {
-        
-        top: -50px;
-        left: -38px;
-    }
-
-    
-
-    .invoice-table {
-        width: auto;
-        margin-left: 0%;
-    }
-    
-  }
-
-    
-</style>
+    <link rel="stylesheet" href="/assets/geohosting/css/styles.css">
+<link rel="stylesheet" href="/assets/geohosting/css/portal_pages.css">
+<link rel="stylesheet" href="/assets/geohosting/css/style_guidelines.css">
+<script src="/assets/geohosting/js/portal_pages.js"></script>
 </head>
 <body>
-
-
+<div class="container">
     {% include "templates/customer_portal_nav.html" %}
-  
+    <div class="main-content">
     <div class="portal-pages-heading">
         <span>Invoices</span>
-      </div>
+    </div>
 
     <table class="support-ticket-table">
         <tr>
@@ -139,7 +30,7 @@
                     <input type="date"  id="end-date" name="end-date" style="width: 276px; height: 40px;" >
                     <label for="clear" class="end-date-margin" id="clear-button" onclick="clearFilters()"><span>Clear</span></label>
                 </div>
-                
+
             </th>
         </tr>
     </table>
@@ -167,17 +58,18 @@
             </tr>
         </tfoot>
     </table>
-    
+    </div>
+</div>
     <script>
 
-        
 
-        
+
+
 
         document.getElementById("clear-button").addEventListener("click", clearFilters);
 
 
-        // POPULATE INVOICES TABLE WITH CONTEXT DATA 
+        // POPULATE INVOICES TABLE WITH CONTEXT DATA
         function populateInvoiceTable(invoices, currentPage, itemsPerPage) {
             var tableBody = document.getElementById("invoice-table-body");
             tableBody.innerHTML = ""; // Clear existing rows
@@ -186,29 +78,29 @@
             var startIndex = (currentPage - 1) * itemsPerPage;
             var endIndex = Math.min(startIndex + itemsPerPage, invoices.length);
 
-                    
+
             for (var i = startIndex; i < endIndex; i++) {
                 var invoice = invoices[i];
                 var row = document.createElement("tr");
-                
+
                 // Checkbox
                 var checkboxCell = document.createElement("td");
                 checkboxCell.innerHTML = "<input type='checkbox'>";
                 row.appendChild(checkboxCell);
-                
+
                 // Invoice title
                 var titleCell = document.createElement("td");
                 titleCell.textContent = invoice.name + ' ' + invoice.title;
                 titleCell.classList.add("invoice-title");
                 titleCell.classList.add("lato-sans-serif-semibold-16");
                 row.appendChild(titleCell);
-                
+
                 // Date issued
                 var dateCell = document.createElement("td");
                 dateCell.textContent = invoice.creation;
                 dateCell.classList.add("date-issued");
                 row.appendChild(dateCell);
-                
+
                 // Download button
                 var downloadCell = document.createElement("td");
                 var downloadLink = document.createElement("a");
@@ -221,8 +113,8 @@
                 downloadCell.appendChild(downloadLink);
                 row.appendChild(downloadCell);
 
-               
-                
+
+
                 // Share button
                 var shareCell = document.createElement("td");
                 var shareLink = document.createElement("a");
@@ -230,13 +122,13 @@
                 shareLink.innerHTML = "<img src='/assets/geohosting/images/share_icon.svg' alt='Share Icon'>";
                 shareCell.appendChild(shareLink);
                 row.appendChild(shareCell);
-                
+
                 tableBody.appendChild(row);
             };
         }
 
 
-        
+
 
         // Call filterInvoices function when search input or date inputs change
         document.getElementById("search").addEventListener("input", filterInvoices);
@@ -302,7 +194,7 @@
                     dateInRange = (invoice.creation >= startDate && invoice.creation <= endDate);
                 } else if (startDate) {
                     dateInRange = (invoice.creation >= startDate);
-                } 
+                }
 
                 // console.log(dateInRange)
 

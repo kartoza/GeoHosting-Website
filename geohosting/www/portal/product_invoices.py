@@ -4,6 +4,7 @@ from datetime import datetime, date, timedelta
 
 no_cache = 1
 
+
 def serialize_datetime(obj):
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
@@ -12,12 +13,14 @@ def serialize_datetime(obj):
         return obj.total_seconds()
     return obj
 
+
 # TODO IF ADMIN RETRIEVE ALL INVOICES
+
 def get_context(context):
     user_invoices = frappe.db.get_all("Sales Invoice", filters={
         'owner': ['=', frappe.session.user],
     }, fields='*', order_by="name")
-    
+
     # Serialize datetime objects in invoices
     for invoice in user_invoices:
         for key, value in invoice.items():
@@ -25,6 +28,5 @@ def get_context(context):
                 invoice[key] = serialize_datetime(value)
 
     context.invoices = user_invoices
-    
 
     return context
