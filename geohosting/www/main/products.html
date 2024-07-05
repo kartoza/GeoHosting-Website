@@ -541,7 +541,6 @@
 
                 async function checkUserProductPurchase(productId) {
                     try {
-
                         const url = "/api/method/geohosting.api.check_user_product_purchase";
 
                         const options = {
@@ -552,25 +551,22 @@
                             body: JSON.stringify({ product_id: productId }),
                         };
 
-                        fetchWithCSRF(url, options)
-                        .then(response => response.json())
-                        .then(response => {
-                            if (data.message.status === 'error') {
-                                showCustomAlert(JSON.stringify(data.message.message), 'danger-alert');
-                                return false;
-                            } else {
-                                return true;
-                            } 
-                        })
-                        .catch(error => {
-                            console.error('Error:', error.message);
-                        });
+                        const response = await fetchWithCSRF(url, options);
+                        const data = await response.json();
+
+                        if (data.message.status === 'error') {
+                            showCustomAlert(JSON.stringify(data.message.message), 'danger-alert');
+                            return false;
+                        } else {
+                            return true;
+                        } 
                     } catch (error) {
                         console.error('Error:', error);
                         showCustomAlert('An error occurred while checking the product purchase.', 'danger-alert');
                         return false;
                     }
                 }
+
 
                 function openSignInModal() {
                     return new Promise((resolve, reject) => {
