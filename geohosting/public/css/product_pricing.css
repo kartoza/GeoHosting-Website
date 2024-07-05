@@ -9,9 +9,6 @@
   width: 1380px;
   height: auto;
   left: 0%;
-  /* border: 3px solid red; */
-  /* top: -12%; */
-  /* border: 5px solid red; */
 }
 
 /* Card Styles */
@@ -133,10 +130,6 @@
 
 /* Monthly Price */
 .price-pricing {
-  /* font-family: 'Lato', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 64px; */
   line-height: 150%;
   text-align: center;
   letter-spacing: 0.15px;
@@ -269,16 +262,15 @@
 }
 
 .table-container {
-  width: 80%;
+  width: 100%;
   display: flex;
   justify-content: center;
   margin-bottom: 5%;
-  /* border: solid 3px red; */
 }
 
 .custom-table {
   border-collapse: collapse;
-  width: 90%;
+  width: 100%;
 }
 
 .custom-table td {
@@ -288,19 +280,19 @@
 }
 
 .logo-cell {
-  width: 100px; /* Adjust as needed */
+  width: 100px; 
   text-align: center;
 }
 
 .header-text {
   font-weight: bold;
-  font-size: 24px; /* Adjust font size as needed */
+  font-size: 24px;
   margin-bottom: 10px;
   text-align: start;
 }
 
 .table-paragraph {
-  font-size: 18px; /* Adjust font size as needed */
+  font-size: 18px;
   text-align: start;
   color: #3E3E3E;
 }
@@ -313,8 +305,6 @@
   cursor: pointer;
   transition: background-color 0.3s;
   position: relative;
-  /* left: 23%;
-  bottom: 5%; */
   width: 224px;
   height: 54px;
   padding: 8px 16px;
@@ -331,7 +321,6 @@
 #source-code-link {
   text-align: left;
   display: block;
-  /* margin-top: 5px; */
 }
 
 /* Responsive Design */

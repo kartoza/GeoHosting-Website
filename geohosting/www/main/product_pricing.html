@@ -21,10 +21,10 @@
         <!-- Right background image -->
         <div class="background-right"></div>
         <!-- Content goes here -->
-        <div class="" style="max-height: 100vh; display: flex; flex-direction: column; align-items: center; margin-top: 1%; gap: 20px;">
+        <div class="" style="max-height: 100vh; display: flex; flex-direction: column; align-items: center; margin-top: 1%; gap: 20px; overflow: auto;">
 
           <!-- Cards Container -->
-          <div class="cards-container-pricing">
+          <div class="cards-container-pricing" style="padding: 20px;">
               <!-- Card 1 -->
               <div class="card-pricing">
                   <div class="logo-pricing">
@@ -89,6 +89,7 @@
                 <p class="table-paragraph" id="source-code-text"></p>
                 <span onclick="openSourcePage()"><a id="source-code-link"></a></span>
               </td>
+              <td></td>
               <td class="logo-cell"><img src="/assets/geohosting/images/support_icon.svg" alt="Logo 2"></td>
               <td>
                 <div class="header-text">Support</div>
@@ -99,6 +100,7 @@
             <tr>
               <td></td>
               <td style="text-align: left;"><button class="table-button" onclick="openSourcePage()">Open Source Page</button></td>
+              <td></td>
               <td></td>
               <td style="text-align: left;"><button class="table-button" onclick="visitSupportCenter()">Visit Support Center</button></td>
             </tr>
