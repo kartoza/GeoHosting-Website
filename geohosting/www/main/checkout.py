@@ -265,7 +265,6 @@ def create_user_product(payment_request_name, sales_order=None):
 
             logo = '/assets/geohosting/images/' + item.item_code.split('-')[0].upper() + '.svg'
 
-            # Create User Products record
             user_product = frappe.get_doc({
                 'doctype': 'User Products',
                 'user': payment_request.email_to,

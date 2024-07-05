@@ -49,7 +49,7 @@ cd /frappe-bench/sites
 
 ```sh
 if [ ! -f currentsite.txt ]; then
-    echo "dcode.com" > currentsite.txt
+    echo "geohosting_test.com" > currentsite.txt
     echo "currentsite.txt created and dcode.com added."
 else
     echo "currentsite.txt already exists."

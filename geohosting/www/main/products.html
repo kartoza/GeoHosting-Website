@@ -247,12 +247,7 @@
                 }
 
                     function visitSupportCenter() {
-                        const supportLink = document.getElementById('support-link').href;
-                        if (supportLink) {
-                            window.open(supportLink.innerText, '_blank');
-                        } else {
-                            console.log('Support link is not defined.');
-                        }
+                        navigateToSupport()
                     }
             </script>
 
@@ -569,6 +564,23 @@
                     }
                 }
 
+                function openSignInModal() {
+                    return new Promise((resolve, reject) => {
+                        const modal = document.getElementById('signInModal');
+                        const body = document.getElementById('screenBody');
+                        const message = document.getElementById('sign-in-message');
+                        message.innerHTML = 'To complete transaction, please log in to your account.'
+                        modal.style.display = 'block';
+                        body.classList.add('blur-background');
+                        
+                        // Add event listener for modal close
+                        $('#signInModal').on('hidden.bs.modal', function () {
+                            resolve();
+                        });
+                    });
+                    
+                }
+
                 async function createSalesOrder(headingId) {
 
                     
@@ -579,23 +591,28 @@
                     
           
                     await fetchUserInfo().then(async userInfo => {
+                        var proceedToCheckout = true;
                         if (userInfo) {
                             const { current_user, customer_name } = userInfo;
                             const canPurchase = await checkUserProductPurchase(generateItemCode(word1, word2));
 
 
                             if (!current_user || current_user === "Guest") {
-                                showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
-                                removeButtonLoader(dynamicButton, btn_text);
+                                // showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
+                                // removeButtonLoader(dynamicButton, btn_text);
+                                await openSignInModal();
+                                if(!localStorage.getItem("owner") !== null)
+                                    proceedToCheckout = false;
                             } else if (!customer_name) {
                                 showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
                                 removeButtonLoader(dynamicButton, btn_text);
+                                proceedToCheckout = false;
                             } else if(!canPurchase) {
                                 console.log('Cannot purchase product')
                                 removeButtonLoader(dynamicButton, btn_text);
                                 return
                             }
-                            else {
+                            if(proceedToCheckout) {
                                 const itemCode = generateItemCode(word1, word2);
                                 
 
