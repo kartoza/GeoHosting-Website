@@ -24,6 +24,7 @@
           background-size: cover;
           background-repeat: repeat-y; /* Repeat vertically if content is longer */
           margin-top: 4%;
+          z-index: -1;
         }
         
         /* Right background image */
@@ -37,6 +38,7 @@
           background-size: cover;
           background-repeat: repeat-y; /* Repeat vertically if content is longer */
           margin-top: 4%;
+          z-index: -1;
         }
         
         
