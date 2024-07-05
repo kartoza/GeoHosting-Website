@@ -515,15 +515,15 @@
                 function addButtonLoader(dynamicButton){
                     var btn_text = dynamicButton.innerHTML;
                     dynamicButton.innerHTML = '<div class="btn_loader"></div>';
-                    dynamicButton.style.width = '230px';
-                    dynamicButton.style.height = '54px';
+                    dynamicButton.style.width = '220px';
+                    dynamicButton.style.height = '40px';
                     return btn_text;
                 }
 
                 function removeButtonLoader(dynamicButton, btn_text){
                     dynamicButton.innerHTML = btn_text;
-                    dynamicButton.style.width = '230px';
-                    dynamicButton.style.height = '54px';
+                    dynamicButton.style.width = '220px';
+                    dynamicButton.style.height = '40px';
                 }
 
                 function generateItemCode(word1,word2){
@@ -577,12 +577,8 @@
                         modal.style.display = 'block';
                         body.classList.add('blur-background');
                         
-                        // Add event listener for modal close
-                        $('#signInModal').on('hidden.bs.modal', function () {
-                            resolve();
-                        });
-                    });
-                    
+                        resolve();
+                    }); 
                 }
 
                 async function createSalesOrder(headingId) {
@@ -602,11 +598,12 @@
 
 
                             if (!current_user || current_user === "Guest") {
-                                // showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
-                                // removeButtonLoader(dynamicButton, btn_text);
                                 await openSignInModal();
-                                if(!localStorage.getItem("owner") !== null)
+                                console.log("on resolve successful")
+                                if(!localStorage.getItem("owner") !== null){
                                     proceedToCheckout = false;
+                                }
+                                    
                             } else if (!customer_name) {
                                 showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
                                 removeButtonLoader(dynamicButton, btn_text);
