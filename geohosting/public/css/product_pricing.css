@@ -262,10 +262,11 @@
 }
 
 .table-container {
-  width: 100%;
+  width: 90%;
   display: flex;
   justify-content: center;
   margin-bottom: 5%;
+  border: 3px solid red;
 }
 
 .custom-table {

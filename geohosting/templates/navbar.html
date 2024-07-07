@@ -827,6 +827,11 @@ input:focus {
                   localStorage.setItem("owner", username);
                   displayAuthenticationButtons(true);
                   closeModal('signInModal');
+
+                  if (signInResolve) {
+                      signInResolve();
+                      signInResolve = null;
+                  }
               } else {
                   showCustomAlert(JSON.stringify(data.message), 'danger-alert',null);
               }
