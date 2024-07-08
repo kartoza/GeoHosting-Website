@@ -28,8 +28,8 @@
     color: #000000;
     margin-bottom: 10px;
     display: flex;
-    justify-content: space-between; /* Move dot to the right */
-    align-items: center; /* Center vertically */
+    justify-content: space-between; 
+    align-items: center;
 }
 
 .row {
@@ -44,7 +44,7 @@
 .status {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Move dot to the right */
+    margin-left: auto;
 }
 
 .dot {
@@ -117,23 +117,7 @@ p {
     <span>Notifications</span>
   </div>
 
-  <table class="support-ticket-table">
-        <tr>
-            <th>
-                <input type="text" id="search" name="search" style="border: 1px solid gray; width: 250px;" placeholder="Search Notifications">
-            </th>
-            <th>
-                <div class="date-fields">
-                    <label for="start-date">Start: </label>
-                    <input type="date" name="start-date">
-                    <label for="end-date" class="end-date-margin">End: </label>
-                    <input type="date"  id="end-date" name="end-date">
-                    <label for="clear" class="end-date-margin"><span>Clear</span></label>
-                </div>
-                
-            </th>
-        </tr>
-    </table>
+  {% include "templates/portal_search_bar.html" %}
 
 
   <div class="card">
@@ -166,11 +150,9 @@ p {
 
 
     <script>
-        // JavaScript to add ellipsis and "Read more" functionality THIS WILL NEED TO BE DYNAMIC ON MULTIPLE CARDS TODO
         const paragraph = document.getElementById("paragraph");
         const readMore = document.getElementById("read-more");
 
-        // Show ellipsis and "Read more" link if paragraph exceeds 20 words
         if (paragraph.textContent.split(" ").length > 20) {
             paragraph.textContent = paragraph.textContent.split(" ").slice(0, 20).join(" ") + "...";
             readMore.style.display = "inline"; // Display "Read more" link

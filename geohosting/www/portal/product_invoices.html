@@ -28,35 +28,32 @@
 
 .invoice-table th:nth-child(1),
 .invoice-table td:nth-child(1) {
-    width: 50px; /* Adjust width of the first column */
+    width: 50px;
 }
 
 .invoice-table th:nth-child(2),
 .invoice-table td:nth-child(2) {
-    width: auto; /* Adjust width of the second column */
+    width: auto;
 }
 
 .invoice-table th:nth-child(3),
 .invoice-table td:nth-child(3) {
-    width: auto; /* Adjust width of the third column */
+    width: auto; 
 }
 
 .invoice-table th:nth-child(4),
 .invoice-table td:nth-child(4),
 .invoice-table th:nth-child(5),
 .invoice-table td:nth-child(5) {
-    width: 20px; /* Adjust width of the fourth and fifth columns */
+    width: 20px; 
     height: auto;
 }
 
 .invoice-table .invoice-title {
-    /* color: #075192; */
-    /* font-weight: bold; */
     border-radius: 10px;
 }
 
 .invoice-table .date-issued {
-    /* color: #075192; */
     font-weight: normal;
 }
 
@@ -64,7 +61,7 @@
 .invoice-table .share-button {
     background-color: #F4B340;
     border-radius: 6px;
-    padding: 10px; /* Increase padding for better image fit */
+    padding: 10px;
     color: #000000;
     text-decoration: none;
     display: inline-block;
@@ -82,7 +79,7 @@
 }
 
 .invoice-table input[type="checkbox"] {
-    transform: scale(1.5); /* Increase the size of the checkbox */
+    transform: scale(1.5); 
 }
 
 .invoice-table input[type="checkbox"]::before {
@@ -91,7 +88,7 @@
 
 .pagination-container-invoice {
     display: flex;
-    justify-content: flex-end; /* Align items to the right */
+    justify-content: flex-end;
     padding: 10px 0;
 }
 
@@ -126,25 +123,8 @@
         <span>Invoices</span>
       </div>
 
-    <table class="support-ticket-table">
-        <tr>
-            <th>
-                <input type="text" id="search" name="search" style="border: 1px solid gray; width: 276px; height: 40px;" placeholder="Search Invoices">
-            </th>
-            <th>
-                <div class="date-fields">
-                    <label for="start-date">Start: </label>
-                    <input type="date" name="start-date" style="width: 276px; height: 40px;" >
-                    <label for="end-date" class="end-date-margin">End: </label>
-                    <input type="date"  id="end-date" name="end-date" style="width: 276px; height: 40px;" >
-                    <label for="clear" class="end-date-margin" id="clear-button" onclick="clearFilters()"><span>Clear</span></label>
-                </div>
-                
-            </th>
-        </tr>
-    </table>
+    {% include "templates/portal_search_bar.html" %}
 
-    <!-- HTML table for displaying invoices -->
     <table class="invoice-table">
         <thead>
             <tr>
@@ -303,8 +283,6 @@
                 } else if (startDate) {
                     dateInRange = (invoice.creation >= startDate);
                 } 
-
-                // console.log(dateInRange)
 
                 return titleMatches && dateInRange;
             });
