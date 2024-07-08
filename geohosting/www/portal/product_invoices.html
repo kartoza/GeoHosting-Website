@@ -109,19 +109,21 @@
                 var downloadUrl = '/printview?doctype=Sales Invoice&name=' + invoice.name + '&format=Kartoza%20Without%20Timesheet';
                 downloadLink.href = downloadUrl;
                 downloadLink.className = "download-button";
+                downloadLink.target = "_blank"; // Open link in a new tab
                 downloadLink.innerHTML = "<img src='/assets/geohosting/images/download_icon.svg' alt='Download Icon'>";
                 downloadCell.appendChild(downloadLink);
                 row.appendChild(downloadCell);
 
 
 
-                // Share button
-                var shareCell = document.createElement("td");
-                var shareLink = document.createElement("a");
-                shareLink.className = "share-button";
-                shareLink.innerHTML = "<img src='/assets/geohosting/images/share_icon.svg' alt='Share Icon'>";
-                shareCell.appendChild(shareLink);
-                row.appendChild(shareCell);
+
+            //     // Share button
+            //     var shareCell = document.createElement("td");
+            //     var shareLink = document.createElement("a");
+            //     shareLink.className = "share-button";
+            //     shareLink.innerHTML = "<img src='/assets/geohosting/images/share_icon.svg' alt='Share Icon'>";
+            //     shareCell.appendChild(shareLink);
+            //     row.appendChild(shareCell);
 
                 tableBody.appendChild(row);
             };
