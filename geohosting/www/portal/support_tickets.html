@@ -300,15 +300,15 @@ p {
               <input type="text" placeholder="Subject" id="subjectInput">
           </div>
           
-          <div class="input-group-item">
-              <label for="prioritySelect">Priority</label>
+          <!-- <div class="input-group-item">
+              <label for="prioritySelect">Priority:</label>
               <select id="prioritySelect">
                   <option value="">Select Priority</option>
                   <option value="High">High</option>
                   <option value="Medium">Medium</option>
                   <option value="Low">Low</option>
               </select>
-          </div>
+          </div> -->
           
           <div class="input-group-item">
               <label for="issueTypeSelect">Issue Type</label>
@@ -364,7 +364,7 @@ p {
             if(ticket) {
                 document.getElementById("nameInput").value = '{{frappe.session.user}}';
                 document.getElementById("subjectInput").value = ticket.subject;
-                document.getElementById("prioritySelect").value = ticket.priority;
+                // document.getElementById("prioritySelect").value = ticket.priority;
                 document.getElementById("issueTypeSelect").value = ticket.issue_type;
                 editorInstance.setData(ticket.description);
                 document.getElementById("submitBtn").setAttribute("data-issue-id", ticket.issue_id);
@@ -373,7 +373,7 @@ p {
             }else{
                 document.getElementById("nameInput").value = '{{frappe.session.user}}';
                 document.getElementById("subjectInput").value = "";
-                document.getElementById("prioritySelect").value = "";
+                // document.getElementById("prioritySelect").value = "";
                 document.getElementById("issueTypeSelect").value = "";
                 editorInstance.setData("");
                 document.getElementById("submitBtn").setAttribute("data-issue-id", "");
@@ -688,9 +688,9 @@ p {
     });
 
 
-    document.getElementById('prioritySelect').addEventListener('change', function() {
-      document.getElementById('priorityInput').value = this.value;
-    });
+    // document.getElementById('prioritySelect').addEventListener('change', function() {
+    //   document.getElementById('priorityInput').value = this.value;
+    // });
 
     document.getElementById('issueTypeSelect').addEventListener('change', function() {
       document.getElementById('issueTypeInput').value = this.value;
@@ -719,7 +719,7 @@ p {
     function submitForm() {
       var name = document.getElementById("nameInput").value;
       var subject = document.getElementById("subjectInput").value;
-      var priority = document.getElementById("prioritySelect").value;
+    //   var priority = document.getElementById("prioritySelect").value;
       var issueType = document.getElementById("issueTypeSelect").value;
       var loadingIndicator = document.getElementById('loading-indicator2');
       var submitBtn = document.getElementById('submitBtn');
@@ -731,7 +731,7 @@ p {
           "raised_by": name,
           "owner": "{{ frappe.session.user }}",
           "subject": subject,
-          "priority": priority,
+        //   "priority": priority,
           "issue_type": issueType,
           "description": editorData,
           "status": "Open"
@@ -779,7 +779,7 @@ p {
     async function updateTicket() {
       var name = document.getElementById("nameInput").value;
       var subject = document.getElementById("subjectInput").value;
-      var priority = document.getElementById("prioritySelect").value;
+    //   var priority = document.getElementById("prioritySelect").value;
       var issueType = document.getElementById("issueTypeSelect").value;
       var loadingIndicator = document.getElementById('loading-indicator2');
       var submitBtn = document.getElementById('submitBtn');
@@ -792,7 +792,7 @@ p {
           "raised_by": name,
           "owner": "{{ frappe.session.user }}",
           "subject": subject,
-          "priority": priority,
+        //   "priority": priority,
           "issue_type": issueType,
           "description": editorData,
           "status": "Open"
