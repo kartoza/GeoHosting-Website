@@ -1,3 +1,4 @@
+var proceedToCheckout = true;
 
 function showCustomAlert(message, alertType, backgroundContainer) {
     try{
@@ -198,7 +199,6 @@ async function fetchAttachments(item_code) {
 
 
 function formatCurrencyDisabled(value, currency) {
-    // Determine the minimum and maximum fraction digits based on the value
     let isInteger = Number.isInteger(value);
     let options = {
         style: 'currency',
@@ -209,10 +209,6 @@ function formatCurrencyDisabled(value, currency) {
     
     // Format the value using toLocaleString
     let formattedValue = value.toLocaleString('en-ZA', options);
-    // console.log('product price',value)
-    // let number = parseFloat(value);
-
-    // Check if the value has two decimal places and needs a line break for readability
     if (!isInteger && number >= 100000) {
         let parts = formattedValue.split('.');
         let main = parts[0];
@@ -224,7 +220,9 @@ function formatCurrencyDisabled(value, currency) {
         let decimals = parts.length > 1 ? '.' + parts[1] : '';
         formattedValue = `${main}<br>${decimals}`;
     }
+}
 
-    
-   
+
+function proceedToCheckout(){
+    return true;
 }

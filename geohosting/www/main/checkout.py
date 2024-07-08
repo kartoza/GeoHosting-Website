@@ -211,6 +211,23 @@ def queue_verify_transaction(transaction):
 #         frappe.log_error(frappe.get_traceback() + str(frappe.form_dict), 'Verify Transaction')
 
 
+def process_item(item):
+    item_code_part = item['item_code'].split('-')[0].upper()
+
+    item_name = item['item_name']
+    if item_name.lower() == 'geonode':
+        item_name = 'GeoNode'
+    elif item_name.lower() == 'geoserver':
+        item_name = 'Geoserver'
+
+    logo = '/assets/geohosting/images/' + item_code_part + '.svg'
+
+    return {
+        'item_name': item_name,
+        'logo': logo
+    }
+
+
 def create_user_product(payment_request_name, sales_order=None):
     try:
         payment_request = frappe.get_doc('Payment Request', payment_request_name)
@@ -226,12 +243,12 @@ def create_user_product(payment_request_name, sales_order=None):
             frappe.log_error(f'Sales Order {sales_order_name} referenced in Payment Request {payment_request_name} does not exist.')
             return
 
-    # Define specifications based on item code prefix and size example TODO extract specs from db
+    # Define specifications based on item code prefix and size example TODO extract specs from db or controller results
     specifications_map = {
         "geonode": {
-            "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
-            "MEDIUM": "4 CPUs, 8GB RAM, 80GB Storage",
-            "LARGE": "8 CPUs, 16GB RAM, 120GB Storage"
+            "SMALL": "..., ..., ...",
+            "MEDIUM": "..., ..., ...",
+            "LARGE": "..., ..., ..."
         },
         "geosight": {
             "SMALL": "2 CPUs, 8GB RAM, 60GB Storage",
@@ -255,7 +272,6 @@ def create_user_product(payment_request_name, sales_order=None):
         }
     }
 
-    MAX_NAME_LENGTH = 140
 
     for item in sales_order.items:
         try:
@@ -263,7 +279,8 @@ def create_user_product(payment_request_name, sales_order=None):
 
             specifications = specifications_map.get(prefix.lower(), {}).get(size.upper(), "")
 
-            logo = '/assets/geohosting/images/' + item.item_code.split('-')[0].upper() + '.svg'
+            processed_item = process_item(item)
+            logo = processed_item['logo']
 
             user_product = frappe.get_doc({
                 'doctype': 'User Products',
@@ -275,9 +292,9 @@ def create_user_product(payment_request_name, sales_order=None):
                 'status': "Inactive",
                 'build': 'Pending',
                 'product_meta': {
-                    'url_path': f"constructing",
-                    'username': "Admin",
-                    'password': "test"
+                    'url_path': f"Constructing",
+                    'username': "...",
+                    'password': "..."
                 },
                 'logo': logo
             })

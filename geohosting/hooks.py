@@ -230,6 +230,7 @@ app_license = "mit"
 
 from geohosting.api import get_user_info
 from geohosting.www.portal.support_tickets import update_issue
+from .custom_signup import forgot_password
 
 
 override_whitelisted_methods = {
@@ -238,5 +239,6 @@ override_whitelisted_methods = {
 }
 
 override_whitelisted_methods = {
-    "frappe.www.login.sign_up": "geohosting.custom_signup.CustomSignup.signup"
+    "frappe.www.login.sign_up": "geohosting.custom_signup.CustomSignup.signup",
+    "frappe.www.login.sign_up": "geohosting.custom_signup.forgot_password",
 }
