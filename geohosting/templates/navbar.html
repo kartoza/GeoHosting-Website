@@ -574,7 +574,7 @@ input:focus {
               </div>
           </div>
           <div class="input-field" style="display: flex; justify-content: flex-end;">
-              <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
+              <span class="forgot-password" onclick="openForgotPasswordModal()">Forgot password</span>
           </div>
           <button class="button" onclick="signInSuccess()">Sign In</button>
       </div>
@@ -607,6 +607,22 @@ input:focus {
     </div>
     
 
+<!-- Forgot Password Modal -->
+<div id="forgotPasswordModal" class="modal">
+  <div class="modal-content">
+      <span class="close" onclick="closeModal('forgotPasswordModal')" style="font-size: 28px;">&times;</span> <!-- Close button -->
+      <h2 class="sign-in-title" style="text-align: center;">Forgot Password</h2>
+      <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
+      <div class="input-field">
+        <h2 class="sign-in-title" for="email">Email</h2>
+        <input type="email" id="email" name="email" placeholder="Email" style="margin: 0 auto;">
+      </div>
+      <div class="input-field" style="display: flex; justify-content: flex-end;">
+        <span class="forgot-password" onclick="openSignInModal()">Back to Sign In</span>
+      </div>
+      <button class="button" onclick="resetPassword()">Reset Password</button>
+  </div>
+</div>
 
   <div class="customer-portal-container" id="customer-portal" style="display: none;">
             
@@ -685,7 +701,16 @@ input:focus {
         });
     
         function openSignInModal() {
+          closeModal("forgotPasswordModal")
           const modal = document.getElementById('signInModal');
+          const body = document.getElementById('screenBody');
+          modal.style.display = 'block';
+          body.classList.add('blur-background');
+        }
+
+        function openForgotPasswordModal() {
+          closeModal("signInModal")
+          const modal = document.getElementById('forgotPasswordModal');
           const body = document.getElementById('screenBody');
           modal.style.display = 'block';
           body.classList.add('blur-background');
@@ -984,7 +1009,39 @@ input:focus {
         });
       }
 
+      function resetPassword() {
+      const email = document.getElementById('email').value;
+      const formData = new FormData();
+      var currentUrl = window.location.href;
+      
+      formData.append('email', email);
+      formData.append('URL', currentUrl);
+      
+      const domain = currentUrl.split('/')[2];
+      const url = `http://${domain}/api/method/geohosting.custom_signup.forgot_password`;
 
+      fetch(url, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (!response.ok) {
+          alert('Network response was not ok');
+          showCustomAlert('An error occurred while resetting the password.', 'danger-alert', null);
+        }
+        return response.json();
+      })
+      .then(data => {
+        debugger
+        showCustomAlert(JSON.stringify(data.message), 'success-alert', null);
+        document.getElementById('email').value = '';
+      })
+    }
+
+    function showCustomAlert(message, className, timeout) {
+      // Implement the logic to show custom alerts
+      alert(message);
+    }
       </script>
     
   </body>
