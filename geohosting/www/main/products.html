@@ -564,21 +564,24 @@
                     }
                 }
 
+                let signInResolve;
+
                 function openSignInModal() {
                     return new Promise((resolve, reject) => {
-                        const modal = document.getElementById('signInModal');
-                        const body = document.getElementById('screenBody');
-                        const message = document.getElementById('sign-in-message');
-                        message.innerHTML = 'To complete transaction, please log in to your account.'
-                        modal.style.display = 'block';
-                        body.classList.add('blur-background');
-                        
-                        // Add event listener for modal close
-                        $('#signInModal').on('hidden.bs.modal', function () {
-                            resolve();
-                        });
+                        try{
+                            const modal = document.getElementById('signInModal');
+                            const body = document.getElementById('screenBody');
+                            const message = document.getElementById('sign-in-message');
+                            message.innerHTML = 'To complete the transaction, please log in to your account.';
+                            modal.style.display = 'block';
+                            body.classList.add('blur-background');
+
+                            signInResolve = resolve;
+
+                        }catch(exception){
+                            console.log(exception.message)
+                        }
                     });
-                    
                 }
 
                 async function createSalesOrder(headingId) {
@@ -598,11 +601,23 @@
 
 
                             if (!current_user || current_user === "Guest") {
-                                // showCustomAlert('Login or create an account to purchase product.', 'danger-alert',backgroundContainer);
-                                // removeButtonLoader(dynamicButton, btn_text);
                                 await openSignInModal();
-                                if(!localStorage.getItem("owner") !== null)
-                                    proceedToCheckout = false;
+                                if(!localStorage.getItem("owner") !== null){
+                                    await fetchUserInfo().then(async userInfo => {
+                                        if (userInfo) {
+                                            const { current_user, customer_name } = userInfo;
+                                            if (customer_name)
+                                                proceedToCheckout = true;
+                                            else {
+                                                showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
+                                                removeButtonLoader(dynamicButton, btn_text);
+                                                proceedToCheckout = false;
+                                            }
+                                        }
+                                        const message = document.getElementById('sign-in-message');
+                                        message.innerHTML = '';
+                                    });
+                                }      
                             } else if (!customer_name) {
                                 showCustomAlert('Cannot create a sales order for a non customer account.', 'danger-alert',backgroundContainer);
                                 removeButtonLoader(dynamicButton, btn_text);
