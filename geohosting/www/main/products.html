@@ -572,15 +572,19 @@
 
                 function openSignInModal() {
                     return new Promise((resolve, reject) => {
-                        const modal = document.getElementById('signInModal');
-                        const body = document.getElementById('screenBody');
-                        const message = document.getElementById('sign-in-message');
-                        message.innerHTML = 'To complete the transaction, please log in to your account.';
-                        modal.style.display = 'block';
-                        body.classList.add('blur-background');
+                        try{
+                            const modal = document.getElementById('signInModal');
+                            const body = document.getElementById('screenBody');
+                            const message = document.getElementById('sign-in-message');
+                            message.innerHTML = 'To complete the transaction, please log in to your account.';
+                            modal.style.display = 'block';
+                            body.classList.add('blur-background');
 
-                        signInResolve = resolve;
+                            signInResolve = resolve;
 
+                        }catch(exception){
+                            console.log(exception.message)
+                        }
                     });
                 }
 
@@ -614,6 +618,8 @@
                                                 proceedToCheckout = false;
                                             }
                                         }
+                                        const message = document.getElementById('sign-in-message');
+                                        message.innerHTML = '';
                                     });
                                 }      
                             } else if (!customer_name) {
