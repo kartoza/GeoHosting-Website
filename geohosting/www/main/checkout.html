@@ -594,8 +594,8 @@
                             </td>
                             <td>
                                 <div>
-                                    <div class="product-features" id="product-features">Product Features</div>
-                                    <ul class="features-list">
+                                    <div class="product-features">Product Features</div>
+                                    <ul class="features-list" id="product-features">
                                         <li>32GB RAM</li>
                                         <li>4 CPUs</li>
                                         <li>32GB Memory</li>
@@ -747,7 +747,7 @@
             netTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.net_total.toLocaleString()}`; 
             vatAmountElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.vat.toLocaleString()}`; 
             grandTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total.toLocaleString()}`;
-            grandTotalBElement.textContent = `R${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total.toLocaleString()}`; 
+            grandTotalBElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total.toLocaleString()}`; 
         }
 
         function incrementQuantity() {
