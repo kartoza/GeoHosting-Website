@@ -236,7 +236,3 @@ override_whitelisted_methods = {
     "get_user_info": "geohosting.api.get_user_info",
     "geohosting.www.portal.support_tickets": "geohosting.www.portal.support_tickets",
 }
-
-override_whitelisted_methods = {
-    "frappe.www.login.sign_up": "geohosting.custom_signup.CustomSignup.signup"
-}
