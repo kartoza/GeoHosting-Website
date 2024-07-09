@@ -247,8 +247,20 @@
                     }
                 }
 
-                    function visitSupportCenter() {
-                        navigateToSupport()
+                    async function visitSupportCenter() {
+                        await fetchUserInfo().then(async userInfo => {
+                        var proceedToCheckout = true;
+                        if (userInfo) {
+                            const { current_user, customer_name } = userInfo;
+
+
+                            if (!current_user || current_user === "Guest") {
+                                await openSignInModal();
+                                if(!localStorage.getItem("owner") !== null){
+                                    navigateToSupport()  
+                                }  else showCustomAlert('You must be logged in.', 'danger-alert',backgroundContainer);                    
+                            } else navigateToSupport()
+                         }})
                     }
             </script>
 
