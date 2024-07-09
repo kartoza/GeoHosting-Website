@@ -508,6 +508,98 @@ input:focus {
       }
   }
 
+  .modal-sign-up {
+    width: 789px;
+  }
+  .modal-sign-up .modal-flex{
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .modal-left{
+    width: 50%;
+    padding-right: 50px;
+  }
+  .welcome-text{
+    color: #555555;
+    font-size: 24px;
+    margin-top: 38px;
+    text-align: center;
+  }
+  .modal-right{
+    width: 50%;
+  }
+  .modal-sign-up .modal-content{
+    padding: 50px;
+  }
+  .input-field {
+    width: 100%;
+    margin-left: 0;
+  }
+  .input-field label{
+    color: #555555;
+    text-align: left;
+    font-size: 16px;
+    margin-bottom: 8px !important;
+    width: 100%;
+    display: inline-block;
+  }
+  .input-field input {
+    border: solid 1px #E5E5E5;
+    background-color: #fff;
+    padding: 11px 10px;
+    width: 100%;
+    color: #626262;
+    font-size: 14px;
+  }
+  .modal-right h2 {
+    margin-top: 0;
+    font-size: 36px;
+    color: #555555;
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+  .modal-right p {
+    margin-top: 0;
+    font-size: 16px;
+    color: #555555;
+    text-align: left;
+    margin-bottom: 30px;
+  }
+  .modal-right .button{
+    width: 100%;
+    background-color: #57A0C7;
+  }
+  .forgot-password-box{
+    text-align: center;
+    font-size: 16px;
+    color: #555555;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    width: 100%;
+  }
+  .forgot-password-box span {
+    color: #57A0C7 !important;
+  }
+  .dont-account{
+    text-align: center;
+    font-size: 16px;
+    color: #3E3E3E;
+    margin-bottom: 5px;
+    width: 100%;
+    font-weight: bold;
+  }
+  .account-url{
+    text-align: center;
+    font-size: 16px;
+    color: #57A0C7;
+    width: 100%;
+    margin: 0px auto;
+    display: inline-block;
+    text-decoration: none;
+  }
+
 </style>
 </head>
 <body class="navbar">
@@ -556,27 +648,40 @@ input:focus {
     </div>
   
     <!-- Sign In Modal -->
-    <div id="signInModal" class="modal">
+    <div id="signInModal" class="modal modal-sign-up">
       <div class="modal-content">
           <span class="close" onclick="closeModal('signInModal')" style="font-size: 28px;">&times;</span> <!-- Close button -->
-          <h2 class="sign-in-title" style="text-align: center;">Sign In</h2>
-          <span id="sign-in-message"></span>
-          <img src="/assets/geohosting/images/user_placeholder.svg" alt="Avatar" style="display: block; margin: 0 auto; border-radius: 50%; width: 300px; height: 219px; margin-bottom: 20px;">
-          <div class="input-field">
-              <h2 class="sign-in-title" for="username">Username</h2>
-              <input type="text" id="username" name="username" placeholder="Username" style="margin: 0 auto;">
-          </div>
-          <div class="input-field">
-              <h2 class="sign-in-title" for="password">Password</h2>
-              <div style="position: relative;">
-                  <input type="password" id="password" name="password" placeholder="Password" style="margin: 0 auto;">
-                  <span id="togglePassword" class="toggle-password" onclick="togglePasswordVisibility()" style="cursor: pointer;">Show</span>
+          <div class="modal-flex">
+            <div class="modal-left">
+              <div>
+                <img src="/assets/geohosting/images/GeoHosting_Image.png" alt="Avatar" >
+                <div class="welcome-text">Welcome to a better GIS platform where privacy and freedom come first.</div>
               </div>
+            </div>
+            <div class="modal-right">
+              <h2 class="sign-in-title">Sign In</h2>
+              <p>In order to add this item to your cart, please sign in to your account.</p>
+              <span id="sign-in-message"></span>
+              <div class="input-field">
+                  <label for="email">Email</label>
+                  <input type="text" id="email" name="email" placeholder="example@email.com" style="margin: 0 auto;">
+              </div>
+              <div class="input-field">
+                  <label for="password">Password</label>
+                  <div style="position: relative;">
+                      <input type="password" id="password" name="password" placeholder="Your password" style="margin: 0 auto;">
+                      <span id="togglePassword" class="toggle-password" onclick="togglePasswordVisibility()" style="cursor: pointer;">Show</span>
+                  </div>
+              </div>
+         
+              <button class="button" onclick="signInSuccess()">Sign In</button>
+
+              <div class="forgot-password-box">Forgot your password? <span class="forgot-password" onclick="navigateToForgotPassword()">Reset password</span></div>
+              <div class="dont-account">Don’t have an account yet?</div>
+              <a href="#" class="account-url" onclick="navigateToSignUp()">Create an account</a>
+            </div>
           </div>
-          <div class="input-field" style="display: flex; justify-content: flex-end;">
-              <span class="forgot-password" onclick="navigateToForgotPassword()">Forgot password</span>
-          </div>
-          <button class="button" onclick="signInSuccess()">Sign In</button>
+          
       </div>
     </div>
 
