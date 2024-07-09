@@ -9,9 +9,6 @@
   width: 1380px;
   height: auto;
   left: 0%;
-  /* border: 3px solid red; */
-  /* top: -12%; */
-  /* border: 5px solid red; */
 }
 
 /* Card Styles */
@@ -27,19 +24,10 @@
   /* border: 5px solid green; */
 }
 
-.card-pricing:hover{
+.card-pricing:not(:first-child):hover {
   transform: translateY(-10px);
   transition: all 0.3s ease-in;
 }
-
-/* .card-pricing:nth-child(4) {
-  background: #F4B340;
-  background-image: url('/assets/geohosting/images/portal_frame.png'); 
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-} */
-
 
 .button-pricing-gold {
   display: flex;
@@ -133,10 +121,6 @@
 
 /* Monthly Price */
 .price-pricing {
-  /* font-family: 'Lato', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 64px; */
   line-height: 150%;
   text-align: center;
   letter-spacing: 0.15px;
@@ -288,19 +272,19 @@
 }
 
 .logo-cell {
-  width: 100px; /* Adjust as needed */
+  width: 100px;
   text-align: center;
 }
 
 .header-text {
   font-weight: bold;
-  font-size: 24px; /* Adjust font size as needed */
+  font-size: 24px;
   margin-bottom: 10px;
   text-align: start;
 }
 
 .table-paragraph {
-  font-size: 18px; /* Adjust font size as needed */
+  font-size: 18px; 
   text-align: start;
   color: #3E3E3E;
 }
