@@ -122,44 +122,45 @@
 
                     {% for item in stock_items %}
 
-                    {% if item.item_name == "GeoNode" %}
-                    <div class="product">
-                        <div>
-                            <img src="{{ item.image }}" alt="Product">
+                        {% if item.item_name == "GeoNode" %}
+                        <div class="product">
+                            <div>
+                                <img src="{{ item.image }}" alt="Product">
+                            </div>
+                        
+                            <div class="lato-sans-serif-bold-24 text-main">{{ item.item_name }}</div>
+                            <div class="description lato-sans-serif-regular-16 text-secondary">
+                                <p>
+                                    <script>
+                                        document.write(trimDescription(`{{ item.description | replace("'", "\\'") | replace('\n', '') }}`));
+                                    </script>
+                                </p>
+                            </div>
+                            <button class="product learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
+                            <div></div>
+                    
                         </div>
-                      
-                        <div class="lato-sans-serif-bold-24 text-main">{{ item.item_name }}</div>
-                        <div class="description lato-sans-serif-regular-16 text-secondary">
-                            <p>
-                                <script>
-                                    document.write(trimDescription(`{{ item.description | replace("'", "\\'") | replace('\n', '') }}`));
-                                </script>
-                            </p>
+                        {% else %}
+                        <div class="product coming-soon">
+                            <div class="coming-soon-img"> <img src="/assets/geohosting/images/Coming_Soon_Banner.png" alt="Coming soon"></div>
+                            <div>
+                                <img src="{{ item.image }}" alt="Product">                           
+                            </div>
+                        
+                            <div class="lato-sans-serif-bold-24 text-main">{{ item.item_name }}</div>
+                            <div class="description lato-sans-serif-regular-16 text-secondary">
+                                <p>
+                                    <script>
+                                        document.write(trimDescription(`{{ item.description | replace("'", "\\'") | replace('\n', '') }}`));
+                                    </script>
+                                </p>
+                            </div>
+                            <button class="product learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
+                            <div></div>
+                    
                         </div>
-                        <button class="product learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
-                        <div></div>
-                
-                    </div>
-                    {% else %}
-                    <div class="product coming-soon">
-                        <div class="coming-soon-img"> <img src="/assets/geohosting/images/Coming_Soon_Banner.png" alt="Coming soon"></div>
-                        <div>
-                            <img src="{{ item.image }}" alt="Product">                           
-                        </div>
-                      
-                        <div class="lato-sans-serif-bold-24 text-main">{{ item.item_name }}</div>
-                        <div class="description lato-sans-serif-regular-16 text-secondary">
-                            <p>
-                                <script>
-                                    document.write(trimDescription(`{{ item.description | replace("'", "\\'") | replace('\n', '') }}`));
-                                </script>
-                            </p>
-                        </div>
-                        <button class="product learn-more-button" onclick="toggleProductDetails('{{ item.item_name }}','{{ item.image }}')">Learn more</button>
-                        <div></div>
-                
-                    </div>
-                    {% endif %}
+                        {% endif %}
+                    
 
                     {% endfor %}
 
@@ -277,6 +278,7 @@
                     localStorage.setItem('selectedItem',item_name);
                     localStorage.setItem('logoUrl', JSON.stringify(logoUrl));
                     var hiddenSection = document.getElementById('hiddenSection');
+                    hiddenSection.style.display = 'none';
 
                     if (hiddenSection.style.display === 'none') {
                         hiddenSection.style.display = 'block';
@@ -297,17 +299,13 @@
 
                     buttons.forEach(function(button) {
                         if (button === currentButton) {
-                            button.textContent = isExpanded ? 'Close' : 'Learn more';
-                            isExpanded?button.classList.add('active'):button.classList.remove('active')
+                            if( isExpanded)
+                                button.classList.add('active')
+                            else 
+                                button.classList.remove('active')
                         } else {
-                            if (isExpanded) {
-                                button.classList.add('disabled');
-                                button.disabled = true;
+                            if (isExpanded) 
                                 button.classList.remove('active');
-                            } else {
-                                button.classList.remove('disabled');
-                                button.disabled = false;
-                            }
                         }
                     });
                 }
