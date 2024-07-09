@@ -283,27 +283,18 @@ p {
     
         <div class="input-group">
           <div class="input-group-item">
-              <label for="nameInput">Customer:</label>
+              <label for="nameInput">Customer</label>
               <input type="text" placeholder="Your Full Name" id="nameInput">
           </div>
           
           <div class="input-group-item">
-              <label for="subjectInput">Subject:</label>
+              <label for="subjectInput">Subject</label>
               <input type="text" placeholder="Subject" id="subjectInput">
           </div>
+        
           
           <div class="input-group-item">
-              <label for="prioritySelect">Priority:</label>
-              <select id="prioritySelect">
-                  <option value="">Select Priority</option>
-                  <option value="High">High</option>
-                  <option value="Medium">Medium</option>
-                  <option value="Low">Low</option>
-              </select>
-          </div>
-          
-          <div class="input-group-item">
-              <label for="issueTypeSelect">Issue Type:</label>
+              <label for="issueTypeSelect">Issue Type</label>
               <select id="issueTypeSelect">
                   <option value="">Select Issue Type</option>
               </select>
@@ -317,7 +308,6 @@ p {
           <div class="input-group-item">
             <label for="fileInput">Attachment:</label>
             <input type="file" id="fileInput" style="display: none;">
-            <!-- <button class="learn-more-button" id="uploadButton">Upload</button> -->
             <button class="learn-more-button" id="uploadButton">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 3H12H8C6.34315 3 5 4.34315 5 6V18C5 19.6569 6.34315 21 8 21H11M13.5 3L19 8.625M13.5 3V7.625C13.5 8.17728 13.9477 8.625 14.5 8.625H19M19 8.625V11.8125" stroke="#fffffff" stroke-width="2"></path>
@@ -356,7 +346,6 @@ p {
             if(ticket) {
                 document.getElementById("nameInput").value = '{{frappe.session.user}}';
                 document.getElementById("subjectInput").value = ticket.subject;
-                document.getElementById("prioritySelect").value = ticket.priority;
                 document.getElementById("issueTypeSelect").value = ticket.issue_type;
                 editorInstance.setData(ticket.description);
                 document.getElementById("submitBtn").setAttribute("data-issue-id", ticket.issue_id);
@@ -365,7 +354,6 @@ p {
             }else{
                 document.getElementById("nameInput").value = '{{frappe.session.user}}';
                 document.getElementById("subjectInput").value = "";
-                document.getElementById("prioritySelect").value = "";
                 document.getElementById("issueTypeSelect").value = "";
                 editorInstance.setData("");
                 document.getElementById("submitBtn").setAttribute("data-issue-id", "");
@@ -422,22 +410,6 @@ p {
                     console.error('Error fetching user invoices:', error);
                 });
 
-
-            // fetch(url)
-            //     .then(response => response.json())
-            //     .then(data => {
-                    
-            //         support_tickets = data.data;
-            //         totalPages = Math.ceil(support_tickets.length / cardsPerPage);
-            //         support_tickets.sort((a, b) => new Date(b.creation) - new Date(a.creation));
-            //         support_tickets.forEach(ticket => {
-            //             createCard(ticket);
-            //         });
-            //         displayCards(currentPage,support_tickets);
-            //     })
-            //     .catch(error => {
-            //         console.error('Error fetching user invoices:', error);
-            //     });
           }
 
         fetchUserIssues()
@@ -680,10 +652,6 @@ p {
     });
 
 
-    document.getElementById('prioritySelect').addEventListener('change', function() {
-      document.getElementById('priorityInput').value = this.value;
-    });
-
     document.getElementById('issueTypeSelect').addEventListener('change', function() {
       document.getElementById('issueTypeInput').value = this.value;
     });
@@ -711,7 +679,6 @@ p {
     function submitForm() {
       var name = document.getElementById("nameInput").value;
       var subject = document.getElementById("subjectInput").value;
-      var priority = document.getElementById("prioritySelect").value;
       var issueType = document.getElementById("issueTypeSelect").value;
       var loadingIndicator = document.getElementById('loading-indicator2');
       var submitBtn = document.getElementById('submitBtn');
@@ -723,7 +690,6 @@ p {
           "raised_by": name,
           "owner": "{{ frappe.session.user }}",
           "subject": subject,
-          "priority": priority,
           "issue_type": issueType,
           "description": editorData,
           "status": "Open"
@@ -771,7 +737,6 @@ p {
     async function updateTicket() {
       var name = document.getElementById("nameInput").value;
       var subject = document.getElementById("subjectInput").value;
-      var priority = document.getElementById("prioritySelect").value;
       var issueType = document.getElementById("issueTypeSelect").value;
       var loadingIndicator = document.getElementById('loading-indicator2');
       var submitBtn = document.getElementById('submitBtn');
@@ -784,13 +749,11 @@ p {
           "raised_by": name,
           "owner": "{{ frappe.session.user }}",
           "subject": subject,
-          "priority": priority,
           "issue_type": issueType,
           "description": editorData,
           "status": "Open"
       };
 
-      console.log(requestBody);
 
       const options = {
         method: 'PUT',

@@ -29,14 +29,13 @@ def get_context(context):
     return context
 
 @frappe.whitelist(allow_guest=False)
-def update_issue(issue_id, raised_by, owner, subject, priority, issue_type, description, status):
+def update_issue(issue_id, raised_by, owner, subject, issue_type, description, status):
     if not frappe.has_permission("Issue", "write"):
         frappe.throw(_("Not permitted"), frappe.PermissionError)
     issue = frappe.get_doc("Issue", issue_id)
     issue.raised_by = raised_by
     issue.owner = owner
     issue.subject = subject
-    issue.priority = priority
     issue.issue_type = issue_type
     issue.description = description
     issue.status = status
