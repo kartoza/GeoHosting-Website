@@ -1,118 +1,996 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product overview</title>
+    <title>Checkout</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
     <link rel="stylesheet" href="../styles.css"> 
-    <link rel="stylesheet" href="product_overview.css"> 
-    <style>
-      .container {
-        width: 1380px;
-        height: 511px;
-        background: #57A0C7;
-        border-radius: 20px;
-        /* padding:  100px;  */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-sizing: border-box;
-      }
-
-    .content-table {
-        width: 100%;
-        height: 100%;
-        color: white;
-        /* border: 3px solid red; */
-    }
-
-    .text-column {
-        width: 50%; 
-        
-        /* border: 3px solid yellow; */
-    }
-
-    .header {
-        display: flex;
-        justify-content: center; 
-        align-items: center;
-        font-size: 32px;
-        font-weight: bold;
-        text-align: center;
-        color: #FFFFFF;
-        word-wrap: break-word;
-    }
-
-    .paragraph {
-        text-align: justify;
-        padding: 50px;
-        /* font-weight: 400; */
-        font-size: 24px;
-        /* line-height: 150%; */
-        /* letter-spacing: 0.15px; */
-        color: #FFFFFF;
-    }
-
-    .image-column {
-        width: 100%; 
-        height: 100%;
-        display: flex;
-        /* border: 3px solid green; */
-        /* padding-right: 50px; */
-    }
-
-    .image {
-      width: 90%;
-      height: 500px;
-      background: url('/assets/geohosting/images/Product_Images/GeoNode/main.png') left/cover no-repeat;
-      /* background-size:  90% 75%; */
-      background-size:  contain;
-    }
-
-
-
-    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/assets/geohosting/js/util.js"></script>
+  
     
-</head>
+    <script>frappe.csrf_token = “{{frappe.session.csrf_token}}”</script>
 
-<body>
+    <style>
+        .button-pricing {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: auto !important;
+            height: 54px;
+            background: #57A0C7;
+            border: 1px solid #57A0C7;
+            border-radius: 5px;
+            font-family: 'Lato', 'sans-serif';
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 0.15px;
+            color: #FFFFFF;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            cursor: pointer;
+            padding: 8px 16px;
+        }
 
+        .button-pricing-checkout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 230px;
+            height: 54px;
+            background: #ECB44B;
+            border: 1px solid #ECB44B;
+            border-radius: 5px;
+            font-family: 'Lato', 'sans-serif';
+            font-style: normal;
+            font-weight: bold;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 0.15px;
+            color: #FFFFFF;
+            margin-top: 5%;
+            margin-bottom: 5%;
+            cursor: pointer;
+            padding: 8px 16px;
+        }
 
-    {% block content %}
-    <div class="background-container" id="screenBody">
+        /* .button-pricing:hover {
+            background-color: #ECB44B;
+            border: 1px solid #ECB44B;
+        } */
+
+        .button-pricing-checkout:hover {
+            background-color: #57A0C7;
+            border: 1px solid #57A0C7;
+        }
+
+        .content {
+            font-family: 'Lato', 'sans-serif';
+            display: flex;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            width: 50%;
+            box-sizing: border-box;
+            margin-left: 20%;
+        }
+
       
 
-        <!-- Left background image -->
-        <div class="background-left"></div>
-        <!-- Right background image -->
-        <div class="background-right"></div>
-        <!-- Content goes here -->
-        <div class="main-container">
+        #product-features ul {
+            margin: 0;
+        }
 
-          <div class="container">
-            <table class="content-table">
+        .portal-pages-heading-top {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            width: 90vw;
+            margin-left: 4%;
+        }
+
+
+        .portal-pages-heading-top span {
+            border-bottom: 2px solid #57A0C7;
+            font-family: 'Lato', sans-serif;
+            font-weight: 600;
+            font-size: 32px;
+            width: 100%;
+            color: #212121;
+        }
+
+        .bottom-line {
+            width: 90vw;
+            margin-left: 4%;
+            border-bottom: 2px solid #57A0C7;
+        }
+
+        .logo-pricing img {
+            width: 120px;
+            height: 120px;
+        }
+
+        .logo-pricing {
+            margin-top: 0%;
+        }
+
+        .payment-summary {
+            margin-left: 30%;
+        }
+
+        .footer-pos {
+            margin-top: 15.5%;
+        }
+
+
+        .tables-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            max-width: 1800px;
+            margin: 0 auto;
+            width: 100% !important;
+            border: 1px solid red;
+        }
+
+        .table-container {
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 10px;
+            width: 800px;
+            max-width: 800px !important;
+            margin: 0 auto;
+            margin-left: 0%;
+        }
+
+        .payment-summary-table-container {
+            border-radius: 10px;
+            overflow: hidden;
+            /* padding: 10px; */
+            /* gap: 20px; */
+            width: auto;
+            /* max-width: 400px !important; */
+            margin: 0 auto;
+        }
+        
+
+        .order-summary {
+            border-radius: 10px;
+            overflow: hidden;
+            padding: 20px;
+            background-color: #FFFFFF;
+            margin-left: -19px;
+        }
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .order-header h3 {
+            margin: 0;
+            font-weight: bold;
+            width: 50%;
+            display: inline;
+        }
+        .actions {
+            display: flex;
+            align-items: right;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            padding: 12px 16px;
+            z-index: 1;
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .container {
+            width: 90%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+                align-items: stretch;
+                margin-left: 0%;
+                width: 100%;
+            }
+
+            .logo-pricing {
+                margin-top: 0%;
+            }
+
+            .container{
+                width: 100%;
+            }
+
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .actions {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+
+            .tables-wrapper {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .table-container,
+            .payment-summary-table-container {
+                width: 100%;
+                max-width: 100% !important;
+                margin: 10px 0;
+            }
+
+            .portal-pages-heading-top {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-left: 0%;
+            }
+
+            .portal-pages-heading-top span {
+                font-size: 24px;
+                width: 85vw;
+            }
+
+            .payment-summary {
+                margin-left: 0;
+            }
+
+            table {
+                width: 100%;
+            }
+
+            .footer-pos {
+                margin-top: 10%;
+            }
+        }
+
+        
+        .spaced-rows tr {
+            border-bottom: 15px solid transparent;
+        }
+
+        
+
+        .product-table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+            table-layout: fixed;
+
+        }
+
+        .product-table, .product-table td {
+            border: 1px solid black; /* Add borders for debugging */
+        }
+
+        .product-table tr {
+            min-height: 250px; 
+        }
+
+        .product-table td {
+            width: 20%;
+            border: none;
+            vertical-align: middle;
+            padding: 20px;
+        }
+
+        .product-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        .product-features {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+            margin-bottom: 15px;
+        }
+
+        .features-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 5px;
+            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .price {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quantity-control input {
+            width: 30px;
+            text-align: center;
+            margin: 0;
+            padding: 5px; 
+            border: 1px solid #3E3E3E;
+            box-shadow: none;
+            border-radius: 5px;
+            height: 25px;
+        }
+
+        .quantity-control button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-control button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .remove-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .remove-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .remove-item span {
+            font-size: 14px;
+        }
+
+        .remove-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .remove-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .remove-item span {
+            font-size: 14px;
+        }
+
+
+        .main-table {
+            width: 65%;
+            border: 1px solid #3E3E3E;
+            border-radius: 10px 10px 10px 10px;
+        }
+        .main-table th div {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .main-table th span {
+            display: block; 
+        }
+        .main-table th, td {
+            padding: 25px;
+            text-align: left;
+        }
+        .main-table td {
+            width: 60%;
+        }
+        .main-table tr:first-child {
+            height: 30px; 
+        }
+
+
+        .checkout-summary-table {
+            width: 423px;
+            border: 1px solid #3E3E3E;
+            border-radius: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .checkout-summary-table th {
+            text-align: left;
+            font-weight: bold;
+            font-size: 24px;
+            color: #3E3E3E;
+        }
+
+        .checkout-summary-table td {
+            font-size: 24px;
+            line-height: 36px;
+            color: #3E3E3E;
+        }
+
+        .checkout-summary-table .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .checkout-summary-table thead {
+            border-bottom: 1px solid #3E3E3E; 
+        }
+
+
+        .table-header {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 32px;
+        }
+
+        .header-message {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .remove-item-text {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .checkout-summary-header {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .checkout-summary-table-heading {
+            text-align: center;  
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 8vh;
+        }
+
+        .sales-order-header {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .to-deliver-bill {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .customer-name {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .add-product {
+            position: relative;
+            width: 266px;
+            height: 36px;
+            
+            font-family: 'Lato', sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 36px; /* 150% of 24px */
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.15px;
+            color: #57A0C7;
+            text-decoration: none;
+        }
+
+        .main-table-th {
+            font-weight: normal; 
+            display: flex; 
+            gap: 25%; 
+            border-bottom: #3E3E3E 2px solid; 
+            width: 95%; 
+        }
+       
+
+    </style>
+</head>
+
+  <body>
+    {% include "templates/navbar.html" %}
+    <div id="app">
+        <div class="portal-pages-heading-top">
+            <span>Checkout</span>
+        </div>
+        
+    <div class="container">
+
+        <div class="order-summary">
+            <div class="order-header" style="border: 1px solid blue;">
+                <h2 class="sales-order-header" id="sales-order-generated">SAL-ORD-2024-00168</h2>
+
+                <div class="actions" style="gap: 10px; border: 1px solid brown; width: 60%; display: flex; justify-content: flex-end; align-items: center;">
+                    <h3 class="to-deliver-bill">To Deliver and Bill <span id="customer" class="customer-name" style="font-weight: normal;">Tinashe Chiraya</span></h3>
+                </div>
+            </div>
+        </div>
+
+              
+            
+        <div class="tables-wrapper">
+
+            <table class="main-table"> 
+                <tr >
+                    <th class="main-table-th">
+                        <div class="table-header" id="product-name">GeoSight Basic</div>
+                        <span class="header-message">Please note that this product is a month-to-month subscription.</span>
+                    </th>
+                </tr>
                 <tr>
-                    <td class="text-column">
-                        <div class="header">Geospatial Content<br>Management System</div>
-                        <div class="paragraph">GeoNode is a Spatial Data Infrastructure hub with tools for uploading, describing & cataloguing, viewing and sharing your spatial datasets.</div>
-                    </td>
-                    <td class="image-column">
-                      <div class="image"></div>
-                    </td>
+                    <td>
+                    <table class="product-table">
+                        <tr>
+                            <td style="border: 1px solid red;">
+                                <img id="pricing-card-logo" src="/assets/geohosting/images/Geosight.svg" alt="Logo" class="product-logo">
+                            </td>
+                            <td style="border: 1px solid green;">
+                                <div style="border: 1px solid brown;">
+                                    <div class="product-features" id="product-features">Product Features</div>
+                                    <ul class="features-list">
+                                        <li>32GB RAM</li>
+                                        <li>4 CPUs</li>
+                                        <li>32GB Memory</li>
+                                    </ul>
+                                </div>
+                            </td>
+                            <td style="border: 1px solid blue;" >&nbsp;</td>
+                            <td style="border: 1px solid green;">
+                                <div style="border: 1px solid orange; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                                    <div class="price" id="grand-totalb">R 50 230</div>
+                                    <div class="quantity-control">
+                                        <button onclick="decrementQuantity()">
+                                            <img src="/assets/geohosting/images/negative.svg" alt="Remove">
+                                        </button>
+                                        <input type="text" id="quantity" value="1" readonly style="border-radius: 5px; height: 25px;">
+                                        <button onclick="incrementQuantity()">
+                                            <img src="/assets/geohosting/images/positive.svg" alt="Add">
+                                        </button>
+                                    </div>
+                                    <div class="remove-item" onclick="removeItem()">
+                                        <img src="/assets/geohosting/images/trash_icon.svg" alt="Remove" style="height: 60px;">
+                                        <span class="remove-item-text">Remove item</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
                 </tr>
             </table>
-        </div>
-        
-        </div>
-        
-        <script>
+
            
-        </script>
-      </div>
-      {% endblock %}
 
+
+            <div class="payment-summary-table-container">
+                <table class="checkout-summary-table">
+                    <thead class="checkout-summary-table-heading">
+                        <tr>
+                            <th class="checkout-summary-header">Checkout Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr>
+                            <td class="total">
+                                <span>Net Total (2 items)</span>
+                                <span  id="net-total">R 4 500</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total">
+                                <span>VAT 15%</span>
+                                <span id="vat-amount">R 500</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="total">
+                                <span>Grand Total<br> (Including VAT)</span>
+                                <span id="grand-total">R 5 000</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" width: 5%;">
+                                <div class="buttons">
+                                    <button class="button-pricing" onclick="openPrintView()">Print</button>
+                                    <button id="payment-request-link" class="button-pricing-checkout" onclick="makePaymentRequest()">Complete Checkout</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            
+
+        </div>
+
+        <a href="#" class="add-product">+ Add another product</a>
+            
+
+    </div>
+</div>
+
+    <!-- general -->
+    <script>
+        
+        var backgroundContainer = document.getElementById('app');
+
+        function openPrintView() {
+            const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+            const sales_order = selectedProduct.sales_order_generated;
+            const printViewUrl = `printview?doctype=Sales Order&name=${sales_order}&format=Standard`;
+            var currentUrl = window.location.href;
+            var firstSlashIndex = currentUrl.indexOf('/');
+            var baseUrl = currentUrl.substring(0, firstSlashIndex + 1);
+            // document.getElementById('print-link').setAttribute('href', printViewUrl);
+            window.open(baseUrl + printViewUrl, '_blank');
+        }
+    </script>
+
+    <!-- cart -->
+    <script>
+        function incrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value, 10);
+            quantityInput.value = ++quantity;
+        }
+
+        function decrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value, 10);
+            if (quantity > 1) {
+                quantityInput.value = --quantity;
+            }
+        }
+
+        function removeItem() {
+            // Implement the remove item functionality here
+            alert('Item removed');
+        }
+    </script>
+
+    <!-- product information -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+
+            if (selectedProduct) {
+
+                const logoElement = document.getElementById('pricing-card-logo');
+                if (logoElement) {
+                    logoElement.src = selectedProduct.checkoutLogo;
+                }
+
+                const productNameElement = document.getElementById('product-name');
+                if (productNameElement) {
+                    productNameElement.textContent = selectedProduct.name;
+
+                    productNameElement.textContent = productNameElement.textContent.replace(/,/g, ' ');
+                }
+
+                const productPriceElement = document.getElementById('product-price');
+                if (productPriceElement) {
+                    productPriceElement.textContent = `${selectedProduct.price} ${selectedProduct.currency}`;
+                }
+
+                const featuresList = document.getElementById('product-features');
+                if (featuresList) {
+                    featuresList.innerHTML = '';
+                    selectedProduct.features.forEach(feature => {
+                        const li = document.createElement('li');
+                        li.textContent = feature;
+                        featuresList.appendChild(li);
+                    });
+                }
+
+                const paymentData = {
+                    net_total: calculateNetTotal(selectedProduct.price),
+                    vat: calculateVAT(selectedProduct.price, 0.15),
+                    grand_total: calculateGrandTotal(selectedProduct.price, 0.15),
+                    currency: selectedProduct.currency
+                };
+
+                const currencySymbols = {
+                    'ZAR': 'R',
+                    'USD': '$',
+                    'EUR': '€',
+                    'GBP': '£'
+                };
+
+                function getCurrencySymbol(currencyCode) {
+                    return currencySymbols[currencyCode] || currencyCode; 
+                }
+
+                const netTotalElement = document.getElementById('net-total');
+                if (netTotalElement) {
+                    netTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.net_total}`;
+                }
+
+                const vatAmountElement = document.getElementById('vat-amount');
+                if (vatAmountElement) {
+                    vatAmountElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.vat}`;
+                }
+
+                var grandTotalElement = document.getElementById('grand-total');
+                if (grandTotalElement) {
+                    grandTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total}`;
+                }
+
+                grandTotalElement = document.getElementById('grand-totalb');
+                if (grandTotalElement) {
+                    grandTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total}`;
+                }
+
+
+                const currencyElement = document.getElementById('currency');
+                if (currencyElement) {
+                    currencyElement.textContent = paymentData.currency;
+                }
+
+                const sales_order_generated = document.getElementById('sales-order-generated');
+                if (sales_order_generated) {
+                    sales_order_generated.textContent = selectedProduct.sales_order_generated;
+                }
+
+                const payment_request_link = document.getElementById('payment-request-link');
+                if (payment_request_link) {
+                    // payment_request_link.textContent = `PAY R ${paymentData.grand_total}`;
+                    payment_request_link.textContent = `Complete Checkout`
+                }
+
+                const customer = document.getElementById('customer');
+                if (customer) {
+                    customer.textContent = "{{ frappe.get_fullname() }}";
+                }
+                
+            } else {
+                console.error('No selected product found in local storage.');
+            }
+        });
+
+        function calculateNetTotal(price) {
+            return parseFloat(price).toFixed(2);
+        }
+
+        function calculateVAT(price, vatRate) {
+            return parseFloat(price * vatRate).toFixed(2);
+        }
+
+        function calculateGrandTotal(price, vatRate) {
+            return  parseFloat(price + (price * vatRate)).toFixed(2);
+        }
+    </script>
+
+<!-- make payment -->
+<script>
+        // #2 INTIATE PAYMENT
+        function makePaymentRequest() {
+            const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+            const paymentData = {
+                    net_total: calculateNetTotal(selectedProduct.price),
+                    vat: calculateVAT(selectedProduct.price, 0.15),
+                    grand_total: calculateGrandTotal(selectedProduct.price, 0.15),
+                    currency: selectedProduct.currency
+            };
+
+            function removeNonNumericChars(value) {
+                // Check if the value is a string before applying replace method
+                if (typeof value === 'string') {
+                    return value.replace(/[^0-9.]/g, '');
+                } else {
+                    return value;
+                }
+            }
+
+            
+            const customer = "{{ frappe.get_fullname() }}";
+            const userEmail = "{{ frappe.session.user }}";
+            const references = {
+                reference_doctype: 'Payment Request',
+                reference_docname: '',
+                gateway: 'Paystack',
+                currency: paymentData.currency,
+                amount: parseFloat(removeNonNumericChars(paymentData.grand_total)),
+                description: 'geohosting product',
+                email: userEmail,
+                customer: customer,
+                sales_order: selectedProduct.sales_order_generated,
+            };
+
+            console.log(references);
+
+            if (references.reference_doctype && references.reference_doctype === 'Payment Request') {
+
+                    const url = "/api/method/geohosting.www.main.checkout.get_payment_request";
+
+                    const options = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(references),
+                    };
+
+                    try {
+                        fetchWithCSRF(url, options)
+                        .then(response => response.json())
+                        .then(data => {
+                            console.log(data);
+                            if (data.message && data.message.status === 'Paid') {
+                                showCustomAlert('This order has been paid.', 'success-alert', backgroundContainer);
+                            } else if (!['USD', 'NGN', 'ZAR', 'GHS'].includes(data.message.currency)) {
+                                showCustomAlert(`Currency ${data.message.currency} is not supported, only 'USD', 'NGN', 'ZAR', 'GHS' supported.`, 'danger-alert', backgroundContainer);
+                            } else {
+                                payWithPaystack(data.message);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error.message);
+                            showCustomAlert(JSON.stringify(error.message), 'danger-alert', backgroundContainer);
+                        });
+                    } catch (error) {
+                        console.error('Error saving sales order:', error);
+                        throw error;
+                    }
+
+            } else {
+                showCustomAlert('Your payment request is invalid!', 'danger-alert',backgroundContainer); 
+            }
+        }
+
+
+        function payWithPaystack(payment_data){
+          let handler = PaystackPop.setup({
+              key: payment_data.public_key,
+              amount: payment_data.payment_request.grand_total * 100,
+              ref: payment_data.name+'='+payment_data.payment_request.reference_name+'='+Math.floor((Math.random() * 1000000000) + 1), // generates a pseudo-unique reference. Please replace with a reference you generated. Or remove the line entirely so our API will generate one for you
+              currency: payment_data.currency,
+              email: payment_data.email,
+              metadata: payment_data.metadata,
+
+              onClose: function(){
+                  showCustomAlert('Payment Terminated.', 'danger-alert',backgroundContainer);
+              },
+
+              callback: function(response) {
+                response.gateway = payment_data.metadata.gateway;
+
+                const formData = new FormData();
+                const transactionData = JSON.stringify(response);
+                formData.append('transaction', transactionData);
+
+                console.log('debug ',formData) // debug purposes
+
+                const url = "/api/method/geohosting.www.main.checkout.verify_transaction";
+
+                const options = {
+                    method: 'POST',
+                    body: formData,
+                };
+
+                fetchWithCSRF(url, options)
+                .then(response => response.json())
+                .then(response_from_method => {
+                    if (!response_from_method.ok) {
+                        showCustomAlert('Payment verification failed.', 'danger-alert', backgroundContainer);
+                    }
+                    if (response_from_method.message.status === 'success' && response_from_method.message.message === 'Transaction verified and processed successfully.') {
+                        showCustomAlert('Your payment was successful, we will issue you a receipt shortly. Redirecting you to services page...', 'success-alert', backgroundContainer);
+                        
+                        const paymentButton = document.getElementById('payment-request-link');
+                        if (paymentButton) {
+                            paymentButton.textContent = 'Paid';
+                            paymentButton.style.backgroundColor = '#57A0C7';
+                            paymentButton.style.borderColor = '#57A0C7';
+                            paymentButton.disabled = true; 
+                        }
+
+                        setTimeout(() => {
+                            localStorage.removeItem('selectedProduct');
+                            window.location.href = '/portal/hosted_services';
+                        }, 5000);
+                    }else {
+                        showCustomAlert(response_from_method.message.message, 'danger-alert', backgroundContainer);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error.message);
+                    showCustomAlert('An error occurred during payment verification.', 'danger-alert', backgroundContainer);
+                });
+            }
+
+
+            });
+  
+            handler.openIframe();
+        }
+    
+</script>
+
+<div class="bottom-line"></div>
+<div class="footer-pos">
+    {% include "templates/footer.html" %}
+</div> 
 </body>
-
 </html>

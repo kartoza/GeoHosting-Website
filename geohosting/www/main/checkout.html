@@ -17,10 +17,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            width: auto !important;
+            width: 120px;
             height: 54px;
-            background: #ECB44B;
-            border: 1px solid #ECB44B;
+            background: #57A0C7;
+            border: 1px solid #57A0C7;
             border-radius: 5px;
             font-family: 'Lato', 'sans-serif';
             font-style: normal;
@@ -35,7 +35,7 @@
             padding: 8px 16px;
         }
 
-        .button-pricingb {
+        .button-pricing-checkout {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -57,12 +57,8 @@
             padding: 8px 16px;
         }
 
-        .button-pricing:hover {
-            background-color: #57A0C7;
-            border: 1px solid #57A0C7;
-        }
-
-        .button-pricingb:hover {
+    
+        .button-pricing-checkout:hover {
             background-color: #57A0C7;
             border: 1px solid #57A0C7;
         }
@@ -93,8 +89,8 @@
             padding: 20px;
             width: 100%;
             box-sizing: border-box;
-            width: 72.5vw;
-            margin-left: 14%;
+            width: 90vw;
+            margin-left: 4%;
         }
 
 
@@ -108,11 +104,8 @@
         }
 
         .bottom-line {
-            /* position: fixed; */
-            /* bottom: 0; */
-            /* left: 0; */
-            width: 72.5vw;
-            margin-left: 14%;
+            width: 90vw;
+            margin-left: 4%;
             border-bottom: 2px solid #57A0C7;
         }
 
@@ -130,7 +123,7 @@
         }
 
         .footer-pos {
-            margin-top: 15.5%;
+            margin-top: 5%;
         }
 
 
@@ -138,9 +131,11 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
-            width: auto;
+            width: 100% !important;
+            
+            margin-top: -3% !important;
         }
 
         .table-container {
@@ -152,55 +147,21 @@
             margin: 0 auto;
             margin-left: 0%;
         }
+
         .payment-summary-table-container {
             border-radius: 10px;
             overflow: hidden;
-            padding: 10px;
-            gap: 20px;
-            width: 400px;
-            max-width: 400px !important;
+            width: auto;
             margin: 0 auto;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th{
-            text-align: left;
-            padding: 4px;
-        }
-        th {
-            background-color: #e5e5e5;
-        }
-        td ,ul, li {
-            text-align: left;
-            padding: 4px;
-        }
-        .item-col {
-            width: 30%;
-        }
-        .quantity-col {
-            width:25%;
-            /* border: 3px solid red; */
-        }
-        .subtotal-col {
-            width: 25%;
-        }
-        .amount-col {
-            width:55%;
-            /* border: 3px solid blue; */
-        }
-        .hosting-col {
-            width: 25%;
-            /* border: solid 3px green; */
-        }
+        
 
         .order-summary {
-            /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
             border-radius: 10px;
             overflow: hidden;
             padding: 20px;
             background-color: #FFFFFF;
+            margin-left: -19px;
         }
         .order-header {
             display: flex;
@@ -216,26 +177,12 @@
         }
         .actions {
             display: flex;
-            align-items: center;
+            align-items: right;
         }
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            padding: 12px 16px;
-            z-index: 1;
-        }
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
+        
 
         .container {
-            width: 70%;
+            width: 90%;
             margin: 0 auto;
             padding: 20px;
         }
@@ -311,17 +258,294 @@
         }
 
         
-      
 
-      
-        
-        
+        .product-table {
+            width: 100%;
+            margin: auto;
+            border-collapse: collapse;
+            table-layout: fixed;
 
-        #product-features li {
+        }
+
+        /* .product-table, .product-table td {
+            border: 1px solid black; 
+        } */
+
+        .product-table tr {
+            min-height: 250px; 
+        }
+
+        .product-table td {
+            width: 20%;
+            border: none;
+            vertical-align: middle;
+            padding: 20px;
+        }
+
+        .product-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        .product-features {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
             margin-bottom: 15px;
         }
 
-        
+        .features-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 5px;
+            gap: 15px;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .price {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+            margin-bottom: 10px;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quantity-control input {
+            width: 30px;
+            text-align: center;
+            margin: 0;
+            padding: 5px; 
+            border: 1px solid #3E3E3E;
+            box-shadow: none;
+            border-radius: 5px;
+            height: 25px;
+        }
+
+        .quantity-control button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-control button img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .remove-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .remove-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .remove-item span {
+            font-size: 14px;
+        }
+
+        .remove-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .remove-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .remove-item span {
+            font-size: 14px;
+        }
+
+
+        .main-table {
+            width: 65%;
+            border: 1px solid #3E3E3E;
+            border-radius: 10px 10px 10px 10px;
+        }
+        .main-table th div {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .main-table th span {
+            display: block; 
+        }
+        .main-table th, td {
+            padding: 27.5px;
+            text-align: left;
+        }
+        .main-table td {
+            width: 60%;
+        }
+        .main-table tr:first-child {
+            height: 30px; 
+        }
+
+
+        .checkout-summary-table {
+            width: 423px;
+            border: 1px solid #3E3E3E;
+            border-radius: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .checkout-summary-table th {
+            text-align: left;
+            font-weight: bold;
+            font-size: 24px;
+            color: #3E3E3E;
+        }
+
+        .checkout-summary-table td {
+            font-size: 24px;
+            line-height: 36px;
+            color: #3E3E3E;
+        }
+
+        .checkout-summary-table .total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .checkout-summary-table thead {
+            border-bottom: 1px solid #3E3E3E; 
+        }
+
+
+        .table-header {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 32px;
+        }
+
+        .header-message {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+            margin-top: 1%;
+        }
+
+        .remove-item-text {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .checkout-summary-header {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+            color: #212121;
+        }
+
+        .checkout-summary-table-heading {
+            text-align: center;  
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            height: 8.3vh;
+        }
+
+        .sales-order-header {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 32px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .to-deliver-bill {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .customer-name {
+            font-family: 'Lato';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 24px;
+            line-height: 150%;
+            letter-spacing: 0.15px;
+        }
+
+        .add-product {
+            position: relative;
+            width: 266px;
+            height: 36px;
+            
+            font-family: 'Lato', sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 24px;
+            line-height: 36px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.15px;
+            color: #57A0C7;
+            text-decoration: none;
+        }
+
+        .main-table-th {
+            font-weight: normal; 
+            display: flex; 
+            gap: 25%; 
+            border-bottom: #3E3E3E 2px solid; 
+            width: 95%; 
+        }
+       
 
     </style>
 </head>
@@ -334,103 +558,133 @@
         </div>
         
     <div class="container">
+
         <div class="order-summary">
             <div class="order-header">
-                <h2 id="sales-order-generated"></h2>
-                <div class="actions" style="gap: 10px;">
-                    <div class="dropdown">
-                        <button class="button-pricing" onclick="openPrintView()">
-                            Print
-                        </button>
-                        
-                        <!-- <div class="dropdown-content">
-                            <span onclick="openPrintView()" style="cursor: pointer">Print</span>
-                        </div> -->
-                    </div>
-                    <button id="payment-request-link" class="button-pricingb" href="#" onclick="makePaymentRequest()"></button>
+                <h2 class="sales-order-header" id="sales-order-generated">SAL-ORD-2024-00168</h2>
+
+                <div class="actions" style="gap: 10px; width: 60%; display: flex; justify-content: flex-end; align-items: center;">
+                    <h3 class="to-deliver-bill">To Deliver and Bill <span id="customer" class="customer-name" style="font-weight: normal;">Tinashe Chiraya</span></h3>
                 </div>
             </div>
+        </div>
 
-            <div class="order-header">
-                
-                
-                <h3>To Deliver and Bill <span id="customer" style="margin-left: 15px; font-weight: normal;"></span></h3>
-            
-            </div>
+              
             
         <div class="tables-wrapper">
-            <div class="table-container">
-                <table>
-                    <thead>
+
+            <table class="main-table"> 
+                <tr >
+                    <th class="main-table-th">
+                        <div class="table-header" id="product-name">GeoSight Basic</div>
+                        <span class="header-message">Please note that this product is a month-to-month subscription.</span>
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                    <table class="product-table">
                         <tr>
-                            <th class="item-col">Item</th>
-                            <th class="quantity-col">Product Features</th>
-                            <th class="hosting-col">Hosting Provider</th>
-                            
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="item-col">
-                                <div class="logo-pricing">
-                                    <img src="" id="pricing-card-logo" alt="Logo">
+                            <td>
+                                <img id="pricing-card-logo" src="/assets/geohosting/images/Geosight.svg" alt="Logo" class="product-logo">
+                            </td>
+                            <td>
+                                <div>
+                                    <div class="product-features" id="product-features">Product Features</div>
+                                    <ul class="features-list">
+                                        <li>32GB RAM</li>
+                                        <li>4 CPUs</li>
+                                        <li>32GB Memory</li>
+                                    </ul>
                                 </div>
                             </td>
-                            <td class="quantity-col">
-                                <ul id="product-features"></ul>
+                            <td>&nbsp;</td>
+                            <td>
+                                <div style=" display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                                    <div class="price" id="grand-totalb">R 50 230</div>
+                                    <div class="quantity-control">
+                                        <button onclick="decrementQuantity()">
+                                            <img src="/assets/geohosting/images/negative.svg" alt="Remove">
+                                        </button>
+                                        <input type="text" id="quantity" value="1" readonly style="border-radius: 5px; height: 25px;">
+                                        <button onclick="incrementQuantity()">
+                                            <img src="/assets/geohosting/images/positive.svg" alt="Add">
+                                        </button>
+                                    </div>
+                                    <div class="remove-item" onclick="removeItem()">
+                                        <img src="/assets/geohosting/images/trash_icon.svg" alt="Remove" style="height: 60px;">
+                                        <span class="remove-item-text">Remove item</span>
+                                    </div>
+                                </div>
                             </td>
-                            <td class="hosting-col">
-                                <ul>
-                                    <li>Digital Ocean</li>
-                                </ul>
+                        </tr>
+                    </table>
+                </td>
+                </tr>
+            </table>
+
+           
+
+
+            <div class="payment-summary-table-container">
+                <table class="checkout-summary-table">
+                    <thead class="checkout-summary-table-heading">
+                        <tr>
+                            <th ><span class="checkout-summary-header">Checkout Summary</span> </th>
+                        </tr>
+                    </thead>
+                    <tbody >
+                        <tr>
+                            <td class="total">
+                                <span id="net-total-label">Net Total (1 items)</span>
+                                <span  id="net-total">R 4 500</span>
                             </td>
                         </tr>
                         <tr>
-                            <td class="item-col" id="product-name" style="font-weight: bold;"></td>
-                            <td class="quantity-col"></td>
-                            <td class="hosting-col"></td>
+                            <td class="total">
+                                <span>VAT 15%</span>
+                                <span id="vat-amount">R 500</span>
+                            </td>
                         </tr>
-                        
+                        <tr>
+                            <td class="total">
+                                <span>Grand Total<br> (Including VAT)</span>
+                                <span id="grand-total" style="color: #212121;">R 5 000</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style=" width: 5%;">
+                                <div class="buttons">
+                                    <button class="button-pricing" onclick="openPrintView()">Print</button>
+                                    <button id="payment-request-link" class="button-pricing-checkout" onclick="makePaymentRequest()">Complete Checkout</button>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
-
-            <div class="payment-summary-table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="item-col"></th>
-                            <th class="amount-col" style="text-align: right;">Amount</th> 
-                            
-                        </tr>
-                    </thead>
-                    <tbody class="spaced-rows">
-                        <tr>
-                            <td class="item-col" style="text-align: right;">Net Total(1 Item)</td>
-                            <td class="amount-col" id="net-total" style="text-align: right;"></td>
-                        </tr>
-                        <tr>
-                            <td class="item-col" style="text-align: right;">VAT 15%</td>
-                            <td class="amount-col" id="vat-amount" style="text-align: right;">
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="item-col" style="text-align: right;">Grand Total</td>
-                            <td class="amount-col" id="grand-total" style="text-align: right;"></td>
-                        </tr>
-                    </tbody>
-                </table>  
-            </div>
+            
 
         </div>
+
+        <a href="#" class="add-product" onclick="navigateToProducts()">+ Add another product</a>
+            
 
     </div>
 </div>
 
     <!-- general -->
     <script>
+        const currencySymbols = {
+                    'ZAR': 'R',
+                    'USD': '$',
+                    'EUR': '€',
+                    'GBP': '£'
+                };
+
+                function getCurrencySymbol(currencyCode) {
+                    return currencySymbols[currencyCode] || currencyCode; 
+                }
         
         var backgroundContainer = document.getElementById('app');
 
@@ -443,6 +697,75 @@
             var baseUrl = currentUrl.substring(0, firstSlashIndex + 1);
             // document.getElementById('print-link').setAttribute('href', printViewUrl);
             window.open(baseUrl + printViewUrl, '_blank');
+        }
+    </script>
+
+    <!-- cart -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Reset quantity input to 1 on page load
+            const quantityInput = document.getElementById('quantity');
+            quantityInput.value = 1;
+        });
+
+        function updateTotals(quantity) {
+            const netTotalLabelElement = document.getElementById('net-total-label');
+            const netTotalElement = document.getElementById('net-total');
+            const vatAmountElement = document.getElementById('vat-amount');
+            const grandTotalElement = document.getElementById('grand-total');
+            const grandTotalBElement = document.getElementById('grand-totalb');
+
+            const selectedProduct = JSON.parse(localStorage.getItem('selectedProduct'));
+
+            var paymentData = {}
+
+            if (selectedProduct) {
+                 paymentData = {
+                    net_total: calculateNetTotal(selectedProduct.price),
+                    vat: calculateVAT(selectedProduct.price, 0.15),
+                    grand_total: calculateGrandTotal(selectedProduct.price, 0.15),
+                    currency: selectedProduct.currency
+                };
+            }
+
+            netTotalLabelElement.textContent = `Net Total (${quantity} items)`;
+
+
+            paymentData.net_total = quantity * paymentData.net_total; 
+
+            // Update VAT amount (example calculation)
+            paymentData.vat = paymentData.net_total * 0.15; 
+
+            paymentData.grand_total = paymentData.net_total + paymentData.vat;
+
+            // Update the DOM with the new values
+            netTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.net_total.toLocaleString()}`; 
+            vatAmountElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.vat.toLocaleString()}`; 
+            grandTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total.toLocaleString()}`;
+            grandTotalBElement.textContent = `R${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total.toLocaleString()}`; 
+        }
+
+        function incrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value, 10);
+            quantityInput.value = ++quantity;
+            
+            // Update totals whenever quantity changes
+            updateTotals(quantity);
+        }
+
+        function decrementQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            let quantity = parseInt(quantityInput.value, 10);
+            if (quantity > 1) {
+                quantityInput.value = --quantity;
+                updateTotals(quantity);
+            }
+        }
+
+
+        function removeItem() {
+            showCustomAlert('implement remove function', 'danger-alert', backgroundContainer);
         }
     </script>
 
@@ -487,20 +810,28 @@
                     currency: selectedProduct.currency
                 };
 
+                
+
                 const netTotalElement = document.getElementById('net-total');
                 if (netTotalElement) {
-                    netTotalElement.textContent = `${paymentData.net_total} ${paymentData.currency}`;
+                    netTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.net_total}`;
                 }
 
                 const vatAmountElement = document.getElementById('vat-amount');
                 if (vatAmountElement) {
-                    vatAmountElement.textContent = `${paymentData.vat} ${paymentData.currency}`;
+                    vatAmountElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.vat}`;
                 }
 
-                const grandTotalElement = document.getElementById('grand-total');
+                var grandTotalElement = document.getElementById('grand-total');
                 if (grandTotalElement) {
-                    grandTotalElement.textContent = `${paymentData.grand_total} ${paymentData.currency}`;
+                    grandTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total}`;
                 }
+
+                grandTotalElement = document.getElementById('grand-totalb');
+                if (grandTotalElement) {
+                    grandTotalElement.textContent = `${getCurrencySymbol(paymentData.currency)} ${paymentData.grand_total}`;
+                }
+
 
                 const currencyElement = document.getElementById('currency');
                 if (currencyElement) {

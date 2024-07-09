@@ -3,116 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Styled Table</title>
+    <title>Product Table</title>
     <style>
-        .container {
+        .product-table {
+            width: 917px;
+            margin: auto;
+            border-collapse: collapse;
+            table-layout: fixed;
+
+        }
+
+        .product-table, .product-table td {
+            border: 1px solid black; /* Add borders for debugging */
+        }
+
+        .product-table tr {
+            min-height: 250px; /* Increase the minimum height of the rows */
+        }
+
+        .product-table td {
+            width: 20%;
+            border: none;
+            vertical-align: middle;
+            padding: 20px; /* Increase padding to add height */
+        }
+
+        .product-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        .product-features {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .features-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin-top: 5px;
+            gap: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            gap: 10px;
-            width: 335px;
-            height: 276px;
-            background: #FFFFFF;
-            border-radius: 5px;
-            /* border: 3px solid red; */
-            margin-left: 10%;
         }
-        .table {
-            width: 100% !important;
-            border-collapse: collapse;
-            /* border: solid 3px salmon; */
+
+        .price {
+            font-weight: bold;
+            margin-bottom: 10px;
         }
-        .table td {
-            padding: 10px;
-        }
-        .logo {
-            width: 140px;
-            height: 140px;
-        }
-        .badge {
+
+        .quantity-control {
             display: flex;
-            justify-content: flex-end;
-            padding: 5px;
-            background: #57A0C7;
-            border-radius: 45px;
-            color: #FFFFFF;
-            /* border: 3px solid blue; */
-            width: 60%;
-            margin-left: 35px;
-            position: relative;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .badge .circle {
+
+        .quantity-control input {
+            width: 30px;
+            text-align: center;
+            margin: 0;
+            padding: 5px; 
+            border: 1px solid gray;
+            box-shadow: none;
+            border-radius: 5px;
+            height: 25px;
+        }
+
+        .quantity-control button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .quantity-control button img {
             width: 20px;
             height: 20px;
-            background: #FFFFFF;
-            border-radius: 50%;
-            margin-left: 5px;
-            margin-top: 2px;
         }
-        .editable-text {
+
+        .remove-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .remove-item img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .remove-item span {
+            font-size: 14px;
+        }
+
+        .remove-item {
             display: flex;
             align-items: center;
             gap: 5px;
-        }
-        .editable-text svg {
             cursor: pointer;
         }
-        .text {
-            color: #555555;
-            font-family: 'Lato', sans-serif;
-            font-size: 16px;
-            line-height: 24px;
-            border: 3px solid gold;
+
+        .remove-item img {
+            width: 20px;
+            height: 20px;
         }
-        .heading {
-            color: #3E3E3E;
-            font-family: 'Lato', sans-serif;
-            font-weight: 700;
-            font-size: 18px;
-            line-height: 27px;
+
+        .remove-item span {
+            font-size: 14px;
         }
-        
+
+
+        .main-table {
+            width: 45%;
+            /* border-collapse: collapse; */
+            border: 1px solid #ccc;
+            /* border-radius: 10px; */
+            border-radius: 10px 10px 10px 10px;
+        }
+        .main-table th div {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .main-table th span {
+            display: block; 
+        }
+        .main-table th, td {
+            padding: 25px;
+            text-align: left;
+            /* border: none; */
+            /* border: 1px solid #ccc; */
+            /* border-radius: 10px 10px 10px 10px; */
+        }
+        .main-table th {
+            /* font-weight: bold; */
+            /* width: 100%; */
+        }
+        .main-table td {
+            width: 60%;
+        }
+        .main-table tr:first-child {
+            height: 30px; 
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <table class="table">
+
+
+
+<table class="main-table">
+    
+    <tr >
+        <th style="font-weight: normal; display: flex; gap: 25%; border-bottom: #ccc 2px solid; width: 95%;">
+            <div>GeoSight Basic</div>
+            <span>Please note that this product is a month-to-month subscription.</span>
+        </th>
+    </tr>
+    <tr>
+        <td>
+        <table class="product-table">
             <tr>
-                <td rowspan="2">
-                    <img src="/assets/geohosting/images/BIMS.svg" alt="Logo" class="logo">
+                <td style="border: 1px solid red;">
+                    <img src="/assets/geohosting/images/Geosight.svg" alt="Logo" class="product-logo">
                 </td>
-                <td class="text" style="text-align: right; display: flex; align-items: right; flex-direction: column;">
-                    <div class="badge">
-                        Active
-                        <div class="circle"></div>
+                <td style="border: 1px solid green;">
+                    <div style="border: 1px solid brown;">
+                        <div class="product-features">Product Features</div>
+                        <ul class="features-list">
+                            <li>32GB RAM</li>
+                            <li>4 CPUs</li>
+                            <li>32GB Memory</li>
+                        </ul>
+                    </div>
+                </td>
+                <td style="border: 1px solid blue;" >&nbsp;</td>
+                <td style="border: 1px solid green;">
+                    <div style="border: 1px solid orange; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+                        <div class="price">R 50 230</div>
+                        <div class="quantity-control">
+                            <button onclick="decrementQuantity()">
+                                <img src="/assets/geohosting/images/negative.svg" alt="Remove">
+                            </button>
+                            <input type="text" id="quantity" value="1" readonly style="border-radius: 5px; height: 25px;">
+                            <button onclick="incrementQuantity()">
+                                <img src="/assets/geohosting/images/positive.svg" alt="Add">
+                            </button>
+                        </div>
+                        <div class="remove-item" onclick="removeItem()">
+                            <img src="/assets/geohosting/images/trash_icon.svg" alt="Remove">
+                            <span>Remove item</span>
+                        </div>
                     </div>
                 </td>
             </tr>
-            <tr>
-                <!-- just to push the badge upwards -->
-                <td class="text"></td>
-            </tr>
-            <tr>
-              <td class="text" colspan="2">
-                <div class="editable-text">
-                  <div class="heading">platform.geospatialhosting.com</div>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L7.5 20.5H3v-4.5L16.732 3.732z"/>
-                  </svg>
-                </div>
-              </td>
-          </tr>
-            <tr>
-                <td class="text">Storage: 500GB</td>
-                <td class="text">Memory: 32GB</td>
-            </tr>
-            <tr>
-                <td class="text">CPU: 4 Cores</td>
-                <td class="text"></td>
-            </tr>
         </table>
-    </div>
+    </td>
+
+    </tr>
+</table>
+
+<script>
+    function incrementQuantity() {
+        const quantityInput = document.getElementById('quantity');
+        let quantity = parseInt(quantityInput.value, 10);
+        quantityInput.value = ++quantity;
+    }
+
+    function decrementQuantity() {
+        const quantityInput = document.getElementById('quantity');
+        let quantity = parseInt(quantityInput.value, 10);
+        if (quantity > 1) {
+            quantityInput.value = --quantity;
+        }
+    }
+
+    function removeItem() {
+        // Implement the remove item functionality here
+        alert('Item removed');
+    }
+</script>
+
 </body>
 </html>
