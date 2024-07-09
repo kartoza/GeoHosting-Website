@@ -12,7 +12,8 @@ def custom_signup(email, full_name, redirect_to):
         "email": email,
         "first_name": full_name,
         "enabled": 1,
-        "new_password": frappe.generate_hash(length=10)
+        "new_password": frappe.generate_hash(length=10),
+        "send_welcome_email": 0
     })
     user.append("roles", {
         "role": "Customer"
