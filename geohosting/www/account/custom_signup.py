@@ -42,13 +42,12 @@ def send_welcome_email(user):
             {frappe.utils.get_url()}</a>.</p>
             <p>Your login id is: {user.email}</p>
             <p>Click on the link below to complete your registration and set a new password.</p>
-            <a href="{frappe.utils.get_url()}/update-password?key={get_password_reset_key(user)}" 
+            <a href="{get_password_reset_key(user)}" 
             style="display: inline-block; padding: 10px 20px; 
             background-color: #F4B340; color: #fff; 
             text-decoration: none; border-radius: 5px;">Complete Registration</a>
             <p>You can also copy-paste the following link in your browser:</p>
-            <p><a href="{frappe.utils.get_url()}/update-password?key={get_password_reset_key(user)}">
-            {frappe.utils.get_url()}/update-password?key={get_password_reset_key(user)}</a></p>
+            <p><a href="{get_password_reset_key(user)}">{get_password_reset_key(user)}</a></p>
             <div style="margin-top: 30px; font-size: 0.8em; color: #666;">
             <p>Kartoza (Pty) Ltd.</p>
             <p>Company no: 2014/109067/07</p>
