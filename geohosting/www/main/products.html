@@ -798,8 +798,8 @@
                                 let formattedValue = value.toLocaleString('en-ZA', {
                                     style: 'currency',
                                     currency: currency,
-                                    minimumFractionDigits: value % 1 === 0 ? 0 : 2,
-                                    maximumFractionDigits: value % 1 === 0 ? 0 : 2
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 0
                                 });
                                 return formattedValue.length > 10 ? formattedValue.replace(',', '<br>.') : formattedValue;
                             };
